@@ -5,10 +5,35 @@ class ApplicationController < ActionController::Base
 # Adds Sufia behaviors into the application controller 
   include Sufia::Controller
 
+  # Behavior for devise.  Use remote user field in http header for auth.
+  include Behaviors::HttpHeaderAuthenticatableBehavior
+
   include Hydra::Controller::ControllerBehavior
+
   layout 'sufia-one-column'
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+
+  # Clear the session info prior to each request.
+  # Ensures user will be logged out if REMOTE_USER is not set in http header.
+  before_action :clear_session_user
+
+  # From PSU's ScholarSphere
+  # Clears any user session and authorization information by:
+  #   * forcing the session to be restarted on every request
+  #   * ensuring the user will be logged out if REMOTE_USER is not set
+  #   * clearing the entire session including flash messages
+  def clear_session_user  
+    return nil_request if request.nil?
+    search = session[:search].dup if session[:search]
+    request.env['warden'].logout unless user_logged_in?
+    session[:search] = search
+  end
+
+  def user_logged_in?
+    user_signed_in? && ( valid_user?(request.headers) || Rails.env.test?)
+  end
+  
 end
