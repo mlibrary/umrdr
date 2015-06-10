@@ -251,8 +251,8 @@ ActiveRecord::Schema.define(version: 20150610143723) do
   add_index "user_stats", ["user_id"], name: "index_user_stats_on_user_id"
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                  default: ""
+    t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -285,9 +285,11 @@ ActiveRecord::Schema.define(version: 20150610143723) do
     t.datetime "groups_last_update"
     t.string   "linkedin_handle"
     t.string   "orcid"
+    t.string   "login",                  default: "",    null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["login"], name: "index_users_on_login", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "version_committers", force: :cascade do |t|
