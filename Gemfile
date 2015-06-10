@@ -1,5 +1,39 @@
 source 'https://rubygems.org'
 
+# Sufia & kaminari patch
+gem 'sufia', github: 'projecthydra/sufia', branch: 'pcdm'
+gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
+
+# UMichwrapper
+gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
+gem 'puma'
+
+# sufia pcdm required
+gem 'hydra-works', github: 'projecthydra-labs/hydra-works', branch: 'master'
+gem 'rdf-vocab'
+
+# from engine cart
+gem 'hydra-derivatives', github: 'projecthydra/hydra-derivatives', ref: '13df67f'
+
+gem 'active-fedora', github: 'projecthydra/active_fedora', ref:'57ac754'
+gem 'activefedora-aggregation', github: 'projecthydra-labs/activefedora-aggregation', ref: 'eef02b0'
+gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm', ref: 'c8a4654'
+
+gem 'active-triples'
+gem 'active_fedora-noid', github: 'projecthydra-labs/active_fedora-noid', ref: '38079e4'
+
+gem 'hydra-collections', github: 'projecthydra/hydra-collections', ref: '486ed3b'
+
+
+# Preemptively require gems so that rails generate hydra:install will complete.
+#   This is a vendorized gems issue with Bundle.with_clean_env
+gem 'orm_adapter'
+gem 'responders'
+gem 'warden'
+gem 'devise'
+gem 'devise-guests', '~> 0.3'
+gem 'bcrypt'
+gem 'thread_safe'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -12,7 +46,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -43,3 +77,12 @@ group :development, :test do
   gem 'spring'
 end
 
+
+gem 'rsolr', '~> 1.0.6'
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'jettywrapper'
+end
+
+group :development, :test do
+end
