@@ -1,0 +1,15 @@
+en:
+  sufia:
+    product_name: "UMRDR"
+    instition_name: "U of M"
+    
+    share_button: "Show Your Work"
+    search:
+      form:
+        q:
+          label: "Search UMRDR"
+          
+        option:
+          all:
+            label_long: "All of UMRDR"
+
