@@ -24,6 +24,9 @@ config/umich.yml
 # don't push around jetty (for dev envs only)
 jetty
 
+## SOLR Template Cores Data
+/solr_cores/**/data
+
 ## MAC OS
 .DS_Store
 
