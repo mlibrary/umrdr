@@ -9,8 +9,8 @@ GIT
 
 GIT
   remote: git://github.com/mlibrary/umichwrapper.git
-  revision: 8005c277d0db9dfb4c687d04ecabf1ffcd9b0b96
-  branch: master
+  revision: e9f2f4eb7ee3c972d7e70c442559829ed77d28e6
+  branch: finer_control
   specs:
     umichwrapper (1.8.3)
       activesupport (>= 3.0.0)
@@ -374,7 +374,7 @@ GEM
       http_logger
       linkeddata (>= 1.1)
       slop
-    legato (0.5.0)
+    legato (0.5.1)
       multi_json
     libv8 (3.16.14.7)
     link_header (0.0.8)
@@ -425,6 +425,7 @@ GEM
     multi_json (1.11.0)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
+    mysql2 (0.3.18)
     nest (1.1.2)
       redis
     net-http-persistent (2.9.4)
@@ -698,6 +699,7 @@ DEPENDENCIES
   jettywrapper
   jquery-rails
   kaminari!
+  mysql2
   orm_adapter
   puma
   rails (= 4.2.1)

@@ -4,8 +4,15 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-# Ignore everything in config
-/config
+# Ignore some config
+# These files should be copied from the $file.yml.sample and tweaked
+# per environment.
+config/database.yml
+config/fedora.yml
+config/solr.yml
+config/hydra-ldap.yml
+config/redis.yml
+config/umich.yml
 
 # Ignore bundler config.
 /.bundle
@@ -14,8 +21,88 @@
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
-# Ignore all logfiles and tempfiles.
-/log/*
-!/log/.keep
-/tmp
+# don't push around jetty (for dev envs only)
+jetty
+
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.sw[pon]
+
+## OSX
+.DS_Store
+nohup.out
+
+## Cucumber
+
+rerun.txt
+
+## rcov
+coverage.data
+coverage/*
+
+## TEST APP
+pkg/
+spec/dummy/db/*.sqlite3
+spec/dummy/log/*.log
+spec/dummy/tmp/
+
+spec/mock_upload_directory
+
+## PROJECT::GENERAL
+coverage
+rdoc
+pkg
+/.bundle
+db/*.sqlite3
+db/*.sqlite3-journal
+log/*.log
+tmp
+
+*.sqlite3
+*.log
+*~
 *.swp
+
+#redis snapshot db
+dump.rdb
+
+vendor/plugins/haml/init.rb
+vendor/plugins/blacklight/.git
+log/*
+
+public/plugin_assets
+public/plugin_assets/
+
+db/schema.rb
+
+.project
+.buildpath
+
+/.bundle
+/.yardoc
+/doc
+
+## PROJECT::SPECIFIC
+
+## ASSET PIPELINE
+.sass-cache/
+public/assets/
+
+## Paperclip assets
+public/system/
+
+## Sitemap
+public/sitemap.xml
+
+./spec/internal

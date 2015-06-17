@@ -5,7 +5,11 @@ gem 'sufia', github: 'projecthydra/sufia', branch: 'pcdm'
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
 # UMichwrapper
-gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
+group :development, :alpha do
+  gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'finer_control'
+end
+
+# Webserver
 gem 'puma'
 
 # sufia pcdm required
@@ -57,6 +61,8 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem 'rsolr', '~> 1.0.6'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -75,17 +81,13 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-end
 
-
-gem 'rsolr', '~> 1.0.6'
-group :development, :test do
   gem 'rspec-rails'
   gem 'jettywrapper'
 end
 
-group :development, :test do
+group :migrations, :alpha, :production do
+  # Use mysql in production
+  gem 'mysql2'
 end
 
-group :development, :test do
-end
