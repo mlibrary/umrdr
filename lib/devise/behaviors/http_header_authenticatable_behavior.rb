@@ -9,11 +9,15 @@ module Behaviors
 
     protected
 
+    # Return demo_user in development, the remote user or nil otherwise
     def remote_user(headers)
-      return headers['HTTP_X_REMOTE_USER'] if headers['HTTP_X_REMOTE_USER']
-      #return headers['HTTP_REMOTE_USER'] if headers['HTTP_REMOTE_USER'] && Rails.env.development?
-      return nil
+      if Rails.env.development?
+        'demo_user'
+      elsif headers['HTTP_X_REMOTE_USER']
+        headers['HTTP_X_REMOTE_USER']
+      else
+        nil
+      end
     end
-
   end
 end
