@@ -2,7 +2,7 @@ Sufia::Engine.configure do
   config.login_url = 'https://umrdr-alpha.quod.lib.umich.edu'
   config.logout_url = 'https://'
   # The minter state for NOIDs are tracked via plaintext.  Change from default /tmp/minter-state
-  config.minter_statefile = '/tmp/umrdr-minter-state'
+  config.minter_statefile = '/tmp/umrdr-alpha-minter-state'
 end
 
 Rails.application.configure do
