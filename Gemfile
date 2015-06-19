@@ -78,6 +78,9 @@ group :development, :test do
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  gem 'pry', '~> 0.10.1'
+  gem 'pry-rails', '~> 0.3.2'
+  gem 'http_logger'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
