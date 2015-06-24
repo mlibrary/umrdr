@@ -19,7 +19,7 @@ gem 'rdf-vocab'
 # from engine cart
 gem 'hydra-derivatives', github: 'projecthydra/hydra-derivatives', ref: '13df67f'
 
-gem 'active-fedora', github: 'projecthydra/active_fedora', ref:'57ac754'
+gem 'active-fedora', github: 'projecthydra/active_fedora', branch: 'master'
 gem 'activefedora-aggregation', github: 'projecthydra-labs/activefedora-aggregation', ref: 'eef02b0'
 gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm', ref: 'c8a4654'
 
@@ -83,7 +83,7 @@ group :development, :test do
   gem 'http_logger'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  # gem 'spring'
 
   gem 'rspec-rails'
   gem 'jettywrapper'
