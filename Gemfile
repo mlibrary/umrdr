@@ -4,10 +4,6 @@ source 'https://rubygems.org'
 gem 'sufia', github: 'projecthydra/sufia', branch: 'pcdm'
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
-# UMichwrapper
-group :development, :alpha do
-  gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'finer_control'
-end
 
 # Webserver
 gem 'puma'
@@ -85,12 +81,17 @@ group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
 
+  gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
+
   gem 'rspec-rails'
   gem 'jettywrapper'
 end
 
-group :migrations, :alpha, :production do
-  # Use mysql in production
+group :alpha do
+  gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
+end
+
+group :alpha, :production do
   gem 'mysql2'
 end
 

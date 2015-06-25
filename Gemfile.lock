@@ -9,8 +9,8 @@ GIT
 
 GIT
   remote: git://github.com/mlibrary/umichwrapper.git
-  revision: e8ffefeb80d9f808b9207e66d49137a9c88703e9
-  branch: finer_control
+  revision: 0b95e743cfec8c47806b9a71f7d45743fa7d1917
+  branch: master
   specs:
     umichwrapper (1.8.3)
       activesupport (>= 3.0.0)
