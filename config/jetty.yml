@@ -1,9 +1,0 @@
-default:
-  startup_wait: 90
-  jetty_port: 30022
-  java_opts:
-    - "-Xmx512m"
-    - "-XX:MaxPermSize=128m"
-    - "-Djava.naming.provider.url=tcp://localhost:61617"
-    - "-Dfcrepo.dynamic.jms.port=61617"
-    - "-Dfcrepo.dynamic.stomp.port=61619"

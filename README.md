@@ -5,7 +5,7 @@ University of Michigan Research Data Repository alpha/beta/pilot/test/tire kicki
 
 ## Installation
 
-This project currently has all the dependencies of Sufia: redis, FITS, ffmpeg, ect..
+This project currently has all the dependencies of Sufia: Fedora, Solr, Redis, FITS, ffmpeg, ect..
 
 The fedora, blacklight, and solr yml files under config will have to be updated to reflect your fedora and solr instance locations.
 
@@ -29,7 +29,7 @@ Its goal is to improving the ability of researchers at the University of Michiga
 ## Credits
 
 Project Hydra Community.
-Penn State University developers.
+Penn State University Library.
 University of Michigan Library.
 
 ## License

@@ -1,42 +1,8 @@
 source 'https://rubygems.org'
 
-# Sufia & kaminari patch
-gem 'sufia', github: 'projecthydra/sufia', branch: 'pcdm'
-gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
-
-
-# Webserver
-gem 'puma'
-
-# sufia pcdm required
-gem 'hydra-works', github: 'projecthydra-labs/hydra-works', branch: 'master'
-gem 'rdf-vocab'
-
-# from engine cart
-gem 'hydra-derivatives', github: 'projecthydra/hydra-derivatives', ref: '13df67f'
-
-gem 'active-fedora', github: 'projecthydra/active_fedora', branch: 'master'
-gem 'activefedora-aggregation', github: 'projecthydra-labs/activefedora-aggregation', ref: 'eef02b0'
-gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm', ref: 'c8a4654'
-
-gem 'active-triples'
-gem 'active_fedora-noid', github: 'projecthydra-labs/active_fedora-noid', ref: '38079e4'
-
-gem 'hydra-collections', github: 'projecthydra/hydra-collections', ref: '486ed3b'
-
-
-# Preemptively require gems so that rails generate hydra:install will complete.
-#   This is a vendorized gems issue with Bundle.with_clean_env
-gem 'orm_adapter'
-gem 'responders'
-gem 'warden'
-gem 'devise'
-gem 'devise-guests', '~> 0.3'
-gem 'bcrypt'
-gem 'thread_safe'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.5'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -46,7 +12,9 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+# gem 'therubyracer', platforms: :ruby
+# Webserver
+gem 'puma'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -56,8 +24,6 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
-gem 'rsolr', '~> 1.0.6'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -71,27 +37,33 @@ gem 'rsolr', '~> 1.0.6'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+end
 
+group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-  gem 'pry', '~> 0.10.1'
-  gem 'pry-rails', '~> 0.3.2'
-  gem 'http_logger'
+end
 
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  # gem 'spring'
+# Specific commits of gems.
 
-  gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
+gem 'curation_concerns', github: 'projecthydra-labs/curation_concerns', branch: 'master'
 
+# Required for doing pagination inside an engine. See https://github.com/amatsuda/kaminari/pull/322
+gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
+
+# Sufia from local or master
+gem 'sufia', :path => '/home/grosscol/workspace/sufia'
+# gem 'sufia', github: 'projecthydra/sufia', branch: 'master'
+
+gem 'rsolr', '~> 1.0.6'
+gem 'devise'
+gem 'devise-guests', '~> 0.3'
+group :development, :test do
   gem 'rspec-rails'
   gem 'jettywrapper'
 end
-
-group :alpha do
-  gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
-end
-
-group :alpha, :production do
-  gem 'mysql2'
-end
-
