@@ -1,16 +1,5 @@
-Sufia::Engine.configure do
-  #config.login_url = 'https://weblogin.umich.edu?cosign-www.lib&https://umrdr-alpha.quod.lib.umich.edu'
-  config.login_url = 'https://umrdr-alpha.quod.lib.umich.edu'
-  config.logout_url = 'https://'
-  # The minter state for NOIDs are tracked via plaintext.  Change from default /tmp/minter-state
-  config.minter_statefile = '/tmp/umrdr-minter-state'
-end
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  
-  # Logger level debug
-  config.log_level = :debug
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development

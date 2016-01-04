@@ -1,22 +1,4 @@
 Rails.application.routes.draw do
-  
-  blacklight_for :catalog
-  devise_for :users
-
-  # Copied from ScholarSphere:
-  # Login/logout route to destroy session
-  get 'logout' => 'sessions#destroy', as: :destroy_user_session
-  get 'login' => 'sessions#new', as: :new_user_session
-
-  # "Recently added files" route for catalog index view (needed before BL routes)
-  get "catalog/recent" => "catalog#recent", as: :catalog_recent
-
-  Hydra::BatchEdit.add_routes(self)
-  # This must be the very last route in the file because it has a catch-all route for 404 errors.
-    # This behavior seems to show up only in production mode.
-    mount Sufia::Engine => '/'
-  root to: 'homepage#index'
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
