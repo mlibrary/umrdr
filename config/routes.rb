@@ -1,9 +1,24 @@
 Rails.application.routes.draw do
+  
+  blacklight_for :catalog
+  devise_for :users
+  Hydra::BatchEdit.add_routes(self)
+  # This must be the very last route in the file because it has a catch-all route for 404 errors.
+  # This behavior seems to show up only in production mode.
+  mount Sufia::Engine => '/'
+
+  mount Hydra::Collections::Engine => '/'
+  mount CurationConcerns::Engine, at: '/'
+  resources :welcome, only: 'index'
+  root 'sufia/homepage#index'
+  curation_concerns_collections
+  curation_concerns_basic_routes
+  curation_concerns_embargo_management
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  # root 'sufia/homepage#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

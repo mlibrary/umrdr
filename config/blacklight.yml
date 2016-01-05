@@ -1,0 +1,7 @@
+development:
+  adapter: solr
+  url: http://localhost:8080/tomcat/quod-dev/solr-hydra/umrdr
+test:
+  adapter: solr
+  url: http://localhost:8080/tomcat/quod-dev/solr-hydra/umrdr
+
