@@ -8,11 +8,8 @@
 # These files should be copied from the $file.yml.sample and tweaked
 # per environment.
 config/database.yml
-config/fedora.yml
-config/solr.yml
 config/hydra-ldap.yml
 config/redis.yml
-config/umich.yml
 
 # Ignore secrets
 config/secrets.yml
