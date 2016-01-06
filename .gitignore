@@ -8,11 +8,8 @@
 # These files should be copied from the $file.yml.sample and tweaked
 # per environment.
 config/database.yml
-config/fedora.yml
-config/solr.yml
 config/hydra-ldap.yml
 config/redis.yml
-config/umich.yml
 
 # Ignore secrets
 config/secrets.yml
@@ -28,6 +25,7 @@ config/secrets.yml
 jetty
 
 ## SOLR Template Cores Data
+# don't push around dev solr core templates data
 /solr_cores/**/data
 
 ## MAC OS
@@ -112,3 +110,4 @@ public/system/
 public/sitemap.xml
 
 ./spec/internal
+./.internal_test_app

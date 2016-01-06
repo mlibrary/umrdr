@@ -1,0 +1,6 @@
+development:
+  url: http://localhost:8080/fedora/rest
+  base_path: /umrdr
+test:
+  url: http://localhost:8080/fedora/rest
+  base_path: /umrdr
