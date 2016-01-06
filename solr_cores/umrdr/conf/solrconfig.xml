@@ -6,11 +6,16 @@
   
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
   
+<<<<<<< HEAD
   <luceneMatchVersion>LUCENE_40</luceneMatchVersion>
+=======
+  <luceneMatchVersion>4.9</luceneMatchVersion>
+>>>>>>> Add umichwrapper and solr core template.
 
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
 
   <!-- solr lib dirs -->
+<<<<<<< HEAD
   <lib dir="../lib/contrib/analysis-extras/lib" />
   <lib dir="../lib/contrib/analysis-extras/lucene-libs" />
   
@@ -64,6 +69,32 @@
      <autoSoftCommit> 
        <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime> 
      </autoSoftCommit>
+=======
+  <lib dir="../../lib/contrib/analysis-extras/lib" />
+  <lib dir="../../lib/contrib/analysis-extras/lucene-libs" />
+  <!-- for full-text indexing -->
+  <lib dir="../../lib/contrib/extraction/lib" regex=".*\.jar" />
+
+  <dataDir>${solr.data.dir:}</dataDir>
+
+  <updateHandler class="solr.DirectUpdateHandler2">
+
+    <updateLog>
+      <str name="dir">${solr.ulog.dir:}</str>
+    </updateLog>
+
+    <maxPendingDeletes>10</maxPendingDeletes>
+
+    <autoCommit> 
+      <maxTime>${solr.autoCommit.maxTime:5000}</maxTime> 
+      <maxDocs>${solr.autoCommit.maxTime:5}</maxDocs> 
+      <openSearcher>false</openSearcher> 
+    </autoCommit>
+
+    <autoSoftCommit> 
+      <maxTime>${solr.autoSoftCommit.maxTime:2500}</maxTime> 
+    </autoSoftCommit>
+>>>>>>> Add umichwrapper and solr core template.
 
   </updateHandler>
 
@@ -88,27 +119,42 @@
        -->
         <str name="qf">
           id
+<<<<<<< HEAD
           active_fedora_model_ssi
           title_tesim
           author_tesim
           subject_tesim
+=======
+          all_text_timv
+          active_fedora_model_ssi
+          object_type_si
+>>>>>>> Add umichwrapper and solr core template.
         </str>
         <str name="pf">
           all_text_timv^10
         </str>
 
        <str name="author_qf">
+<<<<<<< HEAD
           author_tesim
+=======
+>>>>>>> Add umichwrapper and solr core template.
        </str>
        <str name="author_pf">
        </str>
        <str name="title_qf">
+<<<<<<< HEAD
           title_tesim
+=======
+>>>>>>> Add umichwrapper and solr core template.
        </str>
        <str name="title_pf">
        </str>
        <str name="subject_qf">
+<<<<<<< HEAD
           subject_tesim
+=======
+>>>>>>> Add umichwrapper and solr core template.
        </str>
        <str name="subject_pf">
        </str>
@@ -122,7 +168,11 @@
        <str name="facet.mincount">1</str>
        <str name="facet.limit">10</str>
        <str name="facet.field">active_fedora_model_ssi</str>
+<<<<<<< HEAD
        <str name="facet.field">subject_sim</str>
+=======
+       <str name="facet.field">object_type_si</str>
+>>>>>>> Add umichwrapper and solr core template.
        
        <str name="spellcheck">true</str>
        <str name="spellcheck.dictionary">default</str>
@@ -160,6 +210,23 @@
     </lst>
   </requestHandler>
   
+<<<<<<< HEAD
+=======
+  <!-- requestHandler for full text extraction -->
+  <requestHandler name="/update/extract" startup="lazy" class="org.apache.solr.handler.extraction.ExtractingRequestHandler" >
+    <lst name="defaults">
+      <!-- All the main content goes into "text"... if you need to return the extracted text or do highlighting, use a stored field. -->
+      <str name="fmap.content">text</str>
+      <str name="lowernames">true</str>
+      <str name="uprefix">ignored_</str>
+      <!-- capture link hrefs but ignore div attributes -->
+      <str name="captureAttr">true</str>
+      <str name="fmap.a">links</str>
+      <str name="fmap.div">ignored_</str>
+    </lst>
+  </requestHandler>
+
+>>>>>>> Add umichwrapper and solr core template.
   <requestHandler name="standard" class="solr.SearchHandler">
      <lst name="defaults">
        <str name="echoParams">explicit</str>
@@ -177,7 +244,10 @@
     </lst>
   </requestHandler>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Add umichwrapper and solr core template.
   <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
     <str name="queryAnalyzerFieldType">textSpell</str>
     <!-- Multiple "Spell Checkers" can be declared and used by this component
@@ -190,6 +260,20 @@
       <str name="buildOnOptimize">true</str>
     </lst>
   </searchComponent>
+<<<<<<< HEAD
+=======
+
+  <searchComponent name="termsComponent" class="solr.TermsComponent" />
+
+  <requestHandler name="/terms" class="solr.SearchHandler">
+    <lst name="defaults">
+      <bool name="terms">true</bool>
+    </lst>
+    <arr name="components">
+      <str>termsComponent</str>
+    </arr>
+  </requestHandler>
+>>>>>>> Add umichwrapper and solr core template.
   
   <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" /> 
   
