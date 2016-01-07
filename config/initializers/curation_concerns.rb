@@ -9,6 +9,8 @@ CurationConcerns.configure do |config|
   config.max_days_between_audits = 7
   config.minter_statefile = '/tmp/umrdr-minter'
 
+  config.minter_statefile = '/tmp/grosscol-umdr'
+
   config.resource_types = {
     'Article' => 'Article',
     'Audio' => 'Audio',
