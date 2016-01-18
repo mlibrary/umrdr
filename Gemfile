@@ -37,11 +37,17 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'rspec-rails'
+  gem 'jettywrapper'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'engine_cart'
+  gem 'pry'
   gem 'web-console', '~> 2.0'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Specific commits of gems.
@@ -51,10 +57,6 @@ gem 'curation_concerns', github: 'projecthydra-labs/curation_concerns', branch: 
 # Required for doing pagination inside an engine. See https://github.com/amatsuda/kaminari/pull/322
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
-group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller'
-end
 
 # Sufia from local or master
 gem 'sufia', :path => '/home/grosscol/workspace/sufia'
@@ -63,8 +65,4 @@ gem 'sufia', :path => '/home/grosscol/workspace/sufia'
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
-group :development, :test do
-  gem 'rspec-rails'
-  gem 'jettywrapper'
-end
 

@@ -1,5 +1,5 @@
 development:
-  url: <%= ENV["UMRDR_SOLR_URL"] || "http://localhost:8080/tomcat/quod-dev/solr-hydra/umrdr" %>
+  url: <%= ENV["UMRDR_SOLR_DEV"] || "http://localhost:8080/tomcat/quod-dev/solr-hydra/umrdr" %>
 test:
-  url: <%= ENV["UMRDR_SOLR_URL"] || "http://localhost:8080/tomcat/quod-dev/solr-hydra/umrdr" %>
+  url: <%= ENV["UMRDR_SOLR_TEST"] || "http://localhost:8080/tomcat/quod-dev/solr-hydra/umrdr" %>
 
