@@ -1,0 +1,44 @@
+---
+user: 
+  email: grosscol@umich.edu 
+  works:
+    - title: Alone in the Repository.
+      desc: This work does not have a collection.
+      resource_type: Dataset
+      files:
+        - "datasets/mess/blob.txt"
+    - title: A working friend.
+      files:
+        - "datasets/research2/new.dat"
+        - "datasets/research2/old.tab"
+  collections:
+    - title: barren collection
+      desc: A collection without works.
+    - title: The Long Wind
+      desc: A long winded description where the line breaks
+            are replaced by spaces.  This makes typing in a
+            paragraph a lot more convenient, and leaves the
+            formatting up to the application. The line breaks
+            don't all have to be aligned.
+    - title: Collection One
+      desc: Demonstration collection with multiple works.
+      works:
+        - title: data set cgone
+          desc: symbolic link format demo data
+          resource_type: Dataset
+          files: 
+            - "datasets/research1/dataset4.slk"
+        - title: data set cgtwo
+          files: 
+            - "datasets/research1/dataset1.txt"
+            - "datasets/research1/dataset2.txt"
+            - "datasets/research1/dataset3.txt"
+    - title: Wokka wokkas
+      works:
+        - title: bad data jokes
+          files: 
+            - "datasets/jokes/1liner.txt"
+        - title: worse data jokes
+          files: 
+            - "datasets/jokes/acros.txt"
+
