@@ -42,6 +42,8 @@ group :development, :test do
 end
 
 group :development do
+  # UMichwrapper
+  gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'engine_cart'
   gem 'pry'
@@ -59,8 +61,7 @@ gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
 
 # Sufia from local or master
-gem 'sufia', :path => '/home/grosscol/workspace/sufia'
-# gem 'sufia', github: 'projecthydra/sufia', branch: 'master'
+gem 'sufia', github: 'projecthydra/sufia', branch: 'master'
 
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'
