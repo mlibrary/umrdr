@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 describe GenericWork do
-  it "has tests" do
-    skip "Add your tests here"
+  let(:instance){subject.new}
+  it 'is open visibility by default.' do
+    expect(instance.visibility).to_eq 'open'
   end
 end
