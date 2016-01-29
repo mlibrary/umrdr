@@ -1,3 +1,4 @@
+https://travis-ci.org/mlibrary/umrdr.svg?branch=master
 # UMRDR
 
 University of Michigan Research Data Repository alpha/beta/pilot/test/tire kicking extravaganza.

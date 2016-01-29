@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 describe GenericWork do
-  let(:instance){subject.new}
   it 'is open visibility by default.' do
-    expect(instance.visibility).to_eq 'open'
+    expect(subject.visibility).to eq 'open'
   end
 end
