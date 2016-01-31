@@ -6,13 +6,14 @@
 
 # Ignore some config
 # These files should be copied from the $file.yml.sample and tweaked
-# per environment.
+# per environment. See bin/setup
 config/database.yml
-config/hydra-ldap.yml
-config/redis.yml
-
-# Ignore secrets
 config/secrets.yml
+config/blacklight.yml
+config/fedora.yml
+config/solr.yml
+config/redis.yml
+config/resque-pool.yml
 
 # Ignore bundler config.
 /.bundle
@@ -87,8 +88,6 @@ log/*
 
 public/plugin_assets
 public/plugin_assets/
-
-db/schema.rb
 
 .project
 .buildpath

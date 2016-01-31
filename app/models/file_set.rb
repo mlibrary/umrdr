@@ -2,4 +2,5 @@
 class FileSet < ActiveFedora::Base
   include ::CurationConcerns::FileSetBehavior
   include Sufia::FileSetBehavior
+  include Umrdr::FileSetBehavior
 end
