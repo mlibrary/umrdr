@@ -4,3 +4,10 @@
 require File.expand_path('../config/application', __FILE__)
 
 Rails.application.load_tasks
+
+# clear default task
+task default: []
+Rake::Task[:default].clear
+
+# set default task to continuous integration
+task default: :ci

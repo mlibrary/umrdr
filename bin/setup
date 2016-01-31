@@ -12,10 +12,15 @@ Dir.chdir APP_ROOT do
   system "gem install bundler --conservative"
   system "bundle check || bundle install"
 
-  # puts "\n== Copying sample files =="
-  # unless File.exist?("config/database.yml")
-  #   system "cp config/database.yml.sample config/database.yml"
-  # end
+  # may have to add config/ldap.yml later
+  puts "\n== Copying sample files =="
+  config_file_targets = [ "config/database.yml", "config/secrets.yml", "config/blacklight.yml",
+                          "config/fedora.yml", "config/solr.yml", "config/redis.yml",
+                          "config/resque-pool.yml"]
+  config_file_targets.each do |t|
+    src = "#{t}.sample"
+    system "cp #{src} #{t}" unless File.exist?(t) 
+  end
 
   puts "\n== Preparing database =="
   system "bin/rake db:setup"
