@@ -14,6 +14,7 @@ config/fedora.yml
 config/solr.yml
 config/redis.yml
 config/resque-pool.yml
+config/jetty.yml
 
 # Ignore bundler config.
 /.bundle

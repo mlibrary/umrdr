@@ -16,7 +16,7 @@ Dir.chdir APP_ROOT do
   puts "\n== Copying sample files =="
   config_file_targets = [ "config/database.yml", "config/secrets.yml", "config/blacklight.yml",
                           "config/fedora.yml", "config/solr.yml", "config/redis.yml",
-                          "config/resque-pool.yml"]
+                          "config/resque-pool.yml", "config/jetty.yml"]
   config_file_targets.each do |t|
     src = "#{t}.sample"
     unless File.exist?(t)
