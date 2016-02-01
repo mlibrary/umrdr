@@ -39,6 +39,8 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'jettywrapper'
+  gem 'capybara'
+  gem 'poltergeist'
 end
 
 group :development do
