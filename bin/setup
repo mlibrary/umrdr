@@ -19,7 +19,10 @@ Dir.chdir APP_ROOT do
                           "config/resque-pool.yml"]
   config_file_targets.each do |t|
     src = "#{t}.sample"
-    system "cp #{src} #{t}" unless File.exist?(t) 
+    unless File.exist?(t)
+      puts "copying to #{t}"
+      system "cp #{src} #{t}" 
+    end
   end
 
   puts "\n== Preparing database =="
