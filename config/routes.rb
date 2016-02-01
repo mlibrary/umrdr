@@ -1,3 +1,4 @@
+require 'pry'
 Rails.application.routes.draw do
   
   blacklight_for :catalog
