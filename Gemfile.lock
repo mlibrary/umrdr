@@ -465,6 +465,8 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     puma (2.15.3)
     qa (0.5.0)
       activerecord-import
@@ -720,6 +722,7 @@ DEPENDENCIES
   kaminari!
   poltergeist
   pry
+  pry-rails
   puma
   rails (= 4.2.5)
   rsolr (~> 1.0.6)
