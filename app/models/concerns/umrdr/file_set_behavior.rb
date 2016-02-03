@@ -8,6 +8,10 @@ module Umrdr
       'open'
     end
 
+    def visibility=(value)
+      super('open')
+    end
+
     # Override the derivatives generation to avoid full text and non-thumbnail
     # generation.
     def create_derivatives(filename)
