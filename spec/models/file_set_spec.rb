@@ -5,6 +5,11 @@ describe FileSet do
     expect(subject.visibility).to eq 'open'
   end
 
+  it 'it cannot be set to anything other than open visibility.' do
+    subject.visibility='restricted'
+    expect(subject.visibility).to eq 'open'
+  end
+
   describe "derivative generation" do
     let(:outputs) do
       [{ label: :thumbnail, format: 'jpg',

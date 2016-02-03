@@ -8,5 +8,9 @@ module Umrdr
       'open'
     end
 
+    def visibility=(value)
+      super('open')
+    end
+
   end
 end
