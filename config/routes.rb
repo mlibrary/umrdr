@@ -11,6 +11,13 @@ Rails.application.routes.draw do
   end
 
   devise_for :users
+
+  # TODO: unfuck routing
+  # Copied from ScholarSphere:
+  # Login/logout route to destroy session
+  # get 'logout' => 'sessions#destroy', as: :destroy_user_session
+  # get 'login' => 'sessions#new', as: :new_user_session
+  
   Hydra::BatchEdit.add_routes(self)
 
   mount Hydra::Collections::Engine => '/'

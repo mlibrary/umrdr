@@ -1,9 +1,11 @@
 # Default strategy for signing in a user, based on his email and password in the database.
+require 'pry'
 module Behaviors
   module HttpHeaderAuthenticatableBehavior
 
     # Called if the user doesn't already have a rails session cookie
     def valid_user?(headers)
+      binding.pry
       !remote_user(headers).blank?
     end
 
