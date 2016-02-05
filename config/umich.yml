@@ -1,0 +1,24 @@
+development:
+  solr_home:        <%= ENV['SOLR_HOME']      || "/quod-dev/idx/h/hydra-solr" %>
+  solr_admin_url:   <%= ENV['SOLR_ADMIN_URL'] || "http://localhost:8080/tomcat/quod-dev/solr-hydra/admin" %>
+  fedora_url:       localhost:8080/fedora/rest
+  fedora_node_path: umrdr-alpha
+  solr_core_name: umrdr-alpha
+  solr_core_parent: ''
+
+testing:
+  solr_home:        <%= ENV['SOLR_HOME']      || "/quod-dev/idx/h/hydra-solr" %>
+  solr_admin_url:   <%= ENV['SOLR_ADMIN_URL'] || "http://localhost:8080/tomcat/quod-dev/solr-hydra/admin" %>
+  fedora_url:       localhost:8080/fedora/rest
+  fedora_node_path: umrdr-alpha
+  solr_core_name: umrdr-alpha
+  solr_core_parent: ''
+
+production:
+  fedora_url:     localhost:8080/fedora/rest
+  fedora_node_path: umrdr
+  solr_admin_url: localhost:8080/tomcat/quod-dev/solr-hydra/admin
+  solr_base_url:  localhost:8080/tomcat/quod-dev/solr-hydra
+  solr_home:      /quod-dev/idx/h/hydra-solr
+  solr_core_name: umrdr
+  solr_core_parent: ''
