@@ -5,6 +5,8 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.5'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+# Use sqlite3 as the database for Active Record
+gem 'mysql2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -38,7 +40,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rspec-rails'
-  gem 'jettywrapper'
+  gem 'solr_wrapper', '~> 0.5'
+  gem 'fcrepo_wrapper', '~> 0.1'
   gem 'capybara'
   gem 'poltergeist'
 end
@@ -57,14 +60,14 @@ end
 
 # Specific commits of gems.
 
+# Temporarily use cc branch until master is fixed
 gem 'curation_concerns', github: 'projecthydra-labs/curation_concerns', branch: 'master'
 
 # Required for doing pagination inside an engine. See https://github.com/amatsuda/kaminari/pull/322
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
-
 # Sufia from local or master
-gem 'sufia', github: 'projecthydra/sufia', branch: 'master'
+gem 'sufia', github: 'projecthydra/sufia', branch: 'update_for_hw070'
 
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'

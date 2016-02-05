@@ -1,22 +1,11 @@
-# -*- coding: utf-8 -*-
-# -*- encoding : utf-8 -*-
-require 'blacklight/catalog'
-require 'blacklight_advanced_search'
-
-# bl_advanced_search 1.2.4 is doing unitialized constant on these because we're calling ParseBasicQ directly
-require 'parslet'
-require 'parsing_nesting/tree'
-
 class CatalogController < ApplicationController
   include Hydra::Catalog
   include Hydra::Controller::ControllerBehavior
   include Sufia::Catalog
+  include BlacklightAdvancedSearch::Controller
 
   # These before_filters apply the hydra access controls
   before_filter :enforce_show_permissions, only: :show
-  # This applies appropriate access controls to all solr queries
-  CatalogController.search_params_logic = [:add_advanced_parse_q_to_solr] + search_params_logic + [:add_access_controls_to_solr_params]
-
   skip_before_filter :default_html_head
 
   def self.uploaded_field
@@ -27,12 +16,20 @@ class CatalogController < ApplicationController
     solr_name('system_modified', :stored_sortable, type: :date)
   end
 
-  configure_blacklight do |config|          config.view.gallery.partials = [:index_header, :index]
-          config.view.masonry.partials = [:index]
-          config.view.slideshow.partials = [:index]
+  configure_blacklight do |config|
+    config.view.gallery.partials = [:index_header, :index]
+    config.view.masonry.partials = [:index]
+    config.view.slideshow.partials = [:index]
 
-          config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
-          config.show.partials.insert(1, :openseadragon)
+
+    config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
+    config.show.partials.insert(1, :openseadragon)
+    # default advanced config values
+    config.advanced_search ||= Blacklight::OpenStructWithHashAccess.new
+    # config.advanced_search[:qt] ||= 'advanced'
+    config.advanced_search[:url_key] ||= 'advanced'
+    config.advanced_search[:query_parser] ||= 'dismax'
+    config.advanced_search[:form_solr_parameters] ||= {}
 
     config.search_builder_class = Sufia::SearchBuilder
 
@@ -43,7 +40,8 @@ class CatalogController < ApplicationController
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
       qt: "search",
-      rows: 10
+      rows: 10,
+      qf: "title_tesim name_tesim"
     }
 
     # Specify which field to use in the tag cloud on the homepage.
@@ -131,7 +129,7 @@ class CatalogController < ApplicationController
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
         qf: "#{all_names} file_format_tesim all_text_timv",
-        pf: "#{title_name}"
+        pf: title_name.to_s
       }
     end
 

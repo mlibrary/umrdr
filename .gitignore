@@ -15,6 +15,7 @@ config/solr.yml
 config/redis.yml
 config/resque-pool.yml
 config/jetty.yml
+config/umich.yml
 
 # Ignore bundler config.
 /.bundle
@@ -28,7 +29,10 @@ jetty
 
 ## SOLR Template Cores Data
 # don't push around dev solr core templates data
-/solr_cores/**/data
+/solr_cores/umrdr/data
+
+# don't push around fedora data
+fcrepo4-data
 
 ## MAC OS
 .DS_Store
