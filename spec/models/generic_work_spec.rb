@@ -3,16 +3,24 @@
 require 'rails_helper'
 
 describe GenericWork do
-  it 'is open visibility by default.' do
-    expect(subject.visibility).to eq 'open'
+  describe 'visibility properties' do
+    it 'is open visibility by default.' do
+      expect(subject.visibility).to eq 'open'
+    end
+
+    it 'it cannot be set to anything other than open visibility.' do
+      subject.visibility='restricted'
+      expect(subject.visibility).to eq 'open'
+    end
   end
 
-  it 'it cannot be set to anything other than open visibility.' do
-    subject.visibility='restricted'
-    expect(subject.visibility).to eq 'open'
+  describe 'resource type' do
+    it 'is set during initialization' do
+      expect(subject.resource_type).to eq ['Dataset']
+    end
   end
 
-  context 'validations' do
+  describe 'it requires core metadata' do
     before do
       subject.title = ['Demotitle']
       subject.creator = ['Demo Creator']
