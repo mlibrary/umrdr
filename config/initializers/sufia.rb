@@ -10,28 +10,7 @@ Sufia.config do |config|
 
   config.max_notifications_for_dashboard = 5
 
-  config.resource_types = {
-    "Article" => "Article",
-    "Audio" => "Audio",
-    "Book" => "Book",
-    "Capstone Project" => "Capstone Project",
-    "Conference Proceeding" => "Conference Proceeding",
-    "Dataset" => "Dataset",
-    "Dissertation" => "Dissertation",
-    "Image" => "Image",
-    "Journal" => "Journal",
-    "Map or Cartographic Material" => "Map or Cartographic Material",
-    "Masters Thesis" => "Masters Thesis",
-    "Part of Book" => "Part of Book",
-    "Poster" => "Poster",
-    "Presentation" => "Presentation",
-    "Project" => "Project",
-    "Report" => "Report",
-    "Research Paper" => "Research Paper",
-    "Software or Program Code" => "Software or Program Code",
-    "Video" => "Video",
-    "Other" => "Other"
-  }
+  config.resource_types = { "Dataset" => "Dataset" }
 
   config.resource_types_to_schema = {
     "Article" => "http://schema.org/Article",
