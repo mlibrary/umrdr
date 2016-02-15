@@ -3,6 +3,7 @@ class GenericWork < ActiveFedora::Base
   include ::CurationConcerns::BasicMetadata
   include Sufia::WorkBehavior
   include Umrdr::GenericWorkBehavior
+  include Umrdr::GenericWorkMetadata
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :creator, presence: { message: 'Your work must have a creator.' }
   validates :date_created, presence: { message: 'Your work must have a date created.' }

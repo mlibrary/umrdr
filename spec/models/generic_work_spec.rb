@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe GenericWork do
-  describe 'visibility properties' do
+  describe 'properties' do
     it 'is open visibility by default.' do
       expect(subject.visibility).to eq 'open'
     end
@@ -12,11 +12,15 @@ describe GenericWork do
       subject.visibility='restricted'
       expect(subject.visibility).to eq 'open'
     end
-  end
 
-  describe 'resource type' do
-    it 'is set during initialization' do
-      expect(subject.resource_type).to eq ['Dataset']
+    it 'has subject property' do
+      expect(subject).to respond_to(:subject)
+    end
+
+    describe 'resource type' do
+      it 'is set during initialization' do
+        expect(subject.resource_type).to eq ['Dataset']
+      end
     end
   end
 
