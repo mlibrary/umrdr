@@ -21,12 +21,12 @@ en:
     search:
       form:
         q:
-          label:          "Search Sufia"
+          label:          "Search Deep Blue Data"
           placeholder:    "Enter search terms"
         option:
           all:
             label_short:  "All"
-            label_long:   "All of Sufia"
+            label_long:   "All of Deep Blue Data"
           my_works:
             label_short:  "My Works"
             label_long:   "My Works"
