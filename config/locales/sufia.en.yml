@@ -10,7 +10,7 @@ en:
     collection:
        add_work:        "Add Work"
        select_works:    "Select Works"
-    deposit_agreement:  "Sufia's Deposit Agreement"
+    deposit_agreement:  "Deep Blue Data Deposit Agreement"
     document_language:  "en"
     upload_tooltip:     "Please accept Deposit Agreement before you can upload."
     share_button:       "Share Your Work"
