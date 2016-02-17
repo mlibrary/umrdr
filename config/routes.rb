@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
 
+  get ':action' => 'static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|file-format-preservation|how-to-upload|prepare-your-data|terms|zotero|mendeley|agreement|subject_libraries|versions/ }, as: :static
+
   concern :searchable, Blacklight::Routes::Searchable.new
 
   resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
@@ -25,6 +27,7 @@ Rails.application.routes.draw do
   end
 
   mount Sufia::Engine => '/'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
