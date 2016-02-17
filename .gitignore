@@ -16,6 +16,11 @@ config/redis.yml
 config/resque-pool.yml
 config/jetty.yml
 config/umich.yml
+config/doi.yml
+config/browse_everything_providers.yml
+config/arkivo.yml
+config/zotero.yml
+config/clients_data/*
 
 # Ignore bundler config.
 /.bundle
