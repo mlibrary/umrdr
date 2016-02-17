@@ -57,7 +57,7 @@ tmtags
 
 ## VIM
 *.sw[pon]
-.sess
+*.sess
 
 ## OSX
 .DS_Store
