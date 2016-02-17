@@ -25,6 +25,9 @@ config/clients_data/*
 # Ignore bundler config.
 /.bundle
 
+# Ignore byebug history
+.byebug_history
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
