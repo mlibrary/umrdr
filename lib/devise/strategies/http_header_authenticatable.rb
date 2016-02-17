@@ -1,4 +1,3 @@
-# Default strategy for signing in a user, based on his email and password in the database.
 module Devise
   module Strategies
     class HttpHeaderAuthenticatable < ::Devise::Strategies::Base
@@ -13,9 +12,9 @@ module Devise
       def authenticate!
         user = remote_user(request.headers)
         if user.present?
-          u = User.find_by_login(user)
+          u = User.find_by_user_key(user)
           if u.nil?
-            u = User.create(login: user, email: user)
+            u = User.create(email: user)
             u.populate_attributes
           end
           success!(u)

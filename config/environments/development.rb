@@ -3,7 +3,7 @@ Rails.application.configure do
 
   # Redirect to cosign
   #config.login_url = 'https://weblogin.umich.edu?cosign-www.lib&https://umrdr-testing.quod.lib.umich.edu'
-  config.login_url = 'https://weblogin.umich.edu/?cosign-umrdr-testing.quod.lib.umich.edu&https://umrdr-testing.quod.lib.umich.edu/data'
+  config.login_url = 'https://weblogin.umich.edu/?cosign-umrdr-testing.quod.lib.umich.edu&https://umrdr-testing.quod.lib.umich.edu/data/dashboard'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development

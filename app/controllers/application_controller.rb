@@ -4,13 +4,13 @@ class ApplicationController < ActionController::Base
   include Blacklight::Controller
   include Hydra::Controller::ControllerBehavior
 
-  # Behavior for devise.  Use remote user field in http header for auth.
-  include Behaviors::HttpHeaderAuthenticatableBehavior
-
   # Adds CurationConcerns behaviors to the application controller.
   include CurationConcerns::ApplicationControllerBehavior  
   # Adds Sufia behaviors into the application controller 
   include Sufia::Controller
+
+  # Behavior for devise.  Use remote user field in http header for auth.
+  include Behaviors::HttpHeaderAuthenticatableBehavior
 
   include CurationConcerns::ThemedLayoutController
   layout 'sufia-one-column'
@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+
+  before_action :clear_session_user
 
   # From PSU's ScholarSphere
   # Clears any user session and authorization information by:

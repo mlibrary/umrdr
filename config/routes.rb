@@ -10,7 +10,9 @@ Rails.application.routes.draw do
     concerns :searchable
   end
 
-  devise_for :users
+  # TODO: check devise_for options.  specify controller.
+  # devise_for :users, controllers: {sessions: "sessions"}
+  devise_for :users, path: '', path_names: {sign_in: 'login', sign_out: 'logout'}, controllers: {sessions: 'sessions'}
 
   # TODO: unfuck routing
   # Copied from ScholarSphere:
