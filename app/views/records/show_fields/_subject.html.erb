@@ -1,0 +1,3 @@
+<% record.subject.each do |sub| %>
+  <%= link_to_field('subject', sub, SubjectService.label(sub)) %> <%= iconify_auto_link(sub, false) %><br />
+<% end %>
