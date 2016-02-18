@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/mlibrary/umichwrapper.git
-  revision: 30104ea95bc20edcf81bedab70ccb621da6d0557
+  revision: 9a0d3b7121dcf11ce0422365782043d735189bc6
   branch: master
   specs:
     umichwrapper (0.2.0)
@@ -20,21 +20,20 @@ GIT
 
 GIT
   remote: git://github.com/projecthydra-labs/curation_concerns.git
-  revision: 03824726f65ae9891615fe6342c036090ba0ded3
+  revision: 2dcc57813b6aa6373d2e3d040873669e50f43afe
   branch: master
   specs:
-    curation_concerns (0.8.0)
+    curation_concerns (0.7.0)
       blacklight (~> 6.0)
       blacklight_advanced_search (~> 6.0)
       breadcrumbs_on_rails (~> 2.3)
-      curation_concerns-models (= 0.8.0)
+      curation_concerns-models (= 0.7.0)
       hydra-editor (~> 1.1)
       hydra-head (~> 9.6)
       jquery-ui-rails
       rails_autolink
       simple_form (~> 3.1)
-      sprockets-es6
-    curation_concerns-models (0.8.0)
+    curation_concerns-models (0.7.0)
       active_attr
       active_fedora-noid (~> 1.0)
       hydra-collections (~> 7.0)
@@ -98,7 +97,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active-fedora (9.9.0)
+    active-fedora (9.8.2)
       active-triples (~> 0.7.1)
       activesupport (>= 4.1.0)
       deprecation
@@ -154,13 +153,9 @@ GEM
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
-    autoprefixer-rails (6.3.3)
+    autoprefixer-rails (6.3.2)
       execjs
       json
-    babel-source (5.8.35)
-    babel-transpiler (0.7.0)
-      babel-source (>= 4.0, < 6)
-      execjs (~> 2.0)
     bcp47 (0.3.3)
       i18n
     bcrypt (3.1.10)
@@ -207,7 +202,7 @@ GEM
       sass-rails
       skydrive
     builder (3.2.2)
-    byebug (8.2.1)
+    byebug (8.2.2)
     cancancan (1.13.1)
     capybara (2.6.2)
       addressable
@@ -235,7 +230,7 @@ GEM
     debug_inspector (0.0.2)
     deprecation (0.2.2)
       activesupport
-    devise (3.5.4)
+    devise (3.5.6)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -310,8 +305,8 @@ GEM
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    hydra-access-controls (9.8.0)
-      active-fedora (~> 9.9)
+    hydra-access-controls (9.7.1)
+      active-fedora (~> 9.8)
       activesupport (~> 4.0)
       blacklight (>= 5.16)
       blacklight-access_controls (~> 0.1)
@@ -327,9 +322,9 @@ GEM
       hydra-works (~> 0.4)
       rdf (~> 1.99)
       rdf-vocab (~> 0)
-    hydra-core (9.8.0)
+    hydra-core (9.7.1)
       active-fedora (~> 9.8)
-      hydra-access-controls (= 9.8.0)
+      hydra-access-controls (= 9.7.1)
       rails (~> 4.0)
     hydra-derivatives (3.0.0)
       active-fedora (~> 9.0)
@@ -344,9 +339,9 @@ GEM
       simple_form (~> 3.1.0)
     hydra-file_characterization (0.3.3)
       activesupport (>= 3.0.0)
-    hydra-head (9.8.0)
-      hydra-access-controls (= 9.8.0)
-      hydra-core (= 9.8.0)
+    hydra-head (9.7.1)
+      hydra-access-controls (= 9.7.1)
+      hydra-core (= 9.7.1)
       rails (>= 3.2.6)
     hydra-pcdm (0.4.0)
       active-fedora (~> 9.6)
@@ -461,7 +456,7 @@ GEM
     os (0.9.6)
     parslet (1.7.1)
       blankslate (>= 2.0, <= 4.0)
-    poltergeist (1.8.1)
+    poltergeist (1.9.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
@@ -471,7 +466,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    puma (2.15.3)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
+    puma (2.16.0)
     qa (0.5.0)
       activerecord-import
       deprecation
@@ -588,7 +585,7 @@ GEM
     retriable (1.4.1)
     rsolr (1.0.13)
       builder (>= 2.1.2)
-    rspec-core (3.4.1)
+    rspec-core (3.4.2)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -596,7 +593,7 @@ GEM
     rspec-mocks (3.4.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
-    rspec-rails (3.4.0)
+    rspec-rails (3.4.2)
       actionpack (>= 3.0, < 4.3)
       activesupport (>= 3.0, < 4.3)
       railties (>= 3.0, < 4.3)
@@ -665,10 +662,6 @@ GEM
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-es6 (0.9.0)
-      babel-source (>= 5.8.11)
-      babel-transpiler
-      sprockets (>= 3.0.0)
     sprockets-rails (3.0.1)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
@@ -702,9 +695,9 @@ GEM
     unf_ext (0.0.7.2)
     vegas (0.1.11)
       rack (>= 1.0.0)
-    warden (1.2.4)
+    warden (1.2.6)
       rack (>= 1.0)
-    web-console (2.2.1)
+    web-console (2.3.0)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
@@ -739,6 +732,7 @@ DEPENDENCIES
   mysql2
   poltergeist
   pry
+  pry-rails
   puma
   rails (= 4.2.5)
   rsolr (~> 1.0.6)
