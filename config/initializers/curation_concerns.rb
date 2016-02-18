@@ -93,4 +93,4 @@ CurationConcerns.configure do |config|
   # config.analytic_start_date = DateTime.new(2014,9,10)
 end
 
-Date::DATE_FORMATS[:standard] = '%m/%d/%Y'
+Date::DATE_FORMATS[:standard] = '%Y-%m-%d'

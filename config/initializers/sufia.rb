@@ -118,4 +118,4 @@ Sufia.config do |config|
   end
 end
 
-Date::DATE_FORMATS[:standard] = "%m/%d/%Y"
+Date::DATE_FORMATS[:standard] = '%Y-%m-%d'
