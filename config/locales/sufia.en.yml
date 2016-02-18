@@ -1,16 +1,16 @@
 en:
   sufia:
-    product_name:       "Sufia"
-    product_twitter_handle: "@HydraSphere"
-    institution_name:   "Institution Name"
-    institution_name_full: "The Institution Name"
+    product_name:       "DeepBlueData"
+    product_twitter_handle: "@DeepBlueData"
+    institution_name:   "Michigan"
+    institution_name_full: "University of Michigan"
     sort_label: "Sort the listing of items"
     account_name:       "My Institution Account Id"
     account_label:      "User"
     collection:
        add_work:        "Add Work"
        select_works:    "Select Works"
-    deposit_agreement:  "Sufia's Deposit Agreement"
+    deposit_agreement:  "Deep Blue Data Deposit Agreement"
     document_language:  "en"
     upload_tooltip:     "Please accept Deposit Agreement before you can upload."
     share_button:       "Share Your Work"
@@ -21,12 +21,12 @@ en:
     search:
       form:
         q:
-          label:          "Search Sufia"
+          label:          "Search Deep Blue Data"
           placeholder:    "Enter search terms"
         option:
           all:
             label_short:  "All"
-            label_long:   "All of Sufia"
+            label_long:   "All of Deep Blue Data"
           my_works:
             label_short:  "My Works"
             label_long:   "My Works"
