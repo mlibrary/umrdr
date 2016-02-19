@@ -1,0 +1,465 @@
+$fa-um-maize: #FFCB05;
+$fa-contrast-um-maize: #333333;
+$fa-um-blue: #00274C;
+$fa-contrast-um-blue: #FFFFFF;
+$fa-black: #000000;
+$fa-contrast-black: #FAFAFA;
+$fa-white: #FFFFFF;
+$fa-contrast-white: #333333;
+$fa-grey-1: #333333;
+$fa-contrast-grey-1: #FFFFFF;
+$fa-grey-2: #4E4E4E;
+$fa-contrast-grey-2: #FFFFFF;
+$fa-grey-3: #6E6E6E;
+$fa-contrast-grey-3: #FFFFFF;
+$fa-grey-4: #CCCCCC;
+$fa-contrast-grey-4: #333333;
+$fa-grey-5: #E5E5E5;
+$fa-contrast-grey-5: #333333;
+$fa-grey-6: #F2F2F2;
+$fa-contrast-grey-6: #333333;
+$fa-grey-7: #FAFAFA;
+$fa-contrast-grey-7: #333333;
+$fa-main-1: #00274C;
+$fa-contrast-main-1: #FFFFFF;
+$fa-main-2: #0C5292;
+$fa-contrast-main-2: #FFFFFF;
+$fa-main-3: #126DC1;
+$fa-contrast-main-3: #FFFFFF;
+$fa-main-4: #CCE6FF;
+$fa-contrast-main-4: #00274C;
+$fa-main-5: #E6F3FF;
+$fa-contrast-main-5: #00274C;
+$fa-main-6: #F2F9FF;
+$fa-contrast-main-6: #00274C;
+$fa-green-1: #057C42;
+$fa-contrast-green-1: #FFFFFF;
+$fa-green-2: #05A657;
+$fa-contrast-green-2: #000000;
+$fa-green-3: #E2F4EB;
+$fa-contrast-green-3: #057C42;
+$fa-red-1: #C53B26;
+$fa-contrast-red-1: #FFFFFF;
+$fa-red-2: #ED5D47;
+$fa-contrast-red-2: #000000;
+$fa-red-3: #FFEAE7;
+$fa-contrast-red-3: #C53B26;
+$fa-orange-1: #AA6500;
+$fa-contrast-orange-1: #FFFFFF;
+$fa-orange-2: #E77504;
+$fa-contrast-orange-2: #000000;
+$fa-orange-3: #FFEEDD;
+$fa-contrast-orange-3: #AA6500;
+$fa-teal-1: #10788E;
+$fa-contrast-teal-1: #FFFFFF;
+$fa-teal-2: #14A2BF;
+$fa-contrast-teal-2: #000000;
+$fa-teal-3: #E4F3F8;
+$fa-contrast-teal-3: #10788E;
+$fa_colors: (
+  'um_maize': ( color: #FFCB05, contrast_name: 'grey_1', contrast_color: #333333 ),
+  'um_blue': ( color: #00274C, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'black': ( color: #000000, contrast_name: 'grey_7', contrast_color: #FAFAFA ),
+  'white': ( color: #FFFFFF, contrast_name: 'grey_1', contrast_color: #333333 ),
+  'grey_1': ( color: #333333, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'grey_2': ( color: #4E4E4E, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'grey_3': ( color: #6E6E6E, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'grey_4': ( color: #CCCCCC, contrast_name: 'grey_1', contrast_color: #333333 ),
+  'grey_5': ( color: #E5E5E5, contrast_name: 'grey_1', contrast_color: #333333 ),
+  'grey_6': ( color: #F2F2F2, contrast_name: 'grey_1', contrast_color: #333333 ),
+  'grey_7': ( color: #FAFAFA, contrast_name: 'grey_1', contrast_color: #333333 ),
+  'main_1': ( color: #00274C, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'main_2': ( color: #0C5292, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'main_3': ( color: #126DC1, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'main_4': ( color: #CCE6FF, contrast_name: 'main_1', contrast_color: #00274C ),
+  'main_5': ( color: #E6F3FF, contrast_name: 'main_1', contrast_color: #00274C ),
+  'main_6': ( color: #F2F9FF, contrast_name: 'main_1', contrast_color: #00274C ),
+  'green_1': ( color: #057C42, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'green_2': ( color: #05A657, contrast_name: 'black', contrast_color: #000000 ),
+  'green_3': ( color: #E2F4EB, contrast_name: 'green_1', contrast_color: #057C42 ),
+  'red_1': ( color: #C53B26, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'red_2': ( color: #ED5D47, contrast_name: 'black', contrast_color: #000000 ),
+  'red_3': ( color: #FFEAE7, contrast_name: 'red_1', contrast_color: #C53B26 ),
+  'orange_1': ( color: #AA6500, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'orange_2': ( color: #E77504, contrast_name: 'black', contrast_color: #000000 ),
+  'orange_3': ( color: #FFEEDD, contrast_name: 'orange_1', contrast_color: #AA6500 ),
+  'teal_1': ( color: #10788E, contrast_name: 'white', contrast_color: #FFFFFF ),
+  'teal_2': ( color: #14A2BF, contrast_name: 'black', contrast_color: #000000 ),
+  'teal_3': ( color: #E4F3F8, contrast_name: 'teal_1', contrast_color: #10788E ),
+);
+$fa_icon_root: 'http://www.lib.umich.edu/falafel/icons/';
+$fa_font_root: 'http://www.lib.umich.edu/falafel/fonts/';
+$fa_width_large: '75em';
+$fa_width_small: '55em';
+$fa_width_tiny: '35em';
+@mixin fa_button($icon_name:    false,
+                 $fill_name:    'main_3',
+                 $border:       0.2rem solid,
+                 $border_color: transparent,
+                 $position:     left,
+                 $icon_size:    1.5em,
+                 $icon_root:    $fa_icon_root) {
+
+  @include fa_main_font;
+
+  $side_padding: 0.85em;
+
+  display:          inline-block;
+  padding:          0.35em $side_padding;
+  background-color: fa_get_color($fill_name, $err: true);
+  border:           $border_color $border;
+  border-radius:    0.1em;
+
+  font-size:       0.85em;
+  font-weight:     normal;
+  color:           fa_get_contrast_color($fill_name, $err: true);
+  line-height:     1.5;
+  text-align:      center;
+  vertical-align:  middle;
+  white-space:     nowrap;
+  text-decoration: none;
+  text-shadow:     none;
+
+  cursor:              pointer;
+  -webkit-user-select: none;
+  -moz-user-select:    none;
+  -ms-user-select:     none;
+  user-select:         none;
+
+  @if $icon_name {
+    @include fa_background_icon(
+      $icon_name:  $icon_name,
+      $icon_color: fa_get_contrast_name($fill_name, $err: true),
+      $width:      $icon_size,
+      $horizontal: $position,
+      $h_nudge:    $side_padding / 2,
+      $icon_root:  $icon_root
+    );
+
+    padding-#{$position}: $side_padding + $icon_size;
+  }
+}
+
+$fa_color_names: map_keys($fa_colors);
+
+@function fa_get_color($name, $err: false) {
+  @return __fa_get_color_info('color', $name, $err: false);
+}
+
+@function fa_get_contrast_color($name, $err: false) {
+  @return __fa_get_color_info('contrast_color', $name, $err: false);
+}
+
+@function fa_get_contrast_name($name, $err: false) {
+  @return __fa_get_color_info('contrast_name', $name, $err: false);
+}
+
+@function __fa_get_color_info($type, $name, $err: false) {
+  $data_map: map_get($fa_colors, $name);
+
+  @if type_of($data_map) == map {
+    $data: map_get($data_map, $type);
+
+    @if $data {
+      @return $data;
+    } @else if $err {
+      @error "can not find a #{$type} for #{name}";
+    } @else {
+      @return false;
+    }
+  } @else {
+    @if $err {
+      @error "can not find a color named #{$name}";
+    } @else {
+      @return false;
+    }
+  }
+}
+
+// Create a full set (bold, italic, semibold, etc) of @font_face rules
+// for a typeface.
+
+@mixin fa_fontface($family, $file_name, $styles, $font_root: $fa_font_root) {
+  @each $style_name in $styles {
+    $style:  normal;
+    $weight: 400;
+
+    @if $style_name == italic {
+      $style:  italic;
+      $weight: 400;
+    } @elseif $style_name == bold {
+      $style:  normal;
+      $weight: 700;
+    } @elseif $style_name == bolditalic {
+      $style:  italic;
+      $weight: 700;
+    } @elseif $style_name == light {
+      $style:  normal;
+      $weight: 300;
+    } @elseif $style_name == lightitalic {
+      $style:  italic;
+      $weight: 300;
+    } @elseif $style_name == semibold {
+      $style:  normal;
+      $weight: 600;
+    } @elseif $style_name == semibolditalic {
+      $style:  italic;
+      $weight: 600;
+    } @elseif $style_name == extrabold {
+      $style:  normal;
+      $weight: 800;
+    } @elseif $style_name == extrabolditalic {
+      $style:  italic;
+      $weight: 800;
+    }
+
+    $location: '#{$font_root}#{$file_name}/#{$file_name}-#{$style_name}';
+
+    @font-face {
+      font-family: $family;
+      font-style: $style;
+      font-weight: $weight;
+      src: url('#{$location}.eot');
+      src: url('#{$location}.eot?iefix')   format('eot'),
+           url('#{$location}.woff')        format('woff'),
+           url('#{$location}.ttf')         format('truetype'),
+           url('#{$location}.svg#webfont') format('svg');
+    }
+  }
+}
+
+@mixin __fa_sans {
+  font-family: "Helvetica Neue",
+               Helvetica,
+               "Liberation Sans",
+               "DejaVu Sans Condensed",
+               "Nimbus Sans L",
+               Arial,
+               sans-serif;
+}
+
+@mixin __fa_sans_big {
+  font-family: "Open Sans",
+               "Helvetica Neue",
+               Helvetica,
+               "Liberation Sans",
+               "DejaVu Sans Condensed",
+               "Nimbus Sans L",
+               Arial,
+               sans-serif;
+}
+
+@mixin __fa_serif {
+  font-family: "PT Serif",
+               "DejaVu Serif",
+               "Bitstream Vera Serif",
+               "Liberation Serif",
+               Georgia,
+               serif;
+}
+
+@mixin __fa_serif_small {
+  font-family: "PT Caption",
+               "DejaVu Serif",
+               "Bitstream Vera Serif",
+               "Liberation Serif",
+               Georgia,
+               serif;
+}
+
+@mixin fa_main_font {
+  @include __fa_sans;
+}
+
+@mixin fa_body_font {
+  @include __fa_serif;
+}
+
+@mixin fa_header_font {
+  @include __fa_sans_big;
+}
+
+@mixin fa_site_header_font {
+  @include __fa_serif;
+}
+
+@mixin fa_small_font {
+  @include __fa_serif_small;
+}
+
+@mixin fa_tag_font {
+  @include __fa_sans;
+}
+
+
+@mixin fa_background_icon($icon_name:  $icon_name,
+                          $icon_color: $icon_color,
+                          $width:      false,
+                          $height:     false,
+                          $horizontal: center,
+                          $h_nudge:    '',
+                          $vertical:   center,
+                          $v_nudge:    '',
+                          $icon_root:  $fa_icon_root) {
+
+  background-image:    url(#{$icon_root}#{$icon_name}__#{$icon_color}.svg);
+  background-repeat:   no-repeat;
+  background-size:     $width $height;
+  background-position: $horizontal
+                       #{if($horizontal == center, '', $h_nudge)}
+                       $vertical
+                       #{if($vertical   == center, '', $v_nudge)};
+}
+
+@mixin fa_pseudo_icon($icon_name,
+                      $icon_color,
+                      $width:       false,
+                      $height:      false,
+                      $element:     before,
+                      $padding:     0.5em,
+                      $outer_nudge: 0,
+                      $inner_nudge: 0,
+                      $position:    left,
+                      $fill:        transparent,
+                      $icon_root:   $fa_icon_root) {
+
+  $width:  if($width,  $width,  auto);
+  $height: if($height, $height, auto);
+  $size:   false;
+
+  @if type-of($height) == number and type-of($width) == number {
+    $size: max($width, $height);
+  } @else if type-of($height) == number {
+    $size: $height;
+  } @else if type-of($width) == number {
+    $size: $width;
+  } @else {
+    @error "height and/or width must be a numeric unit such as '1rem' or '50px'";
+  }
+
+  $size: $size + ($padding * 2);
+
+  padding-#{$position}: $size + $outer_nudge + $inner_nudge;
+  min-height:           $size;
+  position:             relative;
+
+  &::#{$element} {
+    @include fa_background_icon(
+               $icon_name:  $icon_name,
+               $icon_color: $icon_color,
+               $width:      $width,
+               $height:     $height,
+               $icon_root:  $fa_icon_root
+             );
+
+    content:          '';
+    display:          block;
+    background-color: $fill;
+    width:            $size;
+    height:           $size;
+    border-radius:    $size / 2;
+    position:         absolute;
+    #{$position}:     $outer_nudge;
+    top:              50%;
+    margin-top:       -$size / 2;
+  }
+}
+
+@mixin fa_screen_reader_text {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px) !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+@mixin fa_quote_like($font_size:     1.2em,
+                     $icon:          'quote__white.svg',
+                     $fill:          $fa_main_3,
+                     $line_height:   1.5,
+                     $icon_size:     2em,
+                     $outer_padding: 0,
+                     $inner_padding: 1em,
+                     $downshift:     true,
+                     $icon_root:     $fa_icon_root,
+                     $element:       before) {
+
+  @include fa_body_font;
+  // @include fa_pseudo_icon(
+  //            $position:      left,
+  //            $icon:          'quote__white.svg',
+  //            $fill:          $fill,
+  //            $size:          $icon_size,
+  //            $icon_size:     $icon_size * (3/5),
+  //            $outer_padding: $outer_padding,
+  //            $inner_padding: $inner_padding,
+  //            $downshift:     $downshift,
+  //            $icon_root:     $icon_root,
+  //            $element:       $element
+  //          );
+
+  font-size: $font_size;
+  color: $fa_grey_3;
+  line-height: $line_height;
+}
+
+@mixin fa_info_box($icon_name:  false,
+                   $icon_color: false,
+                   $color:      $fa_teal_1,
+                   $border:     $fa_teal_2,
+                   $fill:       $fa_teal_3,
+                   $headers:    'h1, h2, h3, h4, h5, h6',
+                   $icon_root:  $fa_icon_root) {
+
+  padding: 0.5em 2em 0.6em;
+
+  @include fa_main_font;
+  #{$headers} {
+    font-size:     1em;
+    font-weight:   bold;
+    margin-left:   -1.5em;
+    margin-bottom: 0.2em;
+
+    @if $icon_name {
+      @include fa_pseudo_icon(
+        $icon_name:   $icon_name,
+        $icon_color:  $icon_color,
+        $position:    left,
+        $width:       1em,
+        $padding:     0,
+        $inner_nudge: 0.5em,
+        $icon_root:   $icon_root
+      );
+    }
+  }
+
+  font-size: 0.9em;
+  line-height: 1.2;
+  color: $color;
+  background-color: $fill;
+  border: 2px solid $border;
+  border-radius: 2px;
+  min-height: 1em;
+}
+
+@mixin fa_tag($fill: $fa_main_3, $color: $fa_contrast_main_3) {
+  @include fa_tag_font;
+
+  display: inline-block;
+  padding: 0.2rem 0.4rem;
+  position: relative;
+  bottom: 0.2rem;
+
+  background-color: $fill;
+  border-radius: 0.2rem;
+  vertical-align: super;
+
+  font-size: 0.7rem;
+  font-weight: normal;
+  line-height: 1em;
+  color: $color;
+  text-shadow: none;
+}

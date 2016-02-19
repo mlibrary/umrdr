@@ -1,0 +1,44 @@
+@import 'falafel';
+
+#page-positioner {
+  #masthead {
+    background-color: $fa_um_blue;
+    min-height: 0;
+    padding: 0.5rem;
+  }
+
+  .site-brand * {
+    vertical-align: middle;
+  }
+
+  .site-logo {
+    height: 3.5rem;
+    display: inline-block;
+  }
+
+  .site-name {
+    @include fa_site_header_font;
+    display: inline-block;
+    margin: 0;
+    padding: 0em 0 0.1em 0.3em;
+    border-left: 0.1rem solid #fff;
+    font-size: 2rem;
+  }
+
+  .site-name a {
+    color: #FFF;
+    text-decoration: none;
+  }
+
+  .site-name a:hover {
+    text-decoration: none;
+  }
+
+  .beta-note {
+    @include fa_tag($fill: $fa_main_3, $color: #FFF)
+  }
+
+  .login_button {
+    margin: 0;
+  }
+}
