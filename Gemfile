@@ -60,14 +60,11 @@ end
 
 # Specific commits of gems.
 
-# Temporarily use cc branch until master is fixed
-gem 'curation_concerns', github: 'projecthydra-labs/curation_concerns', branch: 'master'
-
 # Required for doing pagination inside an engine. See https://github.com/amatsuda/kaminari/pull/322
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
 # Sufia from local or master
-gem 'sufia', github: 'projecthydra/sufia', branch: 'update_for_hw070'
+gem 'sufia', github: 'projecthydra/sufia', branch: 'master'
 
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'
