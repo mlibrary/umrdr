@@ -1,0 +1,10 @@
+.align-right {
+    text-align: right;
+}
+
+/* to support use of bootstrap cells within the list items */
+ol.catalog li:after {
+    content: "";
+    display: table;
+    clear: both;
+}

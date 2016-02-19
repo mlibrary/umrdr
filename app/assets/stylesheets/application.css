@@ -12,6 +12,7 @@
  *
  *= require sufia
  *= require custom_layout/falafel
+ *= require custom_layout/tweaks
  *= require_tree .
  *= require_self
  */

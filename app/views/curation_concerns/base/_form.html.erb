@@ -1,0 +1,20 @@
+<%= simple_form_for [main_app, @form], html: { multipart: true } do |f| %>
+  <div id="works_edit">
+    <h2 class="non lower">Describe Your Work</h2>
+
+    <div class="alert alert-block alert-info">
+      <p>The more descriptive information you provide the better we can serve your needs.</p>
+      <p>All works deposited in Deep Blue Data are considered Open Access. Please select a creative commons license designation below.</p>
+    </div>
+
+    <% f.object.rendered_terms.each do |term| %>
+      <%= render_edit_field_partial(term, f: f) %>
+    <% end %>
+
+    <div class="primary-actions">
+      <%= f.submit 'Save', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
+      <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
+    </div>
+
+  </div>
+<% end %>
