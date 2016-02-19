@@ -7,11 +7,16 @@ class User < ActiveRecord::Base
   include Sufia::User
   include Sufia::UserUsageStats
 
+  # Use the http header as auth.  This app will be behind a reverse proxy
+  #   that will take care of the authentication.
+  Devise.add_module(:http_header_authenticatable,
+                    strategy: true,
+                    controller: :sessions,
+                    model: 'devise/models/http_header_authenticatable') 
 
-
+  devise :http_header_authenticatable
 
   if Blacklight::Utils.needs_attr_accessible?
-
     attr_accessible :email, :password, :password_confirmation
   end
 # Connects this user object to Blacklights Bookmarks. 

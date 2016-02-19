@@ -8,25 +8,16 @@
   
   <fields>
     <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
-<<<<<<< HEAD
-    or Solr won't start. _version_ and update log are required for SolrCloud
-    --> 
-    <field name="_version_" type="long" indexed="true" stored="true"/>
-   
-=======
          or Solr won't start. _version_ and update log are required for SolrCloud
     --> 
     <field name="_version_" type="long" indexed="true" stored="true"/>
 
->>>>>>> Add umichwrapper and solr core template.
     <field name="id" type="string" stored="true" indexed="true" multiValued="false" required="true"/>
     <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
     
     <field name="lat" type="tdouble" stored="true" indexed="true" multiValued="false"/>
     <field name="lng" type="tdouble" stored="true" indexed="true" multiValued="false"/>
 
-<<<<<<< HEAD
-=======
 	<!--these fields are hard coded in places in hydra-head -->
 	<field name="active_fedora_model_s" type="string" stored="true" indexed="true"/>
 	<field name="object_profile_display" type="string" stored="true" indexed="true"/>
@@ -51,7 +42,6 @@
 	-->	
 
 
->>>>>>> Add umichwrapper and solr core template.
     <!-- NOTE:  not all possible Solr field types are represented in the dynamic fields -->
 
     <!-- text (_t...) -->
@@ -188,11 +178,6 @@
     <!-- you must define copyField source and dest fields explicity or schemaBrowser doesn't work -->
     <field name="all_text_timv" type="text" stored="false" indexed="true" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
 
-<<<<<<< HEAD
-
-  </fields>
-
-=======
     <!-- deprecated fields from pre-Solr 4.0 pre-hydra 5.0 -->
 <!--    
     <field name="marc_display" type="string" indexed="false" stored="true" multiValued="false"/>
@@ -318,16 +303,12 @@
   <copyField source="subject_t" dest="opensearch_display"/>
   <copyField source="subject_addl_t" dest="opensearch_display"/>
 -->
->>>>>>> Add umichwrapper and solr core template.
 
   <!-- Above, multiple source fields are copied to the [text] field.
       Another way to map multiple source fields to the same
       destination field is to use the dynamic field syntax.
       copyField also supports a maxChars to copy setting.  -->
 
-<<<<<<< HEAD
-    <!-- <copyField source="*_tesim" dest="all_text_timv" maxChars="3000"/> -->
-=======
     <!-- <copyField source="*_t" dest="text" maxChars="3000"/> -->
 <!--  
     <copyField source="*_s" dest="text"/>
@@ -343,7 +324,6 @@
 <!--
   <copyField source="some_field" dest="all_text_timv" />
 -->  
->>>>>>> Add umichwrapper and solr core template.
 
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
