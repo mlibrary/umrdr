@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 
 describe "View Landing Page", type: :feature do
   before do
@@ -15,8 +14,4 @@ describe "View Landing Page", type: :feature do
       expect(r[:src]).to start_with('/data/assets')
     end
   end
-  
 end
-
-
-

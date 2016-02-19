@@ -4,6 +4,9 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
+  # Redirect to cosign
+  config.login_url = 'https://weblogin.umich.edu/?cosign-umrdr-stable.quod.lib.umich.edu&https://umrdr-stable.quod.lib.umich.edu/data/dashboard'
+
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.

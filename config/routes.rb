@@ -10,15 +10,7 @@ Rails.application.routes.draw do
     concerns :searchable
   end
 
-  # TODO: check devise_for options.  specify controller.
-  # devise_for :users, controllers: {sessions: "sessions"}
   devise_for :users, path: '', path_names: {sign_in: 'login', sign_out: 'logout'}, controllers: {sessions: 'sessions'}
-
-  # TODO: unfuck routing
-  # Copied from ScholarSphere:
-  # Login/logout route to destroy session
-  # get 'logout' => 'sessions#destroy', as: :destroy_user_session
-  # get 'login' => 'sessions#new', as: :new_user_session
   
   Hydra::BatchEdit.add_routes(self)
 

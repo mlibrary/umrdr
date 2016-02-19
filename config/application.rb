@@ -16,6 +16,9 @@ module Umrdr
     # Deploy to /data instead of /
     config.relative_url_root = '/data'
 
+    # Redirect to cosign
+    config.login_url = 'https://weblogin.umich.edu/?cosign-umrdr-testing.quod.lib.umich.edu&https://umrdr-testing.quod.lib.umich.edu/data/dashboard'
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
