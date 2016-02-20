@@ -17,6 +17,11 @@ describe GenericWork do
       expect(subject).to respond_to(:subject)
     end
 
+    it 'has identifier properties' do
+      expect(subject).to respond_to(:doi)
+      expect(subject).to respond_to(:hdl)
+    end
+
     describe 'resource type' do
       it 'is set during initialization' do
         expect(subject.resource_type).to eq ['Dataset']
