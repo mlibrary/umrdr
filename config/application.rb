@@ -18,6 +18,8 @@ module Umrdr
 
     # Redirect to cosign
     config.login_url = 'https://weblogin.umich.edu/?cosign-umrdr-testing.quod.lib.umich.edu&https://umrdr-testing.quod.lib.umich.edu/data/dashboard'
+    config.logout_url = 'https://weblogin.umich.edu/cgi-bin/logout?https://umrdr-testing.quod.lib.umich.edu/data'
+    
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
