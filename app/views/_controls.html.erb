@@ -19,7 +19,7 @@
   <div class="col-xs-12 dashboard-quick-links">
     <div class="top-links">
       <% if can?(:create, GenericWork) %>
-        <%= link_to new_curation_concerns_generic_work_path, :class => 'create-work' do %>
+        <%= link_to sufia.new_curation_concerns_generic_work_path, :class => 'create-work' do %>
           <%= I18n.t("sufia.dashboard.create_work") %>
         <% end %>
       <% end %>
