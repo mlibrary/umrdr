@@ -1,5 +1,5 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * This is a manifest file that'll be compiled into libraries.css, which will include all the files
  * listed below.
  *
  * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
@@ -11,7 +11,4 @@
  * file per style scope.
  *
  *= require sufia
- *= require custom_layout/tweaks
- *= require_tree .
- *= require_self
  */

@@ -1,0 +1,13 @@
+<h1 class="col-sm-12">Edit Profile</h1>
+<div class="col-xs-12 col-sm-5 profile">
+  <%= render 'edit_primary' %>
+</div>
+
+<% secondary = capture do %>
+<%= render 'edit_secondary' %>
+<% end %>
+<% unless secondary.strip.empty? %>
+<div class="col-xs-12 col-sm-offset-1 col-sm-6 well profile">
+  <%= secondary %>
+</div>
+<% end %>

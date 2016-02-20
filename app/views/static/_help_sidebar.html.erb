@@ -1,0 +1,14 @@
+<% content_for :sidebar do %>
+<aside class="sidebar">
+  <h2>Help</h2>
+  <ul>
+    <%= render partial: 'help_sidebar_link', locals: { path: 'about', label: "About Us" } %>
+    <%= render partial: 'help_sidebar_link', locals: { path: 'prepare-your-data', label: "Prepare Your Data" } %>
+    <%= render partial: 'help_sidebar_link', locals: { path: 'how-to-upload', label: "How to Upload" } %>
+    <%= render partial: 'help_sidebar_link', locals: { path: 'file-format-preservation', label: "File Formats & Preservation" } %>
+    <%= render partial: 'help_sidebar_link', locals: { path: 'retention', label: "Retention" } %>
+    <%= render partial: 'help_sidebar_link', locals: { path: 'support-for-depositors', label: "Support for Depositors" } %>
+    <%= render partial: 'help_sidebar_link', locals: { path: 'use-downloaded-data', label: "Use Downloaded Data" } %>
+  </ul>
+</aside>
+<% end %>

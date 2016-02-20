@@ -1,3 +1,13 @@
+<% content_for :page_navigation do %>
+<ul>
+    <li><a href="#log-in">Log in</a></li>
+    <li><a href="#upload">Upload</a></li>
+    <li><a href="#add-metadata">Add Metadata</a></li>
+    <li><a href="#select-a-license">Select a License</a></li>
+    <li><a href="#review-and-submit">Review &amp; Submit</a></li>
+</ul>
+<% end %>
+<%= render partial: 'help_sidebar' %>
 <h2>How to Upload</h2>
 
 <p>Uploading your data in Deep Blue Data is a straight-forward process, but you will need to take some time to prepare your data.</p>
@@ -10,13 +20,13 @@
   <li>Review the terms of use of Deep Blue Data so that you fully understand your responsibilities in using this service</li>
 </ul>
 
-<h3>Log in</h3>
+<h3 name="log-in">Log in</h3>
 
 <p>Log in to Deep Blue Data to get started! If this is your first deposit, you will need to create an account with us.</p>
 
 <p>Once logged in, you will be taken to the dashboard page. In addition to depositing data, the dashboard provides you with information about your deposits and account settings.</p>
 
-<h3>Upload</h3>
+<h3 name="upload">Upload</h3>
 
 <ul>
   <li>From the dashboard, select <strong>Upload</strong></li>
@@ -25,16 +35,17 @@
   <li>Once all files have been selected, click on <strong>Start Upload.</strong></li>
 </ul>
 
-<h3>Add Metadata</h3>
+<h3 name="add-metadata">Add Metadata</h3>
 
 <p>Once the files have been uploaded, you will be asked to enter your metadata for the data set. At minimum this will be the Title, Authors, and Date of Creation, as well as a Description of the Data Set.</p>
 
-<p>Deep Blue Data will generate some additional metadata at this point, including listing the current date as the Date of Publication. Please see the <a href="<%= url_for('prepare-your-data') %>#metadata">Metadata section of Prepare Your Data</a> for more information.</p>
+<p>Deep Blue Data will generate some additional metadata at this point, including listing the current date as the Date of Publication. Please see the <a href="<%= static_path('prepare-your-data') %>#metadata">Metadata section of Prepare Your Data</a> for more information.</p>
 
-<h3>Select a License</h3>
+<h3 name="select-a-license">Select a License</h3>
 On the next page, you will be asked to select a license for your data. Please see the License section of Prepare Your Data for additional guidance.
 
-<h3>Review &amp; Submit</h3>
+<h3 name="review-and-submit">Review &amp; Submit</h3>
+
 <p>At this point you, you will be asked to review the information entered and selections made. Look everything over carefully and make changes if needed. <strong>Once submitted this information cannot be changed.</strong></p>
 
 <p>When you have fully reviewed your submission and are satisfied, click on <strong>Submit</strong>.</p>
