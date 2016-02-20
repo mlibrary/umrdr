@@ -38,6 +38,7 @@ jetty
 ## SOLR Template Cores Data
 # don't push around dev solr core templates data
 /solr_cores/**/data
+/solr_cores/umrdr-alpha
 
 # don't push around fedora data
 fcrepo4-data
