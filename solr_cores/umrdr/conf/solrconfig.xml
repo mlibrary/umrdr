@@ -6,7 +6,7 @@
   
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
   
-  <luceneMatchVersion>LUCENE_40</luceneMatchVersion>
+  <luceneMatchVersion>4.9</luceneMatchVersion>
 
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
 
@@ -64,6 +64,30 @@
      <autoSoftCommit> 
        <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime> 
      </autoSoftCommit>
+  <lib dir="../../lib/contrib/analysis-extras/lib" />
+  <lib dir="../../lib/contrib/analysis-extras/lucene-libs" />
+  <!-- for full-text indexing -->
+  <lib dir="../../lib/contrib/extraction/lib" regex=".*\.jar" />
+
+  <dataDir>${solr.data.dir:}</dataDir>
+
+  <updateHandler class="solr.DirectUpdateHandler2">
+
+    <updateLog>
+      <str name="dir">${solr.ulog.dir:}</str>
+    </updateLog>
+
+    <maxPendingDeletes>10</maxPendingDeletes>
+
+    <autoCommit> 
+      <maxTime>${solr.autoCommit.maxTime:5000}</maxTime> 
+      <maxDocs>${solr.autoCommit.maxTime:5}</maxDocs> 
+      <openSearcher>false</openSearcher> 
+    </autoCommit>
+
+    <autoSoftCommit> 
+      <maxTime>${solr.autoSoftCommit.maxTime:2500}</maxTime> 
+    </autoSoftCommit>
 
   </updateHandler>
 
@@ -92,6 +116,9 @@
           title_tesim
           author_tesim
           subject_tesim
+          all_text_timv
+          active_fedora_model_ssi
+          object_type_si
         </str>
         <str name="pf">
           all_text_timv^10
@@ -123,6 +150,7 @@
        <str name="facet.limit">10</str>
        <str name="facet.field">active_fedora_model_ssi</str>
        <str name="facet.field">subject_sim</str>
+       <str name="facet.field">object_type_si</str>
        
        <str name="spellcheck">true</str>
        <str name="spellcheck.dictionary">default</str>
@@ -160,6 +188,20 @@
     </lst>
   </requestHandler>
   
+  <!-- requestHandler for full text extraction -->
+  <requestHandler name="/update/extract" startup="lazy" class="org.apache.solr.handler.extraction.ExtractingRequestHandler" >
+    <lst name="defaults">
+      <!-- All the main content goes into "text"... if you need to return the extracted text or do highlighting, use a stored field. -->
+      <str name="fmap.content">text</str>
+      <str name="lowernames">true</str>
+      <str name="uprefix">ignored_</str>
+      <!-- capture link hrefs but ignore div attributes -->
+      <str name="captureAttr">true</str>
+      <str name="fmap.a">links</str>
+      <str name="fmap.div">ignored_</str>
+    </lst>
+  </requestHandler>
+
   <requestHandler name="standard" class="solr.SearchHandler">
      <lst name="defaults">
        <str name="echoParams">explicit</str>
@@ -190,6 +232,17 @@
       <str name="buildOnOptimize">true</str>
     </lst>
   </searchComponent>
+
+  <searchComponent name="termsComponent" class="solr.TermsComponent" />
+
+  <requestHandler name="/terms" class="solr.SearchHandler">
+    <lst name="defaults">
+      <bool name="terms">true</bool>
+    </lst>
+    <arr name="components">
+      <str>termsComponent</str>
+    </arr>
+  </requestHandler>
   
   <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" /> 
   
