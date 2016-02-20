@@ -79,12 +79,12 @@ en:
     dashboard:
       title:                    "My Dashboard"
       greeting:                 "Hello, "
-      upload_html:                   '<span class="glyphicon glyphicon-upload"></span> Upload'
-      create_collection_html:        '<span class="glyphicon glyphicon-plus"></span> Create Collection'
-      view_collections:         "View Collections"
-      view_files:               "View Files"
-      view_works:               "View Works"
-      create_work:              "Create Work"
+      upload_html:                   'Upload'
+      create_collection_html:        'Create Collection'
+      view_collections:         "My Collections"
+      view_files:               "My Files"
+      view_works:               "My Works"
+      create_work:              "New Work"
       user_activity:            "User Activity"
       no_activity:              "User has no recent activity"
       user_notiticiations:      "User Notifications"
