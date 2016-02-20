@@ -313,15 +313,16 @@ $fa_color_names: map_keys($fa_colors);
 
 @mixin fa_pseudo_icon($icon_name,
                       $icon_color,
-                      $width:       false,
-                      $height:      false,
-                      $element:     before,
-                      $padding:     0.5em,
-                      $outer_nudge: 0,
-                      $inner_nudge: 0,
-                      $position:    left,
-                      $fill:        transparent,
-                      $icon_root:   $fa_icon_root) {
+                      $width:         false,
+                      $height:        false,
+                      $element:       before,
+                      $padding:       0.5em,
+                      $border_radius: false,
+                      $outer_nudge:   0,
+                      $inner_nudge:   0,
+                      $position:      left,
+                      $fill:          transparent,
+                      $icon_root:     $fa_icon_root) {
 
   $width:  if($width,  $width,  auto);
   $height: if($height, $height, auto);
@@ -357,11 +358,18 @@ $fa_color_names: map_keys($fa_colors);
     background-color: $fill;
     width:            $size;
     height:           $size;
-    border-radius:    $size / 2;
+    border-radius:    if($border_radius, $border_radius, $size / 2);
     position:         absolute;
     #{$position}:     $outer_nudge;
-    top:              50%;
-    margin-top:       -$size / 2;
+
+    $centering_direction: top;
+
+    @if $position == top or $position == bottom {
+      $centering_direction: left;
+    }
+
+    #{$centering_direction}:        50%;
+    margin-#{$centering_direction}: -$size / 2
   }
 }
 
