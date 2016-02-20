@@ -57,20 +57,19 @@
             those searches. You may also be interested in:
             http://wiki.apache.org/solr/LocalParams
        -->
-        <str name="qf">
-          id
-          active_fedora_model_ssi
-          title_tesim
-          author_tesim
-          subject_tesim
-          all_text_timv
-          active_fedora_model_ssi
-          object_type_si
-        </str>
-        <str name="pf">
-          all_text_timv^10
-        </str>
-
+       <str name="qf">
+         id
+         active_fedora_model_ssi
+         title_tesim
+         author_tesim
+         subject_tesim
+         all_text_timv
+         active_fedora_model_ssi
+         object_type_si
+       </str>
+       <str name="pf">
+         all_text_timv^10
+       </str>
        <str name="author_qf">
           author_tesim
        </str>
@@ -165,7 +164,6 @@
       <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
     </lst>
   </requestHandler>
-
 
   <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
     <str name="queryAnalyzerFieldType">textSpell</str>
