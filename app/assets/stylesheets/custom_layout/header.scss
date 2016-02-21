@@ -1,6 +1,12 @@
 @import 'falafel';
 
 @mixin header_link($icon) {
+  color: #FFF;
+  min-width: 8em;
+  padding: 0 0.4rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 0.7rem solid transparent;
+
   @include fa_pseudo_icon(
     $icon,
     'white',
@@ -9,20 +15,19 @@
     $padding: 0.3em,
     $position: top,
     $inner_nudge: 0.3em,
-    $outer_nudge: 0.6em,
+    $outer_nudge: 1.5em,
     $border_radius: 0.3em
   );
-
-  color: #FFF;
-  min-width: 8rem;
-  margin: 0 0.3rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 0.5rem solid transparent;
-  border-top: 0.5rem solid transparent;
 
   &:hover {
     text-decoration: none;
     border-bottom-color: #FFF;
+  }
+
+  &:focus {
+    text-decoration: none;
+    background-color: $fa_main_2;
+    outline: 0;
   }
 }
 
@@ -31,6 +36,7 @@
     text-align: center;
     background-color: $fa_main_3;
     margin: 1rem 0;
+    font-size: 0.85em;
 
     * {
       display: inline-block;
@@ -40,12 +46,19 @@
     .create-work {
       @include header_link('plus');
     }
+
+    .create-collection {
+      @include header_link('plus');
+    }
+
     .view-collections {
       @include header_link('view_list');
     }
+
     .view-works {
       @include header_link('apps');
     }
+
     .view-dashboard {
       @include header_link('account');
     }
@@ -57,12 +70,20 @@
     padding: 0.5rem;
   }
 
+  #user_utility_links {
+    margin: 0
+  }
+
+  .login-wrap {
+    text-align: right;
+  }
+
   .site-brand * {
     vertical-align: middle;
   }
 
   .site-logo {
-    height: 3.5rem;
+    height: 3.5em;
     display: inline-block;
   }
 
@@ -70,18 +91,15 @@
     @include fa_site_header_font;
     display: inline-block;
     margin: 0;
-    padding: 0em 0 0.1em 0.3em;
-    border-left: 0.15rem solid #fff;
-    font-size: 2rem;
+    padding: 0em 0 0.1em 0.2em;
+    border-left: 0.05em solid #fff;
+    font-size: 2em;
   }
 
   .site-name a {
     color: #FFF;
     text-decoration: none;
-  }
-
-  .site-name a:hover {
-    text-decoration: none;
+    padding: 0.1em 0.2em;
   }
 
   .beta-note {
@@ -91,21 +109,129 @@
   .login_button {
     margin: 0;
   }
+
+  #masthead_controls {
+    border: 0;
+    background-color: $fa_main_2;
+  }
+
+  .navbar {
+    background-color: transparent;
+  }
+
+  .navbar li,
+  .navbar li:first-child {
+    border: 0;
+    display: inline-block;
+    width: auto;
+    overflow: hidden;
+  }
+
+  #masthead_controls a,
+  #masthead_controls a:hover,
+  #masthead_controls a:focus {
+    background-color: transparent;
+  }
+
+  .navbar-nav li.active a,
+  .dashboard-quick-links a.active {
+    &::after {
+      display: block;
+      content: '';
+      height: 0;
+      width: 0;
+      border: 0.8em solid transparent;
+      border-bottom-color: #FFF;
+      position: absolute;
+      bottom: -0.8em;
+      left: 50%;
+      margin-left: -0.8em;
+    }
+  }
+
+  #masthead_controls .navbar-nav a {
+    border-bottom: 0.7em solid transparent;
+    padding: 1em 0.6em 0.3em;
+    display: inline-block;
+    position: relative;
+
+    &:hover {
+      background-color: transparent;
+      border-bottom-color: #FFF;
+    }
+
+    &:focus {
+      background-color: $fa_main_3;
+      outline: 0;
+    }
+  }
 }
 
 @media (max-width: 768px) {
-  #page-positioner .dashboard-quick-links {
-    .top-links a {
-      border-bottom: 0;
-
-      &:hover {
-        border-top-color: #FFF;
-        border-bottom-color: transparent;
-      }
+  #page-positioner {
+    .site-brand-wrap {
+      text-align: center;
     }
 
-    .bottom-links, .top-links {
-      display: block;
+    .site-brand {
+      font-size: 0.8em;
+      display: inline-block;
+    }
+
+    .login-wrap {
+      text-align: center;
+      margin: 0.5em 0 0.2em;
+    }
+
+    .navbar-nav {
+      margin: 0;
+    }
+
+    .navbar-nav a {
+      position: relative;
+      bottom: -0.1rem
+    }
+
+    .navbar {
+      text-align: center;
+    }
+
+    .dashboard-quick-links {
+      .bottom-links, .top-links {
+        display: block;
+      }
+
+      .bottom-links a {
+        padding-bottom: 0.2em;
+        padding-top: 0;
+        padding-top: 3.5em;
+
+        &::before {
+          top: 0.5em;
+        }
+      }
+
+      .top-links a {
+        border-bottom: 0;
+        border-top: 0.6rem solid transparent;
+        padding-top: 3.5em;
+
+        &::before {
+          top: 0.5em;
+        }
+
+        &:hover {
+          border-top-color: #FFF;
+        }
+
+        &.active::after {
+          border-bottom-color: transparent;
+          border-top-color: #FFF;
+          position: absolute;
+          top: -0.7em;
+          bottom: auto;
+        }
+      }
     }
   }
 }

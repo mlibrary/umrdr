@@ -1,6 +1,9 @@
 <div id="masthead_controls" class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12 col-sm-5 col-md-6">
+  <div class="row ribbon-content">
+    <div class="col-xs-12 col-sm-6 pull-right">
+      <%= render partial: 'catalog/search_form' %>
+    </div>
+    <div class="col-xs-12 col-sm-6">
       <nav class="navbar navbar-default" role="navigation">
         <ul class="nav navbar-nav">
           <li <%= 'class=active' if current_page?(sufia.root_path) %>><a href="<%= sufia.root_path %>">Home</a></li>
@@ -10,30 +13,39 @@
         </ul><!-- /.nav -->
       </nav><!-- /.navbar -->
     </div>
-    <div class="col-xs-12 col-sm-7 col-md-6">
-      <%= render partial: 'catalog/search_form' %>
-    </div>
   </div> <!-- /.row -->
 </div><!-- /#masthead_controls -->
 <% if user_signed_in? %>
-  <div class="col-xs-12 dashboard-quick-links">
-    <div class="top-links">
-      <% if can?(:create, GenericWork) %>
-        <%= link_to sufia.new_curation_concerns_generic_work_path, :class => 'create-work' do %>
-          <%= I18n.t("sufia.dashboard.create_work") %>
+  <nav class="dashboard-quick-links">
+    <div class="ribbon-content">
+      <div class="top-links">
+        <% if can?(:create, GenericWork) %>
+          <%= link_to sufia.new_curation_concerns_generic_work_path, :class => 'create-work' +
+                (current_page?(sufia.new_curation_concerns_generic_work_path) ? ' active' : '') do %>
+            <%= I18n.t("sufia.dashboard.create_work") %>
+          <% end %>
         <% end %>
-      <% end %>
-      <%= link_to sufia.dashboard_collections_path, :id => "hydra-collection-view", :class => 'view-collections' do %>
-          <%= t("sufia.dashboard.view_collections") %>
-      <% end %>
+        <% if can?(:create, Collection) %>
+          <%= link_to collections.new_collection_path, :class => 'create-collection' +
+                (current_page?(collections.new_collection_path) ? ' active' : '') do %>
+            <%= I18n.t("sufia.dashboard.create_collection") %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="bottom-links">
+        <%= link_to sufia.dashboard_collections_path, :class => 'view-collections' +
+              (current_page?(sufia.dashboard_collections_path) ? ' active' : '') do %>
+            <%= t("sufia.dashboard.view_collections") %>
+        <% end %>
+        <%= link_to sufia.dashboard_works_path, :class => 'view-works' +
+              (current_page?(sufia.dashboard_works_path) ? ' active' : '') do %>
+            <%= t("sufia.dashboard.view_works") %>
+        <% end %>
+        <%= link_to sufia.dashboard_index_path, :class => 'view-dashboard' +
+              (current_page?(sufia.dashboard_index_path) ? ' active' : '') do %>
+            <%= t("header.dashboard_link") %>
+        <% end %>
+      </div>
     </div>
-    <div class="bottom-links">
-      <%= link_to sufia.dashboard_works_path, :class => 'view-works' do %>
-          <%= t("sufia.dashboard.view_works") %>
-      <% end %>
-      <%= link_to sufia.dashboard_index_path, :class => 'view-dashboard' do %>
-          <%= t("header.dashboard_link") %>
-      <% end %>
-    </div>
-  </div>
+  </nav>
 <% end %>

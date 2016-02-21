@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="<%= t("sufia.document_language") %>" prefix="og:http://ogp.me/ns#">
+  <head>
+    <%= render partial: 'layouts/head_tag_content' %>
+  </head>
+
+  <body>
+    <div  id="wrapper">
+      <div id="page-positioner">
+        <a href="#skip_to_content" class="sr-only">Skip to Content</a>
+        <%= render partial: '/masthead' %>
+        <%= render partial: '/controls' %>
+        <div class="ribbon-content">
+          <%= render partial: '/flash_msg' %>
+        </div>
+        <div id="content-wrapper" class="container-fluid">
+          <a name="skip_to_content"></a>
+          <div id="content" class="row">
+            <div class="col-xs-12">
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+        <%= render partial: '/footer' %>
+      </div>
+    </div>
+
+    <%= render 'shared/ajax_modal' %>
+  </body>
+</html>

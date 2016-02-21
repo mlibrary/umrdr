@@ -1,25 +1,14 @@
 <% if user_signed_in? %>
     <div class="btn-group" id="user_utility_links">
-      <%= render partial: 'users/notify_link' %>
-      <%= link_to sufia.dashboard_index_path, class: "btn btn-default", id: "dashboard_link" do %>
-        <span class="glyphicon glyphicon-dashboard"></span>
-        <span class="sr-only">Select to access</span>
-        <span class="hidden-xs">&nbsp;<%= current_user.name %></span>
-        <span class="sr-only"> dashboard</span>
+      <%= link_to sufia.profile_path(current_user), class: "btn btn-default", id: "dashboard_link" do %>
+        My Profile
       <% end %>
-      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="sr-only">select for additional menu options</span><span class="caret" ></span></a>
-      <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <% if can? :create, FileSet %>
-          <li><%= link_to raw('<span class="glyphicon glyphicon-upload"></span> upload'), sufia.new_curation_concerns_file_set_path, id: 'upload_nav_link' %></li>
-        <% end %>
-        <li><%= link_to raw('<span class="glyphicon glyphicon-user"></span> my profile'), sufia.profile_path(current_user), id: 'profile_nav_link' %></li>
-        <%= render partial: 'users/user_util_links_extra' %>
-        <li class="divider"></li>
-        <li><%= link_to raw('<span class="glyphicon glyphicon-log-out"></span> log out'), main_app.destroy_user_session_path, id: 'logout_nav_link' %></li>
-      </ul>
-    </div><!-- /.btn-group -->
+      <%= link_to main_app.destroy_user_session_path, class: "btn btn-default", id: "logout_nav_link" do %>
+        Log Out
+      <% end %>
+    </div>
 <% else %>
     <div class="btn-group login_button pull-right">
-    <%= link_to raw('<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login'), main_app.new_user_session_path, class: "btn btn-default btn-group", title: "Login" %>
+    <%= link_to raw('Login'), main_app.new_user_session_path, class: "btn btn-default btn-group" %>
     </div>
 <% end %>

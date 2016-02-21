@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="<%= t("sufia.document_language") %>">
+  <head>
+    <meta charset="utf-8" />
+
+    <title><%= h(application_name) %>: System Error</title>
+    <!-- application css -->
+    <%= stylesheet_link_tag 'application' %>
+
+    <!-- application js -->
+    <%= javascript_include_tag 'application' %>
+
+    <%= render partial: '/ga', formats: [:html] %>
+  </head>
+
+  <body>
+    <div  id="wrapper">
+      <div id="page-positioner">
+        <%= render partial: '/masthead', formats: [:html] %>
+        <div id="content-wrapper">
+          <div id="content" class="row">
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <%= yield %>
+              </div>
+          </div>
+        </div>
+        <%= render partial: '/footer' %>
+      </div>
+    </div>
+  </body>
+
+</html>
