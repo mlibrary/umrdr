@@ -1,0 +1,9 @@
+@import 'falafel';
+
+.dashboard {
+  background-color: transparent;
+
+  .panel-default > .dashboard-panel {
+    background-color: $fa_main_2;
+  }
+}

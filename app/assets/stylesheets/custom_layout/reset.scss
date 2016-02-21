@@ -8,12 +8,22 @@ body {
   font-size: 1rem;
 }
 
+#footer {
+  @include fa_body_font;
+
+  background-color: $fa_main_1;
+  color: #FFF;
+}
+
 #content-wrapper,
 .ribbon-content {
   min-width: 25rem;
   max-width: 65rem;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+  box-sizing: border-box;
 }
 
 a {
@@ -33,4 +43,8 @@ a {
 
 .btn {
   text-decoration: none;
+}
+
+.form-horizontal .form-group {
+  margin: 0;
 }
