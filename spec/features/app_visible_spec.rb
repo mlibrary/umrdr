@@ -6,7 +6,7 @@ describe "View Landing Page", type: :feature do
   end
 
   it "renders the home page text" do
-    expect(page).to have_content("Featured Researcher")
+    expect(page).to have_content("Featured Works")
   end
 
   it "references script assests with respect to application root" do
