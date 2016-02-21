@@ -1,30 +1,26 @@
 <!DOCTYPE html>
 <html lang="<%= t("sufia.document_language") %>">
   <head>
-    <%= render partial: "layouts/head_tag_content"%>
+    <%= render partial: 'layouts/head_tag_content' %>
   </head>
 
   <body>
-
     <div id="wrapper">
       <div id="page-positioner">
+        <a href="#skip_to_content" class="sr-only">Skip to Content</a>
         <%= render partial: '/masthead' %>
         <%= render partial: '/controls' %>
         <div class="ribbon-content">
           <%= render partial: '/flash_msg' %>
         </div>
-
-        <%= render 'home_header' %>
-
-        <div id="content-wrapper">
-          <div id="content">
-            <% if content_for?(:sidebar) %>
-              <div class="col-xs-3">
-                <%= yield(:sidebar) %>
-              </div>
-            <% end %>
-            <div class="col-xs-<%= content_for?(:sidebar) ? 9 : 12 %>">
+        <div id="content-wrapper" class="container-fluid">
+          <a name="skip_to_content"></a>
+          <div class="row">
+            <div id="content" class="col-xs-12 col-sm-9 col-sm-push-3">
               <%= yield %>
+            </div>
+            <div id="sidebar" class="col-xs-12 col-sm-3 col-sm-push-9">
+              <%= yield :sidebar %>
             </div>
           </div>
         </div>

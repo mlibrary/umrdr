@@ -80,11 +80,12 @@ en:
       title:                    "My Dashboard"
       greeting:                 "Hello, "
       upload_html:                   'Upload'
-      create_collection_html:        'Create Collection'
+      create_collection_html:   'New Collection'
       view_collections:         "My Collections"
       view_files:               "My Files"
       view_works:               "My Works"
       create_work:              "New Work"
+      create_collection:        "New Collection"
       user_activity:            "User Activity"
       no_activity:              "User has no recent activity"
       user_notiticiations:      "User Notifications"
