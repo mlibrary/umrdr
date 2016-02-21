@@ -3,5 +3,57 @@
 #home_header {
   background-image: asset-url("home_banner.jpg");
   background-position: left center;
+  border: 0;
+  min-height: 0;
+  text-align: center;
+  margin: 1em 0;
+  padding: 1em 0;
+
+  div.home_call_action {
+    min-height: 0;
+  }
+
+  .marketing-blurb,
+  .share-message {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .marketing-blurb {
+    width: 50%;
+    margin: 2em 7% 2em 1em;
+    color: #FFF;
+    line-height: 1.7;
+    padding: 1.2em 2em;
+  }
+
+  .share-message {
+    padding: 1.2em 1.5em 0.8em;
+  }
+
+  #contribute_link {
+    font-size: 1em;
+    padding: 0.5em 0.7em;
+  }
+
+  .share-message > * {
+    margin: 0;
+  }
+
+  .share-message > * + * {
+    margin-top: 0.5em;
+  }
 }
 
+@media (max-width: 768px) {
+  #home_header {
+    .marketing-blurb,
+    .share-message {
+      display: block;
+      margin: 1em auto;
+      width: 75%;
+    }
+  }
+}
