@@ -53,7 +53,15 @@
     .share-message {
       display: block;
       margin: 1em auto;
+    }
+
+    .marketing-blurb {
       width: 75%;
+      min-width: 25em;
+    }
+
+    .share-message {
+      width: 15em;
     }
   }
 }
