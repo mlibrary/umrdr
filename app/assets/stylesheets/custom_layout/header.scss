@@ -115,6 +115,10 @@
     background-color: $fa_main_2;
   }
 
+  .navbar-wrapper {
+    overflow: hidden;
+  }
+
   .navbar {
     background-color: transparent;
   }
@@ -124,7 +128,6 @@
     border: 0;
     display: inline-block;
     width: auto;
-    overflow: hidden;
   }
 
   #masthead_controls a,
