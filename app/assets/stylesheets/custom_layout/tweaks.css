@@ -8,3 +8,12 @@ ol.catalog li:after {
     display: table;
     clear: both;
 }
+
+.multi_value ul.listing {
+    max-width: none;
+}
+
+.multi_value .field-controls .btn.add, 
+.multi_value .field-controls .btn.remove {
+    width: 15em;
+}

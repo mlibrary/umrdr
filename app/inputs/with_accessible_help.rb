@@ -6,10 +6,10 @@ module WithAccessibleHelp
     text
   end
 
-  def hint(wrapper_options = nil)
-    text = translate_from_namespace(:metadata_help)
-    return unless text
-    template.content_tag 'p', text, class: 'field-help'
-  end
+  # def hint(wrapper_options = nil)
+  #   text = translate_from_namespace(:metadata_help)
+  #   return unless text
+  #   template.content_tag 'p', text, class: 'field-help'
+  # end
 
 end

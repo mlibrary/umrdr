@@ -8,7 +8,7 @@ en:
   simple_form:
     required:
       html: ''
-    metadata_help:
+    hints:
       generic_work:
         title:
           'Provide a descriptive name of the work. What is it formally known as?'
