@@ -16,3 +16,4 @@
 //= require blacklight/blacklight
 
 //= require sufia
+//= require manage_repeating_fields
