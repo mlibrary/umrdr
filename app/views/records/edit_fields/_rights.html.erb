@@ -1,5 +1,5 @@
 <% options = RightsService.select_options.dup %>
 <% options.unshift(['- Choose Creative Commons License -', nil]) %>
-<%= f.input :rights, as: :multi_value_select_with_accessible_help,
+<%= f.input :rights, as: :select,
     collection: options,
-    input_html: { class: 'form-control', multiple: true }, force_single: true %>
+    input_html: { class: 'form-control' } %>
