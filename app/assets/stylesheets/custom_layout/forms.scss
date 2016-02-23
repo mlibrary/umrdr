@@ -1,0 +1,36 @@
+@import 'falafel';
+
+#page-positioner {
+  form#new_collection,
+  form#new_generic_work {
+    max-width: 40em;
+    margin: 2em auto;
+  }
+
+  .required-tag {
+    @include fa_tag($fill: $fa_red_1, $color: #FFF);
+  }
+
+  form label.optional {
+    font-weight: bold;
+  }
+
+  .form-group {
+    margin: 0;
+  }
+
+  * + .form-group {
+    margin-top: 2.5rem;
+  }
+
+  .collection_description, .fileset_description {color: #333;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
+}
+
+@media (max-width: 768px) {
+}

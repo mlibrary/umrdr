@@ -103,7 +103,7 @@
   }
 
   .beta-note {
-    @include fa_tag($fill: $fa_main_3, $color: #FFF)
+    @include fa_tag($fill: $fa_main_3, $color: #FFF);
   }
 
   .login_button {
