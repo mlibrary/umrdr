@@ -14,7 +14,7 @@ module Umrdr
     end
 
     # Deploy to /data instead of /
-    # config.relative_url_root = '/data'
+    config.relative_url_root = '/data'
 
     # Redirect to cosign
     config.login_url = 'https://weblogin.umich.edu/?cosign-umrdr-testing.quod.lib.umich.edu&https://umrdr-testing.quod.lib.umich.edu/data/dashboard'
