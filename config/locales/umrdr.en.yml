@@ -7,7 +7,7 @@ en:
 
   simple_form:
     required:
-      html: ''
+      html: '<span class="required required-tag">required</span>'
     hints:
       generic_work:
         title:

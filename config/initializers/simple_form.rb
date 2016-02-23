@@ -4,6 +4,8 @@ SimpleForm.setup do |config|
   # config.button_class = 'btn btn-default'
   # config.boolean_label_class = nil
 
+  config.label_text = lambda { |label, required, explicit_label| "#{label} #{required}" }
+
   config.wrappers :default, class: :input,
                             hint_class: :field_with_hint, error_class: :field_with_errors do |b|
 
