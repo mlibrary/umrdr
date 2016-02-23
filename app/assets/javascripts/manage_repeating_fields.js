@@ -6,11 +6,17 @@ var HydraEditor = (function($) {
       var FieldManager = function (element, options) {
           this.element = $(element);
           this.options = options;
-          this.options.label = $.trim(this.element.find("label").text());
+
+          this.options.label = '';
+          var $label = this.element.find("label");
+          if ( $label.size ) {
+            var label = $label.data('label') || $.trim($label.text());
+            this.options.label = ' ' + label;
+          }
 
           this.controls = $("<span class=\"input-group-btn field-controls\">");
-          this.remover  = $("<button type=\"button\" class=\"btn btn-danger remove\"><i class=\"icon-white glyphicon-minus\"></i><span>Remove " + this.options.label + "</span></button>");
-          this.adder    = $("<button type=\"button\" class=\"btn btn-success add\"><i class=\"icon-white glyphicon-plus\"></i><span>Add " + this.options.label + "</span></button>");
+          this.remover  = $("<button type=\"button\" class=\"btn btn-danger remove\"><i class=\"icon-white glyphicon-minus\"></i><span>Remove" + this.options.label + "</span></button>");
+          this.adder    = $("<button type=\"button\" class=\"btn btn-success add\"><i class=\"icon-white glyphicon-plus\"></i><span>Add" + this.options.label + "</span></button>");
 
           this.fieldWrapperClass = '.field-wrapper';
           this.warningClass = '.has-warning';
