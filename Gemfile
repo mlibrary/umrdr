@@ -39,6 +39,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'solr_wrapper', '~> 0.5'
   gem 'fcrepo_wrapper', '~> 0.1'
@@ -51,8 +54,6 @@ group :development do
   gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'engine_cart'
-  gem 'pry'
-  gem 'pry-rails'
   gem 'web-console', '~> 2.0'
   gem 'better_errors'
   gem 'binding_of_caller'
