@@ -2,7 +2,7 @@ module WithAccessibleHelp
 
   def label(wrapper_options = nil)
     text = super
-    text += " <span class=\"required label label-info\">(required)</span>".html_safe if required_field?
+    text += ' <span class="required required-tag">required</span>'.html_safe if required_field?
     text
   end
 
