@@ -24,11 +24,9 @@
                 (current_page?(sufia.new_curation_concerns_generic_work_path) ? ' active' : '') do %>
             <%= I18n.t("sufia.dashboard.create_work") %>
           <% end %>
-        <% end %>
-        <% if can?(:create, Collection) %>
-          <%= link_to collections.new_collection_path, :class => 'create-collection' +
-                (current_page?(collections.new_collection_path) ? ' active' : '') do %>
-            <%= I18n.t("sufia.dashboard.create_collection") %>
+          <%= link_to sufia.dashboard_works_path, :class => 'view-works' +
+                (current_page?(sufia.dashboard_works_path) ? ' active' : '') do %>
+              <%= t("sufia.dashboard.view_works") %>
           <% end %>
         <% end %>
       </div>
@@ -36,10 +34,6 @@
         <%= link_to sufia.dashboard_collections_path, :class => 'view-collections' +
               (current_page?(sufia.dashboard_collections_path) ? ' active' : '') do %>
             <%= t("sufia.dashboard.view_collections") %>
-        <% end %>
-        <%= link_to sufia.dashboard_works_path, :class => 'view-works' +
-              (current_page?(sufia.dashboard_works_path) ? ' active' : '') do %>
-            <%= t("sufia.dashboard.view_works") %>
         <% end %>
         <%= link_to sufia.dashboard_index_path, :class => 'view-dashboard' +
               (current_page?(sufia.dashboard_index_path) ? ' active' : '') do %>

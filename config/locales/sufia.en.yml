@@ -84,7 +84,7 @@ en:
       view_collections:         "My Collections"
       view_files:               "My Files"
       view_works:               "My Works"
-      create_work:              "New Work"
+      create_work:              "Deposit Work"
       create_collection:        "New Collection"
       user_activity:            "User Activity"
       no_activity:              "User has no recent activity"
