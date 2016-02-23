@@ -53,4 +53,10 @@ en:
 
         subject: "Discipline"
 
+        date_created: "Date Created"
+
+    add_remove_labels:
+      generic_work:
+        contributor: "Contributor"
+
 
