@@ -14,7 +14,9 @@
           <%= render partial: '/flash_msg' %>
         </div>
 
-        <%= render 'home_header' %>
+        <% if content_for?(:jumbo) %>
+          <%= yield(:jumbo) %>
+        <% end %>
 
         <div id="content-wrapper">
           <div id="content">
