@@ -6,5 +6,37 @@ class CurationConcerns::GenericWorksController < ApplicationController
   # Adds Sufia behaviors to the controller.
   include Sufia::WorksControllerBehavior
 
+  before_action :check_recent_uploads, only: [:show]
+
   set_curation_concern_type GenericWork
+
+  def check_recent_uploads
+    if params[:uploads_since]
+      begin
+        @recent_uploads = [];
+        uploads_since = Time.at(params[:uploads_since].to_i / 1000.0)
+        presenter.file_presenters.reverse_each do |file_set|
+          date_uploaded = get_date_uploaded_from_solr(file_set)
+          if date_uploaded.nil? or date_uploaded < uploads_since
+            break
+          end
+          @recent_uploads.unshift file_set
+        end
+      rescue Exception => e
+        Rails.logger.info "Something happened in check_recent_uploads: #{params[:uploads_since]} : #{e.message}"
+      end
+    end
+  end
+
+  private
+    def get_date_uploaded_from_solr(file_set)
+      field = file_set.solr_document[Solrizer.solr_name('date_uploaded', :stored_sortable, type: :date)]
+      return unless field.present?
+      begin
+        Time.parse(field)
+      rescue
+        Rails.logger.info "Unable to parse date: #{field.first.inspect} for #{self['id']}"
+      end
+    end
+
 end

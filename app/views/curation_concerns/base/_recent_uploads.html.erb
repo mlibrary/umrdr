@@ -1,0 +1,16 @@
+<% unless @recent_uploads.blank? %>
+<div class="alert alert-block alert-success">
+    <a class="close" data-dismiss="alert" href="#">&times;</a>
+    <p>
+        <%= t('generic_work.upload_success') %>
+    </p>
+    <p>
+        Uploaded files:
+    </p>
+    <ul>
+        <% @recent_uploads.each do |file_set| %>
+            <li><a href="#f<%= file_set.id %>"><%= file_set.link_name %></a></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>

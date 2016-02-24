@@ -5,6 +5,9 @@ en:
   homepage:
     marketing_blurb: 'Deep Blue Data is a repository offered by the University of Michigan Library that provides access and preservation services for digital research data that were developed or used in the support of research activities at U-M.'
 
+  generic_work:
+    upload_success: 'Great work! Your upload was successful.'
+
   simple_form:
     required:
       html: '<span class="required required-tag">required</span>'
