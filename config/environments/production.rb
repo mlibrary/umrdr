@@ -4,11 +4,11 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
-  # Redirect to cosign
-  config.login_url = 'https://weblogin.umich.edu/?cosign-umrdr-stable.quod.lib.umich.edu&https://umrdr-stable.quod.lib.umich.edu/data/dashboard'
+  # For Cosign redirection
+  config.hostname = 'deepblue.lib.umich.edu'
 
   # Set the default host for resolving _url methods
-  Rails.application.routes.default_url_options[:host] = 'deepblue.lib.umich.edu'
+  Rails.application.routes.default_url_options[:host] = config.hostname
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers

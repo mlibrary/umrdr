@@ -16,9 +16,14 @@ module Umrdr
     # Deploy to /data instead of /
     config.relative_url_root = '/data'
 
-    # Redirect to cosign
-    config.login_url = 'https://weblogin.umich.edu/?cosign-umrdr-testing.quod.lib.umich.edu&https://umrdr-testing.quod.lib.umich.edu/data/dashboard'
-    config.logout_url = 'https://weblogin.umich.edu/cgi-bin/logout?https://umrdr-testing.quod.lib.umich.edu/data'
+    # Cosign configuration
+    config.hostname = 'umrdr-testing.quod.lib.umich.edu'
+    config.cosign_host = 'weblogin.umich.edu'
+    config.cosign_service = "cosign-#{config.hostname}"
+    config.cosign_login_redirect = "https://#{config.hostname}/data/dashboard"
+    config.cosign_logout_redirect = "https://#{config.hostname}/data"
+    config.login_url = "https://#{config.cosign_host}/?#{config.cosign_service}&#{config.cosign_login_redirect}"
+    config.logout_url = "https://#{config.cosign_host}/cgi-bin/logout?#{config.cosign_logout_redirect}"
     
 
     # Settings in config/environments/* take precedence over those specified here.
