@@ -2,7 +2,7 @@
   <%= @presenter.attribute_to_html(:creator, catalog_search_link: true ) %>
   <%= @presenter.attribute_to_html(:contributor, label: 'Contributors', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:subject, label: 'Discipline', catalog_search_link: true) %>
-  <%= @presenter.attribute_to_html(:tag, label: 'Keywords', catalog_search_link: true) %>
+  <%= @presenter.attribute_to_html(:tag, label: 'Keywords', catalog_search_link: false) %>
   <%= @presenter.attribute_to_html(:publisher) %>
   <%= @presenter.attribute_to_html(:language) %>
 
