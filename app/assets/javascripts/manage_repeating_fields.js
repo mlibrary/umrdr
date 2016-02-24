@@ -10,7 +10,7 @@ var HydraEditor = (function($) {
           this.options.label = '';
           var $label = this.element.find("label");
           if ( $label.size ) {
-            var label = $label.data('label') || $.trim($label.text());
+            var label = $label.data('label') || $.trim($label.contents().filter(function() { return this.nodeType === 3; }).text());
             this.options.label = ' ' + label;
           }
 

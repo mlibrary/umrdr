@@ -6,7 +6,7 @@
 
     <div class="share-message">
       <% if can?(:view_share_work, FileSet) %>
-        <%= link_to "<i class=\"glyphicon glyphicon-upload\"></i> #{t('sufia.share_button')}".html_safe, sufia.new_curation_concerns_file_set_path, class: "btn btn-primary", id: "contribute_link" %>
+        <%= link_to "<i class=\"glyphicon glyphicon-upload\"></i> #{t('sufia.share_button')}".html_safe, sufia.new_curation_concerns_generic_work_path, class: "btn btn-primary", id: "contribute_link" %>
       <% end %>
     </div>
   </div>
