@@ -20,6 +20,7 @@ config/doi.yml
 config/browse_everything_providers.yml
 config/arkivo.yml
 config/zotero.yml
+config/ezid.yml
 config/clients_data/*
 
 # Ignore bundler config.
