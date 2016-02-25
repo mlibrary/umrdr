@@ -39,9 +39,12 @@
 
   .nav-tabs {
     text-align: center;
-    background-color: $fa_main_4;
-    border-radius: 0.3rem;
-    border: 0;
+    background-color: $fa_grey_5;
+    background: -webkit-linear-gradient(to bottom, #{$fa_grey_7} 0%,#FFF 100%);
+    background: linear-gradient(to bottom, #{$fa_grey_7} 0%,#FFF 100%);
+    border: 1px solid $fa_grey_4;
+    border-bottom: 0;
+    border-radius: 1rem 1rem 0 0;
     padding: 1rem;
     margin: 2em 0;
   }
@@ -115,6 +118,7 @@
   #my_nav {
     margin: 0;
     background-color: transparent;
+    border-color: transparent;
   }
 
   #my_nav li {
