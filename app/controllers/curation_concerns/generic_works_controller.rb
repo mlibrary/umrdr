@@ -5,8 +5,6 @@ class CurationConcerns::GenericWorksController < ApplicationController
   include CurationConcerns::CurationConcernController
   # Adds Sufia behaviors to the controller.
   include Sufia::WorksControllerBehavior
-  # Add Umrdr behaviors to the controller.
-  include Umrdr::WorksControllerBehavior
 
   before_action :check_recent_uploads, only: [:show]
 
@@ -38,6 +36,12 @@ class CurationConcerns::GenericWorksController < ApplicationController
       end
     end
   end
+
+  protected
+
+    def show_presenter
+      Umrdr::WorkShowPresenter
+    end
 
   private
     def get_date_uploaded_from_solr(file_set)

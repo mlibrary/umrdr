@@ -5,6 +5,11 @@ class Ability
   include Sufia::Ability
 
   self.ability_logic += [:everyone_can_create_curation_concerns]
+  self.ability_logic += [:umrdr_abilities]
+
+  def umrdr_abilities
+    alias_action :identifiers, to: :update
+  end
 
   # Define any customized permissions here.
   def custom_permissions

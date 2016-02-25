@@ -66,6 +66,11 @@ en:
         date_created: "Date Created"
 
         methodology: "Method"
+        doi: "DOI"
+
+    actions:
+      generic_work:
+        mint_doi: "Mint DOI"
 
     add_remove_labels:
       generic_work:

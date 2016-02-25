@@ -5,4 +5,4 @@
   <%= @presenter.attribute_to_html(:tag, label: 'Keywords', catalog_search_link: false) %>
   <%= @presenter.attribute_to_html(:publisher) %>
   <%= @presenter.attribute_to_html(:language) %>
-
+  <%= render partial: 'identifiers' %>

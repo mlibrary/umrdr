@@ -1,0 +1,23 @@
+  <% editor    = can?(:edit,    @presenter.id) %>
+  <% if editor || @presenter.identifiers_minted? %>
+
+  <tr>
+    <th><%= t('simple_form.labels.generic_work.doi') %></th>
+    <td>
+      <ul class="tabular">
+        <li class="attribute">
+          <% if @presenter.identifiers_minted? %>
+            <% status = @presenter.identifiers_pending?(:doi) ? 'warning' : 'success' %>
+            <span class="label label-<%= status %>"><%= @presenter.doi %></span>
+          <% else %>
+            <%= form_tag(main_app.identifiers_curation_concerns_generic_work_path(@presenter.id), method: 'post') do %>
+              <%= hidden_field_tag('generic_work[nop]') %>
+              <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
+            <% end %>
+          <% end %>
+        </li>
+      </ul>
+    </td>
+  </tr>
+
+  <% end %>
