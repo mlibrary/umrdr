@@ -1,11 +1,13 @@
-<footer id="footer" class="container-fluid">
-  <div class="row ribbon-content">
-    <div class="col-xs-12 col-sm-5">
-      <p class="pull-left">A service of <a href="http://projecthydra.org/" target="_blank">Project Hydra</a>.</p>
-      <p>v.<%= Sufia::VERSION %></p>
+<footer>
+  <div id="footer">
+    <div class="ribbon-content text-left">
+      <a class="btn btn-default" href="<%= sufia.static_path('help') %>">Help</a>
+      <a href="<%= sufia.root_path %>">Home</a>
+<a href="<%= sufia.static_path('agreement')  %>">Policy &amp; Terms of Use</a>
     </div>
-    <div class="col-xs-12 col-sm-7">
-      <p><%= t('sufia.footer.copyright_html') %></p>
-    </div>
+  </div>
+  <div class="ribbon-content row">
+    <p class="col-xs-6"><%= t('sufia.footer.copyright_html') %></p>
+    <p class="col-xs-6 text-right"><%= t('footer.umich_phone') %></p>
   </div>
 </div>

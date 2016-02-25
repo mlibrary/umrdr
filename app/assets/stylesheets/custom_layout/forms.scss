@@ -30,7 +30,126 @@
     line-height: inherit;
     letter-spacing: inherit;
   }
+
+  .dashboard .sort-toggle,
+  .dashboard #documents,
+  .dashboard .batch-toggle {
+    border: 0;
+  }
+
+  .nav-tabs {
+    text-align: center;
+    background-color: $fa_grey_5;
+    background: -webkit-linear-gradient(to bottom, #{$fa_grey_7} 0%,#FFF 100%);
+    background: linear-gradient(to bottom, #{$fa_grey_7} 0%,#FFF 100%);
+    border: 1px solid $fa_grey_4;
+    border-bottom: 0;
+    border-radius: 1rem 1rem 0 0;
+    padding: 1rem;
+    margin: 2em 0;
+  }
+
+  .nav-tabs > li,
+  .nav-tabs > li.active {
+      display: inline-block;
+      margin: 0.2em;
+      float: none;
+
+    a {
+      display: inline-block;
+      margin: 0;
+      font-weight: normal;
+      text-align: center;
+      vertical-align: middle;
+      touch-action: manipulation;
+      cursor: pointer;
+      background-image: none;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      padding: 6px 12px;
+      font-size: 1em;
+      line-height: 1.42857143;
+      border-radius: 4px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      color: #fff;
+      background-color: #337ab7;
+      border-color: #2e6da4;
+      color: #FFF;
+      font-size: 1em;
+      text-decoration: none;
+
+
+      &:focus {
+        color: #fff;
+        background-color: #286090;
+        border-color: #122b40;
+      }
+
+      &:hover,
+      &:active {
+        color: #fff;
+        background-color: #286090;
+        border-color: #204d74;
+      }
+    }
+  }
+
+  .nav-tabs > li.active a {
+    color: $fa_grey_2;
+    background-color: transparent;
+    font-weight: bold;
+    border-radius: 0;
+    border-color: transparent;
+
+    &:focus,
+    &:hover,
+    &:active {
+      color: $fa_grey_1;
+      background-color: transparent;
+      border-color: transparent;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+
+  #my_nav {
+    margin: 0;
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  #my_nav li {
+    display: block;
+    text-align: left;
+
+    + li {
+      margin-top: 1em;
+    }
+  }
+
+  .dashboard h1 {
+    font-size: 2.5rem;
+    margin: 0 0 2rem 0;
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $fa_grey_3;
+  }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+  #page-positioner {
+    #my_nav {
+      margin: 0 0 1em;
+    }
+
+    #my_nav li,
+    #my_nav li + li {
+      display: inline-block;
+      text-align: center;
+      margin: 0.2em;
+    }
+  }
 }

@@ -1,0 +1,24 @@
+@import 'falafel';
+
+#footer {
+  background-color: $fa_main_1;
+  color: #FFF;
+
+  * {
+    verical-align: middle;
+  }
+
+  a {
+    color: #FFF;
+    font-size: 1em;
+  }
+
+  * + a {
+    margin-left: 1rem
+  }
+
+  .btn {
+    font-size: 1em;
+    color: #000;
+  }
+}

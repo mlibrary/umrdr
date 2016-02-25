@@ -1,6 +1,10 @@
 en:
   header:
     dashboard_link: 'Dashboard'
+    mlib_home_path: 'http://www.lib.umich.edu'
+
+  footer:
+    umich_phone: '(734) 764-0400'
 
   homepage:
     marketing_blurb: 'Deep Blue Data is a repository offered by the University of Michigan Library that provides access and preservation services for digital research data that were developed or used in the support of research activities at U-M.'

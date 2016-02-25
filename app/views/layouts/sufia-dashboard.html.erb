@@ -21,8 +21,21 @@
           </div>
           <div class="container-fluid">
             <div id="content" class="row">
-              <div class="col-xs-12 col-sm-9 col-sm-push-3"><%= yield %></div>
-              <div id="sidebar" class="col-xs-12 col-sm-3 col-sm-pull-9"><%= yield :sidebar %></div>
+              <% if @selected_tab %>
+                <h1><%= @selected_tab.capitalize %></h1>
+              <% end %>
+
+              <% sidebar_content = yield :sidebar %>
+
+              <% unless sidebar_content.empty? %>
+                <div id="sidebar" class="col-xs-12 col-md-3">
+                  <%= sidebar_content %>
+                </div>
+              <% end %>
+
+              <div class="col-xs-12 <%= sidebar_content.empty? ? '' : 'col-md-9' %>">
+                <%= yield %>
+              </div>
             </div>
           </div>
         </div>

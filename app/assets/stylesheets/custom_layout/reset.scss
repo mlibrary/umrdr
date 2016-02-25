@@ -8,13 +8,6 @@ body {
   font-size: 1rem;
 }
 
-#footer {
-  @include fa_body_font;
-
-  background-color: $fa_main_1;
-  color: #FFF;
-}
-
 #content-wrapper,
 .ribbon-content {
   min-width: 25rem;

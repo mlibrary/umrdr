@@ -302,7 +302,7 @@ $fa_color_names: map_keys($fa_colors);
                           $v_nudge:    '',
                           $icon_root:  $fa_icon_root) {
 
-  background-image:    url(#{$icon_root}#{$icon_name}__#{$icon_color}.svg);
+  background-image:    url(#{$icon_root}#{$icon_color}/#{$icon_name}.svg);
   background-repeat:   no-repeat;
   background-size:     $width $height;
   background-position: $horizontal
@@ -338,11 +338,19 @@ $fa_color_names: map_keys($fa_colors);
     @error "height and/or width must be a numeric unit such as '1rem' or '50px'";
   }
 
-  $size: $size + ($padding * 2);
+  $centering_direction: top;
+  $centering_dimention: height;
 
-  padding-#{$position}: $size + $outer_nudge + $inner_nudge;
-  min-height:           $size;
-  position:             relative;
+  @if $position == top or $position == bottom {
+    $centering_direction: left;
+    $centering_dimention: width;
+  }
+
+  $size_forumula: "(#{$size} + (#{$padding} * 2))";
+
+  padding-#{$position}:        calc(#{$size_forumula} + #{$outer_nudge} + #{$inner_nudge});
+  min-#{$centering_dimention}: calc(#{$size_forumula});
+  position:                    relative;
 
   &::#{$element} {
     @include fa_background_icon(
@@ -356,20 +364,14 @@ $fa_color_names: map_keys($fa_colors);
     content:          '';
     display:          block;
     background-color: $fill;
-    width:            $size;
-    height:           $size;
-    border-radius:    if($border_radius, $border_radius, $size / 2);
+    width:            calc(#{$size_forumula});
+    height:           calc(#{$size_forumula});
+    border-radius:    if($border_radius, $border_radius, calc(#{$size_forumula} / 2));
     position:         absolute;
     #{$position}:     $outer_nudge;
 
-    $centering_direction: top;
-
-    @if $position == top or $position == bottom {
-      $centering_direction: left;
-    }
-
     #{$centering_direction}:        50%;
-    margin-#{$centering_direction}: -$size / 2
+    margin-#{$centering_direction}: calc(-1 * #{$size_forumula} / 2)
   }
 }
 
