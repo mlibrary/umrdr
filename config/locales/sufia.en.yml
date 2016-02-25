@@ -193,7 +193,7 @@ en:
     work:
       browse_view: "Browse View"
     footer:
-      copyright_html: "<strong>Copyright &copy; 2015 Project Hydra</strong> Licensed under the Apache License, Version 2.0"
+      copyright_html: "© 2015 Regents of the Univeristy of Michigan"
     admin:
       stats:
         registered: "Registered"
