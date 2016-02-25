@@ -110,8 +110,9 @@ en:
         highlights:   "My Highlights"
         shares:       "Files Shared with Me"
         facet_label:
-          files:        "Filter your files"
-          collections:  "Filter your collections"
+          files:       "Filter your files"
+          works:       "Filter your works"
+          collections: "Filter your collections"
           highlighted: "Filter your highlights"
           shared:      "Filter your shares"
         sr:
