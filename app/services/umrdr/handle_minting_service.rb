@@ -1,6 +1,6 @@
 module Umrdr
   class HandleMintingService
-    attr work, hdl_prefix
+    attr :work, :hdl_prefix
 
     def self.mint_handle_for(work, hdl_prefix=nil)
       srvc = HandleMintingService.new work, hdl_prefix
