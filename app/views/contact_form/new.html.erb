@@ -4,50 +4,41 @@
 </div>
 
 <% if user_signed_in? %>
-  <% nm = current_user.name %>
-  <% em = current_user.email_address %>
+  <% nm = '' %>
+  <% em = current_user.name + "@umich.edu" %>
 <% else %>
   <% nm = '' %>
   <% em = '' %>
 <% end %>
 
-<!-- do we really need this? -->
-<!-- <h2>Contact Us</h2> -->
-<%= form_for(@contact_form, url: sufia.contact_form_index_path, html: {class: 'form-horizontal'}) do |f| %>
-  <%= f.text_field :contact_method, class: 'hide' %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
 
-  <div class="form-group">
-    <%= f.label :name, 'Your Name (required)', class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :name, value: nm, class: 'form-control', required: true %>
-    </div>
-  </div>
+      <%= simple_form_for(@contact_form, url: sufia.contact_form_index_path, html: {class: 'form-horizontal'}) do |f| %>
+        <%= f.text_field :contact_method, class: 'hide' %>
 
-  <div class="form-group">
-    <%= f.label :email, 'Your Email (required)', class: "col-sm-2 control-label" %>
-    <div class="col-sm-10"><%= f.text_field :email, value: em, class: 'form-control', required: true %></div>
-  </div>
+        <%= f.input :name, label: 'Your Name', required: true %>
 
-  <div class="form-group">
-    <%= f.label :category, 'What do you need help with?', class: "col-sm-2 control-label" %>
-    <% issue_types = Umrdr::Application.config.contact_issue_types.dup %>
-    <% issue_types.unshift([nil]) %>
-    <div class="col-sm-10">
-      <%= f.select 'category', options_for_select(issue_types), {}, {class: 'form-control', required: false } %>
-    </div>
-  </div>
+        <% if user_signed_in? %>
+        <%= f.input :email, as: :hidden, input_html: { value: em } %>
+        <div class="form-group">
+          <label class="control-label">Your Email</label>
+          <p><%= em %></p>
+        </div>
+        <% else %>
+        <%= f.input :email, label: 'Your Email', required: true %>
+        <% end %>
 
-  <div class="form-group">
-    <%= f.label :subject, 'Subject (required)', class: "col-sm-2 control-label" %>
-    <div class="col-sm-10"><%= f.text_field :subject, class: 'form-control', required: false %></div>
-  </div>
+        <%= f.input :category, label: 'What do you need help with?', collection: Umrdr::Application.config.contact_issue_types.dup, include_blank: true %>
 
-  <div class="form-group">
-    <%= f.label :message, 'Your Message (required)', class: "col-sm-2 control-label" %>
-    <div class="col-sm-10"><%= f.text_area :message, rows: 4, class: 'form-control', required: true %></div>
-  </div>
+        <%= f.input :subject, label: 'Subject', required: true %>
+        <%= f.input :message, as: :text, label: 'Your Message', required: true, input_html: { rows: '4' } %>
 
-  <div class="align-right">
-    <%= f.submit value: "Submit", class: "btn btn-primary" %>
+        <div class="form-group pull-right">
+          <%= f.submit value: "Submit", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
   </div>
-<% end %>
+</div>
