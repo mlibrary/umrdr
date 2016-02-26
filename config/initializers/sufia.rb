@@ -110,6 +110,12 @@ Sufia.config do |config|
 
   config.geonames_username = ''
 
+  config.max_file_size = 2 * ( 1024 ** 3 )
+  config.max_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_file_size, {})
+
+  config.max_total_file_size = config.max_file_size * 5
+  config.max_total_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_total_file_size, {})
+
   # If browse-everything has been configured, load the configs.  Otherwise, set to nil.
   begin
     if defined? BrowseEverything

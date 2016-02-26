@@ -1,20 +1,22 @@
 //= require fileupload/tmpl
 //= require fileupload/jquery.iframe-transport
 //= require fileupload/jquery.fileupload.js
+//= require fileupload/jquery.fileupload-process.js
+//= require fileupload/jquery.fileupload-validate.js
 //= require fileupload/jquery.fileupload-ui.js
-//= require fileupload/locale.js
+//= do-not-use-this fileupload/locale.js
 //
 /*jslint nomen: true */
 /*global $ */
 
+// FORCE ASSET COMPILATION: 3
 
-//2 GB  max file size 
-var max_file_size = 2 * Math.pow(1024, 3);
-var max_file_size_str = "2 GB";
+var max_file_size = <%= Sufia.config.max_file_size %>;
+var max_file_size_str = '<%= Sufia.config.max_file_size_str %>';
 //500 MB max total upload size
-var max_total_file_size = max_file_size * 5;
+var max_total_file_size = <%= Sufia.config.max_total_file_size %>;
 var max_file_count = 100;
-var max_total_file_size_str = "10 GB";
+var max_total_file_size_str = "<%= Sufia.config.max_total_file_size_str %>";
 var first_file_after_max = ''; 
 var filestoupload =0;
 
@@ -33,16 +35,20 @@ var filestoupload =0;
     $("#partial_fail").hide();
     $("#errmsg").hide();
 
+    function redirectToLocation() {
+      var loc = $.trim($("#redirect-loc").text());
+      if ( loc.indexOf('?') > -1 ) {
+        loc += '&';
+      } else {
+        loc += '?';
+      }
+      loc += 'uploads_since=' + timestamp;
+      $(location).attr('href',loc);
+    }
+
     function uploadStopped() {
       if (files_done == filestoupload && (files_done >0)){
-         var loc = $.trim($("#redirect-loc").text());
-         if ( loc.indexOf('?') > -1 ) {
-           loc += '&';
-         } else {
-           loc += '?';
-         }
-         loc += 'uploads_since=' + timestamp;
-         $(location).attr('href',loc);
+        redirectToLocation();
       } else if (error_string.length > 0){
         // an error occured       
          if (files_done == 0) {
@@ -92,7 +98,7 @@ var filestoupload =0;
 
 
     function uploadDone(e, data) {
-      var file = ($.isArray(data.result) && data.result[0]) || {error: 'emptyResult'};
+      var file = (data.result && $.isArray(data.result.files) && data.result.files[0]) || {error: 'emptyResult'};
       if (!file.error) {
         files_done++;     
       } else {
@@ -100,6 +106,10 @@ var filestoupload =0;
           error_string += '<br/>';
         }
         error_string += file.error;
+      }
+
+      if (files_done == filestoupload && (files_done >0)){
+        redirectToLocation();
       }
     }
 
@@ -126,7 +136,11 @@ var filestoupload =0;
        if (error_string.length > 0) {
           error_string += '<br/>';
        }
-       error_string += data.errorThrown + ": " + data.textStatus;
+       var status = data.textStatus;
+       if ( data.jqXHR && data.jqXHR.responseJSON ) {
+        status = data.jqXHR.responseJSON.description;
+       }
+       error_string += data.errorThrown + ": " + status;
       }
     }
 

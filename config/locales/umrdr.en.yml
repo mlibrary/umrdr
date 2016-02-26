@@ -66,4 +66,8 @@ en:
       generic_work:
         contributor: "Contributor"
 
-
+  curation_concerns:
+    api:
+      unprocessable_entity:
+        too_large_file: "The file you uploaded is too large."
+        
