@@ -35,25 +35,31 @@ describe GenericWork do
       subject.creator = ['Demo Creator']
       subject.date_created = ['2016-02-28']
       subject.description = ['Demo description.']
+      subject.rights = ['Demo rights.']
     end
 
     it 'validates title' do
-      subject.title = nil
+      subject.title = []
       expect(subject).not_to be_valid
     end
 
     it 'validates date_created' do
-      subject.date_created = nil
+      subject.date_created = []
       expect(subject).not_to be_valid
     end
 
     it 'validates description' do
-      subject.description = nil
+      subject.description = []
       expect(subject).not_to be_valid
     end
 
     it 'validates creator' do
-      subject.creator = nil
+      subject.creator = []
+      expect(subject).not_to be_valid
+    end
+
+    it 'validates rights' do
+      subject.rights = []
       expect(subject).not_to be_valid
     end
   end
