@@ -4,7 +4,15 @@ module CurationConcerns
     include Sufia::Controller
     include Sufia::FileSetsControllerBehavior
 
-    def create_from_upload(params)
+   def create
+     if params[:selected_files].present?
+       create_from_browse_everything(params)
+     else
+       super
+     end
+   end 
+
+   def create_from_upload(params)
       # check error condition No files
       return render_json_response(response_type: :bad_request, options: { message: 'Error! No file to save' }) unless params.key?(:file_set) && params.fetch(:file_set).key?(:files)
 

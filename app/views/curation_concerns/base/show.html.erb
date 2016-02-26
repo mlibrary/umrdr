@@ -15,4 +15,8 @@
     <%= render partial: 'curation_concerns/file_sets/multiple_upload', presenter: @presenter %>
 <% end %>
 
+<% if Sufia.config.browse_everything %>
+  <%= render partial: 'browse_everything', presenter: @presenter %>
+<% end %>
+
 <%= render "show_actions", collector: collector, editor: editor%>
