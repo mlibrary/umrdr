@@ -19,7 +19,10 @@
   </table>
 </div>
 <% elsif can? :edit, presenter.id %>
-  <h2>Files</h2>
+<div class="panel panel-default related_files">
+  <div class="panel-heading">
+    <h2>Files</h2>
+  </div>
   <div class="alert alert-block alert-warning">
     <p class="center">This <%= presenter.human_readable_type %> has no files associated with it. You can add one using the "Attach Files" buttons below.</p>
   </div>
