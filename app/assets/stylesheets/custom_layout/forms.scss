@@ -2,13 +2,14 @@
 
 #page-positioner {
   form#new_collection,
-  form#new_generic_work {
+  form#new_generic_work,
+  .edit-profile {
     max-width: 40em;
     margin: 2em auto;
   }
 
   .required-tag {
-    @include fa_tag($fill: $fa_red_1, $color: #FFF);
+    @include fa_tag($fill: $fa_teal_1, $color: #FFF);
   }
 
   form label.optional {
@@ -117,7 +118,7 @@
 
   #my_nav {
     margin: 0;
-    background-color: transparent;
+    background: transparent;
     border-color: transparent;
   }
 
@@ -128,14 +129,6 @@
     + li {
       margin-top: 1em;
     }
-  }
-
-  .dashboard h1 {
-    font-size: 2.5rem;
-    margin: 0 0 2rem 0;
-    text-align: center;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid $fa_grey_3;
   }
 }
 
