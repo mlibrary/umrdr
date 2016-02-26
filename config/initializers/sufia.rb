@@ -105,7 +105,7 @@ Sufia.config do |config|
   # config.analytic_start_date = DateTime.new(2014,9,10)
 
   #contact form email addresses
-  config.contact_email = 'deepblue@umich.edu'
+  config.contact_email = Rails.env.production? ? 'deepblue@umich.edu' : "#{ENV['USER']}@umich.edu"
   config.from_email  = 'deepblue@umich.edu'
 
   config.geonames_username = ''
