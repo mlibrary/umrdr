@@ -3,7 +3,7 @@
     <%= render 'collections/form_for_select_collection', user_collections: @user_collections %>
   </div>
 
-  <% if on_my_works? %>
+  <% if on_my_works? && @response.response['numFound'] > 1 %>
     <div class="batch-toggle">
       <% session[:batch_edit_state] = "on" %>
       <div class="button_to-inline">
@@ -15,7 +15,7 @@
     </div>
   <% end %>
 
-  <% unless @response.response['numFound'] < 2 %>
+  <% unless @response.response['numFound'] < 2 || sort_fields.empty? %>
     <div class="sort-toggle">
       <%= form_tag search_action_for_dashboard, method: :get, class: 'per_page form-inline' do %>
         <fieldset class="col-xs-12">
@@ -34,5 +34,5 @@
         </fieldset>
       <% end %>
     </div>
-  <% end unless sort_fields.empty? %>
+  <% end %>
 </div>
