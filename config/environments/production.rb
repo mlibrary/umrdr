@@ -6,6 +6,8 @@ Rails.application.configure do
 
   # For Cosign redirection
   config.hostname = 'deepblue.lib.umich.edu'
+  config.login_url = "https://#{config.cosign_host}/?#{config.cosign_service}&#{config.cosign_login_redirect}"
+  config.logout_url = "https://#{config.cosign_host}/cgi-bin/logout?#{config.cosign_logout_redirect}"
 
   # Set the default host for resolving _url methods
   Rails.application.routes.default_url_options[:host] = config.hostname
@@ -28,8 +30,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  #config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
-  config.serve_static_files = true
+  config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
