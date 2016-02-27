@@ -25,6 +25,8 @@ module Umrdr
     config.login_url = "https://#{config.cosign_host}/?#{config.cosign_service}&#{config.cosign_login_redirect}"
     config.logout_url = "https://#{config.cosign_host}/cgi-bin/logout?#{config.cosign_logout_redirect}"
     
+    # Set the default host for resolving _url methods
+    Rails.application.routes.default_url_options[:host] = config.hostname
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
