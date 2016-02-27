@@ -50,6 +50,9 @@ en:
         tag:
           'The topic of the resource.'
 
+        methodology:
+          'The way the dataset was collected (equipment used for sensing, survey methodology, etc.).'
+
     labels:
       generic_work:
         rights: "Creative Commons License"
@@ -61,6 +64,8 @@ en:
         subject: "Discipline"
 
         date_created: "Date Created"
+
+        methodology: "Method"
 
     add_remove_labels:
       generic_work:
