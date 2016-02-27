@@ -1,0 +1,20 @@
+<% solr_document = featured.generic_work_solr_document %>
+<li class="col-xs-12 col-sm-6 col-lg-4 featured-item" data-id="<%= solr_document.id %>">
+  <h3>
+    <%= link_to truncate(solr_document.title_or_label, length: 28, separator: ' '), curation_concerns_generic_work_path(solr_document), class: 'btn btn-primary'  %>
+  </h3>
+  <%= render_thumbnail_tag solr_document %>
+  <div class="featured-work-info">
+
+    <%
+      profile  = link_to_profile solr_document.depositor('')
+      keywords = link_to_facet_list(solr_document.tags, 'tag', '')
+    %>
+    <% unless profile.empty? %>
+      <p><strong>Deposited by:</strong> <%= profile %></p>
+    <% end %>
+    <% unless keywords.empty? %>
+      <p><strong>Keywords:</strong> <%= keywords %></p>
+    <% end %>
+  </div>
+</li>
