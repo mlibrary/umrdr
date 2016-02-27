@@ -6,6 +6,8 @@ Rails.application.configure do
 
   # For Cosign redirection
   config.hostname = 'deepblue.lib.umich.edu'
+  config.cosign_login_redirect = "https://#{config.hostname}/data/dashboard"
+  config.cosign_logout_redirect = "https://#{config.hostname}/data"
   config.login_url = "https://#{config.cosign_host}/?#{config.cosign_service}&#{config.cosign_login_redirect}"
   config.logout_url = "https://#{config.cosign_host}/cgi-bin/logout?#{config.cosign_logout_redirect}"
 
