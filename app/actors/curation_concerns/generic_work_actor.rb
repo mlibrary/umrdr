@@ -17,7 +17,7 @@ module CurationConcerns
       curation_concern.save
 
       # Kick off job to get a doi
-      DOIMintingJob.perform_later(curation_concern.id)
+      ::DoiMintingJob.perform_later(curation_concern.id)
     end
   end
 end

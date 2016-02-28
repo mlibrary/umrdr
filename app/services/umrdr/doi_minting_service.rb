@@ -30,7 +30,7 @@ module Umrdr
         md.datacite_title = work.title.first
         md.datacite_publisher = "University of Michigan"
         md.datacite_publicationyear = Date.today.year.to_s
-        md.datacite_resource_type="Dataset"
+        md.datacite_resourcetype="Dataset"
         md.datacite_creator=work.creator.join(',')
         md.target = Rails.application.routes.url_helpers.curation_concerns_generic_work_url(id: work.id)
       end
