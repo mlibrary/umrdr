@@ -10,6 +10,15 @@ class CurationConcerns::GenericWorksController < ApplicationController
 
   set_curation_concern_type GenericWork
 
+  # Begin processes to mint hdl and doi for the work
+  def identifiers
+    actor.mint_doi
+    respond_to do |wants|
+      wants.html { redirect_to [main_app, curation_concern] }
+      wants.json { render :show, status: :ok, location: polymorphic_path([main_app, curation_concern]) }
+    end
+  end
+
   def check_recent_uploads
     if params[:uploads_since]
       begin
@@ -27,6 +36,12 @@ class CurationConcerns::GenericWorksController < ApplicationController
       end
     end
   end
+
+  protected
+
+    def show_presenter
+      Umrdr::WorkShowPresenter
+    end
 
   private
     def get_date_uploaded_from_solr(file_set)

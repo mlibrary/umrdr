@@ -23,6 +23,14 @@ Rails.application.routes.draw do
   curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
 
+  namespace :curation_concerns, path: :concern do
+    resources :generic_works do
+      member do
+        post 'identifiers'
+      end
+    end
+  end
+
   resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
     concerns :exportable
   end
