@@ -12,7 +12,7 @@
 
       $.ajax({
         type: "POST",
-        url: '<%= Rails.application.routes.url_helpers.root_path %>/users/'+grantor+'/depositors',
+        url: '<%= Rails.application.routes.url_helpers.root_path %>users/'+grantor+'/depositors',
         dataType: 'json',
         data: {grantee_id: id},
         success: function (data) {
