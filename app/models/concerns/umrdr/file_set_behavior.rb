@@ -21,11 +21,6 @@ module Umrdr
                                                   outputs: [{ label: :thumbnail, format: 'jpg',
                                                               size: '150x150',
                                                               url: derivative_url('thumbnail') }])
-      when *self.class.office_document_mime_types
-        Hydra::Derivatives::DocumentDerivatives.create(filename,
-                                                       outputs: [{ label: :thumbnail, format: 'jpg',
-                                                                   size: '150x150',
-                                                                   url: derivative_url('thumbnail') }])
       when *self.class.video_mime_types
         Hydra::Derivatives::VideoDerivatives.create(filename,
                                                     outputs: [{ label: :thumbnail, format: 'jpg',

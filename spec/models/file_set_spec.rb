@@ -32,16 +32,16 @@ describe FileSet do
       subject.create_derivatives(f_name)
     end
 
-    it 'generates only thumbnails from document types.' do
-      allow(subject).to receive(:mime_type).and_return('text/rtf')
-      expect(Hydra::Derivatives::FullTextExtract).to_not receive(:create)
-      expect(Hydra::Derivatives::DocumentDerivatives).to receive(:create).with(f_name, outputs: outputs)
-      subject.create_derivatives('dummy_filename')
-    end
-
     it 'only generates thumbnail from video.' do
       allow(subject).to receive(:mime_type).and_return('video/mp4')
       expect(Hydra::Derivatives::VideoDerivatives).to receive(:create).with(f_name, outputs: outputs)
+      subject.create_derivatives('dummy_filename')
+    end
+
+    it 'does not generate derivatives from document types.' do
+      allow(subject).to receive(:mime_type).and_return('text/rtf')
+      expect(Hydra::Derivatives::FullTextExtract).to_not receive(:create)
+      expect(Hydra::Derivatives::DocumentDerivatives).to_not receive(:create)
       subject.create_derivatives('dummy_filename')
     end
 
