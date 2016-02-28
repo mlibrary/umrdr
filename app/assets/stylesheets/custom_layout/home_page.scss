@@ -42,6 +42,56 @@
   }
 }
 
+#home_content {
+  padding: 0 0 3rem;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid $fa_grey_3;
+    font-size: 2em;
+  }
+
+  .featured-item {
+    padding: 2rem 1rem;
+    display: inline-block;
+    float: none;
+    margin: -10px;
+
+    .btn {
+      margin-bottom: 0.5rem;
+      white-space: normal;
+    }
+  }
+
+  img {
+    display: inline-block;
+    vertical-align: top;
+    height: auto;
+    max-width: 5rem;
+    outline: 2px solid $fa_grey_4;
+  }
+
+  .featured-work-info {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    margin-left: 1em;
+    overflow: hidden;
+    width: 9rem;
+
+    p {
+      font-size: 0.8rem;
+      margin: 0.5em 0 0;
+    }
+
+    p + * {
+      margin-top: 0.75em;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   #home_header {
     .marketing-blurb,

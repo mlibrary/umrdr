@@ -32,6 +32,14 @@
 }
 
 #page-positioner {
+  h1.main-heading {
+    font-size: 2.5rem;
+    margin: 0 0 2rem 0;
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $fa_grey_3;
+  }
+
   .dashboard-quick-links {
     text-align: center;
     background-color: $fa_main_3;
@@ -71,7 +79,7 @@
   }
 
   #user_utility_links {
-    margin: 0
+    margin: 0;
   }
 
   .login-wrap {
@@ -96,10 +104,11 @@
     font-size: 2em;
   }
 
-  .site-name a {
+  .site-brand a {
     color: #FFF;
     text-decoration: none;
     padding: 0.1em 0.2em;
+    text-decoration: none;
   }
 
   .beta-note {
@@ -172,6 +181,10 @@
 
 @media (max-width: 768px) {
   #page-positioner {
+    h1.main-heading {
+      font-size: 1.5rem;
+    }
+
     .site-brand-wrap {
       text-align: center;
     }

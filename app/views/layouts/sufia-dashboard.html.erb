@@ -22,7 +22,7 @@
           <div class="container-fluid">
             <div id="content" class="row">
               <% if @selected_tab %>
-                <h1><%= @selected_tab.capitalize %></h1>
+                <h1 class="main-heading"><%= @selected_tab.capitalize %></h1>
               <% end %>
 
               <% sidebar_content = yield :sidebar %>
