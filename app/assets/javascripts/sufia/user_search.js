@@ -15,7 +15,7 @@
           callback(data);
         },
         ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
-          url: "/data/users.json",
+          url: "<%= Rails.application.routes.url_helpers.root_path %>/users.json",
           dataType: 'json',
           data: function (term, page) {
             return {
