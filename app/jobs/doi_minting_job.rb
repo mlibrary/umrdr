@@ -5,8 +5,8 @@ class DOIMintingJob < ActiveFedoraIdBasedJob
     work = object
     user = User.find_by_user_key(work.depositor)
 
-    # Don't mint a handle if already has one
-    return if work.doi
+    # Continue only when doi is pending
+    return unless work.doi.nil? || work.doi == CurationConcerns::GenericWorkActor::PENDING
 
     if DoiMintingService.mint_doi_for work
       # do success callback
