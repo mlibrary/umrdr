@@ -10,9 +10,10 @@ module Behaviors
 
     protected
 
+    # Remote user is coming back from cosign as uniquename.
+    # Append @umich.edu to this value to satisfy user model validations
     def remote_user(headers)
-      return headers['HTTP_X_REMOTE_USER'] if headers['HTTP_X_REMOTE_USER']
-      return headers['HTTP_REMOTE_USER'] if headers['HTTP_REMOTE_USER'] && Rails.env.development?
+      return "#{headers['HTTP_X_REMOTE_USER']}@umich.edu" if headers['HTTP_X_REMOTE_USER']
       return nil
     end
 
