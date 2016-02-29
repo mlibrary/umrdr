@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
 
-  get ':action' => 'static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|file-format-preservation|how-to-upload|prepare-your-data|retention|terms|zotero|mendeley|agreement|subject_libraries|versions/ }, as: :static
+  get 'terms', to: proc { [302, { 'Location' => 'agreement'}, []] }
+  get ':action' => 'static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|file-format-preservation|how-to-upload|prepare-your-data|retention|zotero|mendeley|agreement|subject_libraries|versions/ }, as: :static
 
   concern :searchable, Blacklight::Routes::Searchable.new
 
@@ -11,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, path: '', path_names: {sign_in: 'login', sign_out: 'logout'}, controllers: {sessions: 'sessions'}
-  
+
   Hydra::BatchEdit.add_routes(self)
 
   mount Hydra::Collections::Engine => '/'
