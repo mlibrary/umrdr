@@ -81,3 +81,12 @@ en:
       unprocessable_entity:
         too_large_file: "The file you uploaded is too large."
         
+  blacklight:
+    search:
+      fields:
+        facet:
+          subject_sim: Discipline
+        index:
+          subject_tesim: Discipline
+        show:
+          subject_tesim: Discipline
