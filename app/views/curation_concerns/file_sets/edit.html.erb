@@ -1,0 +1,13 @@
+<% provide :page_title, curation_concern_page_title(curation_concern) %>
+<% provide :page_header do %>
+  <h1 class="lower">Edit <%= curation_concern %></h1>
+<% end %>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-4">
+    <%= media_display curation_concern %>
+  </div>
+  <div class="col-xs-12 col-sm-8">
+    <%= render "form" %>
+  </div> <!-- /.col-sm-8 -->
+</div><!-- /.row -->
