@@ -1,0 +1,7 @@
+<%= image_tag @user.avatar.url(:thumb), width: 100 %>
+      <h3><%= @user.name %> </h3>
+      <hr /> 
+        <%= render "vitals" %>
+      <hr />  
+      <br />
+      <a class="btn btn-primary" href="<%= sufia.profiles_path %>"><i class="glyphicon glyphicon-globe"></i> View Users</a>
