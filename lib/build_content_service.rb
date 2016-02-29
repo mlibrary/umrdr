@@ -122,7 +122,8 @@ class BuildContentService
     rtype = Array(w_hsh[:resource_type] || 'Dataset')
 
     gw = GenericWork.new( title: title, creator: creator, rights: rights, description: desc, resource_type: rtype, methodology: methodology, subject: subject, contributor: contributor, date_created: date_created ) 
-    fsets = w_hsh[:files].map{|p| build_file_set(p)}
+    paths_and_names = w_hsh[:files].zip w_hsh[:filenames]
+    fsets = paths_and_names.map{|fp| build_file_set(fp[0], fp[1])}
     fsets.each{|fs| gw.ordered_members << fs}
     gw.apply_depositor_metadata(user_key)
     gw.owner=(user_key)
@@ -130,13 +131,17 @@ class BuildContentService
     return gw
   end
 
-  def build_file_set(path)
+  def build_file_set(path, filename=nil)
     file = File.open(path)
     fs = FileSet.new()
     fs.apply_depositor_metadata(user_key)
     fs.save!
     Hydra::Works::UploadFileToFileSet.call(fs, file)
     Hydra::Works::CharacterizationService.run(fs)
+    # Add title and filename
+    fs.filename = filename if filename
+    fs.title = fs.filename
+    fs.save
     return fs
   end
 end
