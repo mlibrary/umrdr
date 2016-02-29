@@ -1,3 +1,4 @@
+unless Rails.env.production?
 require 'yaml'
 
 require 'ffaker'
@@ -42,4 +43,4 @@ def fake_setup
     STDERR.puts "-- installed #{work.title[0]} : #{user.user_key} : #{work.id}"
   end
 end
-
+end
