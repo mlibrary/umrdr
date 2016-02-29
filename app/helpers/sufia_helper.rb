@@ -20,4 +20,11 @@ module SufiaHelper
     link_to text, "/data/users/#{login}"
   end
 
+  def link_to_field(fieldname, fieldvalue, displayvalue = nil)
+    p = { search_field: fieldname, q: '"' + fieldvalue + '"' }
+    link_url = main_app.search_catalog_path(p)
+    display = displayvalue.blank? ? fieldvalue : displayvalue
+    link_to(display, link_url)
+  end
+
 end
