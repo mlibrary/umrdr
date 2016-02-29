@@ -14,6 +14,7 @@ namespace :umrdr do
 end
 
 def config_setup(path_to_config)
+
   unless File.exist? path_to_config
     puts "bad path to config" 
     return
