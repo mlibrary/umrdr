@@ -7,6 +7,12 @@ class User < ActiveRecord::Base
   include Sufia::User
   include Sufia::UserUsageStats
 
+  before_validation :generate_password, :on => :create
+
+  def generate_password
+    self.password = SecureRandom.urlsafe_base64(12)
+  end
+
   # Use the http header as auth.  This app will be behind a reverse proxy
   #   that will take care of the authentication.
   Devise.add_module(:http_header_authenticatable,
