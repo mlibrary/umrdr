@@ -5,7 +5,7 @@
 
 <% if user_signed_in? %>
   <% nm = '' %>
-  <% em = current_user.name + "@umich.edu" %>
+  <% em = current_user.user_key %>
 <% else %>
   <% nm = '' %>
   <% em = '' %>
