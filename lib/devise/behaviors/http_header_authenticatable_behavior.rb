@@ -5,7 +5,7 @@ module Behaviors
     # Called if the user doesn't already have a rails session cookie
     def valid_user?(headers)
       remote_user = remote_user(headers)
-      !remote_user.blank? and remote_user != '(null)'
+      !remote_user.present? and remote_user != '(null)'
     end
 
     protected
