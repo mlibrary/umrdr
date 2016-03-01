@@ -8,6 +8,7 @@ class SolrDocument
   include CurationConcerns::SolrDocumentBehavior
   # Adds Sufia behaviors to the SolrDocument.
   include Sufia::SolrDocumentBehavior
+  include Umrdr::SolrDocumentBehavior
 
 
 
