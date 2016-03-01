@@ -121,7 +121,10 @@ class BuildContentService
     date_created = Array(w_hsh[:date_created])   
     rtype = Array(w_hsh[:resource_type] || 'Dataset')
 
-    gw = GenericWork.new( title: title, creator: creator, rights: rights, description: desc, resource_type: rtype, methodology: methodology, subject: subject, contributor: contributor, date_created: date_created ) 
+    gw = GenericWork.new( title: title, creator: creator, rights: rights,
+                         description: desc, resource_type: rtype,
+                         methodology: methodology, subject: subject,
+                         contributor: contributor, date_created: date_created ) 
     paths_and_names = w_hsh[:files].zip w_hsh[:filenames]
     fsets = paths_and_names.map{|fp| build_file_set(fp[0], fp[1])}
     fsets.each{|fs| gw.ordered_members << fs}
