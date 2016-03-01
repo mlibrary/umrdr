@@ -1,13 +1,12 @@
   <% editor    = can?(:edit,    @presenter.id) %>
-  <% if editor || @presenter.identifiers_minted? %>
-
+  <% if editor || @presenter.identifiers_minted?(:doi) %>
   <tr>
     <th><%= t('simple_form.labels.generic_work.doi') %></th>
     <td>
       <ul class="tabular">
         <li class="attribute">
-          <% if @presenter.identifiers_minted? %>
-            <% status = @presenter.identifiers_pending?(:doi) ? 'warning' : 'success' %>
+          <% if @presenter.identifiers_minted?(:doi) %>
+            <% status = @presenter.identifiers_pending?(:doi) ? 'warning' : 'default' %>
             <span class="label label-<%= status %>"><%= @presenter.doi %></span>
           <% else %>
             <%= form_tag(main_app.identifiers_curation_concerns_generic_work_path(@presenter.id), method: 'post') do %>
@@ -19,5 +18,4 @@
       </ul>
     </td>
   </tr>
-
   <% end %>

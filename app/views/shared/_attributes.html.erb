@@ -9,20 +9,24 @@
         </tr>
         <tr>
           <th><span class="attribute-label h4">Creator:</span></th>
-          <td><%= work.creator.join(', ') %></td>
+          <td><%= link_to_facet_list(work.creator, :creator) %></th>
         </tr>
         <tr>
           <th><span class="attribute-label h4">Description:</span></th>
           <td><%= iconify_auto_link(work.description) %></th>
         </tr>
+        <% unless work.subject.blank? %>
         <tr>
           <th><span class="attribute-label h4">Discipline:</span></th>
-          <td><%= work.subject.join(', ') %></td>
+          <td><%= link_to_facet_list(work.subject, :subject) %></th>
         </tr>
+        <% end %>
+        <% unless work.tag.blank? %>
         <tr>
           <th><span class="attribute-label h4">Keywords:</span></th>
-          <td><%= work.tag.join(', ') %></td>
+          <td><%= link_to_facet_list(work.tag, :tag) %></th>
         </tr>
+        <% end %>
         <tr>
           <th><span class="attribute-label h4">Date Uploaded:</span></th>
           <td><%= work.date_uploaded %></td>

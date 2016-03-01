@@ -67,6 +67,12 @@ en:
 
         methodology: "Method"
         doi: "DOI"
+        hdl: "Handle"
+
+      collection:
+        rights: "Creative Commons License"
+        tag: "Keywords"
+        subject: "Discipline"
 
     actions:
       generic_work:
