@@ -3,6 +3,7 @@ module Umrdr
   class WorkShowPresenter < ::Sufia::WorkShowPresenter
 
     attr_accessor :object_profile
+    delegate :methodology, to: :solr_document
 
     def initialize(solr_document, current_ability)
       super
@@ -17,8 +18,8 @@ module Umrdr
       @object_profile[:hdl]
     end
 
-    def identifiers_minted?
-      doi || hdl
+    def identifiers_minted?(identifier)
+      return @object_profile[identifier]
     end
 
     def identifiers_pending?(identifier)
