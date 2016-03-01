@@ -10,7 +10,7 @@ Rails.application.configure do
   config.cosign_service = "cosign-#{config.hostname}"
   config.cosign_login_redirect = "https://#{config.hostname}/data/dashboard"
   config.cosign_logout_redirect = "https://#{config.hostname}/data"
-  config.login_url = "https://#{config.cosign_host}/?#{config.cosign_service}&#{config.cosign_login_redirect}"
+  config.login_url = "https://#{config.cosign_host}/?factors=UMICH.EDU&#{config.cosign_service}&#{config.cosign_login_redirect}"
   config.logout_url = "https://#{config.cosign_host}/cgi-bin/logout?#{config.cosign_logout_redirect}"
 
   # Set the default host for resolving _url methods
