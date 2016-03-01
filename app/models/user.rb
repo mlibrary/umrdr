@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   def generate_password
     self.password = SecureRandom.urlsafe_base64(12)
+    self.password_confirmation = self.password
   end
 
   # Use the http header as auth.  This app will be behind a reverse proxy

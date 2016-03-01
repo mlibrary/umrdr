@@ -75,17 +75,23 @@ class BuildContentService
     end
   end
 
+  def log_object(obj)
+    puts "id: #{obj.id} title: #{obj.title.first}"
+  end
+
   def build_repo_contents
-    user = User.find_by_user_key( user_key ) || create_user( user_key)
+    user = User.find_by_user_key(user_key) || create_user(user_key)
     if user.nil?
       puts "User not found."
       return
     end
 
     # build works
-    
-
-    works.each{|work_hsh| build_work(work_hsh)} if works
+    if works
+      works.each do |work_hash|
+        log_object(build_work(work_hash))
+      end
+    end
 
     # build collections
     collections.each{|coll_hsh| build_collection(coll_hsh)} if collections
@@ -93,7 +99,6 @@ class BuildContentService
 
   # build collection then call build_work
   def build_collection(c_hsh)
-
     title = c_hsh['title']
     desc  = c_hsh['desc']
     col = Collection.new(title: title, description: desc, creator: Array(user_key))
@@ -143,7 +148,7 @@ class BuildContentService
     Hydra::Works::CharacterizationService.run(fs)
     # Add title and filename
     fs.filename = filename if filename
-    fs.title = fs.filename
+    fs.title = Array(fs.filename)
     fs.save
     return fs
   end
