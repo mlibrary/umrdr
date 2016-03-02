@@ -21,11 +21,11 @@
         <div id="content-wrapper">
           <div id="content">
             <% if content_for?(:sidebar) %>
-              <div class="col-xs-3">
+              <div class="col-xs-12 col-md-4">
                 <%= yield(:sidebar) %>
               </div>
             <% end %>
-            <div class="col-xs-<%= content_for?(:sidebar) ? 9 : 12 %>">
+            <div class="col-xs-12 <%= content_for?(:sidebar) ? 'col-md-8' : '' %>">
               <%= yield %>
             </div>
           </div>
