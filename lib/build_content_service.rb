@@ -1,4 +1,5 @@
 require 'hydra/file_characterization'
+require 'pry'
 
 Hydra::FileCharacterization::Characterizers::Fits.tool_path = `which fits || which fits.sh`.strip
 
@@ -139,7 +140,9 @@ class BuildContentService
     return gw
   end
 
+  # If filename not given, use basename from path
   def build_file_set(path, filename=nil)
+    fname = filename || File.basename(path)
     file = File.open(path)
     fs = FileSet.new()
     fs.apply_depositor_metadata(user_key)
@@ -147,8 +150,10 @@ class BuildContentService
     Hydra::Works::UploadFileToFileSet.call(fs, file)
     Hydra::Works::CharacterizationService.run(fs)
     # Add title and filename
-    fs.filename = filename if filename
-    fs.title = Array(fs.filename)
+    fs.filename = fname
+    fs.title = Array(fname)
+    fs.label = fname
+    fs.date_uploaded = Date.today.strftime('%F')
     fs.save
     return fs
   end
