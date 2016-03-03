@@ -45,6 +45,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'rspec-rails'
+  gem 'rspec-activemodel-mocks'
   gem 'solr_wrapper', '~> 0.5'
   gem 'fcrepo_wrapper', '~> 0.1'
   gem 'capybara'
