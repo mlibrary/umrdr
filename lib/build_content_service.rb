@@ -1,5 +1,4 @@
 require 'hydra/file_characterization'
-require 'pry'
 
 Hydra::FileCharacterization::Characterizers::Fits.tool_path = `which fits || which fits.sh`.strip
 
