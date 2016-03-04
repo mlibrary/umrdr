@@ -75,17 +75,23 @@ class BuildContentService
     end
   end
 
+  def log_object(obj)
+    puts "id: #{obj.id} title: #{obj.title.first}"
+  end
+
   def build_repo_contents
-    user = User.find_by_user_key( user_key ) || create_user( user_key)
+    user = User.find_by_user_key(user_key) || create_user(user_key)
     if user.nil?
       puts "User not found."
       return
     end
 
     # build works
-    
-
-    works.each{|work_hsh| build_work(work_hsh)} if works
+    if works
+      works.each do |work_hash|
+        log_object(build_work(work_hash))
+      end
+    end
 
     # build collections
     collections.each{|coll_hsh| build_collection(coll_hsh)} if collections
@@ -93,7 +99,6 @@ class BuildContentService
 
   # build collection then call build_work
   def build_collection(c_hsh)
-
     title = c_hsh['title']
     desc  = c_hsh['desc']
     col = Collection.new(title: title, description: desc, creator: Array(user_key))
@@ -121,8 +126,12 @@ class BuildContentService
     date_created = Array(w_hsh[:date_created])   
     rtype = Array(w_hsh[:resource_type] || 'Dataset')
 
-    gw = GenericWork.new( title: title, creator: creator, rights: rights, description: desc, resource_type: rtype, methodology: methodology, subject: subject, contributor: contributor, date_created: date_created ) 
-    fsets = w_hsh[:files].map{|p| build_file_set(p)}
+    gw = GenericWork.new( title: title, creator: creator, rights: rights,
+                         description: desc, resource_type: rtype,
+                         methodology: methodology, subject: subject,
+                         contributor: contributor, date_created: date_created ) 
+    paths_and_names = w_hsh[:files].zip w_hsh[:filenames]
+    fsets = paths_and_names.map{|fp| build_file_set(fp[0], fp[1])}
     fsets.each{|fs| gw.ordered_members << fs}
     gw.apply_depositor_metadata(user_key)
     gw.owner=(user_key)
@@ -130,13 +139,21 @@ class BuildContentService
     return gw
   end
 
-  def build_file_set(path)
+  # If filename not given, use basename from path
+  def build_file_set(path, filename=nil)
+    fname = filename || File.basename(path)
     file = File.open(path)
     fs = FileSet.new()
     fs.apply_depositor_metadata(user_key)
     fs.save!
     Hydra::Works::UploadFileToFileSet.call(fs, file)
     Hydra::Works::CharacterizationService.run(fs)
+    # Add title and filename
+    fs.filename = fname
+    fs.title = Array(fname)
+    fs.label = fname
+    fs.date_uploaded = Date.today.strftime('%F')
+    fs.save
     return fs
   end
 end
