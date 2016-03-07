@@ -7,8 +7,15 @@ class CurationConcerns::GenericWorksController < ApplicationController
   include Sufia::WorksControllerBehavior
 
   before_action :check_recent_uploads, only: [:show]
+  after_action  :notify_rdr, only: [:create]
 
   set_curation_concern_type GenericWork
+
+  def notify_rdr
+    @msg = main_app.curation_concerns_generic_work_url(curation_concern) 
+    email = WorkMailer.deposit_work(Sufia.config.notification_email,@msg)
+    email.deliver_now
+  end
 
   # Begin processes to mint hdl and doi for the work
   def identifiers
