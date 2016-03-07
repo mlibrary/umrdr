@@ -35,6 +35,10 @@ module CurationConcerns
         Hash[file_presenters.map { |file| [file.to_s, file.id] }]
       end
 
+      def rights
+        @model.rights.first
+      end
+
       class << self
         # This determines whether the allowed parameters are single or multiple.
         # By default it delegates to the model, but we need to override for

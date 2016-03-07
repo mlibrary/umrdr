@@ -27,4 +27,15 @@ module SufiaHelper
     link_to(display, link_url)
   end
 
+  def t_uri(key, scope: [])
+    new_scope = scope.collect do |arg|
+      if arg.is_a?(String)
+        arg.gsub('.', '_')
+      else
+        arg
+      end
+    end
+    I18n.t(key, scope: new_scope)
+  end
+
 end
