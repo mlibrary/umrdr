@@ -44,13 +44,6 @@
     </div>
   </div><!-- .form-group -->
 
-  <div class="form-group">
-    <%= f.label :facebook_handle, '<i class="fa fa-facebook"></i> Facebook Handle'.html_safe, class: 'col-xs-4 control-label' %>
-    <div class="col-xs-8">
-       <%= f.text_field :facebook_handle, class: "form-control" %>
-    </div>
-  </div><!-- .form-group -->
-
   <% unless @trophies.empty? %>
   <%= render partial: 'trophy_edit', locals: {trophies: @trophies} %>
   <% end %>
@@ -59,6 +52,4 @@
     <%= f.button '<i class="glyphicon glyphicon-save"></i> Save Profile'.html_safe, type: 'submit', class: "btn btn-primary" %>
   </div>
 <% end %>
-<div class="well">
-  <%= render 'dashboard/_index_partials/proxy_rights' %>
-</div>
+
