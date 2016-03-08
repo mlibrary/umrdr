@@ -5,3 +5,5 @@ Rails.application.config.contact_issue_types = [
     'I have a general question or comment about Deep Blue Data',
     'Other'
   ].freeze
+
+Rails.application.config.contact_issue_type_data_management = Rails.application.config.contact_issue_types[1]
