@@ -96,3 +96,15 @@ en:
           subject_tesim: Discipline
         show:
           subject_tesim: Discipline
+
+  # urls-as-keys need to have their dots replaced with something else
+  rights:
+    http://creativecommons_org/publicdomain/zero/1_0/:
+      description:
+        "You dedicate this work to the public domain, waiving all your rights to the work worldwide under copyright law."
+    http://creativecommons_org/licenses/by/3_0/us/:
+      description:
+        "This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation."
+    http://creativecommons_org/licenses/by-nd/3_0/us/:
+      description:
+        "This license allows for redistribution, commercial and non-commercial, as long as it is passed along unchanged and in whole, with credit to you."
