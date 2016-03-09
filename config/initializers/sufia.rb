@@ -106,6 +106,7 @@ Sufia.config do |config|
 
   #contact form email addresses
   config.contact_email = Rails.env.production? ? 'deepblue@umich.edu' : "#{ENV['USER']}@umich.edu"
+  config.notification_email = Rails.env.production? ? 'researchdataservices@umich.edu' : "#{ENV['USER']}@umich.edu"
   config.from_email  = 'deepblue@umich.edu'
 
   config.geonames_username = ''
