@@ -16,14 +16,11 @@ module Umrdr
     # Deploy to /data instead of /
     config.relative_url_root = '/data'
 
-    # Cosign configuration
+    # For properly generating URLs and minting DOIs - the app may not by default
+    # know its hostname if started via puma and accessed via mod_proxy.
     config.hostname = 'umrdr-testing.quod.lib.umich.edu'
-    config.cosign_host = 'weblogin.umich.edu'
-    config.cosign_service = "cosign-#{config.hostname}"
-    config.cosign_login_redirect = "https://#{config.hostname}/data/dashboard"
-    config.cosign_logout_redirect = "https://#{config.hostname}/data"
-    config.login_url = "https://#{config.cosign_host}/?#{config.cosign_service}&#{config.cosign_login_redirect}"
-    config.logout_url = "https://#{config.cosign_host}/cgi-bin/logout?#{config.cosign_logout_redirect}"
+    # URL for logging the user out of Cosign
+    config.logout_prefix = "https://weblogin.umich.edu/cgi-bin/logout?"
     
     # Set the default host for resolving _url methods
     Rails.application.routes.default_url_options[:host] = config.hostname
