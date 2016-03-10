@@ -18,3 +18,4 @@
 //= require sufia
 //= require manage_repeating_fields
 //= require uploader.js
+//= require edit_doi_warning

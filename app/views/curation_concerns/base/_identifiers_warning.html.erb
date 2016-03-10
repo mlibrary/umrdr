@@ -1,0 +1,6 @@
+<% if @form.identifiers_minted?(:doi) %>
+  <div class="alert alert-block alert-warning" id="edit-doi-warning" tabindex="-1">
+    <p>It is not possible to edit the work and keep the same DOI.
+       If you have any questions, please <%= link_to('contact Deep Blue Data', sufia.contact_path(via: 'doi')) %>.</p>
+  </div>
+<% end %>

@@ -12,6 +12,7 @@
             <%= form_tag(main_app.identifiers_curation_concerns_generic_work_path(@presenter.id), method: 'post') do %>
               <%= hidden_field_tag('generic_work[nop]') %>
               <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
+              <%= t('simple_form.warnings.generic_work.mint_doi') %>
             <% end %>
           <% end %>
         </li>

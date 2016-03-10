@@ -82,6 +82,10 @@ en:
       generic_work:
         contributor: "Contributor"
 
+    warnings:
+      generic_work:
+        mint_doi: "Note: it is not possible to edit a work and keep the same DOI."
+
   curation_concerns:
     api:
       unprocessable_entity:
@@ -111,3 +115,8 @@ en:
     http://creativecommons_org/licenses/by-nd/3_0/us/:
       description:
         "This license allows for redistribution, commercial and non-commercial, as long as it is passed along unchanged and in whole, with credit to you."
+
+  contact_form:
+    subject:
+      doi_persistence:
+        "Question about editing work and keeping the same DOI"

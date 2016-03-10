@@ -11,5 +11,9 @@ module CurationConcerns
       [ :title, :creator, :contributor, :methodology, :description, :date_created, :rights, :subject, :tag, :language, :identifier, :resource_type ]
     end
 
+    def identifiers_minted?(identifier)
+      return @model[identifier]
+    end
+
   end
 end
