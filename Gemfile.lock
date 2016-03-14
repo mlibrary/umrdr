@@ -631,6 +631,9 @@ GEM
       rdoc (~> 4.0)
     select2-rails (3.5.9.3)
       thor (~> 0.14)
+    shoulda-context (1.2.1)
+    shoulda-matchers (3.1.1)
+      activesupport (>= 4.0.0)
     signet (0.7.2)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -756,6 +759,8 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  shoulda-context
+  shoulda-matchers
   solr_wrapper (~> 0.5)
   sqlite3
   sufia!
