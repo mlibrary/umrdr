@@ -3,7 +3,10 @@
 require 'rails_helper'
 
 describe SciWork do
-  it "has tests" do
-    skip "Add your tests here"
+  context "validation" do
+    it "should validate title" do
+      should validate_presence_of(:title).
+          with_message('Your work must have a title.')
+    end
   end
 end

@@ -46,6 +46,8 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
+  gem "shoulda-matchers", require: false
+  gem 'shoulda-context'
   gem 'solr_wrapper', '~> 0.5'
   gem 'fcrepo_wrapper', '~> 0.1'
   gem 'capybara'
