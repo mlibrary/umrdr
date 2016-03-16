@@ -50,6 +50,20 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
+
+  # DANGER: Turning off verify_partial_doubles allows mocking of any method.
+  # This is only being done for the specs under views. This allows the helpers
+  # for the view to be mocked, but also means tests could mock methods that 
+  # don't already exist on an object.
+  # Relevatn discussion at https://github.com/rspec/rspec-rails/issues/1076
+  config.around(:each, type: :view) do |ex|
+    config.mock_with :rspec do |mocks|
+      mocks.verify_partial_doubles = false
+      ex.run
+      mocks.verify_partial_doubles = true
+    end
+  end
+
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:

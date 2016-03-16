@@ -3,7 +3,7 @@
     <%= f.label :rights %>
     <%= f.collection_radio_buttons(:rights, options, :last, :first, item_wrapper_class: 'radio', item_wrapper_tag: :div, boolean_style: :inline) do |b|
         ( content_tag :p do
-            b.label { b.radio_button + b.text }
+            b.label { b.radio_button(required: true) + b.text }
         end ) + 
         ( content_tag :aside do
             t_uri(:description, scope: [ :rights, b.value ])
@@ -11,4 +11,4 @@
     end %>
     <%= f.hint :rights %>
 </div>
- 
+
