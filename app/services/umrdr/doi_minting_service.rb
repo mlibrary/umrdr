@@ -1,6 +1,9 @@
 module Umrdr
   class DoiMintingService
-    attr :work
+    PUBLISHER = "University of Michigan".freeze
+    RESOURCE_TYPE = "Dataset".freeze
+
+    attr :work, :metadata
 
     def self.mint_doi_for(work)
       Umrdr::DoiMintingService.new(work).run
@@ -8,6 +11,7 @@ module Umrdr
 
     def initialize(work)
       @work = work
+      @metadata = generate_metadata
     end
 
     def run
@@ -19,25 +23,24 @@ module Umrdr
 
     private
 
-    # Check that the server is reachable
+    # Any error raised during connection is considered false
     def doi_server_reachable?
-      # Invoke the API and get response
-      true
+      Ezid::Client.new.server_status.up? rescue false
     end
 
     def generate_metadata
       Ezid::Metadata.new.tap do |md|
         md.datacite_title = work.title.first
-        md.datacite_publisher = "University of Michigan"
+        md.datacite_publisher = PUBLISHER
         md.datacite_publicationyear = Date.today.year.to_s
-        md.datacite_resourcetype="Dataset"
-        md.datacite_creator=work.creator.join(',')
+        md.datacite_resourcetype= RESOURCE_TYPE
+        md.datacite_creator=work.creator.join(';')
         md.target = Rails.application.routes.url_helpers.curation_concerns_generic_work_url(id: work.id)
       end
     end
 
     def mint_doi
-      identifier = Ezid::Identifier.create(metadata: generate_metadata)
+      identifier = Ezid::Identifier.create(@metadata)
       identifier.id
     end
   end
