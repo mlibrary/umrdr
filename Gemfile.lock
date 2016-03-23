@@ -433,6 +433,7 @@ GEM
     nest (1.1.2)
       redis
     net-http-persistent (2.9.4)
+    net-ldap (0.14.0)
     netrc (0.11.0)
     noid (0.8.0)
     nokogiri (1.6.7.2)
@@ -745,6 +746,7 @@ DEPENDENCIES
   jquery-rails
   kaminari!
   mysql2
+  net-ldap
   poltergeist
   pry
   pry-byebug
