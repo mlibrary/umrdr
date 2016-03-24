@@ -22,6 +22,7 @@ config/arkivo.yml
 config/zotero.yml
 config/ezid.yml
 config/clients_data/*
+config/mcommunity.yml
 
 # Ignore bundler config.
 /.bundle
