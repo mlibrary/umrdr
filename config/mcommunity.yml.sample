@@ -1,0 +1,14 @@
+development:
+  host: 'ldap.umich.edu'
+  port: 636
+  encryption: 'simple_tls'
+  use_ssl: true
+  user: "mcommunityuser"
+  password: "mcommunitypass"
+test:
+  host: 'ldap.umich.edu'
+  port: 636
+  encryption: 'simple_tls'
+  use_ssl: true
+  user: "mcommunityuser"
+  password: "mcommunitypass"
