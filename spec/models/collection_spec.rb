@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Collection do
   let(:user) { stub_model(User, user_key: 'user') }
   let(:collection) do
-    described_class.new(title: "test collection") do |c|
+    described_class.new(title: ["test collection"]) do |c|
       c.apply_depositor_metadata(user)
     end
   end

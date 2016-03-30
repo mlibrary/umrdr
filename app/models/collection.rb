@@ -2,4 +2,5 @@
 class Collection < ActiveFedora::Base
   include ::CurationConcerns::CollectionBehavior
   include Sufia::CollectionBehavior
+  include Hydra::Collections::BasicMetadata
 end

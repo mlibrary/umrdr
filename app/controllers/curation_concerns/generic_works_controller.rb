@@ -4,7 +4,8 @@
 class CurationConcerns::GenericWorksController < ApplicationController
   include CurationConcerns::CurationConcernController
   # Adds Sufia behaviors to the controller.
-  include Sufia::WorksControllerBehavior
+  #Override Sufia behavior to change the after_create message
+  include Umrdr::WorksControllerBehavior
 
   before_action :check_recent_uploads, only: [:show]
   after_action  :notify_rdr, only: [:create]
@@ -12,7 +13,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
   set_curation_concern_type GenericWork
 
   def notify_rdr
-    @msg = main_app.curation_concerns_generic_work_url(curation_concern) 
+    @msg = main_app.curation_concerns_generic_work_url(curation_concern.id) 
     email = WorkMailer.deposit_work(Sufia.config.notification_email,@msg)
     email.deliver_now
   end
