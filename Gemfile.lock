@@ -226,6 +226,7 @@ GEM
       resque (~> 1.23)
       resque-pool (~> 0.3)
     daemons (1.2.3)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     deprecation (0.2.2)
       activesupport
@@ -736,6 +737,7 @@ DEPENDENCIES
   byebug
   capybara
   coffee-rails (~> 4.1.0)
+  database_cleaner
   devise
   devise-guests (~> 0.3)
   engine_cart
