@@ -1,13 +1,17 @@
 class SessionsController < ApplicationController
   def destroy
-    # make any local additions here (e.g. expiring local sessions, etc.)
-    # adapted from here: http://cosign.git.sourceforge.net/git/gitweb.cgi?p=cosign/cosign;a=blob;f=scripts/logout/logout.php;h=3779248c754001bfa4ea8e1224028be2b978f3ec;hb=HEAD
     sign_out(:user)
-    cookies.delete(Sufia::Engine.config.cosign_service)
-    redirect_to Sufia::Engine.config.logout_url
+    cookies.delete("cosign-" + Sufia::Engine.config.hostname)
+    redirect_to Sufia::Engine.config.logout_prefix + root_url
   end
 
   def new
-    redirect_to Sufia::Engine.config.login_url
+    if user_signed_in?
+      # redirect to where user came from (see Devise::Controllers::StoreLocation#stored_location_for)
+      redirect_to stored_location_for(:user) || sufia.dashboard_index_path
+    else
+      # should have been redirected via mod_cosign - error out instead of going through redirect loop
+      render(:status => :forbidden, :text => 'Forbidden')
+    end
   end
 end
