@@ -52,6 +52,7 @@ group :development, :test do
   gem 'fcrepo_wrapper', '~> 0.1'
   gem 'capybara'
   gem 'poltergeist'
+  gem 'database_cleaner'
 end
 
 group :development do
