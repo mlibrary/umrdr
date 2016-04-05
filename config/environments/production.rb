@@ -4,13 +4,6 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
-  # For properly generating URLs and minting DOIs - the app may not by default
-  # know its hostname if started via puma and accessed via mod_proxy.
-  config.hostname = 'deepblue.lib.umich.edu'
-
-  # Set the default host for resolving _url methods
-  Rails.application.routes.default_url_options[:host] = config.hostname
-
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.

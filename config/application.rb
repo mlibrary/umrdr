@@ -17,14 +17,15 @@ module Umrdr
     config.relative_url_root = '/data'
 
     # For properly generating URLs and minting DOIs - the app may not by default
-    # know its hostname if started via puma and accessed via mod_proxy.
-    config.hostname = 'umrdr-testing.quod.lib.umich.edu'
-    # URL for logging the user out of Cosign
-    config.logout_prefix = "https://weblogin.umich.edu/cgi-bin/logout?"
-    
+    # Outside of a request context the hostname needs to be provided.
+    config.hostname = ENV['UMRDR_HOST'] || 'umrdr.umich.edu'
+
     # Set the default host for resolving _url methods
     Rails.application.routes.default_url_options[:host] = config.hostname
 
+    # URL for logging the user out of Cosign
+    config.logout_prefix = "https://weblogin.umich.edu/cgi-bin/logout?"
+    
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
