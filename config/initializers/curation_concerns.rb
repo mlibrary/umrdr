@@ -1,55 +1,14 @@
 CurationConcerns.configure do |config|
   # Injected via `rails g curation_concerns:work GenericWork`
   config.register_curation_concern :generic_work
-  config.fits_to_desc_mapping = {
-    file_title: :title,
-    file_author: :creator
-  }
 
   config.max_days_between_audits = 7
   config.minter_statefile = '/tmp/umrdr-minter'
 
   config.minter_statefile = '/tmp/grosscol-umdr'
 
-  config.resource_types = {
-    'Article' => 'Article',
-    'Audio' => 'Audio',
-    'Book' => 'Book',
-    'Capstone Project' => 'Capstone Project',
-    'Conference Proceeding' => 'Conference Proceeding',
-    'Dataset' => 'Dataset',
-    'Dissertation' => 'Dissertation',
-    'Image' => 'Image',
-    'Journal' => 'Journal',
-    'Map or Cartographic Material' => 'Map or Cartographic Material',
-    'Masters Thesis' => 'Masters Thesis',
-    'Part of Book' => 'Part of Book',
-    'Poster' => 'Poster',
-    'Presentation' => 'Presentation',
-    'Project' => 'Project',
-    'Report' => 'Report',
-    'Research Paper' => 'Research Paper',
-    'Software or Program Code' => 'Software or Program Code',
-    'Video' => 'Video',
-    'Other' => 'Other'
-  }
-
   config.display_microdata = true
   config.microdata_default_type = 'http://schema.org/CreativeWork'
-
-  config.resource_types_to_schema = config.resource_types.map do |k, v|
-    [k, I18n.t("curation_concerns.schema_org.resource_type.#{v}", default: config.microdata_default_type)]
-  end.to_h
-
-  config.permission_levels = {
-    'Choose Access' => 'none',
-    'View/Download' => 'read',
-    'Edit' => 'edit'
-  }
-
-  config.owner_permission_levels = {
-    'Edit' => 'edit'
-  }
 
   # Enable displaying usage statistics in the UI
   # Defaults to FALSE
