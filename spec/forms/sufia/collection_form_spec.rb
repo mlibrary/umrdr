@@ -7,7 +7,6 @@ describe Sufia::Forms::CollectionForm do
     it { is_expected.to eq [:resource_type,
                             :title,
                             :creator,
-                            :contributor,
                             :description,
                             :tag,
                             :rights,
