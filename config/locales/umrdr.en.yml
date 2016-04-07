@@ -27,7 +27,7 @@ en:
           'The date the work’s data was created, as determined by the creator.'
 
         contributor:
-          'The person, organization or service responsible for submitting the deposit. (Format: Last name, First name)'
+          'The person, organization or service outside the Creator role who have contributed to the work in this dataset. (Format: Last name, First name)'
 
         rights_html:
           'Depositors must choose to apply one of several <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
@@ -64,7 +64,7 @@ en:
           'The date the work’s data was created, as determined by the creator. (Format: Last name, First name)'
 
         contributor:
-          'The person, organization or service responsible for submitting the deposit. (Format: Last name, First name)'
+          'The person, organization or service outside the Creator role who have contributed to the work in this collection. (Format: Last name, First name)'
 
         rights_html:
           'Depositors must choose to apply one of several <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
@@ -95,7 +95,7 @@ en:
       generic_work:
         rights: "Creative Commons License"
 
-        contributor: "Contributor (Depositor)"
+        contributor: "Contributor"
 
         tag: "Keywords"
 
