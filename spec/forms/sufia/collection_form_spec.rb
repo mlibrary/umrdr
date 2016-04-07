@@ -9,7 +9,6 @@ describe Sufia::Forms::CollectionForm do
                             :creator,
                             :description,
                             :tag,
-                            :rights,
                             :publisher,
                             :date_created,
                             :subject,
