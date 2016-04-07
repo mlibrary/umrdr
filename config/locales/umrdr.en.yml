@@ -21,13 +21,13 @@ en:
           'Provide a descriptive name of the work. What is it formally known as?'
 
         creator:
-          'The person, organization or service primarily responsible for making the work.'
+          'The person, organization or service primarily responsible for making the work. (Format: Last name, First name)'
 
         date_created:
           'The date the work’s data was created, as determined by the creator.'
 
         contributor:
-          'The person, organization or service responsible for submitting the deposit.'
+          'The person, organization or service responsible for submitting the deposit. (Format: Last name, First name)'
 
         rights_html:
           'Depositors must choose to apply one of several <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
@@ -36,7 +36,7 @@ en:
           'May include, but is not limited to: an abstract, codebooks, a free-text account of the work, etc.'
 
         publisher:
-          'The person, organization or service responsible for making the work available.'
+          'The person, organization or service responsible for making the work available. (Format: Last name, First name)'
 
         subject:
           'Select the discipline(s) representing the primary topic(s) the work is focused on.'
@@ -58,13 +58,13 @@ en:
           'Provide a descriptive name of the work. What is it formally known as?'
 
         creator:
-          'The person, organization or service primarily responsible for making the work.'
+          'The person, organization or service primarily responsible for making the work. (Format: Last name, First name)'
 
         date_created:
-          'The date the work’s data was created, as determined by the creator.'
+          'The date the work’s data was created, as determined by the creator. (Format: Last name, First name)'
 
         contributor:
-          'The person, organization or service responsible for submitting the deposit.'
+          'The person, organization or service responsible for submitting the deposit. (Format: Last name, First name)'
 
         rights_html:
           'Depositors must choose to apply one of several <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
@@ -73,7 +73,7 @@ en:
           'May include, but is not limited to: an abstract, codebooks, a free-text account of the work, etc.'
 
         publisher:
-          'The person, organization or service responsible for making the work available.'
+          'The person, organization or service responsible for making the work available. (Format: Last name, First name)'
 
         subject:
           'Select the discipline(s) representing the primary topic(s) the work is focused on.'
