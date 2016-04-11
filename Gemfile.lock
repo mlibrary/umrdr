@@ -167,6 +167,8 @@ GEM
       blacklight (~> 6.0.1)
       parslet
     blankslate (3.1.3)
+    bootstrap-datepicker-rails (1.6.0.1)
+      railties (>= 3.0)
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -732,6 +734,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  bootstrap-datepicker-rails
   byebug
   capybara
   coffee-rails (~> 4.1.0)
