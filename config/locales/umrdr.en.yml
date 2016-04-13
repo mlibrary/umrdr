@@ -18,22 +18,22 @@ en:
     hints:
       generic_work:
         title:
-          'Provide a descriptive name of the work. What is it formally known as?'
+          'Provide a descriptive name for the work. What is it formally known as?'
 
         creator:
-          'The person, organization or service primarily responsible for making the work. (Format: Last name, First name)'
+          'The person or organization primarily responsible for making the work. (Format: Last name, First name MI.)'
 
         date_created:
           'The date the work’s data was created, as determined by the creator.'
 
         contributor:
-          'The person, organization or service outside the Creator role who have contributed to the work in this dataset. (Format: Last name, First name)'
+          'Person or organization outside the 'Creator' role who have contributed to the work in some way (e.g., interns, other non-authors/creators).'
 
         rights_html:
-          'Depositors must choose to apply one of several <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
+          'Depositors must choose to apply one of the following <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
 
         description:
-          'May include, but is not limited to: an abstract, codebooks, a free-text account of the work, etc.'
+          'An account of the dataset (e.g. abstract, codebook, a free-text account of the work).'
 
         publisher:
           'The person, organization or service responsible for making the work available. (Format: Last name, First name)'
@@ -42,23 +42,23 @@ en:
           'Select the discipline(s) representing the primary topic(s) the work is focused on.'
 
         language:
-          'Language(s) the datasets and supplementary content contained in the the work are written in.'
+          'Language(s) in which the datasets and supplementary content are written.'
 
         resource_type:
           'The file format and/or physical medium of datasets contained in the work.'
 
-        tag:
-          'The topic of the resource. Please add one keyword or phrase per line.'
+        keywords:
+          'The topics of the resource. Please add one keyword or phrase per line.'
 
         methodology:
-          'The way the dataset was collected (equipment used for sensing, survey methodology, etc.).'
+          'The way the dataset was collected and processed (e.g. equipment used for sensing, survey methodology).'
       
       collection:
         title:
-          'Provide a descriptive name of the work. What is it formally known as?'
+          'Provide a descriptive name for the work. What is it formally known as?'
 
         creator:
-          'The person, organization or service primarily responsible for making the work. (Format: Last name, First name)'
+          'The person or organization primarily responsible for making the collection. (Format: Last name, First name MI)'
 
         date_created:
           'The date the work’s data was created, as determined by the creator. (Format: Last name, First name)'
@@ -70,7 +70,7 @@ en:
           'Depositors must choose to apply one of several <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
 
         description:
-          'May include, but is not limited to: an abstract, codebooks, a free-text account of the work, etc.'
+          'An account of the datasets within the collection.'
 
         publisher:
           'The person, organization or service responsible for making the work available. (Format: Last name, First name)'
@@ -85,7 +85,7 @@ en:
           'The file format and/or physical medium of datasets contained in the work.'
 
         tag:
-          'The topic of the resource. Please add one keyword or phrase per line.'
+          'The topics of the resource. Please add one keyword or phrase per line.'
 
         methodology:
           'The way the dataset was collected (equipment used for sensing, survey methodology, etc.).'
