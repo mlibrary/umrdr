@@ -27,7 +27,7 @@ en:
           'The date the work’s data was created, as determined by the creator.'
 
         contributor:
-          'Person or organization outside the 'Creator' role who have contributed to the work in some way (e.g., interns, other non-authors/creators).'
+          'Person or organization outside the Creator role who have contributed to the work in some way (e.g., interns, other non-authors/creators).'
 
         rights_html:
           'Depositors must choose to apply one of the following <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
@@ -47,7 +47,7 @@ en:
         resource_type:
           'The file format and/or physical medium of datasets contained in the work.'
 
-        keywords:
+        tag:
           'The topics of the resource. Please add one keyword or phrase per line.'
 
         methodology:
