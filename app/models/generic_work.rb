@@ -6,7 +6,6 @@ class GenericWork < ActiveFedora::Base
   include Umrdr::GenericWorkMetadata
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :creator, presence: { message: 'Your work must have a creator.' }
-  validates :date_created, presence: { message: 'Your work must have a date created.' }
   validates :description, presence: { message: 'Your work must have a description.' }
   validates :methodology, presence: { message: 'Your work must have a description of the method for collecting the dataset.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }

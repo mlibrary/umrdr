@@ -24,7 +24,7 @@ describe "Work Edit Form" do
   end
 
   it "has html5 required attribute for required input fields" do
-    input_fields = ["title","creator","date_created"]
+    input_fields = ["title","creator"]
     input_fields.each do |infield|
       expect(rendered).to have_selector("input[id='generic_work_#{infield}']") do |selected|
         expect(selected).to have_selector("required")
@@ -33,7 +33,7 @@ describe "Work Edit Form" do
   end
 
   it "has html5 required attribute for required text area fields" do
-    texta_fields = ["title","creator","date_created"]
+    texta_fields = ["title","creator"]
     texta_fields.each do |tafield|
       expect(rendered).to have_selector("input[id='generic_work_#{tafield}']") do |selected|
         expect(selected).to have_selector("required")
@@ -42,7 +42,7 @@ describe "Work Edit Form" do
   end
 
   it "has html5 required attribute for the rights attribute fields" do
-    texta_fields = ["title","creator","date_created"]
+    texta_fields = ["title","creator"]
     texta_fields.each do |tafield|
       expect(rendered).to have_selector("input[id='generic_work_#{tafield}']") do |selected|
         expect(selected).to have_selector("required")
