@@ -1,8 +1,7 @@
-class DoiMintingJob < ActiveFedoraIdBasedJob
+class DoiMintingJob < ActiveJob::Base
   queue_as :doi_minting
   def perform(id)
-    @id = id
-    work = object
+    work = ActiveFedora::Base.find(id)
     user = User.find_by_user_key(work.depositor)
 
     # Continue only when doi is pending
