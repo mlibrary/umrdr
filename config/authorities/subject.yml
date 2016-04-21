@@ -20,4 +20,6 @@ terms:
     - id: Science
       term: Science
     - id: Social Sciences
-      term: Social Sciences 
+      term: Social Sciences
+    - id: Other
+      term: Other 
