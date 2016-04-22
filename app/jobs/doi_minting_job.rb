@@ -5,7 +5,7 @@ class DoiMintingJob < ActiveJob::Base
     user = User.find_by_user_key(work.depositor)
 
     # Continue only when doi is pending
-    return unless work.doi.nil? || work.doi == CurationConcerns::GenericWorkActor::PENDING
+    return unless work.doi.nil? || work.doi == GenericWork::PENDING
 
     if Umrdr::DoiMintingService.mint_doi_for work
       # do success callback
