@@ -20,7 +20,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
 
   # Begin processes to mint hdl and doi for the work
   def identifiers
-    actor.mint_doi
+    mint_doi
     respond_to do |wants|
       wants.html { redirect_to [main_app, curation_concern] }
       wants.json { render :show, status: :ok, location: polymorphic_path([main_app, curation_concern]) }
@@ -60,6 +60,22 @@ class CurationConcerns::GenericWorksController < ApplicationController
       rescue
         Rails.logger.info "Unable to parse date: #{field.first.inspect} for #{self['id']}"
       end
+    end
+
+    # TODO move this to an actor after sufia 7.0 dependency.
+
+    def mint_doi
+      # Check that work doesn't already have a doi.
+      return unless curation_concern.doi.nil?
+
+      # Assign doi as "pending" in the meantime
+      curation_concern.doi = GenericWork::PENDING
+
+      # save (and re-index)
+      curation_concern.save
+
+      # Kick off job to get a doi
+      ::DoiMintingJob.perform_later(curation_concern.id)
     end
 
 end

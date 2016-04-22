@@ -23,7 +23,7 @@ module Umrdr
     end
 
     def identifiers_pending?(identifier)
-      @object_profile[identifier] == CurationConcerns::GenericWorkActor::PENDING
+      @object_profile[identifier] == GenericWork::PENDING
     end
 
   end

@@ -13,6 +13,8 @@ class GenericWork < ActiveFedora::Base
 
   after_initialize :set_defaults
 
+  PENDING = 'pending'.freeze
+
   def set_defaults
     return unless new_record?
     self.resource_type = ['Dataset']
