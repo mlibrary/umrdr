@@ -43,7 +43,7 @@ CurationConcerns.configure do |config|
   # config.minter_statefile = '/tmp/minter-state'
 
   # Specify the prefix for Redis keys:
-  # config.redis_namespace = "curation_concerns"
+  config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
 
   # Specify the path to the file characterization tool:
   # config.fits_path = "fits.sh"
