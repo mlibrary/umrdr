@@ -3,9 +3,8 @@ CurationConcerns.configure do |config|
   config.register_curation_concern :generic_work
 
   config.max_days_between_audits = 7
-  config.minter_statefile = '/tmp/umrdr-minter'
 
-  config.minter_statefile = '/tmp/grosscol-umdr'
+  config.minter_statefile = ENV['MINTER_FILE'] || "/tmp/umrdr-minter-#{Time.now.min}#{Time.now.sec}"
 
   config.display_microdata = true
   config.microdata_default_type = 'http://schema.org/CreativeWork'
