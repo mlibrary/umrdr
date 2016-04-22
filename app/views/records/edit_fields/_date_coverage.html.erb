@@ -1,0 +1,24 @@
+<% @wmon = (1..12).to_a %>
+<% @wday = (1..31).to_a %>
+Date Coverage
+<% if f.object.class.multiple? key %> 
+
+FROM
+ <%= f.input :YYYY1, as: :extra, input_html: { :style=> 'width: 100px, class: form-horizontal'} %>/
+<%= select_tag :MM1, options_for_select(@wmon) %>
+<%= select_tag :DD1, options_for_select(@wday) %> 
+ TO 
+<%= f.input :YYYY2, as: :extra, input_html: { :style=> 'width: 100px, class: form-horizontal'} %>/
+<%= select_tag :MM2, options_for_select(@wmon) %>
+<%= select_tag :DD2, options_for_select(@wday) %>
+<% else %>
+
+FROM
+<%= f.input :YYYY1, as: :extra, input_html: { :style=> 'width: 100px, class: form-horizontal'} %>/
+<%= select_tag :MM1, options_for_select(@wmon) %>
+<%= select_tag :DD1, options_for_select(@wday) %>
+ TO 
+<%= f.input :YYYY2, as: :extra, input_html: { :style=> 'width: 100px, class: form-horizontal'} %>/
+<%= select_tag :MM2, options_for_select(@wmon) %>
+<%= select_tag :DD2, options_for_select(@wday) %>
+<% end %>

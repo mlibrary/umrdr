@@ -1,7 +1,7 @@
 module Umrdr::Forms
   class WorkForm < Sufia::Forms::WorkForm
 
-    self.terms += [:methodology]
+    self.terms += [:methodology, :date_coverage]
 
     class << self
       # This determines whether the allowed parameters are single or multiple.

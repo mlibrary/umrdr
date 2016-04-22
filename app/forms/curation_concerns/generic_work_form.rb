@@ -5,10 +5,10 @@ module CurationConcerns
     self.model_class = ::GenericWork
     include HydraEditor::Form::Permissions
     self.terms += [:resource_type]
-    self.required_fields = [ :title, :creator, :date_created, :methodology, :description, :rights ]
+    self.required_fields = [ :title, :creator, :methodology, :description, :rights, :subject ]
 
     def rendered_terms
-      [ :title, :creator, :contributor, :methodology, :description, :date_created, :rights, :subject, :tag, :language, :resource_type ]
+      [ :title, :creator, :contributor, :methodology, :description, :date_coverage, :rights, :subject, :tag, :language, :resource_type ]
     end
 
   end
