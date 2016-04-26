@@ -1,73 +1,78 @@
 <% @wmon = (1..12).to_a.unshift('--') %>
 <% @wday = (1..31).to_a.unshift('--') %>
 
-<% if f.object.class.multiple? key %> 
-
-<div class="form-group">
+<div class="form-group <% if f.object.class.multiple? key %>multi_value<% end %> required">
 
   <p class="text-bold required">Date Coverage<span class="required required-tag">required</span></p>
   <p class="help-block">The date range the work's data was created, as determined by the creator.</p>
 
-  <div class="row">
+  <% if f.object.class.multiple? key %>
+  <ul class="listing">
+    <li class="field-wrapper">
+  <% end %> 
 
-    <div class="col-md-6">
       <div class="row">
+        <div class="col-md-6">
+          <div class="row">
 
-        <fieldset>
-          <div class="col-md-12">
-            <legend class="legend-label">Start Date</legend>
-          </div>
+            <fieldset>
+              <div class="col-md-12">
+                <legend class="legend-label">Start Date</legend>
+              </div>
 
-          <div class="col-md-4">
-            <label for="YYYY1" data-label="Date">Year</label>
-            <input type="text" id="YYYY1" class="form-control date-year"></input>
-          </div>
+              <div class="col-md-4">
+                <label for="YYYY1" data-label="Date">Year</label>
+                <input type="text" id="YYYY1" class="form-control date-year"></input>
+              </div>
 
-          <div class="col-md-3">
-            <label for="MM1">Month</label>
-            <%= select_tag :MM1, options_for_select(@wmon), { class: 'form-control'} %>
-          </div>
+              <div class="col-md-3">
+                <label for="MM1">Month</label>
+                <%= select_tag :MM1, options_for_select(@wmon), { class: 'form-control'} %>
+              </div>
 
-          <div class="col-md-3">
-            <label for="DD1">Day</label>
-            <%= select_tag :DD1, options_for_select(@wday), { class: 'form-control'} %>
+              <div class="col-md-3">
+                <label for="DD1">Day</label>
+                <%= select_tag :DD1, options_for_select(@wday), { class: 'form-control'} %>
+              </div>
+            </fieldset>
+
           </div>
-        </fieldset>
+        </div>
+
+        <div class="col-md-6">
+          <div class="row">
+
+            <fieldset>
+              <div class="col-md-12">
+                <legend class="legend-label">End Date</legend>
+              </div>
+
+              <div class="col-md-4">
+                <label for="YYYY2">Year</label>
+                <input type="text" id="YYYY2" class="form-control date-year"></input>
+              </div>
+
+              <div class="col-md-3">
+                <label for="MM2">Month</label>
+                <%= select_tag :MM2, options_for_select(@wmon), { class: 'form-control'} %>
+              </div>
+
+              <div class="col-md-3">
+                <label for="DD2">Day</label>
+                <%= select_tag :DD2, options_for_select(@wday), { class: 'form-control'} %>
+              </div>
+            </fieldset>
+
+          </div>
+        </div>
 
       </div>
-    </div>
 
-    <div class="col-md-6">
-      <div class="row">
-
-        <fieldset>
-          <div class="col-md-12">
-            <legend class="legend-label">End Date</legend>
-          </div>
-
-          <div class="col-md-4">
-            <label for="YYYY2">Year</label>
-            <input type="text" id="YYYY2" class="form-control date-year"></input>
-          </div>
-
-          <div class="col-md-3">
-            <label for="MM2">Month</label>
-            <%= select_tag :MM2, options_for_select(@wmon), { class: 'form-control'} %>
-          </div>
-
-          <div class="col-md-3">
-            <label for="DD2">Day</label>
-            <%= select_tag :DD2, options_for_select(@wday), { class: 'form-control'} %>
-          </div>
-        </fieldset>
-
-      </div>
-    </div>
-
-  </div>
+  <% if f.object.class.multiple? key %>
+    </li>
+  </ul>
+  <% end %> 
 
 </div>
-
-<% end %>
 
 

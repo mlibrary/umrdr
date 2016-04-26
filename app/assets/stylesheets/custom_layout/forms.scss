@@ -168,3 +168,25 @@
 .text-bold {
   font-weight: bold;
 }
+
+.multi_value .field-controls .btn.add,
+.multi_value .field-controls .btn.remove {
+  width: auto;
+  text-align: left;
+  padding: 0.5rem 0;
+}
+
+.add:active:hover,
+.add:active:focus {
+  background: transparent;
+  border-color: transparent;
+  color: #337ab7;
+}
+
+.listing .field-wrapper {
+  margin-bottom: 1rem;
+}
+
+.multi_value .field-controls .btn.add.btn-add-another {
+  display: block;
+}
