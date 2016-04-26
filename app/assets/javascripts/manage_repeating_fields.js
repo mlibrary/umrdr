@@ -15,8 +15,8 @@ var HydraEditor = (function($) {
           }
 
           this.controls = $("<span class=\"input-group-btn field-controls\">");
-          this.remover  = $("<button type=\"button\" class=\"btn btn-danger remove\"><i class=\"icon-white glyphicon-minus\"></i><span>Remove" + this.options.label + "</span></button>");
-          this.adder    = $("<button type=\"button\" class=\"btn btn-success add\"><i class=\"icon-white glyphicon-plus\"></i><span>Add" + this.options.label + "</span></button>");
+          this.remover  = $("<button type=\"button\" class=\"btn btn-link text-danger remove\">Remove</button>");
+          this.adder    = $("<button type=\"button\" class=\"btn btn-link add btn-add-another\">Add another " + this.options.label + "</button>");
 
           this.fieldWrapperClass = '.field-wrapper';
           this.warningClass = '.has-warning';
@@ -35,7 +35,6 @@ var HydraEditor = (function($) {
 
           _addInitialClasses: function () {
               this.element.addClass("managed");
-              $(this.fieldWrapperClass, this.element).addClass("input-group input-append");
           },
 
           _appendControls: function() {
