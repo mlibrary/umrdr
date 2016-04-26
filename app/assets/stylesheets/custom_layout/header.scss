@@ -132,6 +132,11 @@
     background-color: transparent;
   }
 
+  #masthead_controls .navbar {
+    margin-bottom: 0;
+    border: none;
+  }
+
   .navbar li,
   .navbar li:first-child {
     border: 0;
@@ -143,6 +148,7 @@
   #masthead_controls a:hover,
   #masthead_controls a:focus {
     background-color: transparent;
+    color: white;
   }
 
   .navbar-nav li.active a,
