@@ -30,7 +30,7 @@ module Sufia::FileSetsController
           actor = CurationConcerns::FileSetActor.new(fs, current_user)
           actor.create_metadata(parent)
           fs.save!
-          ImportUrlJob.perform_later(fs.id)
+          ImportUrlJob.perform_later(fs)
         end
       end
   end
