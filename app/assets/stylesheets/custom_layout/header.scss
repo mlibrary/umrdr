@@ -132,6 +132,11 @@
     background-color: transparent;
   }
 
+  #masthead_controls .navbar {
+    margin-bottom: 0;
+    border: none;
+  }
+
   .navbar li,
   .navbar li:first-child {
     border: 0;
@@ -143,6 +148,7 @@
   #masthead_controls a:hover,
   #masthead_controls a:focus {
     background-color: transparent;
+    color: white;
   }
 
   .navbar-nav li.active a,
@@ -249,5 +255,21 @@
         }
       }
     }
+  }
+}
+
+/*
+  Header search input
+*/
+
+#masthead_controls #search-submit-header {
+  background-color: #333;
+  color: #fff;
+  border-top: 1px solid #CECDCD;
+  border-bottom: 1px solid #CECDCD;
+
+  &:hover {
+    background-color: #DDD;
+    color: #000;
   }
 }
