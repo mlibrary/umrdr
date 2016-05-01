@@ -1,74 +1,79 @@
 <% @wmon = (1..12).to_a.unshift('--') %>
 <% @wday = (1..31).to_a.unshift('--') %>
 
-<div class="form-group">
+<div class="form-group <% if f.object.class.multiple? key %>multi_value<% end %>">
 
-  <p class="text-bold">Date of Work</p>
-  <p class="help-block">Date or date range in which your dataset are created or collected.</p>
+  <p class="text-bold"><%= t('simple_form.labels.generic_work.date_coverage') %></p>
+  <p class="help-block"><%= t('simple_form.hints.generic_work.date_coverage') %></p>
 
-  <div class="row">
-    <div class="col-md-6">
+  <% if f.object.class.multiple? key %>
+  <ul class="listing">
+    <li class="field-wrapper">
+  <% end %> 
+
       <div class="row">
+        <div class="col-md-6">
+          <div class="row">
 
-        <fieldset>
-          <div class="col-md-12 date-coverage-element hidden">
-            <legend class="legend-label">Start Date</legend>
-          </div>
+            <fieldset>
+              <div class="col-md-12">
+                <legend class="legend-label">Start Date</legend>
+              </div>
 
-          <div class="col-md-4">
-            <label for="date_coverage_1_year" data-label="Date">Year</label>
-            <input type="text" id="date_coverage_1_year" name="date_coverage_1_year[]" class="form-control"></input>
-          </div>
+              <!-- TODO: Use fields_for and sham model instead of manually managing the -->
+              <!--  name attributes of the input fields for date_coverage -->
+              <div class="col-md-4">
+                <%= label_tag(:start_year, "Year", data: { label: "Date Coverage"}) %>
+                <%= text_field('coverage[][start_year]', '', class: "form-control date-year") %>
+              </div>
 
-          <div class="col-md-3">
-            <label for="date_coverage_1_month">Month</label>
-            <%= select_tag :date_coverage_1_month, options_for_select(@wmon), { class: 'form-control'} %>
-          </div>
+              <div class="col-md-3">
+                <label for="MM1">Month</label>
+                <%= select_tag 'coverage[][start_month]', options_for_select(@wmon), { class: 'form-control'} %>
+              </div>
 
-          <div class="col-md-3">
-            <label for="date_coverage_1_day">Day</label>
-            <%= select_tag :date_coverage_1_day, options_for_select(@wday), { class: 'form-control'} %>
+              <div class="col-md-3">
+                <label for="DD1">Day</label>
+                <%= select_tag 'coverage[][start_day]', options_for_select(@wday), { class: 'form-control'} %>
+              </div>
+            </fieldset>
+
           </div>
-        </fieldset>
+        </div>
+
+        <div class="col-md-6">
+          <div class="row">
+
+            <fieldset>
+              <div class="col-md-12">
+                <legend class="legend-label">End Date</legend>
+              </div>
+
+              <div class="col-md-4">
+                <%= label_tag(:end_year, "Year", data: { label: "Date Coverage"}) %>
+                <%= text_field('coverage[][end_year]', '', class: "form-control date-year") %>
+              </div>
+
+              <div class="col-md-3">
+                <label for="MM2">Month</label>
+                <%= select_tag 'coverage[][end_month]', options_for_select(@wmon), { class: 'form-control'} %>
+              </div>
+
+              <div class="col-md-3">
+                <label for="DD2">Day</label>
+                <%= select_tag 'coverage[][end_day]', options_for_select(@wday), { class: 'form-control'} %>
+              </div>
+            </fieldset>
+
+          </div>
+        </div>
 
       </div>
-    </div>
 
-    <div class="col-md-6 date-coverage-element">
-      <button type="button" class="btn btn-link date-add-coverage-button">Add date range</button>
-    </div>
-
-    <div class="col-md-6 date-coverage-element date-coverage-end-date hidden">
-      <div class="row">
-
-        <fieldset>
-          <div class="col-md-12">
-            <legend class="legend-label">End Date</legend>
-          </div>
-
-          <div class="col-md-4">
-            <label for="date_coverage_2_year" data-label="Date">Year</label>
-            <input type="text" id="date_coverage_2_year" name="date_coverage_2_year[]" class="form-control"></input>
-          </div>
-
-          <div class="col-md-3">
-            <label for="date_coverage_2_month">Month</label>
-            <%= select_tag :date_coverage_2_month, options_for_select(@wmon), { class: 'form-control'} %>
-          </div>
-
-          <div class="col-md-3">
-            <label for="date_coverage_2_day">Day</label>
-            <%= select_tag :date_coverage_2_day, options_for_select(@wday), { class: 'form-control'} %>
-          </div>
-        </fieldset>
-
-      </div>
-    </div>
-
-    <div class="col-md-12 date-coverage-element hidden">
-      <button type="button" class="btn btn-link date-reset">Remove date range</button>
-    </div>
-  </div>
+  <% if f.object.class.multiple? key %>
+    </li>
+  </ul>
+  <% end %> 
 
 </div>
 
