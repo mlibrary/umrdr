@@ -10,9 +10,9 @@ box:
   :client_secret: YOUR_CLIENT_SECRET_HERE
   :callback: "https://HOSTNAME/RELATIVE_URL_ROOT/browse/connect"
 google_drive:
-  :client_id: YOUR_GOOGLE_DRIVE_CLIENT_ID
-  :client_secret: YOUR_GOOGLE_DRIVE_API_CLIENT_SECRET
-  :callback: "https://HOSTNAME/RELATIVE_URL_ROOT/browse/connect"
+  :client_id: 012345678910-replacethiswithyurowndevclientid.apps.googleusercontent.com
+  :client_secret: Ur0wnD3vCli3nts3kretkey1
+  :callback: http://localhost:3000/data/browse/connect
 # dropbox:
 #   :app_key: YOUR_DROPBOX_APP_KEY
 #   :app_secret: YOUR_DROPBOX_APP_SECRET
