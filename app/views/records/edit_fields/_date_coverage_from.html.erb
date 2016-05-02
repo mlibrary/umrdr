@@ -1,0 +1,82 @@
+<% @wmon = (1..12).to_a.unshift('--') %>
+<% @wday = (1..31).to_a.unshift('--') %>
+<% yr1 = @form["date_coverage_1_year"] %>
+<% yr2 = @form["date_coverage_2_year"] %>
+<% @mn1 = @form["date_coverage_1_month"] %>
+<% @mn2 = @form["date_coverage_2_month"] %>
+<% @day1 = @form["date_coverage_1_day"] %>
+<% @day2 = @form["date_coverage_2_day"] %>
+
+<div class="form-group">
+  <%= hidden_field_tag(:date_coverage_from) %>
+  <%= hidden_field_tag(:date_coverage_to) %>
+  
+  <p class="text-bold">Date of Work</p>
+  <p class="help-block">Date or date range in which your dataset are created or collected.</p>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+
+        <fieldset>
+          <div class="col-md-12 date-coverage-element hidden">
+            <legend class="legend-label">Start Date</legend>
+          </div>
+
+          <div class="col-md-4">
+            <label for="date_coverage_1_year" data-label="Date">Year</label>
+            <input type="text" id="date_coverage_1_year" name="date_coverage_1_year" class="form-control" value="<%=yr1%>"></input>
+          </div>
+
+          <div class="col-md-3">
+            <label for="date_coverage_1_month">Month</label>
+            <%= select_tag :date_coverage_1_month, options_for_select(@wmon,@mn1), { class: 'form-control', } %>
+          </div>
+
+          <div class="col-md-3">
+            <label for="date_coverage_1_day">Day</label>
+            <%= select_tag :date_coverage_1_day, options_for_select(@wday,@day1), { class: 'form-control'} %>
+          </div>
+        </fieldset>
+
+      </div>
+    </div>
+
+    <div class="col-md-6 date-coverage-element">
+      <button type="button" class="btn btn-link date-add-coverage-button">Add date range</button>
+    </div>
+
+    <div class="col-md-6 date-coverage-element date-coverage-end-date hidden">
+      <div class="row">
+
+        <fieldset>
+          <div class="col-md-12">
+            <legend class="legend-label">End Date</legend>
+          </div>
+
+          <div class="col-md-4">
+            <label for="date_coverage_2_year" data-label="Date">Year</label>
+            <input type="text" id="date_coverage_2_year" name="date_coverage_2_year" class="form-control" value="<%= yr2%>"></input>
+          </div>
+
+          <div class="col-md-3">
+            <label for="date_coverage_2_month">Month</label>
+            <%= select_tag :date_coverage_2_month, options_for_select(@wmon,@mn2), { class: 'form-control'} %>
+          </div>
+
+          <div class="col-md-3">
+            <label for="date_coverage_2_day">Day</label>
+            <%= select_tag :date_coverage_2_day, options_for_select(@wday,@day2), { class: 'form-control'} %>
+          </div>
+        </fieldset>
+
+      </div>
+    </div>
+
+    <div class="col-md-12 date-coverage-element hidden">
+      <button type="button" class="btn btn-link date-reset">Remove date range</button>
+    </div>
+  </div>
+
+</div>
+
