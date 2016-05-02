@@ -17,3 +17,21 @@ ol.catalog li:after {
 .multi_value .field-controls .btn.remove {
     width: 15em;
 }
+
+.attributes .attribute {
+  list-style: none;
+}
+
+.attributes ul {
+  margin: 0;
+  padding: 0;
+}
+
+.attributes td {
+  width: 75%;
+}
+
+.attributes thead th {
+  text-align: left;
+  font-size: 1.2em;
+}
