@@ -4,6 +4,19 @@ module Umrdr
     include Sufia::Controller
     include Sufia::WorksControllerBehavior
     include CurationConcerns::CurationConcernController
+       
+    # override curation concerns, add form fields values
+    def build_form
+    
+      super
+      st = EDTF.parse(@form["date_coverage"])
+      if (!st.eql? nil)
+        @form["date_coverage_1_day"] = st.day
+        @form["date_coverage_1_month"] = st.mon
+        @form["date_coverage_1_year"] = st.year    
+     end
+
+    end  
     
     def after_create_response
       respond_to do |wants|
