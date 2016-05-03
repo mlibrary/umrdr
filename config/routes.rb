@@ -2,8 +2,7 @@ Rails.application.routes.draw do
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
 
-  get 'terms', to: proc { [302, { 'Location' => 'agreement'}, []] }
-  get ':action' => 'static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|file-format-preservation|how-to-upload|prepare-your-data|retention|zotero|mendeley|agreement|subject_libraries|versions/ }, as: :static
+  get ':action' => 'static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|file-format-preservation|how-to-upload|prepare-your-data|retention|zotero|mendeley|agreement|terms|subject_libraries|versions/ }, as: :static
 
   concern :searchable, Blacklight::Routes::Searchable.new
 
