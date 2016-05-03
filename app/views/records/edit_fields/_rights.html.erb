@@ -7,7 +7,7 @@
         end ) + 
         ( content_tag :aside do
             t_uri(:description, scope: [ :rights, b.value ])
-        end )
+        end ) if !b.text.include?('3.0')
     end %>
     <%= f.hint :rights %>
 </div>
