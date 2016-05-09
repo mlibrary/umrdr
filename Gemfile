@@ -21,6 +21,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 # Webserver
 gem 'puma'
+gem 'edtf'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

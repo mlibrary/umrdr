@@ -6,8 +6,12 @@ module Umrdr
       Array(self[Solrizer.solr_name('methodology')]).first
     end
 
-    def date_coverage
-      Array(self[Solrizer.solr_name('date_coverage')]).first
+    def date_coverage_from
+      Array(self[Solrizer.solr_name('date_coverage_from')]).first
+    end
+
+     def date_coverage_to
+      Array(self[Solrizer.solr_name('date_coverage_to')]).first
     end
   end
 
