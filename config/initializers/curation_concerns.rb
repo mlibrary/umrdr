@@ -46,7 +46,7 @@ CurationConcerns.configure do |config|
   config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
 
   # Specify the path to the file characterization tool:
-  # config.fits_path = "fits.sh"
+  config.fits_path = system("which", "fits.sh") ? "fits.sh" : "/l/local/fits/fits.sh"
 
   # Specify a date you wish to start collecting Google Analytic statistics for.
   # Leaving it blank will set the start date to when ever the file was uploaded by
