@@ -8,7 +8,7 @@ module CurationConcerns
     self.required_fields = [ :title, :creator, :methodology, :description, :rights, :subject ]
 
     def rendered_terms
-      [ :title, :creator, :contributor, :methodology, :description, :date_coverage, :rights, :subject, :tag, :language, :resource_type ]
+      [ :title, :creator, :methodology, :description, :date_coverage, :rights, :subject, :tag, :language, :resource_type ]
     end
 
   end
