@@ -3,7 +3,7 @@ module Umrdr
   class WorkShowPresenter < ::Sufia::WorkShowPresenter
 
     attr_accessor :object_profile
-    delegate :methodology, to: :solr_document
+    delegate :methodology, :date_coverage, to: :solr_document
 
     def initialize(solr_document, current_ability)
       super
