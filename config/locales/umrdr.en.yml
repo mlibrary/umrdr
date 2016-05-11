@@ -26,6 +26,9 @@ en:
         date_created:
           'The date the work’s data was created, as determined by the creator.'
 
+        date_coverage:
+          'The span of time the data set relates to or describes.'
+
         contributor:
           'Person or organization outside the Creator role who have contributed to the work in some way (e.g., interns, other non-authors/creators).'
 
@@ -62,6 +65,9 @@ en:
 
         date_created:
           'The date the work’s data was created, as determined by the creator. (Format: Last name, First name)'
+
+        date_coverage:
+          'The span of time the content of the collection relates to or describes.'
 
         contributor:
           'The person, organization or service outside the Creator role who have contributed to the work in this collection. (Format: Last name, First name)'
@@ -102,6 +108,8 @@ en:
         subject: "Discipline"
 
         date_created: "Date Created"
+
+        date_coverage: "Date Coverage"
 
         methodology: "Method"
         doi: "DOI"
