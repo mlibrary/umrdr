@@ -3,16 +3,16 @@
 
 <div class="form-group">
 
-  <p class="text-bold">Date of Work</p>
-  <p class="help-block">Date or date range in which your dataset are created or collected.</p>
+  <%= content_tag(:p, t('simple_form.labels.generic_work.date_coverage'), class: "text-bold") %>
+  <%= content_tag(:p, t('simple_form.hints.generic_work.date_coverage'), class: "help-block") %>
 
   <div class="row">
     <div class="col-md-6">
       <div class="row">
 
         <fieldset>
-          <div class="col-md-12 date-coverage-element hidden">
-            <legend class="legend-label">Start Date</legend>
+          <div class="col-md-12">
+            <%= content_tag(:legend, t('simple_form.labels.generic_work.date_coverage_start'), class: "legent-label") %>
           </div>
 
           <div class="col-md-4">
@@ -35,7 +35,7 @@
     </div>
 
     <div class="col-md-6 date-coverage-element">
-      <button type="button" class="btn btn-link date-add-coverage-button">Add date range</button>
+      <%= button_tag( t('simple_form.actions.generic_work.add.coverage_end'), class: "btn btn-link date-reset", type: "button") %>
     </div>
 
     <div class="col-md-6 date-coverage-element date-coverage-end-date hidden">
@@ -43,7 +43,7 @@
 
         <fieldset>
           <div class="col-md-12">
-            <legend class="legend-label">End Date</legend>
+            <%= content_tag(:legend, t('simple_form.labels.generic_work.date_coverage_end'), class: "legent-label") %>
           </div>
 
           <div class="col-md-4">
@@ -66,7 +66,7 @@
     </div>
 
     <div class="col-md-12 date-coverage-element hidden">
-      <button type="button" class="btn btn-link date-reset">Remove date range</button>
+      <%= button_tag( t('simple_form.actions.generic_work.remove.coverage_end'), class: "btn btn-link date-reset", type: "button") %>
     </div>
   </div>
 
