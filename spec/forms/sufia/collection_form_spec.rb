@@ -9,10 +9,9 @@ describe Sufia::Forms::CollectionForm do
                             :creator,
                             :description,
                             :tag,
-                            :publisher,
                             :date_created,
                             :subject,
-                            :language,
-                            :related_url] }
+                            :language
+                           ] }
   end
 end
