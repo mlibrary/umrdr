@@ -13,12 +13,12 @@ module Umrdr
       date_range = Umrdr::DateFormService.new(@form["date_coverage"].first).parse
       if date_range
       
-        @form["date_coverage_1_year"] = date_range[0]
-        @form["date_coverage_1_month"] = date_range[1]
-        @form["date_coverage_1_day"] = date_range[2]
-        @form["date_coverage_2_year"] = date_range[3]
-        @form["date_coverage_2_month"] = date_range[4]
-        @form["date_coverage_2_day"] = date_range[5] 
+        @form["date_coverage_begin_year"] = date_range[0]
+        @form["date_coverage_begin_month"] = date_range[1]
+        @form["date_coverage_begin_day"] = date_range[2]
+        @form["date_coverage_end_year"] = date_range[3]
+        @form["date_coverage_end_month"] = date_range[4]
+        @form["date_coverage_end_day"] = date_range[5] 
      end  
     end
     def after_create_response

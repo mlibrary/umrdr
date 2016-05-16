@@ -45,15 +45,15 @@ module Umrdr
 
     def transform
 
-      y = get_yr_mon_day(:date_coverage_1_year)
-      m = get_yr_mon_day(:date_coverage_1_month)
-      d = get_yr_mon_day(:date_coverage_1_day)
+      y = get_yr_mon_day(:date_coverage_begin_year)
+      m = get_yr_mon_day(:date_coverage_begin_month)
+      d = get_yr_mon_day(:date_coverage_begin_day)
 
       date_from = get_precision_date(y,m,d)
       
-      y = get_yr_mon_day(:date_coverage_2_year)
-      m = get_yr_mon_day(:date_coverage_2_month)
-      d = get_yr_mon_day(:date_coverage_2_day)
+      y = get_yr_mon_day(:date_coverage_end_year)
+      m = get_yr_mon_day(:date_coverage_end_month)
+      d = get_yr_mon_day(:date_coverage_end_day)
 
       date_to = get_precision_date(y,m,d)
       
