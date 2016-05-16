@@ -1,6 +1,7 @@
 <% options = RightsService.select_options.dup %>
 <div class="form-group radio_buttons generic_work_rights">
     <%= f.label :rights %>
+    <%= f.hint :rights %>
     <%= f.collection_radio_buttons(:rights, options, :last, :first, item_wrapper_class: 'radio', item_wrapper_tag: :div, boolean_style: :inline) do |b|
         ( content_tag :p do
             b.label { b.radio_button(required: true) + b.text }
@@ -9,6 +10,6 @@
             t_uri(:description, scope: [ :rights, b.value ])
         end )
     end %>
-    <%= f.hint :rights %>
+    
 </div>
 
