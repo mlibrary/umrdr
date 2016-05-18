@@ -7,20 +7,17 @@ module Umrdr
        
     # override curation concerns, add form fields values
     def build_form
-    
       super
-    
-      date_range = Umrdr::DateFormService.new(@form["date_coverage"].first).parse
-      if date_range
-      
-        @form["date_coverage_begin_year"] = date_range[0]
-        @form["date_coverage_begin_month"] = date_range[1]
-        @form["date_coverage_begin_day"] = date_range[2]
-        @form["date_coverage_end_year"] = date_range[3]
-        @form["date_coverage_end_month"] = date_range[4]
-        @form["date_coverage_end_day"] = date_range[5] 
-     end  
+      setup_form_coverage
     end
+
+    # Set up the multiple parameters for the date coverage attribute in the form
+    def setup_form_coverage
+      cov_date = Date.edtf(@form.date_coverage.first)
+      cov_params = Umrdr::DateCoverageService.interval_to_params cov_date
+      @form.merge_date_coverage_attributes! cov_params
+    end
+
     def after_create_response
       respond_to do |wants|
         wants.html do

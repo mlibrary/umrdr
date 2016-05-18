@@ -12,15 +12,7 @@ module Umrdr
 
     # display date range as from_date To to_date
     def date_coverage
-      date_interval = @object_profile[:date_coverage].first
-    
-      if date_interval && date_interval.index('/') == date_interval.length-1
-        date_interval = date_interval[0..date_interval.length-2]
-      elsif date_interval
-        date_interval.sub! "/", " To "  
-      end  
-      
-      return date_interval
+      @solr_document.date_coverage.sub("/", " to ") if @solr_document.date_coverage
     end
       
     def doi

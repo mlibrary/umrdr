@@ -29,11 +29,11 @@ class CurationConcerns::GenericWorksController < ApplicationController
     end
   end
  
+  # Create EDTF::Interval from form parameters
+  # Replace the date coverage parameter prior with serialization of EDTF::Interval
   def assign_date_coverage
-
-    date_coverage  = Umrdr::DateRangeService.new(params).transform 
-    params['generic_work']['date_coverage'] = [date_coverage]
-    
+    cov_interval = Umrdr::DateCoverageService.params_to_interval params
+    params['generic_work']['date_coverage'] = cov_interval ? [cov_interval.edtf] : []
   end  
 
   def check_recent_uploads
