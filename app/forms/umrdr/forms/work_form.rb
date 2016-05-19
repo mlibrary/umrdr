@@ -33,10 +33,7 @@ module Umrdr::Forms
     # Can be alleviated when form coverage attribute is:
     # `coverages: [{begin: {:year, :month, :day}, end: {:year, :month, :day}}, ... ]`
     def merge_date_coverage_attributes!(hsh)
-      hsh ||= {}
-      hsh.stringify_keys!
-      @attributes.merge! hsh
+      @attributes.merge!(hsh&.stringify_keys || {})
     end
-
   end
 end
