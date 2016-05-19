@@ -2,12 +2,14 @@ module Umrdr::Forms
   class WorkForm < Sufia::Forms::WorkForm
 
     self.terms += [:methodology, :date_coverage]
+#    delegate :date_coverage_from, to: :model
 
     class << self
       # This determines whether the allowed parameters are single or multiple.
       # By default it delegates to the model, but we need to override for
       # 'rights' which only has a single value on the form.
       def multiple?(term)
+
         case term.to_s
           when 'rights'
             false

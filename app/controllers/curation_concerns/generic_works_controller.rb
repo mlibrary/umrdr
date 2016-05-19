@@ -1,6 +1,6 @@
 # Generated via
 #  `rails generate curation_concerns:work GenericWork`
-
+require 'edtf'
 class CurationConcerns::GenericWorksController < ApplicationController
   include CurationConcerns::CurationConcernController
   # Adds Sufia behaviors to the controller.
@@ -8,6 +8,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
   include Umrdr::WorksControllerBehavior
 
   before_action :check_recent_uploads, only: [:show]
+  before_action :assign_date_coverage, only: [:create, :update]
   after_action  :notify_rdr, only: [:create]
 
   set_curation_concern_type GenericWork
@@ -18,6 +19,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
     email.deliver_now
   end
 
+
   # Begin processes to mint hdl and doi for the work
   def identifiers
     mint_doi
@@ -26,6 +28,13 @@ class CurationConcerns::GenericWorksController < ApplicationController
       wants.json { render :show, status: :ok, location: polymorphic_path([main_app, curation_concern]) }
     end
   end
+ 
+  def assign_date_coverage
+
+    date_coverage  = Umrdr::DateRangeService.new(params).transform 
+    params['generic_work']['date_coverage'] = [date_coverage]
+    
+  end  
 
   def check_recent_uploads
     if params[:uploads_since]
