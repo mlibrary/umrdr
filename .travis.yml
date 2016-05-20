@@ -2,14 +2,13 @@ language: ruby
 cache: bundler
 sudo: false
 rvm: 
-  - 2.2
+  - 2.3.0
 jdk:
   - oraclejdk8
 before_script:
   - "bin/setup"
 notifications:
-  email:
-    - grosscol@umich.edu
+  email: false
 env:
   global:
     - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
