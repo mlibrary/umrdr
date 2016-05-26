@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  Hydra::BatchEdit.add_routes(self)
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
 
@@ -14,7 +15,7 @@ Rails.application.routes.draw do
 
   Hydra::BatchEdit.add_routes(self)
 
-  mount Hydra::Collections::Engine => '/'
+  #mount Hydra::Collections::Engine => '/'
   mount CurationConcerns::Engine, at: '/'
   resources :welcome, only: 'index'
   root 'sufia/homepage#index'

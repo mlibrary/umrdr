@@ -50,7 +50,7 @@ en:
         resource_type:
           'The file format and/or physical medium of datasets contained in the work.'
 
-        tag:
+        keyword:
           'The topics of the resource. Please add one keyword or phrase per line.'
 
         methodology:
@@ -90,7 +90,7 @@ en:
         resource_type:
           'The file format and/or physical medium of datasets contained in the work.'
 
-        tag:
+        keyword:
           'The topics of the resource. Please add one keyword or phrase per line.'
 
         methodology:
