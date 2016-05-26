@@ -61,6 +61,8 @@ Sufia.config do |config|
 
   # Store identifier minter's state in a file for later replayability
   # config.minter_statefile = '/tmp/minter-state'
+  config.minter_statefile = ENV['MINTER_FILE'] || "/tmp/umrdr-minter-#{Time.now.min}#{Time.now.sec}"
+
 
   # Process for translating Fedora URIs to identifiers and vice versa
   # config.translate_uri_to_id = ActiveFedora::Noid.config.translate_uri_to_id
@@ -68,6 +70,7 @@ Sufia.config do |config|
 
   # Specify the prefix for Redis keys:
   # config.redis_namespace = "sufia"
+  #config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
 
   # Specify the path to the file characterization tool:
   config.fits_path = system("which", "fits.sh") ? "fits.sh" : "/l/local/fits/fits.sh"
