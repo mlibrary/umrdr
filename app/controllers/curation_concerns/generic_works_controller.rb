@@ -11,7 +11,8 @@ class CurationConcerns::GenericWorksController < ApplicationController
   before_action :assign_date_coverage, only: [:create, :update]
   after_action  :notify_rdr, only: [:create]
 
-  set_curation_concern_type GenericWork
+
+  self.curation_concern_type = GenericWork
 
   def notify_rdr
     @msg = main_app.curation_concerns_generic_work_url(curation_concern.id) 
@@ -57,7 +58,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
   protected
 
     def show_presenter
-      Umrdr::WorkShowPresenter
+     Umrdr::WorkShowPresenter
     end
 
   private
