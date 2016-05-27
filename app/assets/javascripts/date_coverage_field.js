@@ -3,6 +3,7 @@
   $( document ).ready(function() {
     $(".date-add-coverage-button").click(function() {
       toggleDateCoverage();
+      $("#date_coverage_end_year").focus();
     });
 
     $(".date-reset").click(function() {
@@ -12,12 +13,12 @@
       $("#date_coverage_end_day").val('--');
 
       toggleDateCoverage();
+      $("#date_coverage_begin_year").focus();
     });
 
     function toggleDateCoverage() {
       $(".date-coverage-element").toggleClass('hidden');
-      $("#date_coverage_begin_year").focus();
     }
   });
 
-})( jQuery );  
+})( jQuery );
