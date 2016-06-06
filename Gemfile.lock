@@ -20,17 +20,16 @@ GIT
 
 GIT
   remote: git://github.com/projecthydra/sufia.git
-  revision: 06772b5d725f0319bcf4a02604f4ce1a3dbb5fba
+  revision: 69e191ed5c59c2f89f83889306598cf0d40d9c12
   branch: master
   specs:
     sufia (7.0.0.beta1)
-      activerecord-import (~> 0.5)
       activeresource (~> 4.0)
       acts_as_follower (>= 0.1.1, < 0.3)
       blacklight-gallery (~> 0.1)
       browse-everything (~> 0.10)
       carrierwave (~> 0.9)
-      curation_concerns (>= 1.0.0.beta5, < 2)
+      curation_concerns (>= 1.0.0.beta7, < 2)
       daemons (~> 1.1)
       font-awesome-rails (~> 4.2)
       google-api-client (~> 0.7, < 0.9)
@@ -73,7 +72,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active-fedora (10.0.0.beta3)
+    active-fedora (10.0.0.beta4)
       active-triples (~> 0.7.1)
       activemodel (>= 4.2, < 6)
       activesupport (>= 4.2.4, < 6)
@@ -205,7 +204,7 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.2)
-    curation_concerns (1.0.0.beta5)
+    curation_concerns (1.0.0.beta7)
       active_attr
       active_fedora-noid (~> 1.0)
       awesome_nested_set (~> 3.0)
@@ -431,7 +430,7 @@ GEM
       redis
     net-http-persistent (2.9.4)
     net-ldap (0.14.0)
-    noid (0.8.0)
+    noid (0.9.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nom-xml (0.5.4)
@@ -664,7 +663,7 @@ GEM
     sxp (0.1.5)
     thor (0.19.1)
     thread_safe (0.3.5)
-    tilt (2.0.4)
+    tilt (2.0.5)
     tinymce-rails (4.3.12)
       railties (>= 3.1.1)
     tinymce-rails-imageupload (4.0.16.beta)
