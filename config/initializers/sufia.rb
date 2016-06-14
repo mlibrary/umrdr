@@ -2,8 +2,6 @@ Sufia.config do |config|
 
   config.arkivo_api = false
 
-  config.contact_email = "abc"
-
   config.max_days_between_audits = 7
 
   config.max_notifications_for_dashboard = 5
