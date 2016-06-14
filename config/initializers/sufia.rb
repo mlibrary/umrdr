@@ -1,6 +1,11 @@
 Sufia.config do |config|
 
   config.arkivo_api = false
+<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
+=======
+
+  config.contact_email = "abc"
+>>>>>>> Update Sufia to beta 3
 
   config.max_days_between_audits = 7
 
