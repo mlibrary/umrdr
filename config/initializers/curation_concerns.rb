@@ -6,8 +6,8 @@ CurationConcerns.configure do |config|
 
  # config.minter_statefile = ENV['MINTER_FILE'] || "/tmp/umrdr-minter-#{Time.now.min}#{Time.now.sec}"
 
-  config.display_microdata = true
-  config.microdata_default_type = 'http://schema.org/CreativeWork'
+  #config.display_microdata = true
+  #config.microdata_default_type = 'http://schema.org/CreativeWork'
 
   # Enable displaying usage statistics in the UI
   # Defaults to FALSE
@@ -43,7 +43,7 @@ CurationConcerns.configure do |config|
   # config.minter_statefile = '/tmp/minter-state'
 
   # Specify the prefix for Redis keys:
-  #config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
+  config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
 
   # Specify the path to the file characterization tool:
   config.fits_path = system("which", "fits.sh") ? "fits.sh" : "/l/local/fits/fits.sh"
