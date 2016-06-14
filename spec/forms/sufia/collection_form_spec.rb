@@ -8,7 +8,7 @@ describe Sufia::Forms::CollectionForm do
                             :title,
                             :creator,
                             :description,
-                            :tag,
+                            :keyword,
                             :date_created,
                             :subject,
                             :language

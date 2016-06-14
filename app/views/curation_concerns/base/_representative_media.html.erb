@@ -1,4 +1,0 @@
-<% if work.representative_id.present? && (fs = ::FileSet.load_instance_from_solr(work.representative_id)) %>
-  <%= media_display fs %>
-<% end %>
-

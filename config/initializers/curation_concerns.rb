@@ -2,9 +2,9 @@ CurationConcerns.configure do |config|
   # Injected via `rails g curation_concerns:work GenericWork`
   config.register_curation_concern :generic_work
 
-  config.max_days_between_audits = 7
+  #config.max_days_between_audits = 7
 
-  config.minter_statefile = ENV['MINTER_FILE'] || "/tmp/umrdr-minter-#{Time.now.min}#{Time.now.sec}"
+ # config.minter_statefile = ENV['MINTER_FILE'] || "/tmp/umrdr-minter-#{Time.now.min}#{Time.now.sec}"
 
   config.display_microdata = true
   config.microdata_default_type = 'http://schema.org/CreativeWork'
@@ -12,7 +12,7 @@ CurationConcerns.configure do |config|
   # Enable displaying usage statistics in the UI
   # Defaults to FALSE
   # Requires a Google Analytics id and OAuth2 keyfile.  See README for more info
-  config.analytics = false
+  #config.analytics = false
 
   # Specify a Google Analytics tracking ID to gather usage statistics
   # config.google_analytics_id = 'UA-99999999-1'
@@ -43,7 +43,7 @@ CurationConcerns.configure do |config|
   # config.minter_statefile = '/tmp/minter-state'
 
   # Specify the prefix for Redis keys:
-  config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
+  #config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
 
   # Specify the path to the file characterization tool:
   config.fits_path = system("which", "fits.sh") ? "fits.sh" : "/l/local/fits/fits.sh"
@@ -54,4 +54,4 @@ CurationConcerns.configure do |config|
   # config.analytic_start_date = DateTime.new(2014,9,10)
 end
 
-Date::DATE_FORMATS[:standard] = '%Y-%m-%d'
+#Date::DATE_FORMATS[:standard] = '%Y-%m-%d'

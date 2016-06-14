@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105212362) do
+ActiveRecord::Schema.define(version: 20160601081234) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -62,14 +62,14 @@ ActiveRecord::Schema.define(version: 20160105212362) do
   add_index "domain_terms_local_authorities", ["local_authority_id", "domain_term_id"], name: "dtla_by_ids1"
 
   create_table "featured_works", force: :cascade do |t|
-    t.integer  "order",           default: 5
-    t.string   "generic_work_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.integer  "order",      default: 5
+    t.string   "work_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "featured_works", ["generic_work_id"], name: "index_featured_works_on_generic_work_id"
   add_index "featured_works", ["order"], name: "index_featured_works_on_order"
+  add_index "featured_works", ["work_id"], name: "index_featured_works_on_work_id"
 
   create_table "file_download_stats", force: :cascade do |t|
     t.datetime "date"
@@ -234,9 +234,9 @@ ActiveRecord::Schema.define(version: 20160105212362) do
 
   create_table "trophies", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "generic_work_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "work_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_stats", force: :cascade do |t|
