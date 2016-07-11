@@ -20,28 +20,16 @@ GIT
 
 GIT
   remote: git://github.com/projecthydra/sufia.git
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
   revision: 1649da8749adc4ecbf3b9f10a033c713dddfb33e
   branch: master
   specs:
     sufia (7.0.0.rc2)
-=======
-  revision: 0e7af63e7820ca432155c840caa8f6d55798dc86
-  branch: master
-  specs:
-    sufia (7.0.0.beta3)
-      activeresource (~> 4.0)
->>>>>>> Update Sufia to beta 3
       acts_as_follower (>= 0.1.1, < 0.3)
       almond-rails (~> 0.0.1)
       blacklight-gallery (~> 0.1)
       browse-everything (>= 0.10.3)
       carrierwave (~> 0.9)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
       curation_concerns (~> 1.1)
-=======
-      curation_concerns (>= 1.0.0.beta9, < 2)
->>>>>>> Update Sufia to beta 3
       daemons (~> 1.1)
       flot-rails (~> 0.0.6)
       font-awesome-rails (~> 4.2)
@@ -86,11 +74,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     active-fedora (10.1.0.rc1)
-=======
-    active-fedora (10.0.0)
->>>>>>> Update Sufia to beta 3
       active-triples (~> 0.7.1)
       activemodel (>= 4.2, < 6)
       activesupport (>= 4.2.4, < 6)
@@ -125,17 +109,8 @@ GEM
       activemodel (= 4.2.6)
       activesupport (= 4.2.6)
       arel (~> 6.0)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     activerecord-import (0.15.0)
       activerecord (>= 3.2)
-=======
-    activerecord-import (0.13.0)
-      activerecord (>= 3.0)
-    activeresource (4.1.0)
-      activemodel (~> 4.0)
-      activesupport (~> 4.0)
-      rails-observers (~> 0.1.2)
->>>>>>> Update Sufia to beta 3
     activesupport (4.2.6)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -181,13 +156,8 @@ GEM
       blacklight (~> 6.0)
       cancancan (~> 1.8)
       deprecation (~> 1.0)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     blacklight-gallery (0.6.1)
       blacklight (~> 6.3)
-=======
-    blacklight-gallery (0.5.0)
-      blacklight (> 6.0.0.pre, < 7)
->>>>>>> Update Sufia to beta 3
       bootstrap-sass (~> 3.0)
       openseadragon (>= 0.2.0)
       rails
@@ -237,11 +207,7 @@ GEM
     coffee-script-source (1.10.0)
     commonjs (0.2.7)
     concurrent-ruby (1.0.2)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     curation_concerns (1.1.2)
-=======
-    curation_concerns (1.0.0.beta9)
->>>>>>> Update Sufia to beta 3
       active_attr
       active_fedora-noid (~> 2.0.0.beta1)
       awesome_nested_set (~> 3.0)
@@ -301,17 +267,10 @@ GEM
     fcrepo_wrapper (0.5.2)
       ruby-progressbar
     ffaker (2.2.0)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     ffi (1.9.14)
     flot-rails (0.0.6)
       jquery-rails
     font-awesome-rails (4.6.3.1)
-=======
-    ffi (1.9.10)
-    flot-rails (0.0.6)
-      jquery-rails
-    font-awesome-rails (4.6.3.0)
->>>>>>> Update Sufia to beta 3
       railties (>= 3.2, < 5.1)
     foreigner (1.7.4)
       activerecord (>= 3.0.0)
@@ -353,32 +312,19 @@ GEM
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     hydra-access-controls (10.0.2)
-=======
-    hydra-access-controls (10.0.0)
->>>>>>> Update Sufia to beta 3
       active-fedora (>= 10.0.0.beta1, < 11)
       activesupport (>= 4, < 6)
       blacklight (>= 5.16)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
       blacklight-access_controls (~> 0.5)
-=======
-      blacklight-access_controls (~> 0.4)
->>>>>>> Update Sufia to beta 3
       cancancan (~> 1.8)
       deprecation (~> 1.0)
     hydra-batch-edit (2.0.2)
       blacklight
       curation_concerns (>= 0.12.0.pre2)
       rails
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     hydra-core (10.0.2)
       hydra-access-controls (= 10.0.2)
-=======
-    hydra-core (10.0.0)
-      hydra-access-controls (= 10.0.0)
->>>>>>> Update Sufia to beta 3
       rails (~> 4.0)
     hydra-derivatives (3.1.1)
       active-fedora (>= 9.0, < 11)
@@ -393,15 +339,9 @@ GEM
       simple_form (~> 3.1.0)
     hydra-file_characterization (0.3.3)
       activesupport (>= 3.0.0)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     hydra-head (10.0.2)
       hydra-access-controls (= 10.0.2)
       hydra-core (= 10.0.2)
-=======
-    hydra-head (10.0.0)
-      hydra-access-controls (= 10.0.0)
-      hydra-core (= 10.0.0)
->>>>>>> Update Sufia to beta 3
       rails (>= 3.2.6)
     hydra-pcdm (0.8.1)
       active-fedora (~> 10.0)
@@ -530,11 +470,7 @@ GEM
     parslet (1.7.1)
       blankslate (>= 2.0, <= 4.0)
     pkg-config (1.1.7)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     poltergeist (1.10.0)
-=======
-    poltergeist (1.9.0)
->>>>>>> Update Sufia to beta 3
       capybara (~> 2.1)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
@@ -723,7 +659,7 @@ GEM
       httparty (>= 0.11.0)
       oauth2 (>= 0.9.2)
     slop (3.6.0)
-    solr_wrapper (0.15.0)
+    solr_wrapper (0.14.2)
       faraday
       ruby-progressbar
       rubyzip
@@ -756,20 +692,12 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.11)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     stomp (1.4.1)
-=======
-    stomp (1.4.0)
->>>>>>> Update Sufia to beta 3
     sxp (0.1.5)
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
-<<<<<<< 54c8badcd56c60d76ca27f74baf0efa29fca7a44
     tinymce-rails (4.4.0)
-=======
-    tinymce-rails (4.3.13)
->>>>>>> Update Sufia to beta 3
       railties (>= 3.1.1)
     tinymce-rails-imageupload (4.0.17.beta)
       railties (>= 3.2, < 6)
