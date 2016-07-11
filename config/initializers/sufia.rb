@@ -5,7 +5,8 @@ Sufia.config do |config|
   config.max_days_between_audits = 7
 
   config.max_notifications_for_dashboard = 5
-
+  config.register_curation_concern :generic_work
+  
   #config.resource_types = { "Dataset" => "Dataset" }
   # TODO move to resource types service and QA after sufia 7.0
   #config.resource_types_to_schema = {"Dataset" => "http://schema.org/Dataset"}
