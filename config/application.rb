@@ -14,6 +14,12 @@ module Umrdr
     end
 
     config.notification_email = "researchdataservices@umich.edu"
+    config.max_file_size = 2 * ( 1024 ** 3 )
+    config.max_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_file_size, {})
+
+    config.max_total_file_size = config.max_file_size * 5
+    config.max_total_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_total_file_size, {})
+
     # Deploy to /data instead of /
     config.relative_url_root = '/data'
 

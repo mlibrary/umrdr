@@ -35,7 +35,7 @@ module CurationConcerns
     end
 
     def too_large_file?(file)
-      (file.respond_to?(:tempfile) && file.tempfile.size > Sufia.config.max_file_size) || (file.respond_to?(:size) && file.size > Sufia.config.max_file_size)
+      (file.respond_to?(:tempfile) && file.tempfile.size > Rails.configuration.max_file_size) || (file.respond_to?(:size) && file.size > Rails.configuration.max_file_size)
     end
 
   end
