@@ -16,7 +16,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
 
   def notify_rdr
     @msg = main_app.curation_concerns_generic_work_url(curation_concern.id) 
-    email = WorkMailer.deposit_work(Sufia.config.notification_email,@msg)
+    email = WorkMailer.deposit_work(Rails.configuration.notification_email,@msg)
     email.deliver_now
   end
 

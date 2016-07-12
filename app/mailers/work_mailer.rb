@@ -1,7 +1,7 @@
 class WorkMailer < ApplicationMailer
-default from: Sufia.config.notification_email
+default from: Rails.configuration.notification_email
  
   def deposit_work(from, body)
-    mail(to: Sufia.config.notification_email, from: from, subject: 'DBD: New Deposit', body: body)
+    mail(to: Rails.configuration.notification_email, from: from, subject: 'DBD: New Deposit', body: body)
   end
 end
