@@ -13,6 +13,7 @@ module Umrdr
       g.test_framework :rspec, :spec => true
     end
 
+    config.notification_email = "researchdataservices@umich.edu"
     # Deploy to /data instead of /
     config.relative_url_root = '/data'
 
