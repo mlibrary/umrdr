@@ -23,6 +23,7 @@ config/zotero.yml
 config/ezid.yml
 config/clients_data/*
 config/mcommunity.yml
+config/puma.rb
 
 # Ignore bundler config.
 /.bundle
