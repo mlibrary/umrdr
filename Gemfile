@@ -22,6 +22,9 @@ gem 'coffee-rails', '~> 4.1.0'
 # Webserver
 gem 'puma'
 gem 'edtf'
+gem 'resque-web', '~> 0.0.7', require: 'resque_web'
+gem 'resque'
+gem 'resque-pool'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
