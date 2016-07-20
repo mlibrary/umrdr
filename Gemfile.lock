@@ -20,14 +20,14 @@ GIT
 
 GIT
   remote: git://github.com/projecthydra/sufia.git
-  revision: cf5343e2f33363cd829d0de11d1870102fea14c1
+  revision: cfbd093dd1a718e84663e191ee4af2771ca9c2a5
   branch: master
   specs:
-    sufia (7.0.0.beta4)
+    sufia (7.0.0.rc1)
       acts_as_follower (>= 0.1.1, < 0.3)
       almond-rails (~> 0.0.1)
       blacklight-gallery (~> 0.1)
-      browse-everything (~> 0.10)
+      browse-everything (>= 0.10.3)
       carrierwave (~> 0.9)
       curation_concerns (~> 1.1)
       daemons (~> 1.1)
@@ -74,7 +74,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active-fedora (10.0.0)
+    active-fedora (10.1.0.rc1)
       active-triples (~> 0.7.1)
       activemodel (>= 4.2, < 6)
       activesupport (>= 4.2.4, < 6)
@@ -169,7 +169,7 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     breadcrumbs_on_rails (2.3.1)
-    browse-everything (0.10.2)
+    browse-everything (0.10.3)
       bootstrap-sass
       dropbox-sdk (>= 1.6.2)
       font-awesome-rails
@@ -207,7 +207,7 @@ GEM
     coffee-script-source (1.10.0)
     commonjs (0.2.7)
     concurrent-ruby (1.0.2)
-    curation_concerns (1.1.1)
+    curation_concerns (1.1.2)
       active_attr
       active_fedora-noid (~> 2.0.0.beta1)
       awesome_nested_set (~> 3.0)
@@ -267,7 +267,7 @@ GEM
     fcrepo_wrapper (0.5.2)
       ruby-progressbar
     ffaker (2.2.0)
-    ffi (1.9.13)
+    ffi (1.9.14)
     flot-rails (0.0.6)
       jquery-rails
     font-awesome-rails (4.6.3.1)
@@ -312,9 +312,9 @@ GEM
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    hydra-access-controls (10.0.1)
+    hydra-access-controls (10.0.2)
       active-fedora (>= 10.0.0.beta1, < 11)
-      activesupport (~> 4.0)
+      activesupport (>= 4, < 6)
       blacklight (>= 5.16)
       blacklight-access_controls (~> 0.5)
       cancancan (~> 1.8)
@@ -323,8 +323,8 @@ GEM
       blacklight
       curation_concerns (>= 0.12.0.pre2)
       rails
-    hydra-core (10.0.1)
-      hydra-access-controls (= 10.0.1)
+    hydra-core (10.0.2)
+      hydra-access-controls (= 10.0.2)
       rails (~> 4.0)
     hydra-derivatives (3.1.1)
       active-fedora (>= 9.0, < 11)
@@ -339,12 +339,12 @@ GEM
       simple_form (~> 3.1.0)
     hydra-file_characterization (0.3.3)
       activesupport (>= 3.0.0)
-    hydra-head (10.0.1)
-      hydra-access-controls (= 10.0.1)
-      hydra-core (= 10.0.1)
+    hydra-head (10.0.2)
+      hydra-access-controls (= 10.0.2)
+      hydra-core (= 10.0.2)
       rails (>= 3.2.6)
-    hydra-pcdm (0.8.0)
-      active-fedora (~> 10.0.0.beta2)
+    hydra-pcdm (0.8.1)
+      active-fedora (~> 10.0)
       mime-types (>= 1)
     hydra-works (0.12.0)
       hydra-derivatives (~> 3.0)
@@ -442,7 +442,7 @@ GEM
     nest (1.1.2)
       redis
     net-http-persistent (2.9.4)
-    net-ldap (0.14.0)
+    net-ldap (0.15.0)
     noid (0.9.0)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
