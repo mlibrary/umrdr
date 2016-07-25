@@ -3,7 +3,7 @@ module Umrdr
   class WorkShowPresenter < ::Sufia::WorkShowPresenter
 
     attr_accessor :object_profile
-    delegate :methodology, :date_coverage, to: :solr_document
+    delegate :methodology, :date_coverage, :isReferencedBy, to: :solr_document
 
     def initialize(solr_document, current_ability, request = nil)
       super
@@ -11,11 +11,13 @@ module Umrdr
     end
 
     # display date range as from_date To to_date
-
-
     def date_coverage
       @solr_document.date_coverage.sub("/", " to ") if @solr_document.date_coverage
     end
+
+    def isReferencedBy
+      @solr_document.isReferencedBy
+    end  
       
     def doi
       @object_profile[:doi]
