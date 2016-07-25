@@ -55,7 +55,9 @@ en:
 
         methodology:
           'The way the dataset was collected and processed (e.g. equipment used for sensing, survey methodology).'
-      
+        isReferencedBy:
+          'Related publications that reference/use/describe the data. Paste the full citation or just include a URL. Ex. DOI:240857083.352.523.4'
+    
       collection:
         title:
           'Provide a descriptive name for the work. What is it formally known as?'
@@ -116,7 +118,7 @@ en:
         methodology: "Method"
         doi: "DOI"
         hdl: "Handle"
-        isReferencedBy: "Deep Blue Document Handle"
+        isReferencedBy: "Citation to Related Work(s)"
 
       collection:
         rights: "Creative Commons License"
