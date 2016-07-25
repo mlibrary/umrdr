@@ -309,7 +309,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('isReferencedBy') do |field|
-      field.label = "Deep Blue Handle"
+      field.label = "Deep Blue Document Handle"
       # field.solr_parameters = {
       #   :"spellcheck.dictionary" => "description"
       # }
