@@ -5,7 +5,7 @@
   <%= @presenter.attribute_to_html(:subject, label: 'Discipline', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:keyword, label: 'Keywords', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:date_coverage) %>
-  <%= @presenter.attribute_to_html(:isReferencedBy, label: 'Deep Blue Document Handle:') %>
+  <%= @presenter.attribute_to_html(:isReferencedBy, label: 'Citation to Related Work(s)') %>
   <%= @presenter.attribute_to_html(:publisher) %>
   <%= @presenter.attribute_to_html(:language) %>
   <%= render partial: 'identifiers' %>
