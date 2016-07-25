@@ -209,16 +209,20 @@ en:
 
   simple_form:
     labels:
+      generic_works:
+        isreferencedby:       "Deep Blue Document Handle"
+        keyword:              "Something"
       file_set:
         based_near:       "Location"
         description:      "Abstract or Summary"
+        isreferencedby:       "Deep Blue Document Handle"
         keyword:              "Keyword"
         date_created:     "Date Created"
         related_url:      "Related URL"
       collection:
         based_near:       "Location"
         description:      "Abstract or Summary"
-        keyword:              "Keyword"
+        keyword:              "Nothing"
         date_created:     "Date Created"
         related_url:      "Related URL"
         total_items:      "Total Items"

@@ -14,6 +14,10 @@ module Umrdr
         index.type :text
         index.as :stored_searchable
       end
+      property :isReferencedBy, predicate: ::RDF::Vocab::DC.isReferencedBy, multiple: true do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
     end
   end
 end
