@@ -116,6 +116,7 @@ en:
         methodology: "Method"
         doi: "DOI"
         hdl: "Handle"
+        isReferencedBy: "Deep Blue Document Handle"
 
       collection:
         rights: "Creative Commons License"
