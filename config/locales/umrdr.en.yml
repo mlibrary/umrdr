@@ -56,7 +56,7 @@ en:
         methodology:
           'The way the dataset was collected and processed (e.g. equipment used for sensing, survey methodology).'
         isReferencedBy:
-          'Related publications that reference/use/describe the data. Paste the full citation or just include a URL. Ex. DOI:240857083.352.523.4'
+          'Related publications that reference/use/describe the data. Paste the full citation or just include a URL. Ex. DOI:10.7302/Z2KH0K8V'
     
       collection:
         title:
