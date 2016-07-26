@@ -75,8 +75,10 @@ class CurationConcerns::GenericWorksController < ApplicationController
     # TODO move this to an actor after sufia 7.0 dependency.
 
     def mint_doi
-      # Check that work doesn't already have a doi.
-      return unless curation_concern.doi.nil?
+      # Do not mint doi if
+      #   one already exists 
+      #   work file_set count is 0.
+      return unless curation_concern.doi.nil? && curation_concern.file_sets.count > 0
 
       # Assign doi as "pending" in the meantime
       curation_concern.doi = GenericWork::PENDING
