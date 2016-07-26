@@ -246,6 +246,7 @@ ActiveRecord::Schema.define(version: 20160601081234) do
     t.integer  "file_downloads"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "work_views"
   end
 
   add_index "user_stats", ["user_id"], name: "index_user_stats_on_user_id"
@@ -298,5 +299,17 @@ ActiveRecord::Schema.define(version: 20160601081234) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "work_view_stats", force: :cascade do |t|
+    t.datetime "date"
+    t.integer  "work_views"
+    t.string   "work_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+  end
+
+  add_index "work_view_stats", ["user_id"], name: "index_work_view_stats_on_user_id"
+  add_index "work_view_stats", ["work_id"], name: "index_work_view_stats_on_work_id"
 
 end
