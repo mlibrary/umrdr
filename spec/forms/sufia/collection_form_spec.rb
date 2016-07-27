@@ -11,8 +11,7 @@ describe Sufia::Forms::CollectionForm do
                             :keyword,
                             :date_created,
                             :subject,
-                            :language,
-                            :date_created
+                            :language
                            ] }
   end
 end
