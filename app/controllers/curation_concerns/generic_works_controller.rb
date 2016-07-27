@@ -78,7 +78,13 @@ class CurationConcerns::GenericWorksController < ApplicationController
       # Do not mint doi if
       #   one already exists 
       #   work file_set count is 0.
-      return unless curation_concern.doi.nil? && curation_concern.file_sets.count > 0
+      if curation_concern.doi
+        flash[:notice] = "A DOI already exists or is being minted."
+        return
+      elsif curation_concern.file_sets.count < 1
+        flash[:notice] = "DOI cannot be minted for a work without files."
+        return
+      end
 
       # Assign doi as "pending" in the meantime
       curation_concern.doi = GenericWork::PENDING
