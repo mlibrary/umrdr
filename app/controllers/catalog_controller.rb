@@ -31,7 +31,7 @@ class CatalogController < ApplicationController
     config.advanced_search[:query_parser] ||= 'dismax'
     config.advanced_search[:form_solr_parameters] ||= {}
 
-    config.search_builder_class = Umrdr::SearchBuilder
+    #config.search_builder_class = Umrdr::SearchBuilder
 
     # Show gallery view
     # config.view.gallery.partials = [:index_header, :index]
