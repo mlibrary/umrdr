@@ -20,10 +20,6 @@ class CatalogController < ApplicationController
     false
   end
 
-  def search_builder_class
-    Umrdr::CatalogSearchBuilder
-  end
-
   configure_blacklight do |config|
 
     config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
