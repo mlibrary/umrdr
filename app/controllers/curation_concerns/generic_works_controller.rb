@@ -9,6 +9,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
 
   before_action :check_recent_uploads, only: [:show]
   before_action :assign_date_coverage, only: [:create, :update]
+  before_action :assign_visibility, only: [:create]
   after_action  :notify_rdr, only: [:create]
 
 
@@ -30,6 +31,10 @@ class CurationConcerns::GenericWorksController < ApplicationController
     end
   end
  
+  def assign_visibility
+    byebug
+    params['generic_work']['visibility'] = 'open'
+  end  
   # Create EDTF::Interval from form parameters
   # Replace the date coverage parameter prior with serialization of EDTF::Interval
   def assign_date_coverage
