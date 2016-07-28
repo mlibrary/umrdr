@@ -23,6 +23,8 @@ Sufia.config do |config|
     "Edit" => "edit"
   }
 
+  # disable link for download image and download one file for a work
+  config.display_media_download_link = false
   # Enable displaying usage statistics in the UI
   # Defaults to FALSE
   # Requires a Google Analytics id and OAuth2 keyfile.  See README for more info
