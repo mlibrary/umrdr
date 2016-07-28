@@ -14,6 +14,7 @@ module Umrdr
       cov_date = Date.edtf(@form.date_coverage.first)
       cov_params = Umrdr::DateCoverageService.interval_to_params cov_date
       @form.merge_date_coverage_attributes! cov_params
+      byebug
     end
 
     def after_create_response
