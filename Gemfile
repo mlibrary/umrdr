@@ -9,7 +9,7 @@ gem 'net-ldap'
 gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
-# Use sqlite3 as the database for Active Record
+# Use mysql as the database for Active Record
 gem 'mysql2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -22,6 +22,9 @@ gem 'coffee-rails', '~> 4.1.0'
 # Webserver
 gem 'puma'
 gem 'edtf'
+gem 'resque-web', '~> 0.0.7', require: 'resque_web'
+gem 'resque'
+gem 'resque-pool'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

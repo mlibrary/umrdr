@@ -9,6 +9,10 @@ module Umrdr
     def date_coverage
       Array(self[Solrizer.solr_name('date_coverage')]).first
     end
+
+    def isReferencedBy
+      Array(self[Solrizer.solr_name('isReferencedBy')]).first
+    end
   end
 
 end

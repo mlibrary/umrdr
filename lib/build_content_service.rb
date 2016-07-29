@@ -8,7 +8,7 @@ class BuildContentService
   def self.call( path_to_config )
     config = YAML.load_file(path_to_config)
     base_path = File.dirname(path_to_config)
-    bcs = BuildContentService.new( config, base_path)
+    bcs = BuildContentService.new( config, base_path)   
     puts "NEW CONTENT SERVICE AT YOUR ... SERVICE"
     bcs.config_is_okay? ? bcs.run : puts("Config Check Failed.")
   end
@@ -37,7 +37,7 @@ class BuildContentService
   end
 
   def user_key
-    @cfg[:user][:email]+ "@umich.edu"
+    @cfg[:user][:email]
   end
 
   def works
@@ -49,30 +49,8 @@ class BuildContentService
   end
 
   def run
-    # make all file paths in config relative to current directory.
-    #do_stupid_prepend!
-
     # build the stuff described in the config
     build_repo_contents
-  end
-
-  # This is in dire need of a refactor.
-  # The paths given in the files of the config are relative to the directory the config file is in.
-  # Go through the hash of hashes and find all 'files' keys.
-  # Prepend each value in those with the base path to the config file.
-  def do_stupid_prepend!
-    #rewrite file paths in works
-    works.each do |w|
-
-    #  w[:files].map!{|rel_path| File.join(@base_path, rel_path)}
-    end
-
-    #rewrite file paths in works in collections
-    collections.each do |c|
-      c[:works] &&  c[:works].each do |w|
-          w[:files].map!{|rel_path| File.join(@base_path, rel_path)}
-      end
-    end
   end
 
   def log_object(obj)
@@ -120,7 +98,7 @@ class BuildContentService
     creator = Array(w_hsh[:creator])
     rights = Array(w_hsh[:rights])
     desc  = Array(w_hsh[:description])
-    methodology = w_hsh[:methodology]
+    methodology = w_hsh[:methodology] || "No Methodology Available"
     subject = Array(w_hsh[:subject])
     contributor  = Array(w_hsh[:contributor])
     date_created = Array(w_hsh[:date_created])   
@@ -130,11 +108,13 @@ class BuildContentService
                          description: desc, resource_type: rtype,
                          methodology: methodology, subject: subject,
                          contributor: contributor, date_created: date_created ) 
+
     paths_and_names = w_hsh[:files].zip w_hsh[:filenames]
     fsets = paths_and_names.map{|fp| build_file_set(fp[0], fp[1])}
     fsets.each{|fs| gw.ordered_members << fs}
     gw.apply_depositor_metadata(user_key)
     gw.owner=(user_key)
+    gw.visibility = "open"
     gw.save!
     return gw
   end
@@ -143,18 +123,20 @@ class BuildContentService
   def build_file_set(path, filename=nil)
     fname = filename || File.basename(path)
     file = File.open(path)
+    #So that filename comes from the name of the file
+    #And not the hash
+    file.define_singleton_method(:original_name) do
+      fname
+    end
+
     fs = FileSet.new()
     fs.apply_depositor_metadata(user_key)
-    fs.save!
-    Hydra::Works::UploadFileToFileSet.call(fs, file)
-    Hydra::Works::CharacterizationService.run(fs)
-    # Add title and filename
-    fs.filename = fname
+    Hydra::Works::UploadFileToFileSet.call(fs, file)    
     fs.title = Array(fname)
     fs.label = fname
     fs.date_uploaded = Date.today.strftime('%F')
+    fs.visibility="open"
     fs.save
     return fs
   end
 end
-

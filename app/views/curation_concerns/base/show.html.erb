@@ -7,7 +7,7 @@
 <% editor    = can?(:edit,    @presenter.id) %>
 
 <%= render 'recent_uploads', work: @presenter %>
-<%= render 'representative_media', work: @presenter %>
+<%= render 'representative_media', presenter: @presenter %>
 <%= render 'attributes', presenter: @presenter %>
 <%= render 'related_files', presenter: @presenter %>
 

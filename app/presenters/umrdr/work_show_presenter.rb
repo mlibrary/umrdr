@@ -3,9 +3,9 @@ module Umrdr
   class WorkShowPresenter < ::Sufia::WorkShowPresenter
 
     attr_accessor :object_profile
-    delegate :methodology, :date_coverage, to: :solr_document
+    delegate :methodology, :date_coverage, :isReferencedBy, to: :solr_document
 
-    def initialize(solr_document, current_ability)
+    def initialize(solr_document, current_ability, request = nil)
       super
       @object_profile = JSON.parse(solr_document['object_profile_ssm'].first || "{}", symbolize_names: true)
     end
@@ -14,6 +14,10 @@ module Umrdr
     def date_coverage
       @solr_document.date_coverage.sub("/", " to ") if @solr_document.date_coverage
     end
+
+    def isReferencedBy
+      @solr_document.isReferencedBy
+    end  
       
     def doi
       @object_profile[:doi]
@@ -24,6 +28,7 @@ module Umrdr
     end
 
     def identifiers_minted?(identifier)
+      
       return @object_profile[identifier]
     end
 
