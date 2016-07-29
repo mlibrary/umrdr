@@ -1,7 +1,9 @@
 <div class="row">
-<% if (curation_concern.visibility=="private") %>
+<% if (curation_concern.visibility ==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE && curation_concern.date_uploaded ==nil)%> 
+  <%= f.input :visibility, as: :boolean, checked_value: true, unchecked_value: false %>Save as a draft  
+<% elsif (curation_concern.visibility==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE) %>
     <%= f.input :visibility, as: :boolean, checked_value: true, unchecked_value: false, :input_html => { :checked => true } %>Save as a draft
-<% elsif (curation_concern.visibility !="open")%> 
+<% elsif (curation_concern.visibility !=Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)%> 
   <%= f.input :visibility, as: :boolean, checked_value: true, unchecked_value: false %>Save as a draft
 <% end %>
 </div>

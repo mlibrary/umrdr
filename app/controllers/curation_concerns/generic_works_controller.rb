@@ -35,7 +35,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
     if (params["generic_work"]["visibility"]=="true")
       params['generic_work']['visibility'] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     else  
-      params['generic_work']['visibility'] = 'open'
+      params['generic_work']['visibility'] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end  
   end  
   # Create EDTF::Interval from form parameters
