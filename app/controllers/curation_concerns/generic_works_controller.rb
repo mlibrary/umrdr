@@ -34,7 +34,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
   def assign_visibility
     byebug
     if (params["generic_work"]["visibility"]=="true")
-      params['generic_work']['visibility'] = 'private'
+      params['generic_work']['visibility'] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     else  
       params['generic_work']['visibility'] = 'open'
     end  

@@ -1,1 +1,5 @@
-<p><%= f.input :visibility, as: :boolean, checked_value: true, unchecked_value: false %>Save as draft</p>
+<% if (curation_concern.visibility=="private") %>
+    <%= f.input :visibility, as: :boolean, checked_value: true, unchecked_value: false, :input_html => { :checked => true } %>Save as a draft
+<% elsif (curation_concern.visibility !="open")%> 
+  <%= f.input :visibility, as: :boolean, checked_value: true, unchecked_value: false %>Save as a draft
+<% end %>
