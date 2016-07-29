@@ -4,14 +4,7 @@ require 'rails_helper'
 
 describe GenericWork do
   describe 'properties' do
-    it 'is open visibility by default.' do
-      expect(subject.visibility).to eq 'open'
-    end
 
-    it 'it cannot be set to anything other than open visibility.' do
-      subject.visibility='restricted'
-      expect(subject.visibility).to eq 'open'
-    end
 
     it 'has subject property' do
       expect(subject).to respond_to(:subject)
