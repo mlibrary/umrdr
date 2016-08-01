@@ -97,7 +97,9 @@ en:
 
         methodology:
           'The way the dataset was collected (equipment used for sensing, survey methodology, etc.).'
-
+        isReferencedBy:
+          'Related publications that reference/use/describe the data. Paste the full citation or just include a URL. Ex. DOI:10.7302/Z2KH0K8V'
+    
 
     labels:
       generic_work:
@@ -124,6 +126,7 @@ en:
         rights: "Creative Commons License"
         tag: "Keywords"
         subject: "Discipline"
+        isReferencedBy: "Citation to Related Work(s)"
 
     actions:
       generic_work:
