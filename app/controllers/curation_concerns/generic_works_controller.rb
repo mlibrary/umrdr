@@ -30,7 +30,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
       wants.json { render :show, status: :ok, location: polymorphic_path([main_app, curation_concern]) }
     end
   end
- 
+  
   def assign_visibility
     if (params["generic_work"]["visibility"]=="true")
       params['generic_work']['visibility'] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
