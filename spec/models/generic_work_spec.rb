@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe GenericWork do
   describe 'properties' do
-    it 'has private visibility when created'
+    it 'has private visibility when created' do
       expect(subject.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
 
