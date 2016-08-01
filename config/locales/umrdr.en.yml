@@ -114,7 +114,7 @@ en:
         date_coverage: "Date Coverage"
         date_coverage_start: "Start Date"
         date_coverage_end: "End Date"
-
+        description: "Description"
         methodology: "Method"
         doi: "DOI"
         hdl: "Handle"

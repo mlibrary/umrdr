@@ -211,14 +211,14 @@ en:
     labels:
       file_set:
         based_near:       "Location"
-        description:      "Abstract or Summary"
+        description:      "Description"
         isreferencedby:       "Deep Blue Document Handle"
         keyword:              "Keyword"
         date_created:     "Date Created"
         related_url:      "Related URL"
       collection:
         based_near:       "Location"
-        description:      "Abstract or Summary"
+        description:      "Description"
         keyword:              "Keyword"
         date_created:     "Date Created"
         related_url:      "Related URL"
