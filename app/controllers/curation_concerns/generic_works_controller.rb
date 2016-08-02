@@ -29,7 +29,8 @@ class CurationConcerns::GenericWorksController < ApplicationController
       wants.json { render :show, status: :ok, location: polymorphic_path([main_app, curation_concern]) }
     end
   end
- 
+  
+
   # Create EDTF::Interval from form parameters
   # Replace the date coverage parameter prior with serialization of EDTF::Interval
   def assign_date_coverage
