@@ -10,7 +10,8 @@ describe Sufia::Forms::CollectionForm do
                             :description,
                             :keyword,
                             :subject,
-                            :language
+                            :language,
+                            :isReferencedBy
                            ] }
   end
 end
