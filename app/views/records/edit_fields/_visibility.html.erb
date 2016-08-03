@@ -1,10 +1,10 @@
  <p><label>
  <% if (curation_concern.visibility ==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE && curation_concern.date_uploaded ==nil)%> 
-  <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>  Save as a draft
+  <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>  Draft
 <% elsif (curation_concern.visibility==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE) %>
-   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, true %>   Save as a draft
+   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, true %>   Draft
 <% elsif (curation_concern.visibility !=Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)%> 
-   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>   Save as a draft
+   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>   Draft
 <% end %>
 </label>
 </p>
