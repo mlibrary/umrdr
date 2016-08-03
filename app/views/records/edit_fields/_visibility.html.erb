@@ -1,19 +1,16 @@
- <fieldset>	
- 	<div class="row">
- <div class="col-md-4">     	
-<% if (curation_concern.visibility ==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE && curation_concern.date_uploaded ==nil)%> 
-  <%= f.input :visibility, as: :boolean, checked_value: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, unchecked_value: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC, :input_html => { :checked => false} %> 
+ <p><label>
+ <% if (curation_concern.visibility ==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE && curation_concern.date_uploaded ==nil)%> 
+  <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>  Save as a draft
 <% elsif (curation_concern.visibility==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE) %>
-    <%= f.input :visibility, as: :boolean, checked_value: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, unchecked_value: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC, :input_html => { :checked => true } %>
+   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, true %>   Save as a draft
 <% elsif (curation_concern.visibility !=Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)%> 
-  <%= f.input :visibility, as: :boolean, checked_value: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, unchecked_value: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC %>
+   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>   Save as a draft
 <% end %>
-</div>
-<div class="col-md-3">  
-	Save Draft
-</div>
-</div>
-</fieldset>
+</label>
+</p>
+
+	
+
 
 
 
