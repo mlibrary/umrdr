@@ -72,7 +72,8 @@ Sufia.config do |config|
   #config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
 
   # Specify the path to the file characterization tool:
-  config.fits_path = system("which", "fits.sh") ? "fits.sh" : "/l/local/fits/fits.sh"
+  # If fits.sh isn't in PATH, use hardcoded path, otherwise just call fits.sh and PATH.  
+  config.fits_path = `which fits.sh`.strip.empty? ? "/l/local/fits/fits.sh" : "fits.sh"  
 
   # Specify how many seconds back from the current time that we should show by default of the user's activity on the user's dashboard
   # config.activity_to_show_default_seconds_since_now = 24*60*60
