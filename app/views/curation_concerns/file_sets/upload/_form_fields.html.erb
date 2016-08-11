@@ -7,6 +7,7 @@
 <%= hidden_field_tag(:parent_id, @work_id) %>
 <%= hidden_field_tag "file_coming_from", "local" %>
 
+<%= render 'curation_concerns/file_sets/upload/proxy_checkbox' %>
 <div class="upload-terms-of-service">
   <%= render 'curation_concerns/file_sets/upload/tos_checkbox' %>
   <%= render 'curation_concerns/file_sets/upload/agreement' %>

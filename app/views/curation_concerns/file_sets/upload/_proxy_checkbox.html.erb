@@ -1,0 +1,5 @@
+<% unless current_user.can_make_deposits_for.empty? %>
+  <label>
+    <%= check_box_tag :on_behalf_of, 1, nil, { data: { activate: 'activate-submit' } } %><strong>On behalf of: <%=current_user.can_make_deposits_for.map(&:user_key)%></strong>
+  </label>
+ <% end %>
