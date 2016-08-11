@@ -4,13 +4,8 @@ require 'rails_helper'
 
 describe GenericWork do
   describe 'properties' do
-    it 'is open visibility by default.' do
-      expect(subject.visibility).to eq 'open'
-    end
-
-    it 'it cannot be set to anything other than open visibility.' do
-      subject.visibility='restricted'
-      expect(subject.visibility).to eq 'open'
+    it 'has private visibility when created' do
+      expect(subject.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
 
     it 'has subject property' do

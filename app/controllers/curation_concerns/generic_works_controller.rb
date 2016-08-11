@@ -9,13 +9,15 @@ class CurationConcerns::GenericWorksController < ApplicationController
 
   before_action :check_recent_uploads, only: [:show]
   before_action :assign_date_coverage, only: [:create, :update]
+  before_action :assign_visibility, only: [:create, :update]
   after_action  :notify_rdr, only: [:create]
 
-  set_curation_concern_type GenericWork
+
+  self.curation_concern_type = GenericWork
 
   def notify_rdr
     @msg = main_app.curation_concerns_generic_work_url(curation_concern.id) 
-    email = WorkMailer.deposit_work(Sufia.config.notification_email,@msg)
+    email = WorkMailer.deposit_work(Rails.configuration.notification_email,@msg)
     email.deliver_now
   end
 
@@ -28,7 +30,14 @@ class CurationConcerns::GenericWorksController < ApplicationController
       wants.json { render :show, status: :ok, location: polymorphic_path([main_app, curation_concern]) }
     end
   end
- 
+  
+  def assign_visibility
+    if params["isDraft"] == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+     params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+    else
+      params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+    end  
+  end  
   # Create EDTF::Interval from form parameters
   # Replace the date coverage parameter prior with serialization of EDTF::Interval
   def assign_date_coverage
@@ -57,7 +66,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
   protected
 
     def show_presenter
-      Umrdr::WorkShowPresenter
+     Umrdr::WorkShowPresenter
     end
 
   private

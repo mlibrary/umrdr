@@ -8,10 +8,10 @@ describe Sufia::Forms::CollectionForm do
                             :title,
                             :creator,
                             :description,
-                            :tag,
-                            :date_created,
+                            :keyword,
                             :subject,
-                            :language
+                            :language,
+                            :isReferencedBy
                            ] }
   end
 end

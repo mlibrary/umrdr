@@ -20,10 +20,6 @@ class CatalogController < ApplicationController
     false
   end
 
-  def search_builder_class
-    Umrdr::CatalogSearchBuilder
-  end
-
   configure_blacklight do |config|
 
     config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
@@ -35,7 +31,7 @@ class CatalogController < ApplicationController
     config.advanced_search[:query_parser] ||= 'dismax'
     config.advanced_search[:form_solr_parameters] ||= {}
 
-    config.search_builder_class = Umrdr::SearchBuilder
+    #config.search_builder_class = Umrdr::SearchBuilder
 
     # Show gallery view
     # config.view.gallery.partials = [:index_header, :index]
@@ -110,7 +106,8 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_show_field solr_name("format", :stored_searchable), label: "File Format"
     config.add_show_field solr_name("identifier", :stored_searchable), label: "Identifier"
-
+    config.add_show_field solr_name("isReferencedBy", :stored_searchable), label: "Citation"
+   
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
     #
@@ -301,6 +298,18 @@ class CatalogController < ApplicationController
 
     config.add_search_field('rights') do |field|
       solr_name = solr_name("rights", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
+    config.add_search_field('isReferencedBy') do |field|
+      field.label = "Citation"
+      # field.solr_parameters = {
+      #   :"spellcheck.dictionary" => "description"
+      # }
+      solr_name = solr_name("isReferencedBy", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
         pf: solr_name

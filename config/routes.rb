@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  Hydra::BatchEdit.add_routes(self)
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
 
-  get ':action' => 'static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|file-format-preservation|how-to-upload|prepare-your-data|retention|zotero|mendeley|agreement|terms|subject_libraries|versions/ }, as: :static
+  get ':action' => 'static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|management-plan-text|file-format-preservation|how-to-upload|prepare-your-data|retention|zotero|mendeley|agreement|terms|subject_libraries|versions/ }, as: :static
 
   concern :searchable, Blacklight::Routes::Searchable.new
 
@@ -14,7 +15,7 @@ Rails.application.routes.draw do
 
   Hydra::BatchEdit.add_routes(self)
 
-  mount Hydra::Collections::Engine => '/'
+  #mount Hydra::Collections::Engine => '/'
   mount CurationConcerns::Engine, at: '/'
   resources :welcome, only: 'index'
   root 'sufia/homepage#index'

@@ -1,6 +1,7 @@
 <table class="table table-striped <%= dom_class(presenter) %> attributes" <%= presenter.microdata_type_to_html %>>
   <caption class="table-heading"><h2>Work Description:</h2></caption>
-  <thead>
+   <thead>
+    <tr><th colspan="2">Title: <%= presenter.title.first%></th></tr>
     <tr><th>Attribute Name</th><th>Values</th></tr>
   </thead>
   <tbody>

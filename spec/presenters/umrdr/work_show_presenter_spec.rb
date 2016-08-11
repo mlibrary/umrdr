@@ -24,11 +24,12 @@ describe Umrdr::WorkShowPresenter do
     subject { presenter.itemtype }
 
     context 'when resource_type is DataSet' do
-      let(:type) { ['DataSet'] }
 
       it {
-        is_expected.to eq 'http://schema.org/CreativeWork'
-      }
+        is_expected.to include(:Dataset => 'http://schema.org/Dataset')
+
+         }
+      
     end
   end
 end
