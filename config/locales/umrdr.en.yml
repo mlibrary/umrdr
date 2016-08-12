@@ -120,13 +120,13 @@ en:
         methodology: "Method"
         doi: "DOI"
         hdl: "Handle"
-        isReferencedBy: "Citation to Related Work(s)"
+        isReferencedBy: "Citation"
 
       collection:
         rights: "Creative Commons License"
         tag: "Keywords"
         subject: "Discipline"
-        isReferencedBy: "Citation to Related Work(s)"
+        isReferencedBy: "Citation"
 
     actions:
       generic_work:
