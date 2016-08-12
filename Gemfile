@@ -1,16 +1,23 @@
 source 'https://rubygems.org'
 
-
+# Added Gems
+gem 'sufia', '~> 7.0'
 # EZID client from Duke
 gem 'ezid-client'
 # LDAP client
 gem 'net-ldap'
+# Webserver
+gem 'puma'
+# Date range support
+gem 'edtf'
+# Use mysql as the database for Active Record
+gem 'mysql2'
+
+# Gems added by generator
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
-# Use mysql as the database for Active Record
-gem 'mysql2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -19,9 +26,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-# Webserver
-gem 'puma'
-gem 'edtf'
 gem 'resque-web', '~> 0.0.7', require: 'resque_web'
 gem 'resque'
 gem 'resque-pool'
@@ -35,15 +39,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -52,7 +47,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
-  gem 'solr_wrapper', '~> 0.5'
+  gem 'solr_wrapper', '>= 0.3'
   gem 'fcrepo_wrapper', '~> 0.1'
   gem 'capybara'
   gem 'poltergeist'
@@ -60,23 +55,13 @@ group :development, :test do
 end
 
 group :development do
-  # UMichwrapper
-  gem 'umichwrapper', github: 'mlibrary/umichwrapper', branch: 'master'
-  # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'engine_cart'
+  # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'ffaker'
 end
-
-# Specific commits of gems.
-
-# Required for doing pagination inside an engine. See https://github.com/amatsuda/kaminari/pull/322
-gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
-
-# Sufia from local or master
-gem 'sufia', github: 'projecthydra/sufia', branch: 'master'
 
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'
