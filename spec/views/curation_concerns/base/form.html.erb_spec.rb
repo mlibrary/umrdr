@@ -13,20 +13,35 @@ describe "Work Edit Form" do
   let(:ability) { nil }
   let(:curation_concern) {work}
   let(:work_form) {CurationConcerns::GenericWorkForm.new(work, ability)}
+  let(:proxies) { [stub_model(User, email: 'bob@example.com')] }
+  let(:user) { stub_model(User) }
+  let(:form) do
+    CurationConcerns::GenericWorkForm.new(work, ability)
+  end
 
   before do
     # mock the helper method
-    allow(view).to receive(:curation_concern).and_return(work)
+    view.lookup_context.view_paths.push 'app/views/curation_concerns'
+    allow(controller).to receive(:current_user).and_return(user)
+    allow(view).to receive(:curation_concern).and_return(work)  
+    allow(user).to receive(:can_make_deposits_for).and_return(proxies)
+    
     assign(:form, work_form)
-    assign(:main_app, main_app)
+    assign(:main_app, main_app) 
 
-    render partial: "curation_concerns/base/form.html.erb"
   end
 
+  let(:page) do
+    view.simple_form_for form do |f|
+      render 'curation_concerns/base/form.html.erb', f: f
+    end
+    Capybara::Node::Simple.new(rendered)
+  end
+  
   it "has html5 required attribute for required input fields" do
     input_fields = ["title","creator"]
     input_fields.each do |infield|
-      expect(rendered).to have_selector("input[id='generic_work_#{infield}']") do |selected|
+      expect(page).to have_selector("input[id='generic_work_#{infield}']") do |selected|
         expect(selected).to have_selector("required")
       end
     end
@@ -35,7 +50,7 @@ describe "Work Edit Form" do
   it "has html5 required attribute for required text area fields" do
     texta_fields = ["title","creator"]
     texta_fields.each do |tafield|
-      expect(rendered).to have_selector("input[id='generic_work_#{tafield}']") do |selected|
+      expect(page).to have_selector("input[id='generic_work_#{tafield}']") do |selected|
         expect(selected).to have_selector("required")
       end
     end
@@ -44,7 +59,7 @@ describe "Work Edit Form" do
   it "has html5 required attribute for the rights attribute fields" do
     texta_fields = ["title","creator"]
     texta_fields.each do |tafield|
-      expect(rendered).to have_selector("input[id='generic_work_#{tafield}']") do |selected|
+      expect(page).to have_selector("input[id='generic_work_#{tafield}']") do |selected|
         expect(selected).to have_selector("required")
       end
     end
@@ -53,8 +68,8 @@ describe "Work Edit Form" do
   # The rights selection by radio button needs to be selected using name instead of id
   # because there are multiple elements that are used for the rights.
   it "has html5 required attribute for all required attribute inputs" do
-    expect(rendered).to have_selector("input[name='generic_work[rights]']") do |selected|
-        expect(selected).to have_selector("required")
+    expect(page).to have_selector("input[name='generic_work[rights]']") do |selected|
+        expect(page).to have_selector("required")
     end
   end
 end

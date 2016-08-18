@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_helper'
 
 describe 'collections/_sort_and_per_page.html.erb', type: :view do
  let(:collection) { double }
