@@ -1,0 +1,35 @@
+---
+:user:
+  :email: uniqname
+  :works:
+    :title: 'A Title''s Title Needs Apaostrophes'
+    :creator: Zee, Tom A.
+    :methodology: "Methodology not available."
+    :description: 'Brief or not so brief description'
+    :date_coverage: '2013-04-01/2014-04-07'
+    :rights: 'CC0 1.0 Universal'
+    :subject: 'Science'
+    :keyword: 'fire'
+    :language: 'Bad English'
+    :is_referenced_by: 'www.importantjournal.com/blah/blah/blah'
+    :hdl: '2027.42/999999'
+    :contributor:
+    - Surname, Fname M.
+    - Doe, D. Aaron
+    - O'Mally, Sam
+    :date_created: '2014-04-07'
+    :doi: 
+    :filenames:
+    - Example_1_Nov_17_2007.wav
+    - Example_2_Nov_19_2007.wav
+    - Example_4_z_Nov_19_2007.wav
+    - Example_3_x_1995.wav
+    - Unremarkable_Region_BGSE_z_May_2008.wav
+    - Transformation_Routines_Matlab_IDL.txt
+    :files:
+    - "/l1/dspace/repository/prod/assetstore/46/47/01/46470188647834303278855604888861463013"
+    - "/l1/dspace/repository/prod/assetstore/16/59/20/165920648370911280686282064870577022644"
+    - "/l1/dspace/repository/prod/assetstore/10/70/06/107006647620085578663389494952381308227"
+    - "/l1/dspace/repository/prod/assetstore/15/43/67/154367921501813622019649763443735415341"
+    - "/l1/dspace/repository/prod/assetstore/10/29/96/102996863361881019466864310294982212650"
+    - "/l1/dspace/repository/prod/assetstore/10/45/46/104546786753915522572200177059962151853"
