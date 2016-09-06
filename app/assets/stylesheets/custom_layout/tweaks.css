@@ -35,3 +35,15 @@ ol.catalog li:after {
   text-align: left;
   font-size: 1.2em;
 }
+
+/* To support [more...] and [less...] */
+
+a.morelink {
+    text-decoration:none;
+    outline: none;
+}
+.morecontent span {
+    display: none;
+}
+
+/* End [more...] and [less...] */
