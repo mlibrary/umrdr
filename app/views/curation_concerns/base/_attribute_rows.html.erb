@@ -1,6 +1,9 @@
   <%= @presenter.attribute_to_html(:methodology) %>
-  <%= @presenter.attribute_to_html(:description) %>
-  <%= @presenter.attribute_to_html(:creator, catalog_search_link: true ) %>
+
+
+  <tr><th>Description</th><td><ul class='tabular'><li class="attribute description "><span itemprop="description" class="more"><%= @presenter.description[0] %></span></li></ul></td></tr>
+
+  <%= @presenter.attribute_to_html(:creator,  catalog_search_link: true ) %>
   <%= @presenter.attribute_to_html(:contributor, label: 'Contributors', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:subject, label: 'Discipline', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:keyword, label: 'Keywords', catalog_search_link: true) %>
