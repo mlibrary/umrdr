@@ -14,6 +14,7 @@ en:
     document_language:  "en"
     upload_tooltip:     "Please accept Deposit Agreement before you can upload."
     share_button:       "Deposit Your Work"
+    browse_button:       "Browse"
     view_profile:       "View Profile"
     edit_profile:       "Edit Profile"
     directory:
