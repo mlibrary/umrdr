@@ -7,11 +7,6 @@ Sufia.config do |config|
   config.max_notifications_for_dashboard = 5
   config.register_curation_concern :generic_work
 
-  #config.resource_types = { "Dataset" => "Dataset" }
-  # TODO move to resource types service and QA after sufia 7.0
-  #config.resource_types_to_schema = {"Dataset" => "http://schema.org/Dataset"}
-
-  
   config.permission_levels = {
     "Choose Access" => "none",
     "View/Download" => "read",
@@ -59,17 +54,15 @@ Sufia.config do |config|
   # config.noid_template = ".reeddeeddk"
 
   # Store identifier minter's state in a file for later replayability
-  # config.minter_statefile = '/tmp/minter-state'
-  config.minter_statefile = ENV['MINTER_FILE'] || "/tmp/umrdr-minter-#{Time.now.min}#{Time.now.sec}"
-
+  # Settings read per environment from config/settings.rb and config/settings/<env>.yml
+  config.minter_statefile = Settings.minter_file
 
   # Process for translating Fedora URIs to identifiers and vice versa
   # config.translate_uri_to_id = ActiveFedora::Noid.config.translate_uri_to_id
   # config.translate_id_to_uri = ActiveFedora::Noid.config.translate_id_to_uri
 
   # Specify the prefix for Redis keys:
-  # config.redis_namespace = "sufia"
-  #config.redis_namespace = ENV['REDIS_NS'] || "umrdr"
+  config.redis_namespace = Settings.redis_namespace
 
   # Specify the path to the file characterization tool:
   config.fits_path = system("which", "fits.sh") ? "fits.sh" : "/l/local/fits/fits.sh"
@@ -81,15 +74,10 @@ Sufia.config do |config|
   # of Zotero-managed research items.
   # config.arkivo_api = false
 
-  # Specify a date you wish to start collecting Google Analytic statistics for.
-  # Leaving it blank will set the start date to when ever the file was uploaded by
-  # NOTE: if you have always sent analytics to GA for downloads and page views leave this commented out
-  # config.analytic_start_date = DateTime.new(2014,9,10)
-
   #contact form email addresses
-  #config.contact_email = Rails.env.production? ? 'deepblue@umich.edu' : "#{ENV['USER']}@umich.edu"
-  #config.notification_email = Rails.env.production? ? 'researchdataservices@umich.edu' : "#{ENV['USER']}@umich.edu"
-  #config.from_email  = 'deepblue@umich.edu'
+  config.contact_email = Settings.contact_email
+  config.notification_email = Settings.notification_email
+  config.from_email  = Settings.from_email
 
   config.geonames_username = ''
 
