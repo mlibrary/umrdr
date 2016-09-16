@@ -7,6 +7,7 @@ en:
     sort_label: "Sort the listing of items"
     account_name:       "My Institution Account Id"
     account_label:      "User"
+
     collection:
        add_work:        "Add Work"
        select_works:    "Select Works"
@@ -145,7 +146,7 @@ en:
       search_results: "Back to search results"
     visibility:
       open: "Open Access"
-      private: "Private"
+      private: "Draft"
       open_title_attr: "Shows the visibility of this resource"
       private_title_attr: "Shows the visibility of this resource"
     user_profile:
