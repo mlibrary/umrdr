@@ -1,6 +1,7 @@
 <div class="form-actions">
   <% if Sufia.config.analytics %>
-    <%= link_to "Analytics", @presenter.stats_path, id: 'stats', class: 'btn btn-default' %>
+    <% # TODO remove this hideous hack, and correct behavior to respect url root in Sufia. %>
+    <%= link_to "Analytics", main_app.root_path.chomp('/') + @presenter.stats_path, id: 'stats', class: 'btn btn-default' %>
   <% end %>
   <% if Sufia.config.citations %>
     <%= link_to "Citations", sufia.citations_work_path(@presenter), id: 'citations', class: 'btn btn-default' %>
