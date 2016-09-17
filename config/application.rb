@@ -13,7 +13,9 @@ module Umrdr
       g.test_framework :rspec, :spec => true
     end
 
-    config.notification_email = "researchdataservices@umich.edu"
+    # deposit notification email addresses
+    config.notification_email = Settings.notification_email
+
     config.max_file_size = 2 * ( 1024 ** 3 )
     config.max_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_file_size, {})
 

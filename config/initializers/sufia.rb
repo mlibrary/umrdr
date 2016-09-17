@@ -74,11 +74,9 @@ Sufia.config do |config|
   # of Zotero-managed research items.
   # config.arkivo_api = false
 
-  #contact form email addresses
+  # Contact form email
   config.contact_email = Settings.contact_email
-  config.notification_email = Settings.notification_email
-  config.from_email  = Settings.from_email
-
+  
   config.geonames_username = ''
 
   #config.max_file_size = 2 * ( 1024 ** 3 )
