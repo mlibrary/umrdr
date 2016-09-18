@@ -131,3 +131,8 @@ public/sitemap.xml
 
 ./spec/internal
 ./.internal_test_app
+
+config/settings.local.yml
+config/settings/development.yml
+config/settings/test.yml
+config/settings/production.yml
