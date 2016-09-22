@@ -47,6 +47,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-rails'
   # gem 'pry-byebug'
+  gem 'factory_girl_rails', require: false
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
   gem 'solr_wrapper', '>= 0.3'
