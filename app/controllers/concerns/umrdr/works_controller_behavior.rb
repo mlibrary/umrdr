@@ -18,9 +18,7 @@ module Umrdr
 
     def after_create_response
       respond_to do |wants|
-        wants.html do
-          redirect_to [main_app, curation_concern]
-        end
+        wants.html { redirect_to [main_app, curation_concern] }
         wants.json { render :show, status: :created, location: polymorphic_path([main_app, curation_concern]) }
       end
     end
