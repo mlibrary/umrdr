@@ -115,6 +115,7 @@ public/plugin_assets/
 
 /.bundle
 /.yardoc
+/.idea
 /doc
 
 ## PROJECT::SPECIFIC
@@ -132,6 +133,7 @@ public/sitemap.xml
 ./spec/internal
 ./.internal_test_app
 
+# Ignore actual settings files
 config/settings.local.yml
 config/settings/development.yml
 config/settings/test.yml
