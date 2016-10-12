@@ -43,10 +43,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  # gem 'byebug'
   gem 'pry'
   gem 'pry-rails'
-  gem 'pry-byebug'
+  # gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
   gem 'solr_wrapper', '>= 0.3'
