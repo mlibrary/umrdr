@@ -126,7 +126,6 @@ GEM
       sass-rails
       skydrive
     builder (3.2.2)
-    byebug (9.0.5)
     cancancan (1.15.0)
     capybara (2.7.1)
       addressable
@@ -428,9 +427,6 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-byebug (3.4.0)
-      byebug (~> 9.0)
-      pry (~> 0.10)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
     puma (3.6.0)
@@ -721,7 +717,6 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
-  byebug
   capybara
   coffee-rails (~> 4.1.0)
   config
@@ -739,7 +734,6 @@ DEPENDENCIES
   net-ldap
   poltergeist
   pry
-  pry-byebug
   pry-rails
   puma
   rails (= 4.2.6)
@@ -759,4 +753,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.12.5
+   1.13.2
