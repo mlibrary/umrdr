@@ -1,6 +1,5 @@
-# Generated via
-#  `rails generate curation_concerns:work GenericWork`
 require 'edtf'
+
 class CurationConcerns::GenericWorksController < ApplicationController
   include CurationConcerns::CurationConcernController
   # Adds Sufia behaviors to the controller.
@@ -63,6 +62,30 @@ class CurationConcerns::GenericWorksController < ApplicationController
     end
   end
 
+  # TODO move this to an actor after sufia 7.0 dependency.
+
+  def mint_doi
+    # Do not mint doi if
+    #   one already exists 
+    #   work file_set count is 0.
+    if curation_concern.doi
+      flash[:notice] = "A DOI already exists or is being minted."
+      return
+    elsif curation_concern.file_sets.count < 1
+      flash[:notice] = "DOI cannot be minted for a work without files."
+      return
+    end
+
+    # Assign doi as "pending" in the meantime
+    curation_concern.doi = GenericWork::PENDING
+
+    # save (and re-index)
+    curation_concern.save
+
+    # Kick off job to get a doi
+    ::DoiMintingJob.perform_later(curation_concern.id)
+  end
+
   protected
 
     def show_presenter
@@ -80,20 +103,5 @@ class CurationConcerns::GenericWorksController < ApplicationController
       end
     end
 
-    # TODO move this to an actor after sufia 7.0 dependency.
-
-    def mint_doi
-      # Check that work doesn't already have a doi.
-      return unless curation_concern.doi.nil?
-
-      # Assign doi as "pending" in the meantime
-      curation_concern.doi = GenericWork::PENDING
-
-      # save (and re-index)
-      curation_concern.save
-
-      # Kick off job to get a doi
-      ::DoiMintingJob.perform_later(curation_concern.id)
-    end
 
 end

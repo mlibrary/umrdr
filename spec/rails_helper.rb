@@ -7,6 +7,11 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
+require 'factory_girl'
+
+# Use factory girl to generate fixtures
+FactoryGirl.definition_file_paths = [File.expand_path("../factories", __FILE__)]
+FactoryGirl.find_definitions
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
