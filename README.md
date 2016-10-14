@@ -1,26 +1,9 @@
-https://travis-ci.org/mlibrary/umrdr.svg?branch=master
-# UMRDR
+# UMRDR  [![Build Status](https://travis-ci.org/mlibrary/umrdr.svg?branch=master)](https://travis-ci.org/mlibrary/umrdr)
 
-University of Michigan Research Data Repository alpha/beta/pilot/test/tire kicking extravaganza.
+University of Michigan Research Data Repository and alpha/beta/pilot/test/tire kicking extravaganza.
 
+![umrdr](https://cloud.githubusercontent.com/assets/1520508/16201144/48720bc4-36de-11e6-8b99-c5898f251c6b.jpg)
 
-## Installation
-
-This project currently has all the dependencies of Sufia: Fedora, Solr, Redis, FITS, ffmpeg, ect..
-
-The fedora, blacklight, and solr yml files under config will have to be updated to reflect your fedora and solr instance locations.
-
-## Usage
-
-bundle exec puma -p <your_assigned_port>
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request
 
 ## History
 
@@ -30,7 +13,9 @@ Its goal is to improving the ability of researchers at the University of Michiga
 ## Credits
 
 Project Hydra Community.
+
 Penn State University Library.
+
 University of Michigan Library.
 
 ## License
