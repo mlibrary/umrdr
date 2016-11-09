@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Added Gems
-gem 'sufia', '~> 7.0'
+gem 'sufia', '~> 7.1.0'
 # EZID client from Duke
 gem 'ezid-client'
 # LDAP client
@@ -50,7 +50,7 @@ group :development, :test do
   gem 'factory_girl_rails', require: false
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
-  gem 'solr_wrapper', '>= 0.3'
+  gem 'solr_wrapper', '>= 0.19'
   gem 'fcrepo_wrapper', '~> 0.1'
   gem 'capybara'
   gem 'poltergeist'
