@@ -43,4 +43,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # In test, go ahead and have a default to address for email
+
+  config.notification_email = 'fake@sample.com'
 end
