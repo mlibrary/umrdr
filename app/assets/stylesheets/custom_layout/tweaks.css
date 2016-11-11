@@ -16,6 +16,7 @@ ol.catalog li:after {
 .multi_value .field-controls .btn.add, 
 .multi_value .field-controls .btn.remove {
     width: 15em;
+    color: white;
 }
 
 .attributes .attribute {
