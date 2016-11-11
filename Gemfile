@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Added Gems
-gem 'sufia', '~> 7.0'
+gem 'sufia', '~> 7.0.0'
 # EZID client from Duke
 gem 'ezid-client'
 # LDAP client
