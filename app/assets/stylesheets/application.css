@@ -11,7 +11,8 @@
  * file per style scope.
  *
  *= require sufia
- *= require custom_layout/tweaks
  *= require_tree .
  *= require_self
+ *= require custom_layout/tweaks
+
  */
