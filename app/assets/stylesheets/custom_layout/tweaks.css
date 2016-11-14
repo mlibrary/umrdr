@@ -39,7 +39,7 @@ ol.catalog li:after {
 
 /* Make the PDF icon not as big as my head */
 
-.pdficon {
+.generic-icon {
     max-width: 8em;
 }
 
