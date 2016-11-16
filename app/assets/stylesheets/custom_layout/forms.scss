@@ -147,6 +147,50 @@
   }
 }
 
+/*
+  Push "add another" button to next line by adding
+  'add-another-newline' class to parent container.
+*/
+.add-another-newline .input-group-btn.field-controls {
+  display: block;
+  margin-top: 1rem;
+}
+
+/*
+  Legend styling more like a label
+*/
+.legend-label {
+  display: inline-block;
+  max-width: 100%;
+  font-size: 1rem;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.multi_value .field-controls .btn.add,
+.multi_value .field-controls .btn.remove {
+  width: auto;
+  text-align: left;
+  padding: 0.5rem 0;
+}
+
+.add:active:hover,
+.add:active:focus {
+  background: transparent;
+  border-color: transparent;
+  color: #337ab7;
+}
+
+.listing .field-wrapper {
+  margin-bottom: 1rem;
+}
+
+.multi_value .field-controls .btn.add.btn-add-another {
+  display: block;
+}
+
 .date-reset {
   padding: 0.5rem 0;
 }
@@ -154,4 +198,3 @@
 .date-add-coverage-button {
   margin-top: 1.6rem;
 }
-
