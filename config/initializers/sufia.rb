@@ -37,8 +37,11 @@ Sufia.config do |config|
   # Enables a link to the citations page for a generic_file.
 # Default is false
 # config.citations = false
-# Where to store tempfiles, leave blank for the system temp directory (e.g. /tmp)
-  # config.temp_file_base = '/home/developer1'
+
+
+  # Where to store tempfiles, leave blank for the system temp directory (e.g. /tmp)
+  # Used by Hydra::Derivities / fits
+   config.temp_file_base = File.join(Rails.root, 'derivatives')
 
   # Specify the form of hostpath to be used in Endnote exports
   # config.persistent_hostpath = 'http://localhost/files/'
