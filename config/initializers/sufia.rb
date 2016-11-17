@@ -41,7 +41,7 @@ Sufia.config do |config|
 
   # Where to store tempfiles, leave blank for the system temp directory (e.g. /tmp)
   # Used by Hydra::Derivities / fits
-   config.temp_file_base = File.join(Rails.root, 'derivatives')
+   config.temp_file_base = File.join(Rails.root, 'tmp', 'derivatives')
 
   # Specify the form of hostpath to be used in Endnote exports
   # config.persistent_hostpath = 'http://localhost/files/'
