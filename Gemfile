@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# Force version of hydra-derivatives from my github as a test
+
+gem 'hydra-derivatives', '=3.2.1.test1', :git => "https://github.com/billdueber/hydra-derivatives"
+
 # Added Gems
 gem 'sufia', '~> 7.0'
 # EZID client from Duke
@@ -12,6 +16,15 @@ gem 'puma'
 gem 'edtf'
 # Use mysql as the database for Active Record
 gem 'mysql2'
+
+# use clamav antivirus, if available
+
+# begin
+#   gem 'clamav'
+# rescue
+#   # fail silently
+# end
+
 
 gem 'config'
 
