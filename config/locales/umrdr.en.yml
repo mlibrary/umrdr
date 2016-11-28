@@ -121,6 +121,7 @@ en:
         doi: "DOI"
         hdl: "Handle"
         isReferencedBy: "Citation to related material"
+        on_behalf_of: "Deposit on behalf of"
 
       collection:
         rights: "Creative Commons License"
