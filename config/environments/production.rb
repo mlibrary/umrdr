@@ -1,3 +1,14 @@
+# Attempt to set tmpdir for libreoffice, as per
+# https://wiki.openoffice.org/wiki/Environment_Variables
+#
+# see also: https://forum.openoffice.org/en/forum/viewtopic.php?f=15&t=48217&p=221969&hilit=NamedPath#p221969
+# for an example of setting a path (we want "TEMP", not "WORK"), but I don't know where to set it.
+#
+# It's possible that we can mess with /etc/libreoffice/sofficerc, too, but I don't know how.
+
+tmpdir =  File.join(Rails.root, 'tmp', 'derivatives')
+ENV['TMPDIR'] = tmpdir;
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
