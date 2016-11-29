@@ -37,4 +37,12 @@ class ApplicationController < ActionController::Base
   def user_logged_in?
     user_signed_in? && ( valid_user?(request.headers) || Rails.env.test?)
   end
+
+  def sso_logout
+    redirect_to Sufia::Engine.config.logout_prefix + logout_now_url
+  end
+
+  def sso_auto_logout
+    cookies.delete("cosign-" + Sufia::Engine.config.hostname, domain: Sufia::Engine.config.hostname)
+  end
 end
