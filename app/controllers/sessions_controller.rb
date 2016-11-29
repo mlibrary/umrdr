@@ -1,8 +1,10 @@
 class SessionsController < ApplicationController
   def destroy
-    sign_out(:user)
-    cookies.delete("cosign-" + Sufia::Engine.config.hostname)
-    redirect_to Sufia::Engine.config.logout_prefix + root_url
+    if user_signed_in?
+      sso_logout
+    else
+      logout_now
+    end
   end
 
   def new
@@ -13,5 +15,12 @@ class SessionsController < ApplicationController
       # should have been redirected via mod_cosign - error out instead of going through redirect loop
       render(:status => :forbidden, :text => 'Forbidden')
     end
+  end
+
+  def logout_now
+    Rails.logger.info "Logging out, hostname: #{Sufia::Engine.config.hostname}"
+    sign_out(:user)
+    sso_auto_logout
+    redirect_to root_url
   end
 end
