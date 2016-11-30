@@ -40,6 +40,14 @@ class BuildContentService
     @cfg[:user][:email]
   end
 
+  def visibility
+    visibility = @cfg[:user][:visibility]
+    unless %w[open restricted].include? visibility
+     raise "Illegal value '#{visibility}' for visibility" 
+    end
+    return visibility
+  end
+
   def works
     [@cfg[:user][:works]]
   end
@@ -103,18 +111,22 @@ class BuildContentService
     contributor  = Array(w_hsh[:contributor])
     date_created = Array(w_hsh[:date_created])   
     rtype = Array(w_hsh[:resource_type] || 'Dataset')
+    language = Array(w_hsh[:language])
+    keyword = Array(w_hsh[:keyword])
+    isReferencedBy = Array(w_hsh[:isReferencedBy])
 
     gw = GenericWork.new( title: title, creator: creator, rights: rights,
                          description: desc, resource_type: rtype,
                          methodology: methodology, subject: subject,
-                         contributor: contributor, date_created: date_created ) 
+                         contributor: contributor, date_created: date_created,
+                         language: language, keyword: keyword, isReferencedBy: isReferencedBy ) 
 
     paths_and_names = w_hsh[:files].zip w_hsh[:filenames]
     fsets = paths_and_names.map{|fp| build_file_set(fp[0], fp[1])}
     fsets.each{|fs| gw.ordered_members << fs}
     gw.apply_depositor_metadata(user_key)
     gw.owner=(user_key)
-    gw.visibility = "open"
+    gw.visibility = visibility
     gw.save!
     return gw
   end
@@ -135,7 +147,7 @@ class BuildContentService
     fs.title = Array(fname)
     fs.label = fname
     fs.date_uploaded = Date.today.strftime('%F')
-    fs.visibility="open"
+    fs.visibility = visibility
     fs.save
     return fs
   end
