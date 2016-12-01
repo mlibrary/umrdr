@@ -1,3 +1,4 @@
+umrdr_host: test.deepblue.lib.umich.edu
 minter_file: <%= ENV['MINTER_FILE'] || "/tmp/umrdr-minter-#{Time.now.min}#{Time.now.sec}" %>
 redis_namespace: <%= ENV['REDIS_NS'] || "umrdr-test" %>
 
