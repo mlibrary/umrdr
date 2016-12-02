@@ -1,2 +1,3 @@
 ---
 # Settings common to all environments go here
+umrdr_host: dev.deepblue.lib.umich.edu
