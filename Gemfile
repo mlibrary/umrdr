@@ -66,7 +66,7 @@ group :development do
   gem 'ffaker'
 end
 
-gem 'rsolr', '~> 1.0.6'
+gem 'rsolr', '~> 1.1', '>= 1.1.2'
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 

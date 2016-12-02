@@ -551,7 +551,7 @@ GEM
       sass-rails
       twitter-bootstrap-rails
     retriable (1.4.1)
-    rsolr (1.0.13)
+    rsolr (1.1.2)
       builder (>= 2.1.2)
     rspec-activemodel-mocks (1.0.3)
       activemodel (>= 3.0)
@@ -746,7 +746,7 @@ DEPENDENCIES
   resque
   resque-pool
   resque-web (~> 0.0.7)
-  rsolr (~> 1.0.6)
+  rsolr (~> 1.1, >= 1.1.2)
   rspec-activemodel-mocks
   rspec-rails
   sass-rails (~> 5.0)
