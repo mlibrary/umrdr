@@ -4,8 +4,6 @@
 <% options = RightsService.select_all_options.dup %>
 <% end %>
 
-<%= curation_concern.rights[0] %>
-<%= RightsService.select_active_options %>
 <div class="form-group radio_buttons generic_work_rights">
     <%= f.label :rights %>
     <%= f.hint :rights %>
