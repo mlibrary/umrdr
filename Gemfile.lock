@@ -140,6 +140,7 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
       mimemagic (>= 0.3.0)
+    clamav (0.4.1)
     clipboard-rails (1.5.10)
     cliver (0.3.2)
     coderay (1.1.1)
@@ -723,6 +724,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   capybara
+  clamav
   coffee-rails (~> 4.1.0)
   config
   database_cleaner

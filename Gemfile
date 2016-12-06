@@ -13,6 +13,11 @@ gem 'edtf'
 # Use mysql as the database for Active Record
 gem 'mysql2'
 
+
+# Use clamav
+
+gem 'clamav'
+
 gem 'config'
 
 # Gems added by generator
