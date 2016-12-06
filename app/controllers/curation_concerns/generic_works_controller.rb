@@ -49,7 +49,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
       begin
         @recent_uploads = [];
         uploads_since = Time.at(params[:uploads_since].to_i / 1000.0)
-        presenter.file_presenters.reverse_each do |file_set|
+        presenter.file_set_presenters.reverse_each do |file_set|
           date_uploaded = get_date_uploaded_from_solr(file_set)
           if date_uploaded.nil? or date_uploaded < uploads_since
             break
