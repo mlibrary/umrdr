@@ -10,7 +10,7 @@ describe 'curation_concerns/file_sets/_file_set.html.erb' do
 
   # Ability is checked in FileSetPresenter#link_name
   let(:ability) { double(can?: true) }
-  let(:presenter) { CurationConcerns::FileSetPresenter.new(solr_document, ability) }
+  let(:presenter) { CurationConcerns::FileSetPresenter.new(solr_document, ability) } 
   let(:blacklight_configuration_context) do
     Blacklight::Configuration::Context.new(controller)
   end
@@ -25,6 +25,7 @@ describe 'curation_concerns/file_sets/_file_set.html.erb' do
     allow(view).to receive(:can?).with(:read, kind_of(String)).and_return(true)
     allow(view).to receive(:can?).with(:edit, kind_of(String)).and_return(true)
     allow(view).to receive(:can?).with(:destroy, String).and_return(true)
+    allow(presenter).to receive(:identifiers_minted?).with(:doi).and_return(false)
     render 'curation_concerns/file_sets/file_set.html.erb', file_set: presenter
   end
 

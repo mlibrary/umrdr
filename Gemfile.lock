@@ -126,6 +126,7 @@ GEM
       sass-rails
       skydrive
     builder (3.2.2)
+    byebug (9.0.6)
     cancancan (1.15.0)
     capybara (2.7.1)
       addressable
@@ -432,6 +433,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.4.1)
+      byebug (~> 9.0)
+      pry (~> 0.10)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
     puma (3.6.0)
@@ -740,6 +744,7 @@ DEPENDENCIES
   net-ldap
   poltergeist
   pry
+  pry-byebug
   pry-rails
   puma
   rails (= 4.2.6)

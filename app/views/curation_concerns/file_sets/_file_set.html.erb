@@ -2,7 +2,7 @@
   <td class="thumbnail">
     <%= render_thumbnail_tag file_set %>
   </td>
-  <td class="attribute filename"><%= link_to(file_set.link_name, main_app.curation_concerns_file_set_path(file_set)) %></td>
+  <td class="attribute filename"><%= link_to(file_set.link_name, main_app.download_path(file_set), target: "_blank") %></td>
   <td class="attribute date_uploaded"><%= file_set.date_uploaded %></td>
   <td class="attribute permission"><%= file_set.permission_badge %></td>
   <td>
