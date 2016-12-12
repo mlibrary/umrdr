@@ -98,6 +98,7 @@ en:
       transfer_works_link:      "Select works to transfer"
       no_transfer_requests:     "You haven't received any work transfer requests"
       no_transfers:             "You haven't transferred any work"
+      authorize_proxy_hint:     "Authorize a person to deposit data on your behalf by searching for and selecting their U-M e-mail address. Be sure the proxy has previously logged into Deep Blue Data."
       stats:
         heading:            "Your Statistics"
         files:              "Files you've deposited"
