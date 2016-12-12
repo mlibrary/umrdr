@@ -38,5 +38,11 @@ module CurationConcerns
       (file.respond_to?(:tempfile) && file.tempfile.size > Rails.configuration.max_file_size) || (file.respond_to?(:size) && file.size > Rails.configuration.max_file_size)
     end
 
+protected
+
+    def show_presenter
+     Umrdr::FileSetPresenter
+    end
+
   end
 end

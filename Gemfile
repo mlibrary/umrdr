@@ -46,7 +46,7 @@ group :development, :test do
   # gem 'byebug'
   gem 'pry'
   gem 'pry-rails'
-  # gem 'pry-byebug'
+  gem 'pry-byebug'
   gem 'factory_girl_rails', require: false
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
