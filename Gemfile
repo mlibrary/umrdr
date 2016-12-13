@@ -32,6 +32,10 @@ gem 'resque-web', '~> 0.0.7', require: 'resque_web'
 gem 'resque'
 gem 'resque-pool'
 
+
+# Set up ClamAV
+gem 'clamav'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
