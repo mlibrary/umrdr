@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sso_auto_logout
-    Rails.logger.debug "[AUTHN] sso_auto_logout: #{current_user.email}"
+    Rails.logger.debug "[AUTHN] sso_auto_logout: #{current_user.try(:email) || '(no user)'}"
     sign_out(:user)
     cookies.delete("cosign-" + Sufia::Engine.config.hostname,
                    domain: Sufia::Engine.config.hostname, secure: true)
