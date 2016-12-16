@@ -24,10 +24,8 @@ class ApplicationController < ActionController::Base
 
   # From PSU's ScholarSphere
   # Clears any user session and authorization information by:
-  #   * forcing the session to be restarted on every request
   #   * ensuring the user will be logged out if REMOTE_USER is not set
-  #   * clearing the entire session including flash messages
-  def clear_session_user  
+  def clear_session_user
     return nil_request if request.nil?
     search = session[:search].dup if session[:search]
     request.env['warden'].logout unless user_logged_in?
@@ -43,6 +41,17 @@ class ApplicationController < ActionController::Base
   end
 
   def sso_auto_logout
-    cookies.delete("cosign-" + Sufia::Engine.config.hostname, domain: Sufia::Engine.config.hostname)
+    Rails.logger.debug "[AUTHN] sso_auto_logout: #{current_user.email}"
+    sign_out(:user)
+    cookies.delete("cosign-" + Sufia::Engine.config.hostname,
+                   domain: Sufia::Engine.config.hostname, secure: true)
+    session.destroy
+    flash.clear
   end
+
+  Warden::Manager.after_authentication do |user, auth, opts|
+    Rails.logger.debug "[AUTHN] Warden after_authentication (clearing flash): #{user}"
+    auth.request.flash.clear
+  end
+
 end
