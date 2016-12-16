@@ -12,6 +12,7 @@ module Devise
       def authenticate!
         user = remote_user(request.headers)
         if user.present?
+          Rails.logger.debug "[AUTHN] HttpHeaderAuthenticatable#authenticate! succeeded: #{user}"
           u = User.find_by_user_key(user)
           if u.nil?
             u = User.create(email: user)
@@ -19,6 +20,7 @@ module Devise
           end
           success!(u)
         else
+          Rails.logger.debug '[AUTHN] HttpHeaderAuthenticatable#authenticate! failed.'
           fail!
         end
       end
