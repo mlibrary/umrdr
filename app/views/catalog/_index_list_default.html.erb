@@ -1,0 +1,13 @@
+    <div class="col-sm-9">
+      <table class="table">
+        <% doc_presenter = index_presenter(document) %>
+        <% index_fields(document).each do |field_name, field| -%>
+          <% if should_render_index_field? document, field %>
+            <tr>
+              <th><span class="attribute-label h4"><%= render_index_field_label document, field: field_name %></span></th>
+              <td><%= raw (doc_presenter.field_value field_name).gsub!('<span', '<span class="more"') %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </div>
