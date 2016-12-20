@@ -1,5 +1,5 @@
   <%= @presenter.attribute_to_html(:methodology) %>
-  <%= @presenter.attribute_to_html(:description) %>
+  <%= raw (@presenter.attribute_to_html(:description)).gsub!('<span', '<span class="more"') %>
   <%= @presenter.attribute_to_html(:creator, catalog_search_link: true ) %>
   <%= @presenter.attribute_to_html(:contributor, label: 'Contributors', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:subject, label: 'Discipline', catalog_search_link: true) %>
