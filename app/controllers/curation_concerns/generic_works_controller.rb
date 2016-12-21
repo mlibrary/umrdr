@@ -15,7 +15,12 @@ class CurationConcerns::GenericWorksController < ApplicationController
   self.curation_concern_type = GenericWork
 
   def notify_rdr
-    @msg = main_app.curation_concerns_generic_work_url(curation_concern.id) 
+    location = main_app.curation_concerns_generic_work_url(curation_concern.id) 
+    depositor = curation_concern.depositor
+    title = curation_concern.title.join("','")
+    creator = curation_concern.creator.join("','")
+    visibility = curation_concern.visibility  
+    @msg = title + " (" + location + ") by " + creator + ", with " + visibility + " access was deposited by " + depositor
     email = WorkMailer.deposit_work(Rails.configuration.notification_email,@msg)
     email.deliver_now
   end
