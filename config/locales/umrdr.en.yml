@@ -184,3 +184,6 @@ en:
     http://creativecommons_org/licenses/by-nd/3_0/us/:
       description:
         "This license allows for redistribution, commercial and non-commercial, as long as it is passed along unchanged and in whole, with credit to you."
+    http://creativecommons_org/licenses/by-sa/3_0/us/:
+      description:
+        "This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms."
