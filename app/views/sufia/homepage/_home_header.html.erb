@@ -5,7 +5,7 @@
     </p>
 
     <div class="share-message">
-      <%= link_to "<i class=\"glyphicon glyphicon-search\"></i> #{t('sufia.browse_button')}".html_safe, main_app.search_catalog_path, class: "btn btn-primary", id: "contribute_link" %>
+      <%= link_to "<i class=\"glyphicon glyphicon-search\"></i> #{t('sufia.browse_button')}".html_safe, main_app.search_catalog_path, class: "btn btn-primary", id: "browse_link" %>
     <br><br> 
        <% if can_ever_create_works? %>
           <%= link_to "<i class=\"glyphicon glyphicon-upload\"></i> #{t('sufia.share_button')}".html_safe, new_curation_concerns_generic_work_path, class: "btn btn-primary", id: "contribute_link" %>
