@@ -1,0 +1,16 @@
+<div class="well">
+<%= form_for(FileSet.new, url: main_app.curation_concerns_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
+    <%= render 'curation_concerns/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
+<% end %>
+
+<% editor    = can?(:edit,    @presenter.id) %>
+<% if editor && @presenter.file_set_presenters.present? %>
+  <% unless @presenter.identifiers_minted?(:doi) %>
+    <%= form_tag(main_app.identifiers_curation_concerns_generic_work_path(@presenter.id), method: 'post') do %>
+      <%= hidden_field_tag('generic_work[nop]') %>
+      <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
+      <p class="alert alert-info">You can mint a DOI once you have uploaded all your files. Once a DOI is minted, you may not upload additional files, edit, or delete your work. For questions or help, please <strong><%= link_to "contact Deep Blue Data", "https://deepblue.lib.umich.edu/data/contact" %></strong>.</p>
+    <% end %>
+  <% end %>
+<% end %>
+</div>
