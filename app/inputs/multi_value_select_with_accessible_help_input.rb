@@ -20,7 +20,6 @@ class MultiValueSelectWithAccessibleHelpInput < MultiValueWithAccessibleHelpInpu
       end
       html_options[:class] ||= []
       html_options[:class] += ["#{input_dom_id} form-control multi-text-field"]
-      html_options[:'aria-labelledby'] = label_id
       html_options.delete(:multiple)
       @rendered_first_element = true
 
