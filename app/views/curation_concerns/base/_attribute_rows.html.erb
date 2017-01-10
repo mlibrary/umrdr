@@ -1,6 +1,8 @@
-  <%= @presenter.attribute_to_html(:methodology) %>
+  <%= raw (@presenter.attribute_to_html(:methodology)).gsub!('<li', '<li class="more"') %>
   <%= raw (@presenter.attribute_to_html(:description)).gsub!('<span', '<span class="more"') %>
   <%= @presenter.attribute_to_html(:creator, catalog_search_link: true ) %>
+  <% @presenter.depositor.gsub!('@', 'at_sign_at') %>
+  <%= raw (@presenter.attribute_to_html(:depositor)).gsub!('at_sign_at', '@') %> 
   <%= @presenter.attribute_to_html(:contributor, label: 'Contributors', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:subject, label: 'Discipline', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:keyword, label: 'Keywords', catalog_search_link: true) %>
