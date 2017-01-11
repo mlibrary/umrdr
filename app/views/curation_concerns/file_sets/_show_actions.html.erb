@@ -18,6 +18,10 @@
       <%= link_to t('sufia.single_use_links.button'),
                   curation_concerns.generate_download_single_use_link_path(@presenter),
                   class: 'btn btn-default generate-single-use-link' %>
+
+      <%= link_to "Versions", edit_polymorphic_path([main_app, @presenter], anchor: 'versioning_display'),
+                  class: 'btn btn-default' %>
+
   <% end %>
 
 </div>

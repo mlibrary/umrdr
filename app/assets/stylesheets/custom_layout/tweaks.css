@@ -36,6 +36,10 @@ ol.catalog li:after {
   font-size: 1.2em;
 }
 
+.smalltext  {
+  font-size: .65em;
+}
+
 
 /* Make the PDF icon not as big as my head */
 

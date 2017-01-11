@@ -33,10 +33,8 @@ describe 'curation_concerns/file_sets/_file_set.html.erb' do
     # A thumbnail
     expect(rendered).to have_selector ".thumbnail img[src='#{download_path(presenter, file: 'thumbnail')}']"
 
-    # Action buttons
-    expect(rendered).to have_selector "a[title=\"Edit My File\"][href='#{edit_polymorphic_path(presenter)}']", text: 'Edit'
-    expect(rendered).to have_selector "a[title=\"Delete My File\"][data-method='delete'][href='#{polymorphic_path(presenter)}']", text: 'Delete'
-    expect(rendered).to have_link('Download')
-    expect(rendered).to have_selector "a[title='Download \"My File\"'][href='#{download_path(presenter)}']", text: 'Download'
+    # View Details link
+    expect(rendered).to have_link('View Details')
+
   end
 end
