@@ -34,7 +34,35 @@ class CurationConcerns::GenericWorksController < ApplicationController
       wants.json { render :show, status: :ok, location: polymorphic_path([main_app, curation_concern]) }
     end
   end
-  
+
+  def download 
+    require 'zip' 
+    require 'tempfile'
+
+    tmp_dir = ENV['TMPDIR'] || "/tmp"
+    folder = tmp_dir + "/archive_" + curation_concern.id
+    zipfile_name = folder + "/archive_" + curation_concern.id + ".zip"
+    FileUtils.rm_rf(folder) if File.exists?(folder)
+    Dir.mkdir(folder) unless File.exists?(folder)
+    FileUtils.rm_rf(Dir.glob(folder + '/*')) 
+
+    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+      curation_concern.file_sets.each do |file_set|      
+        file = file_set.files[0]
+        filename = file_set.files[0].file_name[0]
+
+        url = file.uri.value
+        output = folder + "/" + filename
+
+        open(url) do |io|
+          IO.copy_stream(io, output)
+        end
+        zipfile.add(filename, output)
+      end
+    end
+    send_file zipfile_name 
+  end  
+
   def assign_visibility
     if params["isDraft"] == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
      params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
