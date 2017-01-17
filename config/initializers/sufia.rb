@@ -82,6 +82,11 @@ Sufia.config do |config|
   
   config.geonames_username = ''
 
+  #This enables or disables the ability to download files.
+  config.define_singleton_method(:download_files) do
+    return true
+  end
+
   #config.max_file_size = 2 * ( 1024 ** 3 )
   #config.max_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_file_size, {})
 
