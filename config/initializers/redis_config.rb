@@ -14,7 +14,7 @@ if defined?(PhusionPassenger)
                  nil
                end
       Resque.redis = $redis
-      Resque.redis.namespace = "#{CurationConcerns.config.redis_namespace}:#{Rails.env}"
+      Resque.redis.namespace = Settings.redis_namespace
       Resque.redis.client.reconnect if Resque.redis
     end
   end
