@@ -4,6 +4,5 @@ Resque.redis = Redis.new(host: config[:host], port: config[:port], thread_safe: 
 
 Resque.inline = Rails.env.test?
 
-Resque.redis.namespace = ENV['REDIS_NS'] || 'umrdr_dev_of_some_kind'
-Rails.logger.info "Rescue namespace is #{Resque.redis.namespace}"
-Rails.logger.info "Rescue REDIS_NS environment variable is #{ENV['REDIS_NS']}"
+Resque.redis.namespace = Settings.redis_namespace || 'umrdr_dev_of_some_kind'
+Rails.logger.info "Rescue namespace set to #{Resque.redis.namespace}"
