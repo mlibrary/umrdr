@@ -10,6 +10,8 @@ gem 'ezid-client'
 gem 'net-ldap'
 # Webserver
 gem 'puma'
+gem 'mail_form'
+
 # Date range support
 gem 'edtf'
 # Use mysql as the database for Active Record
