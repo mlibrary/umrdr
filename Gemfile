@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
 
 # Added Gems
-gem 'sufia', '~> 7.0'
+gem 'sufia', '~> 7.2'
+gem 'flipflop', github: 'jcoyne/flipflop', branch: 'hydra'
+
 # EZID client from Duke
 gem 'ezid-client'
 # LDAP client
