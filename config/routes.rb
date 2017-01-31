@@ -25,10 +25,11 @@ Rails.application.routes.draw do
   curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
 
-  namespace :curation_concerns, path: :concern do
+  namespace :curation_concerns,  path: :concern do
     resources :generic_works do
       member do
         post 'identifiers'
+        post 'download'
       end
     end
   end

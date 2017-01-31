@@ -135,6 +135,7 @@ en:
     actions:
       generic_work:
         mint_doi: "Mint DOI"
+        download: "Download All Files"
     # TODO: Consolidate/clean up remove/add difference.
     #  such that it can be under the add_remove_labels.
         remove:
