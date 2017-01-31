@@ -7,11 +7,10 @@
   <div class="featured-work-info">
 
     <%
-      profile  = link_to_profile presenter.depositor('')
       keywords = link_to_facet_list(presenter.keyword, 'keyword', '')
     %>
-    <% unless profile.empty? %>
-      <p><strong>Deposited by:</strong> <%= profile %></p>
+    <% unless presenter.depositor.empty? %>
+      <p><strong>Deposited by:</strong> <%= presenter.depositor('') %></p>
     <% end %>
     <% unless keywords.empty? %>
       <p><strong>Keywords:</strong> <%= keywords %></p>
