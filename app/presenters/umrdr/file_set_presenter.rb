@@ -6,5 +6,10 @@ module Umrdr
   		g.doi.present?
     end
 
+    def parent_public?
+  		g =GenericWork.find (self.parent.id)
+  		g.public?
+    end
+
   end
 end
