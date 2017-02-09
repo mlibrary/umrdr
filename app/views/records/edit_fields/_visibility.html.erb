@@ -1,20 +1,17 @@
  <p><label>
  <% if (curation_concern.visibility ==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE && curation_concern.date_uploaded ==nil)%> 
-  <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>  Draft
-  <p>All non-draft works are publicly viewable after being saved. Select draft to save your work without making it public.</p>
+  <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>  Save as Draft
 <% elsif (curation_concern.visibility==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE) %>
-   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, true %>   Draft
-   <p>All non-draft works are publicly viewable after being saved. Select draft to save your work without making it public.</p>
+   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, true %>   Save as Draft
 <% elsif (curation_concern.visibility !=Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)%> 
-   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>   Draft
-   <p>All non-draft works are publicly viewable after being saved. Select draft to save your work without making it public.</p>
+   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>   Save as Draft
 <% end %>
 </label>
 </p>
-<p>Select Save and add files on the next page.</p>
 
-	
-
+<p>If you select Save as Draft, your work will not be published yet and you can make changes to the work.</p>
+<p>If you do not select Save as Draft, your work will be published after adding files to your work. It will be openly accessible and you cannot make changes to the work. </p>
+<p>Proceed to the next page to add files.</p>
 
 
 
