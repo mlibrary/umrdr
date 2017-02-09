@@ -4,11 +4,11 @@ Hydra::FileCharacterization::Characterizers::Fits.tool_path = `which fits || whi
 
 # Given a configuration hash read from a yaml file,
 # build the contents in the repository.
-class BuildContentService
+class AppendContentService
   def self.call( path_to_config )
     config = YAML.load_file(path_to_config)
     base_path = File.dirname(path_to_config)
-    bcs = BuildContentService.new( config, base_path)   
+    bcs = AppendContentService.new( config, base_path)   
     puts "NEW CONTENT SERVICE AT YOUR ... SERVICE"
     bcs.config_is_okay? ? bcs.run : puts("Config Check Failed.")
   end
@@ -83,43 +83,11 @@ class BuildContentService
     collections.each{|coll_hsh| build_collection(coll_hsh)} if collections
   end
 
-  # build collection then call build_work
-  def build_collection(c_hsh)
-    title = c_hsh['title']
-    desc  = c_hsh['desc']
-    col = Collection.new(title: title, description: desc, creator: Array(user_key))
-    col.apply_depositor_metadata(user_key)
-
-    # Build all the works in the collection
-    works_info = Array(c_hsh['works'])
-    c_works = works_info.map{|w| build_work(w)}
-
-    # Add each work to the collection
-    c_works.each{|cw| col.members << cw}
-
-    col.save!
-  end
-
   # build work, file sets, apply metadata, and link up.
   def build_work(w_hsh)
-    title = Array(w_hsh[:title])
-    creator = Array(w_hsh[:creator])
-    rights = Array(w_hsh[:rights])
-    desc  = Array(w_hsh[:description])
-    methodology = w_hsh[:methodology] || "No Methodology Available"
-    subject = Array(w_hsh[:subject])
-    contributor  = Array(w_hsh[:contributor])
-    date_created = Array(w_hsh[:date_created])   
-    rtype = Array(w_hsh[:resource_type] || 'Dataset')
-    language = Array(w_hsh[:language])
-    keyword = Array(w_hsh[:keyword])
-    isReferencedBy = Array(w_hsh[:isReferencedBy])
-
-    gw = GenericWork.new( title: title, creator: creator, rights: rights,
-                         description: desc, resource_type: rtype,
-                         methodology: methodology, subject: subject,
-                         contributor: contributor, date_created: date_created,
-                         language: language, keyword: keyword, isReferencedBy: isReferencedBy ) 
+    id = Array(w_hsh[:id])
+    owner = Array(w_hsh[:owner])
+    gw = GenericWork.find id[0]
 
     paths_and_names = w_hsh[:files].zip w_hsh[:filenames]
     fsets = paths_and_names.map{|fp| build_file_set(fp[0], fp[1])}
@@ -149,7 +117,7 @@ class BuildContentService
     now = DateTime.now.new_offset(0)
     fs.date_uploaded = now
     fs.visibility = visibility
-    fs.save
+    fs.save!
     return fs
   end
 end
