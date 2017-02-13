@@ -64,8 +64,7 @@ Sufia.config do |config|
   # config.translate_uri_to_id = ActiveFedora::Noid.config.translate_uri_to_id
   # config.translate_id_to_uri = ActiveFedora::Noid.config.translate_id_to_uri
 
-  # Specify the prefix for Redis keys:
-  config.redis_namespace = Settings.redis_namespace
+  # (resque namespace taken care of in upload/X-config/settings/X.yml)
 
   # Specify the path to the file characterization tool:
   config.fits_path = system("which", "fits.sh") ? "fits.sh" : "/l/local/fits/fits.sh"

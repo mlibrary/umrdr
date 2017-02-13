@@ -3,4 +3,6 @@ config = YAML.load(ERB.new(IO.read(File.join(Rails.root, 'config', 'redis.yml'))
 Resque.redis = Redis.new(host: config[:host], port: config[:port], thread_safe: true)
 
 Resque.inline = Rails.env.test?
-#Resque.redis.namespace = "#{CurationConcerns.config.redis_namespace}:#{Rails.env}"
+
+Resque.redis.namespace = Settings.redis_namespace || 'umrdr_dev_of_some_kind'
+Rails.logger.info "Rescue namespace set to #{Resque.redis.namespace}"
