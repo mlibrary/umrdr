@@ -11,6 +11,6 @@ Resque.inline = Rails.env.test?
 # is being used in one place...somewhere...while the latter is used
 # everywhere else.
 
-Sufia.config.redis_namespace = Settings.redis_namespace || 'umrdr_stupid_unconfigured_namespace'
-Resque.redis.namespace = Settings.redis_namespace || 'umrdr_stupid_unconfigured_namespace'
+Sufia.config.redis_namespace = Settings.redis_namespace || 'umrdr_redis_namespace_needs_configuration'
+Resque.redis.namespace = Settings.redis_namespace       || 'umrdr_redis_namespace_needs_configuration'
 
