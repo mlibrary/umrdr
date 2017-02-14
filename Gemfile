@@ -1,17 +1,19 @@
 source 'https://rubygems.org'
 
 # Added Gems
-gem 'sufia', '~> 7.2'
+gem 'sufia', '~> 7.2', github: 'projecthydra/sufia', branch: 'v7.3.0.rc1'
 gem 'flipflop', github: 'jcoyne/flipflop', branch: 'hydra'
 
 # EZID client from Duke
 gem 'ezid-client'
-# LDAP client
+#a LDAP client
 gem 'net-ldap'
 # Webserver
 gem 'puma'
 gem 'mail_form'
 
+gem 'rdf', '~> 1.99'
+gem 'rdf-reasoner', '0.3.0'
 # Date range support
 gem 'edtf'
 # Use mysql as the database for Active Record
@@ -21,7 +23,7 @@ gem 'config'
 
 # Gems added by generator
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.6'
+gem 'rails'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -77,7 +79,7 @@ group :development do
   gem 'ffaker'
 end
 
-gem 'rsolr', '~> 1.0.6'
+gem 'rsolr'
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 
