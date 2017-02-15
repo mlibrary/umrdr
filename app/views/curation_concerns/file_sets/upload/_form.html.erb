@@ -1,12 +1,4 @@
 <% unless @presenter.identifiers_minted?(:doi) && @presenter.solr_document.public? %>
-  <% if Sufia.config.download_files && @presenter.file_set_presenters.length > 1 %>
-    <%= form_tag(main_app.download_curation_concerns_generic_work_path(@presenter.id), method: 'post') do %>
-      <%= hidden_field_tag('generic_work[nop]') %>
-      <%= submit_tag(t('simple_form.actions.generic_work.download'), class: 'btn btn-primary') %>
-    <% end %>
-    <p></p>
-  <% end %>
-
   <div class="well">
     <%= form_for(FileSet.new, url: main_app.curation_concerns_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
       <%= render 'curation_concerns/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
@@ -21,11 +13,4 @@
       <% end %>
     <% end %>
   </div>
-<% else %>
-  <% if Sufia.config.download_files && @presenter.file_set_presenters.length > 1 %>
-    <%= form_tag(main_app.download_curation_concerns_generic_work_path(@presenter.id), method: 'post') do %>
-      <%= hidden_field_tag('generic_work[nop]') %>
-      <%= submit_tag(t('simple_form.actions.generic_work.download'), class: 'btn btn-primary') %>
-    <% end %>
-  <% end %>
 <% end %>

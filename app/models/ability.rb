@@ -8,7 +8,8 @@ class Ability
   self.ability_logic += [:umrdr_abilities]
 
   def umrdr_abilities
-    alias_action :identifiers, :download, to: :update
+    alias_action :identifiers, to: :update
+    alias_action :download, to: :create
   end
 
   # Define any customized permissions here.
