@@ -9,7 +9,7 @@ class Ability
 
   def umrdr_abilities
     alias_action :identifiers, to: :update
-    alias_action :download, to: :create
+    alias_action :download, to: :read
   end
 
   # Define any customized permissions here.
