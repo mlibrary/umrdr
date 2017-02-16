@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   Hydra::BatchEdit.add_routes(self)
 
+  mount Sufia::Engine => '/'
   #mount Hydra::Collections::Engine => '/'
   mount CurationConcerns::Engine, at: '/'
   resources :welcome, only: 'index'
@@ -38,7 +39,7 @@ Rails.application.routes.draw do
     concerns :exportable
   end
 
-  mount Sufia::Engine => '/'
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

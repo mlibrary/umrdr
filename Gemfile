@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 # Added Gems
 gem 'sufia', '~> 7.2', github: 'projecthydra/sufia', branch: 'v7.3.0.rc1'
 gem 'flipflop', github: 'jcoyne/flipflop', branch: 'hydra'
+gem 'blacklight_advanced_search', '~> 6.0'
+
 
 # EZID client from Duke
 gem 'ezid-client'
@@ -34,7 +36,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-gem 'resque-web', '~> 0.0.7', require: 'resque_web'
+#gem 'resque-web', '~> 0.0.7', require: 'resque_web'
 gem 'resque'
 gem 'resque-pool'
 
