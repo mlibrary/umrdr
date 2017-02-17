@@ -10,7 +10,7 @@ class CurationConcerns::GenericWorksController < ApplicationController
   before_action :assign_date_coverage, only: [:create, :update]
   before_action :assign_visibility, only: [:create, :update]
   after_action  :notify_rdr, only: [:create]
-
+  protect_from_forgery with: :null_session, only: [:download]
 
   self.curation_concern_type = GenericWork
 
