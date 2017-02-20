@@ -6,9 +6,7 @@ Sufia.config do |config|
 
   config.max_notifications_for_dashboard = 5
   config.register_curation_concern :generic_work
-  # Injected via `rails g sufia:work DeepBlueWork`
-  config.register_curation_concern :deep_blue_work
-
+  
   config.permission_levels = {
     "Choose Access" => "none",
     "View/Download" => "read",
