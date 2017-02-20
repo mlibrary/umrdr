@@ -109,10 +109,10 @@ ActiveRecord::Schema.define(version: 20170214221254) do
   end
 
   create_table "follows", force: :cascade do |t|
-    t.string   "followable_type",                 null: false
     t.integer  "followable_id",                   null: false
-    t.string   "follower_type",                   null: false
+    t.string   "followable_type",                 null: false
     t.integer  "follower_id",                     null: false
+    t.string   "follower_type",                   null: false
     t.boolean  "blocked",         default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
@@ -133,8 +133,8 @@ ActiveRecord::Schema.define(version: 20170214221254) do
   end
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
-    t.string  "unsubscriber_type"
     t.integer "unsubscriber_id"
+    t.string  "unsubscriber_type"
     t.integer "conversation_id"
     t.index ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id"
     t.index ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
@@ -150,13 +150,13 @@ ActiveRecord::Schema.define(version: 20170214221254) do
     t.string   "type"
     t.text     "body"
     t.string   "subject",              default: ""
-    t.string   "sender_type"
     t.integer  "sender_id"
+    t.string   "sender_type"
     t.integer  "conversation_id"
     t.boolean  "draft",                default: false
     t.string   "notification_code"
-    t.string   "notified_object_type"
     t.integer  "notified_object_id"
+    t.string   "notified_object_type"
     t.string   "attachment"
     t.datetime "updated_at",                           null: false
     t.datetime "created_at",                           null: false
@@ -169,8 +169,8 @@ ActiveRecord::Schema.define(version: 20170214221254) do
   end
 
   create_table "mailboxer_receipts", force: :cascade do |t|
-    t.string   "receiver_type"
     t.integer  "receiver_id"
+    t.string   "receiver_type"
     t.integer  "notification_id",                            null: false
     t.boolean  "is_read",                    default: false
     t.boolean  "trashed",                    default: false
@@ -203,7 +203,7 @@ ActiveRecord::Schema.define(version: 20170214221254) do
   end
 
   create_table "proxy_deposit_requests", force: :cascade do |t|
-    t.string   "pid",                                   null: false
+    t.string   "generic_work_id",                       null: false
     t.integer  "sending_user_id",                       null: false
     t.integer  "receiving_user_id",                     null: false
     t.datetime "fulfillment_date"
