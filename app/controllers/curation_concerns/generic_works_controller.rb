@@ -40,8 +40,8 @@ class CurationConcerns::GenericWorksController < ApplicationController
     require 'tempfile'
 
     tmp_dir = ENV['TMPDIR'] || "/tmp"
-    folder = tmp_dir + "/archive_" + curation_concern.id
-    zipfile_name = folder + "/archive_" + curation_concern.id + ".zip"
+    folder = tmp_dir + "/DeepBlueData_" + curation_concern.id
+    zipfile_name = folder + "/DeepBlueData_" + curation_concern.id + ".zip"
     FileUtils.rm_rf(folder) if File.exists?(folder)
     Dir.mkdir(folder) unless File.exists?(folder)
     FileUtils.rm_rf(Dir.glob(folder + '/*')) 
