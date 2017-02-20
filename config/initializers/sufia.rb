@@ -6,6 +6,8 @@ Sufia.config do |config|
 
   config.max_notifications_for_dashboard = 5
   config.register_curation_concern :generic_work
+  # Injected via `rails g sufia:work GenericWork`
+  config.register_curation_concern :generic_work
   
   config.permission_levels = {
     "Choose Access" => "none",

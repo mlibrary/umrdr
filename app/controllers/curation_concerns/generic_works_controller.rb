@@ -2,6 +2,9 @@ require 'edtf'
 
 class CurationConcerns::GenericWorksController < ApplicationController
   include CurationConcerns::CurationConcernController
+    # Adds Sufia behaviors to the controller.
+    include Sufia::WorksControllerBehavior
+
   # Adds Sufia behaviors to the controller.
   #Override Sufia behavior to change the after_create message
   include Umrdr::WorksControllerBehavior
