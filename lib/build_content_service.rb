@@ -110,6 +110,7 @@ class BuildContentService
     subject = Array(w_hsh[:subject])
     contributor  = Array(w_hsh[:contributor])
     date_created = Array(w_hsh[:date_created])   
+    date_coverage = Array(w_hsh[:date_coverage])
     rtype = Array(w_hsh[:resource_type] || 'Dataset')
     language = Array(w_hsh[:language])
     keyword = Array(w_hsh[:keyword])
@@ -118,7 +119,7 @@ class BuildContentService
     gw = GenericWork.new( title: title, creator: creator, rights: rights,
                          description: desc, resource_type: rtype,
                          methodology: methodology, subject: subject,
-                         contributor: contributor, date_created: date_created,
+                         contributor: contributor, date_created: date_created, date_coverage: date_coverage,
                          language: language, keyword: keyword, isReferencedBy: isReferencedBy ) 
 
     paths_and_names = w_hsh[:files].zip w_hsh[:filenames]
