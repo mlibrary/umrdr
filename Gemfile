@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 # Added Gems
-gem 'sufia', '~> 7.2', github: 'projecthydra/sufia', branch: 'v7.3.0.rc1'
-gem 'flipflop', github: 'jcoyne/flipflop', branch: 'hydra'
+gem 'sufia', '7.3.0.rc3'
+gem 'flipflop', github: 'voormedia/flipflop'
 gem 'blacklight_advanced_search', '~> 6.0'
 
 
@@ -14,8 +14,8 @@ gem 'net-ldap'
 gem 'puma'
 gem 'mail_form'
 
-gem 'rdf', '~> 1.99'
-gem 'rdf-reasoner', '0.3.0'
+gem 'rdf'
+gem 'rdf-reasoner'
 # Date range support
 gem 'edtf'
 # Use mysql as the database for Active Record
@@ -49,7 +49,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 # will load new rubyzip version
-gem 'rubyzip', '>= 1.0.0'
+gem 'rubyzip', '>=1.0.0'
 
 group :production do
   # Only try to run virus scan in production
@@ -83,5 +83,5 @@ end
 
 gem 'rsolr'
 gem 'devise'
-gem 'devise-guests', '~> 0.3'
+gem 'devise-guests'
 
