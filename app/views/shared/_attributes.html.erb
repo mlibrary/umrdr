@@ -8,6 +8,18 @@
           <td><%= link_to_profile work.depositor("no depositor value") %></td>
         </tr>
         <tr>
+          <th><span class="attribute-label h4">Contact Information:</span></th>
+          <td><%= work.authoremail %></td>
+        </tr>
+        <tr>
+          <th><span class="attribute-label h4">Funding Agency:</span></th>
+          <td><%= work.fundedby) %></th>
+        </tr>
+        <tr>
+          <th><span class="attribute-label h4">ORSP Grant Number:</span></th>
+          <td><%= work.grantnumber) %></th>
+        </tr>
+        <tr>
           <th><span class="attribute-label h4">Creator:</span></th>
           <td><%= link_to_facet_list(work.creator, :creator) %></th>
         </tr>

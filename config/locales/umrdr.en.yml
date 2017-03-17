@@ -60,6 +60,12 @@ en:
           'The way the dataset was collected and processed (e.g. equipment used for sensing, survey methodology).'
         isReferencedBy:
           'Related publications that reference/use/describe the data. Paste the full citation or just include a URL. Ex. DOI:10.7302/Z2KH0K8V'
+        authoremail:
+          'The contact information (email) for individual who can best respond to questions about this dataset.'
+        fundedby:
+          'Select the primary funding agency from the list.'
+        grantnumber:
+          "Provide the grant number that was assigned by U-M's Office of Research and Sponsored Projects (ORSP)."  
     
       collection:
         title:
@@ -102,6 +108,13 @@ en:
           'The way the dataset was collected (equipment used for sensing, survey methodology, etc.).'
         isReferencedBy:
           'Related publications that reference/use/describe the data. Paste the full citation or just include a URL. Ex. DOI:10.7302/Z2KH0K8V'
+        authoremail:
+          'The contact information for individual who can best respond to questions about this dataset.'
+        fundedby:
+          'Select the primary funding agency from the list.'
+        grantnumber:
+          "Provide the grant number that was assigned by U-M's Office of Research and Sponsored Projects (ORSP)."
+
     
 
     labels:
@@ -124,6 +137,9 @@ en:
         doi: "DOI"
         hdl: "Handle"
         isReferencedBy: "Citation to related material"
+        authoremail: "Contact Information"
+        fundedby: "Funding Agency"
+        grantnumber: "ORSP Grant Number"
         on_behalf_of: "Deposit on behalf of"
 
       collection:
@@ -131,6 +147,9 @@ en:
         tag: "Keywords"
         subject: "Discipline"
         isReferencedBy: "Citation to related material"
+        authoremail: "Contact Information"
+        grantnumber: "Grant Number"
+        on_behalf_of: "Deposit on behalf of"
 
     actions:
       generic_work:

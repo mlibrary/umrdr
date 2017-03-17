@@ -1,7 +1,7 @@
 module Umrdr::Forms
   class WorkForm < Sufia::Forms::WorkForm
 
-    self.terms += [:methodology, :date_coverage, :isReferencedBy, :on_behalf_of]
+    self.terms += [:authoremail, :fundedby, :grantnumber, :methodology, :date_coverage, :isReferencedBy, :on_behalf_of]
 
     class << self
       # This determines whether the allowed parameters are single or multiple.
@@ -10,6 +10,8 @@ module Umrdr::Forms
       def multiple?(term)
         case term.to_s
           when 'rights'
+            false
+          when 'fundedby'
             false
           else
             super
@@ -21,6 +23,7 @@ module Umrdr::Forms
         super.tap do |params|
           params['rights'] = Array(params['rights']) if params.key?('rights')
           params['subject'] = Array(params['subject']) if params.key?('subject')
+          params['fundedby'] = Array(params['fundedby']) if params.key?('fundedby')  
         end
       end
     end

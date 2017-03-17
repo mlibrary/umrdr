@@ -3,8 +3,11 @@
   <%= @presenter.attribute_to_html(:creator, catalog_search_link: true ) %>
   <% @presenter.depositor.gsub!('@', 'at_sign_at') %>
   <%= raw (@presenter.attribute_to_html(:depositor)).gsub!('at_sign_at', '@') %> 
+  <%= @presenter.attribute_to_html(:authoremail, label: 'Contact Information') %>
   <%= @presenter.attribute_to_html(:contributor, label: 'Contributors', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:subject, label: 'Discipline', catalog_search_link: true) %>
+  <%= @presenter.attribute_to_html(:fundedby, label: 'Funding Agency', catalog_search_link: true )%>
+  <%= @presenter.attribute_to_html(:grantnumber, label: 'ORSP Grant Number', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:keyword, label: 'Keywords', catalog_search_link: true) %>
   <%= @presenter.attribute_to_html(:date_coverage) %>
   <%= @presenter.attribute_to_html(:isReferencedBy, label: 'Citation to related material') %>

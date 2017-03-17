@@ -9,7 +9,9 @@ module Umrdr
        index.as :stored_searchable, :facetable
       end
       property :doi, predicate: ::RDF::Vocab::Identifiers.doi, multiple: false
+
       property :hdl, predicate: ::RDF::Vocab::Identifiers.hdl, multiple: false
+
       property :methodology, predicate: ::RDF::URI.new('http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/DataCollectionMethodology.html'), multiple: false do |index|
         index.type :text
         index.as :stored_searchable
@@ -18,6 +20,22 @@ module Umrdr
         index.type :text
         index.as :stored_searchable
       end
+
+      property :authoremail, predicate: ::RDF::Vocab::FOAF.mbox, multiple: true do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+
+      property :fundedby, predicate: ::RDF::Vocab::DISCO.fundedBy, multiple: true do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+
+      property :grantnumber, predicate: ::RDF::URI.new('http://purl.org/cerif/frapo/hasGrantNumber'), multiple: false do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+
     end
   end
 end
