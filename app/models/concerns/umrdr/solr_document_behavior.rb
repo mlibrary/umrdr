@@ -14,6 +14,7 @@ module Umrdr
       Array(self[Solrizer.solr_name('isReferencedBy')]).first
     end
 
+
     def authoremail
       Array(self[Solrizer.solr_name('authoremail')]).first
     end

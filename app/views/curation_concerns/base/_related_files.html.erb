@@ -15,8 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <% #TODO: get rid of this after Sufia 7.2 migration. %>
-      <%= render presenter.member_presenters(presenter.send(:ordered_ids), presenter.file_presenter_class) %>
+   ]<%= render partial: 'member', collection: presenter.member_presenters %>
     </tbody>
   </table>
 </div>
