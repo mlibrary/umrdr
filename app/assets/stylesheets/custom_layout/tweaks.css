@@ -13,7 +13,6 @@ ol.catalog li:after {
     max-width: none;
 }
 
-.multi_value .field-controls .btn.add, 
 .multi_value .field-controls .btn.remove {
     width: 15em;
 }
