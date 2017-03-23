@@ -107,6 +107,9 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("format", :stored_searchable), label: "File Format"
     config.add_show_field solr_name("identifier", :stored_searchable), label: "Identifier"
     config.add_show_field solr_name("isReferencedBy", :stored_searchable), label: "Citation to related material"
+    config.add_show_field solr_name("authoremail", :stored_searchable), label: "Contact Information"
+    config.add_show_field solr_name("fundedby", :stored_searchable), label: "Funding Agency"
+    config.add_show_field solr_name("grantnumber", :stored_searchable), label: "Grant Number"
    
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -315,6 +318,36 @@ class CatalogController < ApplicationController
         pf: solr_name
       }
     end
+
+    config.add_search_field('authoremail') do |field|
+      field.label = "Contact Information"
+      solr_name = solr_name("authoremail", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
+    config.add_search_field('fundedby') do |field|
+      field.solr_parameters = {
+        :"spellcheck.dictionary" => "fundedby"
+      }
+      solr_name = solr_name("fundedby", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
+    config.add_search_field('grantnumber') do |field|
+      field.label = "Grant Number"
+      solr_name = solr_name("grantnumber", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name,
+        pf: solr_name
+      }
+    end
+
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and

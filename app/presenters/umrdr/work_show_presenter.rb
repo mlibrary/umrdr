@@ -3,7 +3,7 @@ module Umrdr
   class WorkShowPresenter < ::Sufia::WorkShowPresenter
 
     attr_accessor :object_profile
-    delegate :methodology, :date_coverage, :isReferencedBy, to: :solr_document
+    delegate :methodology, :date_coverage, :isReferencedBy, :authoremail, :fundedby, :grantnumber, to: :solr_document
 
     def initialize(solr_document, current_ability, request = nil)
       super
@@ -18,6 +18,18 @@ module Umrdr
     def isReferencedBy
       @solr_document.isReferencedBy
     end  
+
+    def authoremail
+      @solr_document.authoremail
+    end
+
+    def fundedby
+      @solr_document.fundedby
+    end
+
+    def grantnumber
+      @solr_document.grantnumber
+    end
       
     def doi
       @object_profile[:doi]

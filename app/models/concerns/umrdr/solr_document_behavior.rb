@@ -13,6 +13,18 @@ module Umrdr
     def isReferencedBy
       Array(self[Solrizer.solr_name('isReferencedBy')]).first
     end
+
+    def authoremail
+      Array(self[Solrizer.solr_name('authoremail')]).first
+    end
+
+    def fundedby
+      Array(self[Solrizer.solr_name('fundedby')]).first
+    end
+
+    def grantnumber
+      Array(self[Solrizer.solr_name('grantnumber')]).first
+    end
   end
 
 end
