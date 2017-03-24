@@ -1,3 +1,4 @@
+
 <% if ((RightsService.select_active_options.dup.join(",").split(',').include? (curation_concern.rights[0])) || (curation_concern.date_uploaded==nil) )%>
 <% options = RightsService.select_active_options.dup %>
 <% else %>

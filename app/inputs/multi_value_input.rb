@@ -50,6 +50,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
       end
       options[:class] ||= []
       options[:class] += ["#{input_dom_id} form-control multi-text-field"]
+      #options[:'aria-labelledby'] = label_id
       @rendered_first_element = true
 
       options
@@ -73,7 +74,11 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     end
 
     def collection
-      @collection ||= Array.wrap(object[attribute_name]).reject { |value| value.to_s.strip.blank? } + ['']
+      @collection ||= begin
+                        val = object[attribute_name]
+                        col = val.respond_to?(:to_ary) ? val.to_ary : val
+                        col.reject { |value| value.to_s.strip.blank? } + ['']
+                      end
     end
 
     def multiple?; true; end
