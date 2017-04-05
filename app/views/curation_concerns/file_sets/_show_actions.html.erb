@@ -15,10 +15,6 @@
                      class: 'btn btn-danger', data: { confirm: "Delete this #{@presenter.human_readable_type}?" },
                      method: :delete %>
       <% end %>
-      <%= link_to "Download This #{@presenter.human_readable_type}", main_app.download_path(@presenter),
-                  class: 'btn btn-default', target: "_blank" %>
-           
-
       <%= link_to t('sufia.single_use_links.button'),
                   curation_concerns.generate_download_single_use_link_path(@presenter),
                   class: 'btn btn-default generate-single-use-link' %>
@@ -27,5 +23,8 @@
                   class: 'btn btn-default' %>
 
   <% end %>
+  <%= link_to "Download This #{@presenter.human_readable_type}", main_app.download_path(@presenter),
+              class: 'btn btn-default', target: "_blank" %>
+
 
 </div>
