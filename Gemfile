@@ -1,13 +1,17 @@
 source 'https://rubygems.org'
 
 # Added Gems
-gem 'sufia', '~> 7.0'
+gem 'sufia', '~> 7.2'
+gem 'flipflop', github: 'jcoyne/flipflop', branch: 'hydra'
+
 # EZID client from Duke
 gem 'ezid-client'
 # LDAP client
 gem 'net-ldap'
 # Webserver
 gem 'puma'
+gem 'mail_form'
+
 # Date range support
 gem 'edtf'
 # Use mysql as the database for Active Record

@@ -8,7 +8,7 @@
         <ul class="nav navbar-nav">
           <li <%= 'class=active' if current_page?(sufia.root_path) %>><a href="<%= sufia.root_path %>">Home</a></li>
           <li <%= 'class=active' if current_page?(sufia.about_path) %>><a href="<%= sufia.about_path %>">About</a></li>
-          <li <%= 'class=active' if action_name == "help" %>><a href="<%= sufia.static_path('help') %>">Help</a></li>
+          <li <%= 'class=active' if action_name == "help" %>><a href="<%= sufia.help_path('help') %>">Help</a></li>
           <li <%= 'class=active' if current_page?(sufia.contact_path) %>><a href="<%= sufia.contact_path %>">Contact</a></li>
         </ul><!-- /.nav -->
       </nav><!-- /.navbar -->
