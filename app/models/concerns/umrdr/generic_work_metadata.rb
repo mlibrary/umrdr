@@ -21,7 +21,7 @@ module Umrdr
         index.as :stored_searchable
       end
 
-      property :authoremail, predicate: ::RDF::Vocab::FOAF.mbox, multiple: true do |index|
+      property :authoremail, predicate: ::RDF::Vocab::FOAF.mbox, multiple: false do |index|
         index.type :text
         index.as :stored_searchable
       end
