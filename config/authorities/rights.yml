@@ -10,6 +10,9 @@ terms:
       active: true
     - id: http://creativecommons.org/licenses/by-nd/4.0/
       term: Attribution-NoDerivatives 4.0 Univeral
+      active: false    
+    - id: http://creativecommons.org/licenses/by-nc-sa/4.0/
+      term: Attribution-NonCommercial-ShareAlike
       active: false
     - id: http://creativecommons.org/licenses/by/3.0/us/
       term: Attribution 3.0 United States
