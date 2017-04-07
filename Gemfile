@@ -77,3 +77,5 @@ gem 'rsolr', '~> 1.0.6'
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 
+# Temporary Github dependency to work with our deployment (needs pull request #77, > 4.0.17.beta)
+gem 'tinymce-rails-imageupload', git: 'https://github.com/PerfectlyNormal/tinymce-rails-imageupload.git', ref: '230416b793ad89df3618eee9c61770d652ff86d7'

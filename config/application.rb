@@ -52,5 +52,15 @@ module Umrdr
 
     # Additional directories with ruby to be autoloaded
     config.autoload_paths += Dir["#{config.root}/lib/**/*"]
+
+    require 'tinymce/rails/asset_installer/copy'
+    class CopyNoPreserve < TinyMCE::Rails::AssetInstaller::Copy
+      def copy_assets
+        logger.info "Copying assets (without mode preservation) to #{File.join(target, "tinymce")}"
+        FileUtils.cp_r(assets, target)
+      end
+    end
+
+    config.tinymce.install = CopyNoPreserve
   end
 end
