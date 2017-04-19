@@ -1,7 +1,10 @@
 source 'https://rubygems.org'
 
 # Force version of tinymce-rails-imageupload
+# and try to fix the symlink "same file" problem
+gem "non-stupid-digest-assets"
 gem 'tinymce-rails-imageupload', '~> 4.0.17.beta.2'
+
 
 # Added Gems
 gem 'sufia', '~> 7.0'

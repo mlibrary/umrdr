@@ -406,6 +406,8 @@ GEM
       activesupport (>= 3.2.18)
       i18n
       nokogiri
+    non-stupid-digest-assets (1.0.9)
+      sprockets (>= 2.0)
     oauth (0.5.1)
     oauth2 (0.9.4)
       faraday (>= 0.8, < 0.10)
@@ -744,6 +746,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   net-ldap
+  non-stupid-digest-assets
   poltergeist
   pry
   pry-byebug
