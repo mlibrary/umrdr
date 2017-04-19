@@ -56,8 +56,11 @@ module Umrdr
     require 'tinymce/rails/asset_installer/copy'
     class CopyNoPreserve < TinyMCE::Rails::AssetInstaller::Copy
       def copy_assets
-        logger.info "Copying assets (without mode preservation) to #{File.join(target, "tinymce")}"
-        FileUtils.cp_r(assets, target)
+        dest = File.join(target, "tinymce")
+        logger.info "Copying assets (without mode preservation, just using system cp -r) to #{dest}"
+        #FileUtils.cp_r(assets.to_s, target.to_s, preserve: false, verbose: true)
+        system("cp", "-r", assets.to_s, target.to_s)
+        logger.info "Finished copying assets without perms"
       end
     end
 
