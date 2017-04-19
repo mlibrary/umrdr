@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Force version of tinymce-rails-imageupload
-gem 'tinymce-rails-imageupload', "= 4.0.17.beta.2"
+gem 'tinymce-rails-imageupload', '~> 4.0.17.beta.2'
 
 # Added Gems
 gem 'sufia', '~> 7.0'

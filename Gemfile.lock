@@ -314,7 +314,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (1.8.3)
+    json (1.8.6)
     json-ld (1.99.2)
       multi_json (~> 1.11)
       rdf (~> 1.99)
@@ -768,4 +768,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.14.2
+   1.14.6
