@@ -84,4 +84,5 @@ end
 gem 'rsolr'
 gem 'devise'
 gem 'devise-guests'
+gem 'tinymce-rails-imageupload', '~> 4.0.17.beta.2'
 
