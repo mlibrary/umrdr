@@ -9,13 +9,13 @@ class DoiMintingJob < ActiveJob::Base
 
     if Umrdr::DoiMintingService.mint_doi_for work
       # do success callback
-      if CurationConcerns.config.callback.set?(:after_doi_success)
-        CurationConcerns.config.callback.run(:after_doi_success, work, user, log.created_at)
+      if Hyrax.config.callback.set?(:after_doi_success)
+        Hyrax.config.callback.run(:after_doi_success, work, user, log.created_at)
       end
     else
       # do failure callback
-      if CurationConcerns.config.callback.set?(:after_doi_failure)
-        CurationConcerns.config.callback.run(:after_doi_failure, work, user, log.created_at)
+      if Hyrax.config.callback.set?(:after_doi_failure)
+        Hyrax.config.callback.run(:after_doi_failure, work, user, log.created_at)
       end
     end
   end

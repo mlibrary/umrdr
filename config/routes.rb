@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  Hydra::BatchEdit.add_routes(self)
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
 
@@ -14,11 +13,7 @@ Rails.application.routes.draw do
   devise_for :users, path: '', path_names: {sign_in: 'login', sign_out: 'logout'}, controllers: {sessions: 'sessions'}
   get '/logout_now', to: 'sessions#logout_now'
 
-  Hydra::BatchEdit.add_routes(self)
-
   mount Sufia::Engine => '/'
-  #mount Hydra::Collections::Engine => '/'
-  mount CurationConcerns::Engine, at: '/'
   resources :welcome, only: 'index'
   root 'sufia/homepage#index'
   curation_concerns_collections

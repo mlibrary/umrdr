@@ -2,7 +2,7 @@
   <%# Script redirects here once the uploads are complete %>
   <% if @upload_set_id %>
     <%# Redirect to the UploadSet#edit form %>
-    <%= CurationConcerns::FileSetsController.upload_complete_path(@upload_set_id) %>
+    <%= Hyrax::FileSetsController.upload_complete_path(@upload_set_id) %>
   <% else %>
     <%# redirect back to the current page %>
     <%= main_app.url_for(@presenter) %>

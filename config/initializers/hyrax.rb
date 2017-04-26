@@ -1,4 +1,4 @@
-Sufia.config do |config|
+Hyrax.config do |config|
 
   config.arkivo_api = false
 
@@ -6,7 +6,7 @@ Sufia.config do |config|
 
   config.max_notifications_for_dashboard = 5
   config.register_curation_concern :generic_work
-  # Injected via `rails g sufia:work GenericWork`
+  # Injected via `rails g hyrax:work GenericWork`
   config.register_curation_concern :generic_work
   
   config.permission_levels = {
@@ -51,7 +51,7 @@ Sufia.config do |config|
   # If you have ffmpeg installed and want to transcode audio and video uncomment this line
   # config.enable_ffmpeg = true
 
-  # Sufia uses NOIDs for files and collections instead of Fedora UUIDs
+  # Hyrax uses NOIDs for files and collections instead of Fedora UUIDs
   # where NOID = 10-character string and UUID = 32-character string w/ hyphens
   # config.enable_noids = true
 
@@ -75,7 +75,7 @@ Sufia.config do |config|
   # Specify how many seconds back from the current time that we should show by default of the user's activity on the user's dashboard
   # config.activity_to_show_default_seconds_since_now = 24*60*60
 
-  # Sufia can integrate with Zotero's Arkivo service for automatic deposit
+  # Hyrax can integrate with Zotero's Arkivo service for automatic deposit
   # of Zotero-managed research items.
   # config.arkivo_api = false
 

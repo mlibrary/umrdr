@@ -5,5 +5,5 @@ Resque.redis = Redis.new(host: config[:host], port: config[:port], thread_safe: 
 Resque.inline = Rails.env.test?
 #Resque.redis.namespace = "#{CurationConcerns.config.redis_namespace}:#{Rails.env}"
 
-Sufia.config.redis_namespace = Settings.redis_namespace || 'umrdr_redis_namespace_needs_configuration'
+Hyrax.config.redis_namespace = Settings.redis_namespace || 'umrdr_redis_namespace_needs_configuration'
 Resque.redis.namespace = Settings.redis_namespace       || 'umrdr_redis_namespace_needs_configuration'

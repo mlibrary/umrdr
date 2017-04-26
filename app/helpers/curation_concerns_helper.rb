@@ -1,6 +1,6 @@
-module CurationConcernsHelper
+module HyraxHelper
   include ::BlacklightHelper
-  include CurationConcerns::MainAppHelpers
+  include Hyrax::MainAppHelpers
 
   def default_page_title
     text = controller_name.singularize.titleize

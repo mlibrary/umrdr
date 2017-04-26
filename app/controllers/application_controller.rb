@@ -4,15 +4,13 @@ class ApplicationController < ActionController::Base
   include Blacklight::Controller
   include Hydra::Controller::ControllerBehavior
 
-  # Adds CurationConcerns behaviors to the application controller.
-  include CurationConcerns::ApplicationControllerBehavior  
   # Adds Sufia behaviors into the application controller 
   include Sufia::Controller
 
   # Behavior for devise.  Use remote user field in http header for auth.
   include Behaviors::HttpHeaderAuthenticatableBehavior
 
-  include CurationConcerns::ThemedLayoutController
+  include Hyrax::ThemedLayoutController
   layout 'sufia-one-column'
 
 

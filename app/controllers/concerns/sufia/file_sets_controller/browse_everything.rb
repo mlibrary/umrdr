@@ -27,7 +27,7 @@ module Sufia::FileSetsController
       # Used in to import files using URLs from a file picker like browse_everything
       def create_file_from_url(url, file_name, parent)
         ::FileSet.new(import_url: url, label: file_name) do |fs|
-          actor = CurationConcerns::Actors::FileSetActor.new(fs, current_user)
+          actor = Hyrax::Actors::FileSetActor.new(fs, current_user)
           actor.create_metadata(parent)
           fs.save!
           ImportUrlJob.perform_later(fs.id)

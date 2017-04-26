@@ -1,4 +1,4 @@
-module CurationConcerns
+module Hyrax 
   class PermissionBadge
     include ActionView::Helpers::TagHelper
 

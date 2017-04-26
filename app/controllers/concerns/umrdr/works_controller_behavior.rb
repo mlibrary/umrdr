@@ -3,8 +3,6 @@ module Umrdr
     extend ActiveSupport::Concern
     include Sufia::Controller
     include Sufia::WorksControllerBehavior
-    include CurationConcerns::CurationConcernController
-
     
     # override curation concerns, add form fields values
     def build_form

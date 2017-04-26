@@ -1,1 +1,0 @@
-//= require batch_edit/batch_edit
