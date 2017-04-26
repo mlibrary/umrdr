@@ -1,7 +1,7 @@
-module SufiaHelper
+module HyraxHelper
   include ::BlacklightHelper
-  include Sufia::BlacklightOverride
-  include Sufia::SufiaHelperBehavior
+  include Hyrax::BlacklightOverride
+  include Hyrax::HyraxHelperBehavior
 
   def link_to_profile(login)
     user = ::User.find_by_user_key(login)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214221254) do
+ActiveRecord::Schema.define(version: 20170426160812) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -118,6 +118,13 @@ ActiveRecord::Schema.define(version: 20170214221254) do
     t.datetime "updated_at",                      null: false
     t.index ["followable_id", "followable_type"], name: "fk_followables"
     t.index ["follower_id", "follower_type"], name: "fk_follows"
+  end
+
+  create_table "hyrax_features", force: :cascade do |t|
+    t.string   "key",                        null: false
+    t.boolean  "enabled",    default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "local_authorities", force: :cascade do |t|
@@ -402,13 +409,6 @@ ActiveRecord::Schema.define(version: 20170214221254) do
     t.string "lowerLabel"
     t.string "url"
     t.index ["lowerLabel"], name: "entries_by_lower_label"
-  end
-
-  create_table "sufia_features", force: :cascade do |t|
-    t.string   "key",                        null: false
-    t.boolean  "enabled",    default: false, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
   end
 
   create_table "tinymce_assets", force: :cascade do |t|

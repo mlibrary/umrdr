@@ -13,15 +13,16 @@ Rails.application.routes.draw do
   devise_for :users, path: '', path_names: {sign_in: 'login', sign_out: 'logout'}, controllers: {sessions: 'sessions'}
   get '/logout_now', to: 'sessions#logout_now'
 
-  mount Sufia::Engine => '/'
+  mount Qa::Engine => '/authorities'
+  mount Hyrax::Engine => '/'
   resources :welcome, only: 'index'
-  root 'sufia/homepage#index'
-  curation_concerns_collections
+  root 'hyrax/homepage#index'
+  #curation_concerns_collections
   curation_concerns_basic_routes
   curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
 
-  namespace :curation_concerns,  path: :concern do
+  namespace :hyrax,  path: :concern do
     resources :generic_works do
       member do
         post 'identifiers'
