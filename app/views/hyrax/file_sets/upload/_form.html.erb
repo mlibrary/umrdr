@@ -1,8 +1,7 @@
-
 <% unless @presenter.identifiers_minted?(:doi) && @presenter.solr_document.public? %>
   <div class="well">
     <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
-      <%#= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
+      <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
     <% end %>
     <% editor    = can?(:edit,    @presenter.id) %>
     <% if editor && @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
