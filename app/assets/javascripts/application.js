@@ -17,7 +17,8 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 
-//= require sufia
+//= require hyrax
+
 //= require manage_repeating_fields
 //= require uploader.js
 //= require date_coverage_field

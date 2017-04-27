@@ -7,7 +7,7 @@ class SolrDocument
   # Adds Hyrax behaviors to the SolrDocument.
   include Hyrax::SolrDocumentBehavior
   # Adds Sufia behaviors to the SolrDocument.
-  include Sufia::SolrDocumentBehavior
+  #include Sufia::SolrDocumentBehavior
   include Umrdr::SolrDocumentBehavior
 
 

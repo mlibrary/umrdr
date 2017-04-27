@@ -3,5 +3,6 @@
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 
-@import 'curation_concerns/curation_concerns';
+@import 'hyrax/hyrax';
+
 

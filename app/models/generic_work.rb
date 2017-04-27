@@ -1,7 +1,7 @@
 class GenericWork < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
   include ::Hyrax::BasicMetadata
-  include Sufia::WorkBehavior
+  #include Sufia::WorkBehavior
   self.human_readable_type = 'Generic Work'
   include Umrdr::GenericWorkBehavior
   include Umrdr::GenericWorkMetadata

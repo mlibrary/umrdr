@@ -1,10 +1,10 @@
 <div class="form-actions">
-  <% if Sufia.config.analytics %>
+  <% if Hyrax.config.analytics %>
     <% # TODO remove this hideous hack, and correct behavior to respect url root in Sufia. %>
     <%= link_to "Analytics", main_app.root_path.chomp('/') + @presenter.stats_path, id: 'stats', class: 'btn btn-default' %>
   <% end %>
-  <% if Sufia.config.citations %>
-    <%= link_to "Citations", sufia.citations_work_path(@presenter), id: 'citations', class: 'btn btn-default' %>
+  <% if Hyrax.config.citations %>
+    <%= link_to "Citations", hyrax.citations_work_path(@presenter), id: 'citations', class: 'btn btn-default' %>
   <% end %>
   
   <% if @presenter.editor? %>
@@ -19,11 +19,11 @@
       <% end %>
     <% end %>
     <% if @presenter.respond_to?(:display_feature_link?) && @presenter.display_feature_link? %>
-        <%= link_to "Feature", sufia.featured_work_path(@presenter, format: :json),
+        <%= link_to "Feature", hyrax.featured_work_path(@presenter, format: :json),
             data: {behavior: 'feature'}, id: 'featureLink', name: 'featureLink', class: 'btn btn-default' %>
     <% end %>
     <% if @presenter.respond_to?(:display_unfeature_link?) && @presenter.display_unfeature_link? %>
-        <%= link_to "Unfeature", sufia.featured_work_path(@presenter, format: :json),
+        <%= link_to "Unfeature", hyrax.featured_work_path(@presenter, format: :json),
             data: {behavior: 'unfeature'}, id: 'unfeatureLink', name: 'unfeatureLink', class: 'btn btn-default' %>
     <% end %>
   <!-- COinS hook for Zotero -->

@@ -34,12 +34,12 @@ module Hyrax
       end
 
       def open_access?
-        @open_access = @solr_document.visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC if @open_access.nil?
+        #@open_access = @solr_document.visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC if @open_access.nil?
         @open_access
       end
 
       def registered?
-        @registered = @solr_document.visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED if @registered.nil?
+        #@registered = @solr_document.visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED if @registered.nil?
         @registered
       end
 

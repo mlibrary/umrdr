@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= t("sufia.document_language") %>" prefix="og:http://ogp.me/ns#">
+<html lang="<%= t("hyrax.document_language") %>" prefix="og:http://ogp.me/ns#">
   <head>
     <%= render partial: 'layouts/head_tag_content' %>
   </head>
@@ -11,7 +11,7 @@
     <%= render partial: '/controls' %>
     <%= render partial: '/flash_msg' %>
     <div id="content-wrapper" class="container">
-      <%= render_breadcrumbs builder: Sufia::BootstrapBreadcrumbsBuilder %>
+      <%= render_breadcrumbs builder: Hyrax::BootstrapBreadcrumbsBuilder %>
 
       <% if content_for?(:page_header) %>
         <div class="row">

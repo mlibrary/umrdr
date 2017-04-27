@@ -1,4 +1,4 @@
-module Sufia::FileSetsController
+module Hyrax::FileSetsController
   module BrowseEverything
     include ActiveSupport::Concern
 

@@ -2,7 +2,7 @@ class Ability
   include Hydra::Ability
   
   include Hyrax::Ability
-  include Sufia::Ability
+  #include Sufia::Ability
 
   self.ability_logic += [:everyone_can_create_curation_concerns]
   self.ability_logic += [:umrdr_abilities]

@@ -1,4 +1,4 @@
-module Sufia
+module Hyrax 
   module DepositorsControllerBehavior
     extend ActiveSupport::Concern
 

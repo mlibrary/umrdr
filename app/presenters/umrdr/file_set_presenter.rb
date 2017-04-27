@@ -1,5 +1,5 @@
 module Umrdr
-  class FileSetPresenter < ::Sufia::FileSetPresenter
+  class FileSetPresenter < ::Hyrax::FileSetPresenter
 
   	def parent_doi?
   		g =GenericWork.find (self.parent.id)

@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
     <div class="btn-group" id="user_utility_links">
-      <%= link_to sufia.profile_path(current_user), class: "btn btn-default", id: "dashboard_link" do %>
+      <%= link_to hyrax.profile_path(current_user), class: "btn btn-default", id: "dashboard_link" do %>
         My Profile
       <% end %>
       <%= link_to main_app.destroy_user_session_path, class: "btn btn-default", id: "logout_nav_link" do %>

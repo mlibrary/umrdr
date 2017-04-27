@@ -1,8 +1,8 @@
 module Hyrax 
   class FileSetsController < ApplicationController
     include Hyrax::FileSetsControllerBehavior
-    include Sufia::Controller
-    include Sufia::FileSetsControllerBehavior
+    include Hyrax::Controller
+    #include Sufia::FileSetsControllerBehavior
 
    def create
      if params[:selected_files].present?

@@ -1,8 +1,8 @@
 module Umrdr
   module WorksControllerBehavior
     extend ActiveSupport::Concern
-    include Sufia::Controller
-    include Sufia::WorksControllerBehavior
+    include Hyrax::Controller
+    include Hyrax::WorksControllerBehavior
     
     # override curation concerns, add form fields values
     def build_form
