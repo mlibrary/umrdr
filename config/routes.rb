@@ -2,7 +2,14 @@ Rails.application.routes.draw do
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
 
-  get ':action' => 'static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|management-plan-text|file-format-preservation|how-to-upload|prepare-your-data|retention|zotero|mendeley|agreement|terms|subject_libraries|versions/ }, as: :static
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
+
+  get ':action' => 'hyrax/static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|management-plan-text|file-format-preservation|how-to-upload|prepare-your-data|retention|zotero|mendeley|agreement|terms|subject_libraries|versions/ }, as: :static
+
+
+
 
   concern :searchable, Blacklight::Routes::Searchable.new
 
@@ -42,7 +49,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'sufia/homepage#index'
+  # root 'hyrax/homepage#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

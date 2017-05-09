@@ -1,6 +1,6 @@
 <div class="form-actions">
   <% if Hyrax.config.analytics %>
-    <% # TODO remove this hideous hack, and correct behavior to respect url root in Sufia. %>
+    <% # TODO remove this hideous hack, and correct behavior to respect url root in Hyrax. %>
     <%= link_to "Analytics", main_app.root_path.chomp('/') + @presenter.stats_path, id: 'stats', class: 'btn btn-default' %>
   <% end %>
   <% if Hyrax.config.citations %>

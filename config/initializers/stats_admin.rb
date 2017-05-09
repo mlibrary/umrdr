@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-module Sufia
+module Hyrax
   class StatsAdmin
     def self.matches?(request)
       current_user = request.env['warden'].user

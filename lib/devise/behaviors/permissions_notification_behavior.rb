@@ -22,7 +22,7 @@ module Behaviors
       return state
     end
 
-    # Overriding Sufia::WorksControllerBehavior to catch permission state broadcasting.
+    # Overriding Hyrax::WorksControllerBehavior to catch permission state broadcasting.
     def notify_users(permission_state, generic_work)
       #retrieve batch user
       sender = User.batchuser

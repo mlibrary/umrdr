@@ -3,8 +3,8 @@
     <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
       <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
     <% end %>
-    <% editor    = can?(:edit,    @presenter.id) %>
-    <% if editor && @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
+    <%# editor    = can?(:edit,    @presenter.id) %>
+    <% if @presenter.editor? && @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
       <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
         <%= hidden_field_tag('generic_work[nop]') %>
         <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>

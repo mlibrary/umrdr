@@ -14,6 +14,8 @@ gem 'net-ldap'
 gem 'puma'
 gem 'mail_form'
 
+gem 'sidekiq'
+
 gem 'rdf'
 gem 'rdf-reasoner'
 # Date range support

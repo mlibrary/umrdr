@@ -9,8 +9,8 @@
 <%= hidden_field_tag "file_coming_from", "local" %>
 
 <div class="upload-terms-of-service">
-  <%= render 'curation_concerns/file_sets/upload/tos_checkbox' %>
-  <%= render 'curation_concerns/file_sets/upload/agreement' %>
+  <%= render 'hyrax/file_sets/upload/tos_checkbox' %>
+  <%= render 'hyrax/file_sets/upload/agreement' %>
 </div>
 
 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -29,7 +29,7 @@
     <input type="file" name="file_set[files][]" directory webkitdirectory mozdirectory />
   </span>
   <% end %>
-  <div id="main_upload_start_span"  class="activate-container visible-all-inline-block" data-toggle="tooltip" data-title="<%= t('sufia.upload_tooltip') %>">
+  <div id="main_upload_start_span"  class="activate-container visible-all-inline-block" data-toggle="tooltip" data-title="<%= t('hyrax.upload_tooltip') %>">
     <button disabled type="submit" name="main_upload_start" class="activate-submit btn btn-info start"   id="main_upload_start"">
       <i class="glyphicon glyphicon-upload"></i>
       <span>Start upload</span>

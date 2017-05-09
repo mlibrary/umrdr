@@ -18,7 +18,7 @@ class Hyrax::GenericWorksController < ApplicationController
   self.curation_concern_type = GenericWork
 
   def notify_rdr
-    location = main_app.curation_concerns_generic_work_url(curation_concern.id) 
+    location = main_app.hyrax_generic_work_url(curation_concern.id) 
     depositor = curation_concern.depositor
     title = curation_concern.title.join("','")
     creator = curation_concern.creator.join("','")
@@ -50,7 +50,7 @@ class Hyrax::GenericWorksController < ApplicationController
     FileUtils.rm_rf(Dir.glob(folder + '/*')) 
 
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-      curation_concern.file_sets.each do |file_set|      
+      curation_concern.file_sets.each do |file_set|   
         file = file_set.files[0]
         filename = file_set.files[0].file_name[0]
 

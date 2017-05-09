@@ -1,10 +1,10 @@
 <div class="form-actions">
-  <% if Sufia.config.analytics %>
-    <% # TODO remove this hideous hack, and correct behavior to respect url root in Sufia. %>
+  <% if Hyrax.config.analytics %>
+    <% # TODO remove this hideous hack, and correct behavior to respect url root in Hyrax. %>
     <%= link_to "Analytics", main_app.root_path.chomp('/') + @presenter.stats_path, id: 'stats', class: 'btn btn-default' %>
   <% end %>
-  <% if Sufia.config.citations %>
-    <%= link_to "Citations", sufia.citations_work_path(@presenter), id: 'citations', class: 'btn btn-default' %>
+  <% if Hyrax.config.citations %>
+    <%= link_to "Citations", hyrax.citations_work_path(@presenter), id: 'citations', class: 'btn btn-default' %>
   <% end %>
 
   <% if @presenter.editor? %>
@@ -15,15 +15,16 @@
                      class: 'btn btn-danger', data: { confirm: "Delete this #{@presenter.human_readable_type}?" },
                      method: :delete %>
       <% end %>
-      <%= link_to t('sufia.single_use_links.button'),
-                  curation_concerns.generate_download_single_use_link_path(@presenter),
+      <%= link_to t('hyrax.single_use_links.button'),
+                  hyrax.generate_download_single_use_link_path(@presenter),
                   class: 'btn btn-default generate-single-use-link' %>
 
       <%= link_to "Versions", edit_polymorphic_path([main_app, @presenter], anchor: 'versioning_display'),
                   class: 'btn btn-default' %>
 
   <% end %>
-  <%= link_to "Download This #{@presenter.human_readable_type}", main_app.download_path(@presenter),
+
+  <%= link_to "Download This #{@presenter.human_readable_type}", hyrax.download_path(@presenter),
               class: 'btn btn-default', target: "_blank" %>
 
 

@@ -3,6 +3,7 @@ development:
     - archivist1@example.com
   admin:
     - njaffer@umich.edu
+    - blancoj@umich.edu
 test:
   archivist:
     - archivist1@example.com

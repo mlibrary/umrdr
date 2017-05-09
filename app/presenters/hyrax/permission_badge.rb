@@ -2,8 +2,8 @@ module Hyrax
   class PermissionBadge
     include ActionView::Helpers::TagHelper
 
-    def initialize(solr_document)
-      @solr_document = solr_document
+    def initialize(visibility)
+      @visibility = visibility
     end
 
     # Draws a span tag with styles for a bootstrap label
@@ -34,11 +34,11 @@ module Hyrax
       end
 
       def open_access?
-        @open_access = @solr_document.visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC if @open_access.nil?
+        @open_access = @visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC if @open_access.nil?
       end
 
       def registered?
-        @registered = @solr_document.visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED if @registered.nil?
+        @registered = @visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED if @registered.nil?
       end
 
   end

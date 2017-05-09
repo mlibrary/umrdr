@@ -1,4 +1,0 @@
-    <li class="<%= action_name == path ? 'current' : '' %>">
-        <%= link_to label, static_path(path) %>
-        <% if action_name == path and content_for?(:page_navigation) %><%= yield :page_navigation %><% end %>
-    </li>

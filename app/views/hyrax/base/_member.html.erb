@@ -2,7 +2,7 @@
   <td class="thumbnail">
     <%= render_thumbnail_tag member %>
   </td>
-  <td class="attribute filename"><%= link_to(member.link_name, main_app.hyrax_file_set_path(member), target: "_blank") %></td>
+  <td class="attribute filename"><%= link_to(member.link_name, hyrax.download_path(member), target: "_blank") %></td>
   <td class="attribute date_uploaded"><%= member.try(:date_uploaded) %></td>
   <td class="attribute permission"><%= member.permission_badge %></td>
   <td class="attribute smalltext"><%= link_to("View Details", contextual_path(member, @presenter)) %></td>  

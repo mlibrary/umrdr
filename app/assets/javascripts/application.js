@@ -16,11 +16,10 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 // Required by Blacklight
 //= require blacklight/blacklight
-
 //= require hyrax
 
 //= require manage_repeating_fields
-//= require uploader.js
+
 //= require date_coverage_field
 //= require more
 //= require draft_save

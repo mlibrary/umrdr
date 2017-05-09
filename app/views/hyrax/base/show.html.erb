@@ -11,7 +11,7 @@
 <%= render 'attributes', presenter: @presenter %>
 <%= render 'related_files', presenter: @presenter %>
 
-<% if editor %>
+<% if @presenter.editor? %>
     <%= render partial: 'hyrax/file_sets/multiple_upload', presenter: @presenter %>
 <% end %>
 

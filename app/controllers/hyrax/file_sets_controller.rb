@@ -22,16 +22,30 @@ module Hyrax
       elsif empty_file?(file)
         render_json_response(response_type: :unprocessable_entity, options: { errors: { files: "#{file.original_filename} has no content! (Zero length file)" }, description: t('curation_concerns.api.unprocessable_entity.empty_file') })
       elsif too_large_file?(file)
-        render_json_response(response_type: :unprocessable_entity, options: { errors: { files: "#{file.original_filename} is larger than #{Sufia.config.max_file_size_str}" }, description: t('curation_concerns.api.unprocessable_entity.too_large_file') })
+        render_json_response(response_type: :unprocessable_entity, options: { errors: { files: "#{file.original_filename} is larger than #{Hyrax.config.max_file_size_str}" }, description: t('curation_concerns.api.unprocessable_entity.too_large_file') })
       else
-        process_file(file)
+        #process_non_empty_file(file)
+        #attempt_process_file_for_create_from_upload (file)
+
+#         attempt_process_file_for_create_from_upload(file)
+
+        if process_file(actor, file)
+          response_for_successfully_processed_file
+        else
+          msg = curation_concern.errors.full_messages.join(', ')
+          flash[:error] = msg
+          json_error "Error creating file #{file.original_filename}: #{msg}"
+        end
       end
     rescue RSolr::Error::Http => error
       logger.error "FileSetController::create rescued #{error.class}\n\t#{error}\n #{error.backtrace.join("\n")}\n\n"
       render_json_response(response_type: :internal_error, options: { message: 'Error occurred while creating a FileSet.' })
     ensure
       # remove the tempfile (only if it is a temp file)
-      file.tempfile.delete if file.respond_to?(:tempfile)
+      #because file is getting delete. sikekiq
+      #just comment this out becuae of hyrax upgrade. sidekiq was what I was trying.
+
+      #file.tempfile.delete if file.respond_to?(:tempfile)
     end
 
     def too_large_file?(file)
