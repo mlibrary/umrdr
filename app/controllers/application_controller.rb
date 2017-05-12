@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   include Hyrax::ThemedLayoutController
   #layout 'sufia-one-column'
-  with_themed_layout '1_column'
+  with_themed_layout 'sufia-dashboard'
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
