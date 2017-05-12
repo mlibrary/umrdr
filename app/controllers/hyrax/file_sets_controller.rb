@@ -41,10 +41,8 @@ module Hyrax
       logger.error "FileSetController::create rescued #{error.class}\n\t#{error}\n #{error.backtrace.join("\n")}\n\n"
       render_json_response(response_type: :internal_error, options: { message: 'Error occurred while creating a FileSet.' })
     ensure
-      # remove the tempfile (only if it is a temp file)
-      #because file is getting delete. sikekiq
-      #just comment this out becuae of hyrax upgrade. sidekiq was what I was trying.
-
+      #We used to remove the file here, but we were seeing that the file was not being uploaded when doing asynchronous 
+      #ingestion.  So  now this is done in create_derivatives_job.rb ( this is the last step in the process )
       #file.tempfile.delete if file.respond_to?(:tempfile)
     end
 
