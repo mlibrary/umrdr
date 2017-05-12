@@ -1,5 +1,10 @@
 <% license = Hyrax::LicenseService.new %>
-<% options = license.select_active_options %>
+
+<% if ((license.select_active_options.join(",").split(',').include? (curation_concern.rights[0])) || (curation_concern.date_uploaded==nil) )%>
+<% options = license.select_active_options.dup %>
+<% else %>
+<% options = license.select_all_options.dup %>
+<% end %>
 
 <div class="form-group radio_buttons generic_work_rights">
     <%= f.label :rights %>
