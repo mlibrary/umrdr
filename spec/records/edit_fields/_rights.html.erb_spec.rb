@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe 'records/edit_fields/_rights.html.erb', type: :view do
 
-  include SufiaHelper unless include?(SufiaHelper)
+  include HyraxHelper unless include?(HyraxHelper)
 
   let(:work) do
     stub_model(GenericWork, id: '456', rights: [ RightsService.select_options[0][-1] ])
@@ -13,7 +13,7 @@ describe 'records/edit_fields/_rights.html.erb', type: :view do
   let(:curation_concern) {work}
 
   let(:form) do
-    CurationConcerns::GenericWorkForm.new(work, ability)
+    Hyrax::GenericWorkForm.new(work, ability)
   end
 
   let(:current_user) { sub_model(User) }

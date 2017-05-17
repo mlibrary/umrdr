@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'curation_concerns/base/show' do
+describe 'hyrax/base/show' do
   describe 'Showing a Generic Work with zero FileSets' do
     let(:generic_work) { GenericWork.new(id: '456', title: ['Containing work']) }
     let(:user) {User.new(email:'demo@demo.com', id: 'user1')}

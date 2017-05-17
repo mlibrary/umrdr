@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CurationConcerns::GenericWorkForm do
+describe Hyrax::GenericWorkForm do
   let(:form) { described_class.new(GenericWork.new, nil) }
 
   describe "#rendered_terms" do

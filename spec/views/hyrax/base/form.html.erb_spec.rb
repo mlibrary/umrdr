@@ -12,16 +12,16 @@ describe "Work Edit Form" do
   let(:work) {stub_model(GenericWork, id: '123')}
   let(:ability) { nil }
   let(:curation_concern) {work}
-  let(:work_form) {CurationConcerns::GenericWorkForm.new(work, ability)}
+  let(:work_form) {Hyrax::GenericWorkForm.new(work, ability)}
   let(:proxies) { [stub_model(User, email: 'bob@example.com')] }
   let(:user) { stub_model(User) }
   let(:form) do
-    CurationConcerns::GenericWorkForm.new(work, ability)
+    Hyrax::GenericWorkForm.new(work, ability)
   end
 
   before do
     # mock the helper method
-    view.lookup_context.view_paths.push 'app/views/curation_concerns'
+    view.lookup_context.view_paths.push 'app/views/hyrax'
     allow(controller).to receive(:current_user).and_return(user)
     allow(view).to receive(:curation_concern).and_return(work)  
     allow(user).to receive(:can_make_deposits_for).and_return(proxies)
@@ -33,7 +33,7 @@ describe "Work Edit Form" do
 
   let(:page) do
     view.simple_form_for form do |f|
-      render 'curation_concerns/base/form.html.erb', f: f
+      render 'hyrax/base/form.html.erb', f: f
     end
     Capybara::Node::Simple.new(rendered)
   end

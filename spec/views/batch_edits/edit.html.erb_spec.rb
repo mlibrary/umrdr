@@ -11,7 +11,7 @@ RSpec.describe 'batch_edits/edit.html.erb' do
     assign :generic_work, generic_work
     allow(view).to receive(:curation_concern).and_return(generic_work)
 
-    view.lookup_context.view_paths.push "#{CurationConcerns::Engine.root}/app/views/curation_concerns/base"
+    view.lookup_context.view_paths.push "#{Hyrax::Engine.root}/app/views/hyrax/base"
     render
   end
 
