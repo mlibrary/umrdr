@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Hyrax::Forms::CollectionForm do
   describe "#terms" do

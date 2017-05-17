@@ -1,7 +1,7 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Hyrax::GenericWorkForm do
-  let(:form) { described_class.new(GenericWork.new, nil) }
+  let(:form) { described_class.new(GenericWork.new, nil, nil) }
 
   describe "#rendered_terms" do
     subject { form.rendered_terms }
