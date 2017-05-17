@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CurationConcerns::GenericWorksController do
+describe Hyrax::GenericWorksController do
   let(:user) { FactoryGirl.build(:user) }
   let(:work) { FactoryGirl.build(:generic_work, id: '123', title: ['test title'], user: user) }
 
