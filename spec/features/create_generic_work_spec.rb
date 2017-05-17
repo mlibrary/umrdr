@@ -17,10 +17,16 @@ RSpec.feature 'Create a GenericWork' do
     end
 
     scenario do
-      visit new_curation_concerns_generic_work_path
+      visit new_hyrax_generic_work_path
       fill_in 'Title', with: 'Test GenericWork'
-      click_button 'Create GenericWork'
+      fill_in 'Creator', with: 'Creator, Test'
+      fill_in 'Method', with: 'Test'
+      fill_in 'Description', with: 'Test'
+      choose 'generic_work_rights_httpcreativecommonsorgpublicdomainzero10'
+      select 'Other', from: 'generic_work_subject'
+      click_button 'Publish'
       expect(page).to have_content 'Test GenericWork'
+      expect(page).to have_content 'Creator, Test'
     end
   end
 end
