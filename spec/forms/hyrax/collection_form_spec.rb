@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Sufia::Forms::CollectionForm do
+describe Hyrax::Forms::CollectionForm do
   describe "#terms" do
     subject { described_class.terms }
 
