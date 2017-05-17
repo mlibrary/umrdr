@@ -4,6 +4,7 @@ development:
   admin:
     - njaffer@umich.edu
     - blancoj@umich.edu
+    - roger@umich.edu
 test:
   archivist:
     - archivist1@example.com
