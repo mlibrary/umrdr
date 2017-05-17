@@ -20,17 +20,17 @@ module Umrdr
         Hydra::Derivatives::PdfDerivatives.create(filename,
                                                   outputs: [{ label: :thumbnail, format: 'jpg',
                                                               size: '150x150',
-                                                              url: derivative_url('thumbnail') }])
+                                                              }])
       when *self.class.video_mime_types
         Hydra::Derivatives::VideoDerivatives.create(filename,
                                                     outputs: [{ label: :thumbnail, format: 'jpg',
                                                                 size: '150x150',
-                                                                url: derivative_url('thumbnail') }])
+                                                                }])
       when *self.class.image_mime_types
         Hydra::Derivatives::ImageDerivatives.create(filename,
                                                     outputs: [{ label: :thumbnail, format: 'jpg',
                                                                 size: '150x150',
-                                                                url: derivative_url('thumbnail') }])
+                                                                 }])
       end
     end
   end
