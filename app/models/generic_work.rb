@@ -17,7 +17,7 @@ class GenericWork < ActiveFedora::Base
 
   def set_defaults
     return unless new_record?
-    self.resource_type = ["JoseJose"]
+    self.resource_type = ["Dataset"]
     
   end
 end
