@@ -1,7 +1,7 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe HyraxHelper do
-  let(:rights) { RightsService.select_options[-1] }
+  let(:rights) { Hyrax::LicenseService.new.select_all_options[-1] }
   let(:target) { I18n.t(:description, scope: [ :rights, rights[1].gsub('.', '_') ]) }
   subject { helper.t_uri :description, scope: [ :rights, rights[1] ] }
 
