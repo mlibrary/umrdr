@@ -1,6 +1,7 @@
-require 'spec_helper'
+#require 'spec_helper'
+require 'rails_helper'
 
-describe 'users/edit.html.erb', type: :view do
+describe 'hyrax/users/edit.html.erb', type: :view do
   let(:user) { stub_model(User, user_key: 'mjg') }
 
   before do
@@ -33,7 +34,7 @@ describe 'users/edit.html.erb', type: :view do
 
   context 'with Zotero integration disabled' do
     before do
-      allow(Sufia.config).to receive(:arkivo_api) { false }
+      allow(Hyrax.config).to receive(:arkivo_api) { false }
     end
 
     it 'hides a Zotero OAuth button' do

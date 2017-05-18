@@ -12,11 +12,11 @@ describe "Work Edit Form" do
   let(:work) {stub_model(GenericWork, id: '123')}
   let(:ability) { nil }
   let(:curation_concern) {work}
-  let(:work_form) {Hyrax::GenericWorkForm.new(work, ability)}
+  let(:work_form) {Hyrax::GenericWorkForm.new(work, ability, nil)}
   let(:proxies) { [stub_model(User, email: 'bob@example.com')] }
   let(:user) { stub_model(User) }
   let(:form) do
-    Hyrax::GenericWorkForm.new(work, ability)
+    Hyrax::GenericWorkForm.new(work, ability, nil)
   end
 
   before do
