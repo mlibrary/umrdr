@@ -35,7 +35,7 @@ module Umrdr
         md.datacite_publicationyear = Date.today.year.to_s
         md.datacite_resourcetype= RESOURCE_TYPE
         md.datacite_creator=work.creator.join(';')
-        md.target = Rails.application.routes.url_helpers.curation_concerns_generic_work_url(id: work.id)
+        md.target = Rails.application.routes.url_helpers.hyrax_generic_work_url(id: work.id)
       end
     end
 
