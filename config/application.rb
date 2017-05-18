@@ -26,7 +26,7 @@ module Umrdr
     config.max_total_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_total_file_size, {})
 
     # Deploy to /data instead of /
-    config.relative_url_root = '/data'
+    config.relative_url_root = '/data' unless Rails.env.test?
 
     # For properly generating URLs and minting DOIs - the app may not by default
     # Outside of a request context the hostname needs to be provided.
