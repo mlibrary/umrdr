@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'batch_edits/check_all.html.erb', type: :view do
   before do
