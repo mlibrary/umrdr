@@ -5,7 +5,6 @@ gem 'hyrax', '1.0.0.rc1'
 gem 'flipflop', github: 'voormedia/flipflop'
 gem 'blacklight_advanced_search', '~> 6.0'
 
-
 # EZID client from Duke
 gem 'ezid-client'
 #a LDAP client
@@ -13,8 +12,6 @@ gem 'net-ldap'
 # Webserver
 gem 'puma'
 gem 'mail_form'
-
-gem 'sidekiq'
 
 gem 'rdf'
 gem 'rdf-reasoner'
