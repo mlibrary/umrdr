@@ -13,9 +13,6 @@ module Umrdr
       g.test_framework :rspec, :spec => true
     end
 
-    #sidekiq
-    #config.active_job.queue_adapter = :sidekiq
-
     # deposit notification email addresses
     config.notification_email = Settings.notification_email
 
