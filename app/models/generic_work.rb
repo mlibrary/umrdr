@@ -10,6 +10,7 @@ class GenericWork < ActiveFedora::Base
   validates :description, presence: { message: 'Your work must have a description.' }
   validates :methodology, presence: { message: 'Your work must have a description of the method for collecting the dataset.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
+  validates :authoremail, presence: { message: 'You must have author contact information.' }
 
   after_initialize :set_defaults
 

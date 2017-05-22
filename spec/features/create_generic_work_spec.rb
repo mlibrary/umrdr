@@ -22,6 +22,7 @@ RSpec.feature 'Create a GenericWork' do
       fill_in 'Creator', with: 'Creator, Test'
       fill_in 'Method', with: 'Test'
       fill_in 'Description', with: 'Test'
+      fill_in 'Contact Information', with: 'abc@umich.edu' 
       choose 'generic_work_rights_httpcreativecommonsorgpublicdomainzero10'
       select 'Other', from: 'generic_work_subject'
       click_button 'Publish'
