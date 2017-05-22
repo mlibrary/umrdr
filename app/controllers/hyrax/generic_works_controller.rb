@@ -52,7 +52,7 @@ class Hyrax::GenericWorksController < ApplicationController
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       curation_concern.file_sets.each do |file_set|   
         file = file_set.files[0]
-        filename = file_set.files[0].file_name[0]
+        filename = file_set.label
 
         url = file.uri.value
         output = folder + "/" + filename
