@@ -1,31 +1,35 @@
 <div class="form-actions">
-  <% if Hyrax.config.analytics %>
+  <% if Hyrax.config.analytics? %>
     <% # TODO remove this hideous hack, and correct behavior to respect url root in Hyrax. %>
     <%= link_to "Analytics", main_app.root_path.chomp('/') + @presenter.stats_path, id: 'stats', class: 'btn btn-default' %>
   <% end %>
-  <% if Hyrax.config.citations %>
+  <% if Hyrax.config.citations? %>
     <%= link_to "Citations", hyrax.citations_work_path(@presenter), id: 'citations', class: 'btn btn-default' %>
   <% end %>
+  
+  <% if @presenter.current_ability.admin? %>
+      <%= link_to "Edit This #{@presenter.human_readable_type}", edit_polymorphic_path([main_app, @presenter]),  class: 'btn btn-default' %>
+      <%= link_to "Delete This #{@presenter.human_readable_type}", [main_app, @presenter], class: 'btn btn-danger pull-right', data: { confirm: "Delete this #{@presenter.human_readable_type}?" }, method: :delete %>
+  <% elsif @presenter.editor? %>
+      <% if @presenter.identifiers_minted?(:doi) && @presenter.solr_document.public? %>
 
-  <% if @presenter.editor? %>
-      <% unless @presenter.parent_doi? && @presenter.parent_public? %> 
-         <%= link_to "Edit This #{@presenter.human_readable_type}", edit_polymorphic_path([main_app, @presenter]),
-                     class: 'btn btn-default' %>
-         <%= link_to "Delete This #{@presenter.human_readable_type}", [main_app, @presenter],
-                     class: 'btn btn-danger', data: { confirm: "Delete this #{@presenter.human_readable_type}?" },
-                     method: :delete %>
+        <%= link_to "Edit This #{@presenter.human_readable_type}", edit_polymorphic_path([main_app, @presenter]),  class: 'btn btn-default disabled' %>
+        <%= link_to "Delete This #{@presenter.human_readable_type}", [main_app, @presenter], class: 'btn btn-danger disabled pull-right', data: { confirm: "Delete this #{@presenter.human_readable_type}?" }, method: :delete %>
+          <p class="alert alert-info">Once a DOI is assigned you cannot edit or delete your work. <%= link_to "Contact us", "https://deepblue.lib.umich.edu/data/contact" %> with questions</p>
+      <% else %>
+        <%= link_to "Edit This #{@presenter.human_readable_type}", edit_polymorphic_path([main_app, @presenter]),  class: 'btn btn-default' %>
+        <%= link_to "Delete This #{@presenter.human_readable_type}", [main_app, @presenter], class: 'btn btn-danger pull-right', data: { confirm: "Delete this #{@presenter.human_readable_type}?" }, method: :delete %>
       <% end %>
-      <%= link_to t('hyrax.single_use_links.button'),
-                  hyrax.generate_download_single_use_link_path(@presenter),
-                  class: 'btn btn-default generate-single-use-link' %>
-
-      <%= link_to "Versions", edit_polymorphic_path([main_app, @presenter], anchor: 'versioning_display'),
-                  class: 'btn btn-default' %>
-
-  <% end %>
-
-  <%= link_to "Download This #{@presenter.human_readable_type}", hyrax.download_path(@presenter),
-              class: 'btn btn-default', target: "_blank" %>
-
-
+    <% end %>
+    <% if @presenter.respond_to?(:display_feature_link?) && @presenter.display_feature_link? %>
+        <%= link_to "Feature", hyrax.featured_work_path(@presenter, format: :json),
+            data: {behavior: 'feature'}, id: 'featureLink', name: 'featureLink', class: 'btn btn-default' %>
+    <% end %>
+    <% if @presenter.respond_to?(:display_unfeature_link?) && @presenter.display_unfeature_link? %>
+        <%= link_to "Unfeature", hyrax.featured_work_path(@presenter, format: :json),
+            data: {behavior: 'unfeature'}, id: 'unfeatureLink', name: 'unfeatureLink', class: 'btn btn-default' %>
+    <% end %>
+  <!-- COinS hook for Zotero -->
+    <span class="Z3988" title="<%= export_as_openurl_ctx_kev(@presenter) %>"></span>
+    
 </div>
