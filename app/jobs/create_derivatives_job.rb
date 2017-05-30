@@ -7,19 +7,18 @@ class CreateDerivativesJob < ActiveJob::Base
   def perform(file_set, file_id, filepath = nil)
     return if file_set.video? && !Hyrax.config.enable_ffmpeg
     filename = Hyrax::WorkingDirectory.find_or_retrieve(file_id, file_set.id, filepath)
-
     file_set.create_derivatives(filename)
-
-    # Reload from Fedora and reindex for thumbnail and extracted text
-    file_set.reload
-    file_set.update_index
-    file_set.parent.update_index if parent_needs_reindex?(file_set)
 
     #This is the last step in the process ( ingest job -> characterization job -> create derivative (last step))
     #So now it's safe to remove the file uploaded file.
     if File.exist?(filepath)
       File.delete (filepath)
     end
+
+    # Reload from Fedora and reindex for thumbnail and extracted text
+    file_set.reload
+    file_set.update_index
+    file_set.parent.update_index if parent_needs_reindex?(file_set)
 
   end
 
