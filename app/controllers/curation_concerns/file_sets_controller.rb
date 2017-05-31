@@ -30,8 +30,8 @@ module CurationConcerns
       logger.error "FileSetController::create rescued #{error.class}\n\t#{error}\n #{error.backtrace.join("\n")}\n\n"
       render_json_response(response_type: :internal_error, options: { message: 'Error occurred while creating a FileSet.' })
     ensure
-      # remove the tempfile (only if it is a temp file)
-      file.tempfile.delete if file.respond_to?(:tempfile)
+      #This is now done after create derivatives.
+      #file.tempfile.delete if file.respond_to?(:tempfile)
     end
 
     def too_large_file?(file)
