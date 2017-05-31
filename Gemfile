@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Added Gems
-gem 'hyrax', '1.0.0.rc1'
+gem 'hyrax', '1.0.1'
 gem 'flipflop', github: 'voormedia/flipflop'
 gem 'blacklight_advanced_search', '~> 6.0'
 
