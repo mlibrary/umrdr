@@ -35,10 +35,12 @@ module Hyrax
 
       def open_access?
         @open_access = @visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC if @open_access.nil?
+        @open_access
       end
 
       def registered?
         @registered = @visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED if @registered.nil?
+        @registered
       end
 
   end
