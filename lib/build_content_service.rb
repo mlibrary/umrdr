@@ -104,6 +104,7 @@ class BuildContentService
   def build_work(w_hsh)
     title = Array(w_hsh[:title])
     creator = Array(w_hsh[:creator])
+    authoremail = w_hsh[:authoremail] || "contact@umich.edu"
     rights = Array(w_hsh[:rights])
     desc  = Array(w_hsh[:description])
     methodology = w_hsh[:methodology] || "No Methodology Available"
@@ -116,7 +117,7 @@ class BuildContentService
     keyword = Array(w_hsh[:keyword])
     isReferencedBy = Array(w_hsh[:isReferencedBy])
 
-    gw = GenericWork.new( title: title, creator: creator, rights: rights,
+    gw = GenericWork.new( title: title, creator: creator, authoremail: authoremail, rights: rights,
                          description: desc, resource_type: rtype,
                          methodology: methodology, subject: subject,
                          contributor: contributor, date_created: date_created, date_coverage: date_coverage,
@@ -142,6 +143,7 @@ class BuildContentService
       fname
     end
 
+    puts "Processing: " + fname
     fs = FileSet.new()
     fs.apply_depositor_metadata(user_key)
     Hydra::Works::UploadFileToFileSet.call(fs, file)    
@@ -151,6 +153,7 @@ class BuildContentService
     fs.date_uploaded = now
     fs.visibility = visibility
     fs.save
+    puts "Finished:   " + fname
     return fs
   end
 end
