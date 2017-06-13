@@ -13,6 +13,7 @@ class CreateDerivativesJob < ActiveJob::Base
     #So now it's safe to remove the file uploaded file.
     if File.exist?(filepath)
       File.delete (filepath)
+      Rails.logger.debug "File deleted: " + filepath 
     end
 
     # Reload from Fedora and reindex for thumbnail and extracted text
