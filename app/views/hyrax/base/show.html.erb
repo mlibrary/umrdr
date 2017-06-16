@@ -1,0 +1,22 @@
+<%= render 'shared/citations' %>
+<% provide :page_title, construct_page_title(@presenter.page_title) %>
+<% provide :page_header do %>
+  <h1 class="main-heading"><%= @presenter %></h1>
+<% end %>
+
+<% collector = can?(:collect, @presenter.id) %>
+<% editor    = can?(:edit,    @presenter.id) %>
+
+<%= render 'recent_uploads', work: @presenter %>
+<%= render 'attributes', presenter: @presenter %>
+<%= render 'related_files', presenter: @presenter %>
+
+<% if @presenter.editor? %>
+    <%= render partial: 'hyrax/file_sets/multiple_upload', presenter: @presenter %>
+<% end %>
+
+<% if Hyrax.config.browse_everything? %>
+  <%= render partial: 'browse_everything', presenter: @presenter %>
+<% end %>
+
+<%= render "show_actions", collector: collector, editor: editor%>

@@ -1,12 +1,13 @@
 class CatalogController < ApplicationController
   include Hydra::Catalog
   include Hydra::Controller::ControllerBehavior
-  include Sufia::Catalog
   include BlacklightAdvancedSearch::Controller
 
   # These before_filters apply the hydra access controls
-  before_filter :enforce_show_permissions, only: :show
-  skip_before_filter :default_html_head
+  before_action :enforce_show_permissions, only: :show
+
+#Jose
+#  skip_before_filter :default_html_head
 
   def self.uploaded_field
     solr_name('system_create', :stored_sortable, type: :date)
@@ -31,7 +32,7 @@ class CatalogController < ApplicationController
     config.advanced_search[:query_parser] ||= 'dismax'
     config.advanced_search[:form_solr_parameters] ||= {}
 
-    #config.search_builder_class = Umrdr::SearchBuilder
+    config.search_builder_class = Hyrax::CatalogSearchBuilder
 
     # Show gallery view
     # config.view.gallery.partials = [:index_header, :index]
@@ -40,7 +41,7 @@ class CatalogController < ApplicationController
     config.default_solr_params = {
       qt: "search",
       rows: 10,
-      qf: "title_tesim name_tesim"
+      qf: "title_tesim name_tesim all_text_timv"
     }
 
     # Specify which field to use in the tag cloud on the homepage.

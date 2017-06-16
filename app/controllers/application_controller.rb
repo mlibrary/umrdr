@@ -4,17 +4,15 @@ class ApplicationController < ActionController::Base
   include Blacklight::Controller
   include Hydra::Controller::ControllerBehavior
 
-  # Adds CurationConcerns behaviors to the application controller.
-  include CurationConcerns::ApplicationControllerBehavior  
   # Adds Sufia behaviors into the application controller 
-  include Sufia::Controller
+  include Hyrax::Controller
 
   # Behavior for devise.  Use remote user field in http header for auth.
   include Behaviors::HttpHeaderAuthenticatableBehavior
 
-  include CurationConcerns::ThemedLayoutController
-  layout 'sufia-one-column'
-
+  include Hyrax::ThemedLayoutController
+  #layout 'sufia-one-column'
+  with_themed_layout 'sufia-dashboard'
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -37,13 +35,13 @@ class ApplicationController < ActionController::Base
   end
 
   def sso_logout
-    redirect_to Sufia::Engine.config.logout_prefix + logout_now_url
+    redirect_to Hyrax::Engine.config.logout_prefix + logout_now_url
   end
 
   def sso_auto_logout
     Rails.logger.debug "[AUTHN] sso_auto_logout: #{current_user.try(:email) || '(no user)'}"
     sign_out(:user)
-    cookies.delete("cosign-" + Sufia::Engine.config.hostname, path: '/')
+    cookies.delete("cosign-" + Hyrax::Engine.config.hostname, path: '/')
     session.destroy
     flash.clear
   end

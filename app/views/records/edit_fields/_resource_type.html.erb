@@ -1,3 +1,3 @@
-<%# would be select_with_accessible_help when we have +1 resource types (collection: Sufia.config.resource_types,) %>
-<%= f.input :resource_type, as: :hidden, 
-    input_html: { class: 'form-control', multiple: true } %>
+<% if respond_to?(:curation_concern) %>
+  <%= f.hidden_field :resource_type, :multiple => true, :value => curation_concern.resource_type.to_a %>
+<% end %>

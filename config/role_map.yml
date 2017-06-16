@@ -1,6 +1,10 @@
 development:
   archivist:
     - archivist1@example.com
+  admin:
+    - njaffer@umich.edu
+    - blancoj@umich.edu
+    - roger@umich.edu
 test:
   archivist:
     - archivist1@example.com
@@ -19,4 +23,6 @@ test:
     - leland_himself@example.com
 production:
   archivist:
-    - archivist1@example.com    
+    - archivist1@example.com
+  admin:
+    - njaffer@umich.edu    

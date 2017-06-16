@@ -1,13 +1,20 @@
 source 'https://rubygems.org'
 
 # Added Gems
-gem 'sufia', '~> 7.0'
+gem 'hyrax', '1.0.1'
+gem 'flipflop', github: 'voormedia/flipflop'
+gem 'blacklight_advanced_search', '~> 6.0'
+
 # EZID client from Duke
 gem 'ezid-client'
-# LDAP client
+#a LDAP client
 gem 'net-ldap'
 # Webserver
 gem 'puma'
+gem 'mail_form'
+
+gem 'rdf'
+gem 'rdf-reasoner'
 # Date range support
 gem 'edtf'
 # Use mysql as the database for Active Record
@@ -17,7 +24,7 @@ gem 'config'
 
 # Gems added by generator
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.6'
+gem 'rails'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -28,7 +35,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-gem 'resque-web', '~> 0.0.7', require: 'resque_web'
+#gem 'resque-web', '~> 0.0.7', require: 'resque_web'
 gem 'resque'
 gem 'resque-pool'
 
@@ -41,7 +48,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 # will load new rubyzip version
-gem 'rubyzip', '>= 1.0.0'
+gem 'rubyzip', '>=1.0.0'
 
 group :production do
   # Only try to run virus scan in production
@@ -76,8 +83,6 @@ group :development do
   gem 'ffaker'
 end
 
-gem 'rsolr', '~> 1.0.6'
+gem 'rsolr'
 gem 'devise'
-gem 'devise-guests', '~> 0.3'
-gem 'tinymce-rails-imageupload', '~> 4.0.17.beta.3'
-
+gem 'devise-guests'

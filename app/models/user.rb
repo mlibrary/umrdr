@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
   # Connects this user object to Hydra behaviors.
   include Hydra::User
-  # Connects this user object to Curation Concerns behaviors.
-  include CurationConcerns::User
+  # Connects this user object to Hyrax behaviors.
+  include Hyrax::User
   # Connects this user object to Sufia behaviors.
-  include Sufia::User
-  include Sufia::UserUsageStats
+  #include Sufia::User
+  include Hyrax::UserUsageStats
 
   before_validation :generate_password, :on => :create
 

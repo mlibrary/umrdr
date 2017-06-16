@@ -21,7 +21,7 @@ class ContactForm < MailForm::Base
   def headers
     {
         subject: "Deep Blue Data Contact Form:#{subject}",
-        to: Sufia.config.contact_email,
+        to: Hyrax.config.contact_email,
         from: "#{email}"
     }
   end

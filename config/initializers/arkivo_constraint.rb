@@ -1,4 +1,4 @@
-module Sufia
+module Hyrax
   class ArkivoConstraint
     def self.matches?(_request)
       # Add your own logic here to authorize trusted connections to

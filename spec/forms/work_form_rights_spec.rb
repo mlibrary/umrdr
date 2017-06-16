@@ -1,12 +1,13 @@
-require 'spec_helper'
-describe CurationConcerns::Forms::WorkForm do
-  let(:rights) { RightsService.select_options[0][-1] }
+require 'rails_helper'
+
+describe Hyrax::Forms::WorkForm do
+  let(:rights) { Hyrax::LicenseService.new.select_all_options[0][-1] }
   let(:work) do
     stub_model(GenericWork, id: '456', rights: [ rights ])
   end
   let(:ability) { nil }
   let(:form) do
-    CurationConcerns::GenericWorkForm.new(work, ability)
+    Hyrax::GenericWorkForm.new(work, ability, nil)
   end
 
   it 'should return attribute as an array' do

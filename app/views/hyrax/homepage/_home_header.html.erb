@@ -1,0 +1,17 @@
+<div id="home_header">
+  <div class="home_call_action ribbon-content row">
+    <p class="marketing-blurb">
+      <%= t('homepage.marketing_blurb') %>
+    </p>
+
+    <div class="share-message">
+      <%= link_to "<i class=\"glyphicon glyphicon-search\"></i> #{t('hyrax.browse_button')}".html_safe, main_app.search_catalog_path, class: "btn btn-primary", id: "browse_link" %>
+    <br><br>
+       <% if @presenter.display_share_button? %>
+          <%= link_to "<i class=\"glyphicon glyphicon-upload\"></i> #{t('hyrax.share_button')}".html_safe, main_app.new_hyrax_generic_work_path, class: "btn btn-primary", id: "contribute_link" %>
+       <% else %>
+          <%= link_to "<i class=\"glyphicon glyphicon-upload\"></i> #{t('hyrax.share_button')}".html_safe, main_app.new_user_session_path, class: "btn btn-primary", id: "contribute_link" %>
+      <% end %>
+    </div>
+  </div>
+</div>

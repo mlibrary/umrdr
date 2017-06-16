@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Umrdr::WorkShowPresenter do
   let(:object_profile) { ["{\"id\":\"999\"}"] }
@@ -26,7 +26,7 @@ describe Umrdr::WorkShowPresenter do
     context 'when resource_type is DataSet' do
 
       it {
-        is_expected.to include(:Dataset => 'http://schema.org/Dataset')
+        is_expected.to include('http://schema.org/CreativeWork')
 
          }
       

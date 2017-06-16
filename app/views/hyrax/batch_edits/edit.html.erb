@@ -1,0 +1,37 @@
+<%= render_breadcrumbs builder: Hyrax::BootstrapBreadcrumbsBuilder %>
+<h2 class="non lower">Batch Edit Descriptions &nbsp;&nbsp;&nbsp;<small>Click on labels below to edit work descriptions.</small> </h2>
+
+<div class="scrollx scrolly fileHeight"> <!-- original values -->
+  <h3> <b>Changes will be applied to: (<%= @names.size %> works) </b></h3>
+   <%= @names.join(", ").html_safe %>
+</div> <!-- /original values -->
+
+<h3> Descriptions:</h3>
+<div id="descriptions_display">
+  <% @terms.each do |term| %>
+    <div class="row">
+      <%= simple_form_for @generic_work, url: hyrax.batch_edits_path, method: :put, remote: true,
+        builder: Hyrax::FormBuilder, html: { id: "form_#{term.to_s}", class: "ajax-form"} do |f| %>
+        <div class="col-xs-12 col-sm-4">
+          <a class="accordion-toggle grey glyphicon-chevron-right-helper collapsed" data-toggle="collapse" href="#collapse_<%= term %>" id="expand_link_<%=term.to_s%>">
+            <%= f.input_label term %> <span class="chevron"></span>
+          </a>
+        </div>
+        <div id="collapse_<%= term %>" class="collapse scrolly col-xs-12 col-sm-7">
+            <%= hidden_field_tag('update_type', 'update') %>
+            <%= hidden_field_tag('key', term.to_s) %>
+            <%# TODO we don't need to show required %>
+            <%= render_edit_field_partial(term, f: f) %>
+            <div>
+              <%= f.submit "Save changes", class: 'btn btn-primary field-save updates-batches' , id: "#{term.to_s}_save" %>
+              <a class="btn btn-default" data-toggle="collapse" data-parent="#row_<%= term.to_s %>" href="#collapse_<%= term.to_s %>">Cancel </a>
+              <div class="status fleft"></div>
+            </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<!-- Ajax call to clear the batch before page uload. -->
+<%= button_to "Clear Batch", hyrax.clear_batch_edits_path, form_class: 'hidden', remote: true, id: 'clear_batch' %>

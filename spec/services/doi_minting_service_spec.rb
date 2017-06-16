@@ -11,7 +11,7 @@ describe Umrdr::DoiMintingService do
     subject {described_class.new(work)}
 
     before do
-      allow(Rails).to receive_message_chain("application.routes.url_helpers.curation_concerns_generic_work_url").and_return(work_url)
+      allow(Rails).to receive_message_chain("application.routes.url_helpers.hyrax_generic_work_url").and_return(work_url)
       allow(work).to receive(:save)
       allow(work).to receive(:doi).and_return(identifier.id)
       allow(work).to receive(:doi=)

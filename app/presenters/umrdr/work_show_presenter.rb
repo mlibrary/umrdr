@@ -1,14 +1,8 @@
 
 module Umrdr
-  class WorkShowPresenter < ::Sufia::WorkShowPresenter
+  class WorkShowPresenter < ::Hyrax::WorkShowPresenter
 
-    attr_accessor :object_profile
-    delegate :methodology, :date_coverage, :isReferencedBy, :authoremail, :fundedby, :grantnumber, to: :solr_document
-
-    def initialize(solr_document, current_ability, request = nil)
-      super
-      @object_profile = JSON.parse(solr_document['object_profile_ssm'].first || "{}", symbolize_names: true)
-    end
+    delegate :methodology, :date_coverage, :isReferencedBy, :authoremail, :fundedby, :grantnumber, :doi, to: :solr_document
 
     # display date range as from_date To to_date
     def date_coverage
@@ -32,20 +26,25 @@ module Umrdr
     end
       
     def doi
-      @object_profile[:doi]
+      @solr_document[Solrizer.solr_name('doi', :symbol)].first
+      
     end
 
     def hdl
-      @object_profile[:hdl]
+      #@object_profile[:hdl]
     end
 
     def identifiers_minted?(identifier)
-      
-      return @object_profile[identifier]
+      #the first time this is called, doi will not be solr.
+      begin
+        @solr_document[Solrizer.solr_name('doi', :symbol)].first\
+      rescue
+        nil
+      end
     end
 
     def identifiers_pending?(identifier)
-      @object_profile[identifier] == GenericWork::PENDING
+      @solr_document[Solrizer.solr_name('doi', :symbol)].first == GenericWork::PENDING
     end
 
   end

@@ -1,0 +1,34 @@
+<% provide :page_title, "#{@selected_tab.capitalize} listing" %>
+
+<% content_for :head do %>
+  <%= rss_feed_link_tag route_set: hyrax %>
+  <%= atom_feed_link_tag route_set: hyrax %>
+<% end %>
+
+<%= javascript_tag do %>
+  <%= render partial: 'scripts', formats: [:js] %>
+<% end %>
+
+<%= render partial: 'search_header' %>
+
+<%= render partial: 'document_list' %>
+
+<% content_for :sidebar do %>
+  <ul class="nav nav-tabs" id="my_nav" role="navigation">
+    <li>
+      <%= link_to t('hyrax.dashboard.create_collection_html'), new_collection_path,  class: "btn btn-primary" %>
+    </li>
+
+    <li>
+      <%= link_to t('hyrax.dashboard.my.highlights'), hyrax.dashboard_highlights_path %>
+    </li>
+
+    <li>
+      <%= link_to t('hyrax.dashboard.my.shares'), hyrax.dashboard_shares_path %>
+    </li>
+  </ul>
+
+  <%= render 'facets', current_tab: @selected_tab %>
+<% end %>
+
+<%= render 'results_pagination' %>

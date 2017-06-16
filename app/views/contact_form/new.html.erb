@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
 
-      <%= simple_form_for(@contact_form, url: sufia.contact_form_index_path, html: {class: 'form-horizontal'}) do |f| %>
+      <%= simple_form_for(@contact_form, url: hyrax.contact_form_index_path, html: {class: 'form-horizontal'}) do |f| %>
         <%= f.text_field :contact_method, class: 'hide' %>
 
         <%= f.input :name, label: 'Your Name', required: true %>

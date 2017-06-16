@@ -143,6 +143,7 @@ class BuildContentService
       fname
     end
 
+    puts "Processing: " + fname
     fs = FileSet.new()
     fs.apply_depositor_metadata(user_key)
     Hydra::Works::UploadFileToFileSet.call(fs, file)    
@@ -152,6 +153,7 @@ class BuildContentService
     fs.date_uploaded = now
     fs.visibility = visibility
     fs.save
+    puts "Finished:   " + fname
     return fs
   end
 end

@@ -1,5 +1,5 @@
 module Umrdr::Forms
-  class WorkForm < Sufia::Forms::WorkForm
+  class WorkForm < Hyrax::Forms::WorkForm
 
     self.terms += [:authoremail, :fundedby, :grantnumber, :methodology, :date_coverage, :isReferencedBy, :on_behalf_of]
 

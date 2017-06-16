@@ -145,7 +145,7 @@ describe Umrdr::DateCoverageService do
     end
 
     it 'converts years with fewer than 3 digits' do
-      skip 'upstream issue https://github.com/inukshuk/edtf-ruby/issues/20'
+      skip 'upstream issue https://github.com/inukshuk/edtf-ruby/issues/20 (but what is the test??)'
     end
   end
 

@@ -1,24 +1,26 @@
 class CreateDerivativesJob < ActiveJob::Base
-  queue_as CurationConcerns.config.ingest_queue_name
+  queue_as Hyrax.config.ingest_queue_name
 
   # @param [FileSet] file_set
   # @param [String] file_id identifier for a Hydra::PCDM::File
-  def perform(file_set, file_id)
-    return if file_set.video? && !CurationConcerns.config.enable_ffmpeg
-    filename = CurationConcerns::WorkingDirectory.find_or_retrieve(file_id, file_set.id)
-
+  # @param [String, NilClass] filepath the cached file within the Hyrax.config.working_path
+  def perform(file_set, file_id, filepath = nil)
+    return if file_set.video? && !Hyrax.config.enable_ffmpeg
+    filename = Hyrax::WorkingDirectory.find_or_retrieve(file_id, file_set.id, filepath)
     file_set.create_derivatives(filename)
 
     #This is the last step in the process ( ingest job -> characterization job -> create derivative (last step))
     #So now it's safe to remove the file uploaded file.
-    if File.exist?(filename)
-      File.delete (filename)
+    if File.exist?(filepath)
+      File.delete (filepath)
+      Rails.logger.debug "File deleted: " + filepath 
     end
 
     # Reload from Fedora and reindex for thumbnail and extracted text
     file_set.reload
     file_set.update_index
     file_set.parent.update_index if parent_needs_reindex?(file_set)
+
   end
 
   # If this file_set is the thumbnail for the parent work,

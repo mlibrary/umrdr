@@ -1,3 +1,4 @@
+<% if respond_to?(:curation_concern) %>
  <p><label>
  <% if (curation_concern.visibility ==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE && curation_concern.date_uploaded ==nil)%> 
   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>  Save as Draft
@@ -37,4 +38,5 @@
 <% end %>
 </label>
 </p>
+<% end %>
 

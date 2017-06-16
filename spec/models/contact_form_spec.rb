@@ -78,7 +78,7 @@ describe ContactForm do
       expect(subject.headers).to have_value("Deep Blue Data Contact Form:test subject")
 
       expect(subject.headers).to have_key(:to)
-      expect(subject.headers).to have_value(Sufia.config.contact_email)
+      expect(subject.headers).to have_value(Hyrax.config.contact_email)
 
       subject.email = "abc@123.com"
       expect(subject.headers).to have_key(:from)
