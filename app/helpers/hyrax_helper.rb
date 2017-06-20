@@ -38,4 +38,11 @@ module HyraxHelper
     I18n.t(key, scope: new_scope)
   end
 
+  def render_visibility_link(document)
+    # Anchor must match with a tab in
+    # https://github.com/projecthydra/hyrax/blob/master/app/views/hyrax/base/_guts4form.html.erb#L2
+    visibility_badge(document.visibility)
+  end
+
+
 end
