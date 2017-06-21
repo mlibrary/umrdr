@@ -53,6 +53,9 @@ gem 'rubyzip', '>=1.0.0'
 group :production do
   # Only try to run virus scan in production
   gem 'clamav'
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :development, :test do
@@ -83,4 +86,3 @@ end
 gem 'rsolr'
 gem 'devise'
 gem 'devise-guests'
-
