@@ -1,7 +1,7 @@
 <div class="form-actions">
   <% if Hyrax.config.analytics? %>
     <% # TODO remove this hideous hack, and correct behavior to respect url root in Hyrax. %>
-    <%= link_to "Analytics", main_app.root_path.chomp('/') + @presenter.stats_path, id: 'stats', class: 'btn btn-default' %>
+    <%= link_to "Analytics", hyrax.stats_work_path(@presenter), id: 'stats', class: 'btn btn-default' %>
   <% end %>
   <% if Hyrax.config.citations? %>
     <%= link_to "Citations", hyrax.citations_work_path(@presenter), id: 'citations', class: 'btn btn-default' %>
