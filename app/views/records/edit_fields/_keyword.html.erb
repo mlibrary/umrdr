@@ -1,0 +1,5 @@
+<%= f.input key, as: :multi_value_with_accessible_help, input_html: { 
+  class: 'form-control',
+  pattern: "\\s*([^,\\s]+\\s*)+",
+  title: "No commas"
+}, required: f.object.required?(key) %>
