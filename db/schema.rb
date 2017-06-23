@@ -109,9 +109,9 @@ ActiveRecord::Schema.define(version: 20170428174040) do
   end
 
   create_table "follows", force: :cascade do |t|
-    t.string   "followable_type",                 null: false
+    t.string   "followable_type"
     t.integer  "followable_id",                   null: false
-    t.string   "follower_type",                   null: false
+    t.string   "follower_type"
     t.integer  "follower_id",                     null: false
     t.boolean  "blocked",         default: false, null: false
     t.datetime "created_at",                      null: false
@@ -221,7 +221,7 @@ ActiveRecord::Schema.define(version: 20170428174040) do
   end
 
   create_table "proxy_deposit_requests", force: :cascade do |t|
-    t.string   "work_id",                               null: false
+    t.string   "generic_id",                            null: false
     t.integer  "sending_user_id",                       null: false
     t.integer  "receiving_user_id",                     null: false
     t.datetime "fulfillment_date"
