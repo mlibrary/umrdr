@@ -38,4 +38,12 @@ module HyraxHelper
     I18n.t(key, scope: new_scope)
   end
 
+  # Overrides AbilityHelper.render_visibility_link to fix bug reported in
+  # UMRDR issue 727: Link provided by render_visibility_link method had 
+  # path that displays a form to edit all attributes for a document. New
+  # method simply renders the visibility_badge for the document.
+  def render_visibility_link(document)
+    visibility_badge(document.visibility)
+  end
+
 end
