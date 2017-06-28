@@ -5,7 +5,6 @@ module Hyrax
 
       delegate :id, to: :model
 
-
       # TODO: remove this when https://github.com/projecthydra/hydra-editor/pull/115
       # is merged and hydra-editor 3.0.0 is released
       delegate :model_name, to: :model
@@ -15,7 +14,7 @@ module Hyrax
       delegate :human_readable_type, :member_ids, to: :model
 
       self.terms = [:resource_type, :title, :creator,  :description,
-                    :keyword, :subject, :language, :isReferencedBy]
+                    :keyword,  :subject, :language, :isReferencedBy]
 
       self.required_fields = [:title, :description, :subject]
 
@@ -29,19 +28,8 @@ module Hyrax
       end
 
       def secondary_terms
-        [:creator,
-         :contributor,
-         :description,
-         :keyword,
-         :rights,
-         :publisher,
-         :date_created,
-         :subject,
-         :language,
-         :identifier,
-         :based_near,
-         :related_url,
-         :resource_type]
+        [:creator,  :description,
+                    :keyword,  :subject, :language, :isReferencedBy]
       end
 
       private
