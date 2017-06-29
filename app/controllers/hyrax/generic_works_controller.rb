@@ -13,6 +13,7 @@ class Hyrax::GenericWorksController < ApplicationController
   before_action :assign_date_coverage, only: [:create, :update]
   before_action :assign_visibility, only: [:create, :update]
   after_action  :notify_rdr, only: [:create]
+  after_action  :notify_rdr_on_update_to_public, only: [:update]
   protect_from_forgery with: :null_session, only: [:download]
 
   self.curation_concern_type = GenericWork
@@ -28,6 +29,18 @@ class Hyrax::GenericWorksController < ApplicationController
     email.deliver_now
   end
 
+  def notify_rdr_on_update_to_public
+    if @updating_visibility_to_public
+      location = main_app.hyrax_generic_work_url(curation_concern.id)
+      depositor = curation_concern.depositor
+      title = curation_concern.title.join("','")
+      creator = curation_concern.creator.join("','")
+      visibility = curation_concern.visibility
+      @msg = title + " (" + location + ") by " + creator + ", previously deposited by " + depositor + ", was updated to " + visibility + " access"
+      email = WorkMailer.publish_work(Rails.configuration.notification_email,@msg)
+      email.deliver_now
+    end
+  end
 
   # Begin processes to mint hdl and doi for the work
   def identifiers
@@ -68,9 +81,17 @@ class Hyrax::GenericWorksController < ApplicationController
 
   def assign_visibility
     if params["isDraft"] == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-     params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     else
       params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      if params['action'] == 'update'
+        if params['id']
+          generic_work = GenericWork.find(params['id'])
+          if generic_work.visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+            @updating_visibility_to_public = 'true'
+          end
+        end
+      end
     end  
   end  
   # Create EDTF::Interval from form parameters
