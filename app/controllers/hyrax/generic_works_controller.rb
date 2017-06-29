@@ -84,11 +84,11 @@ class Hyrax::GenericWorksController < ApplicationController
       params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     else
       params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
-      if params['action'] == 'update'
+      if action_name == 'update'
         if params['id']
           generic_work = GenericWork.find(params['id'])
           if generic_work.visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-            @updating_visibility_to_public = 'true'
+            @updating_visibility_to_public = true
           end
         end
       end
