@@ -13,21 +13,66 @@ class Hyrax::GenericWorksController < ApplicationController
   before_action :assign_date_coverage, only: [:create, :update]
   before_action :assign_visibility, only: [:create, :update]
   after_action  :notify_rdr, only: [:create]
+  after_action  :notify_rdr_on_update_to_public, only: [:update]
   protect_from_forgery with: :null_session, only: [:download]
 
   self.curation_concern_type = GenericWork
 
+
+  ## Changes in visibility
+
+  def assign_visibility
+    if set_to_draft?
+      mark_as_set_to_private!
+    else
+      mark_as_set_to_public!
+    end
+  end
+
+  def set_to_draft?
+    params["isDraft"] == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+  end
+
+  def mark_as_set_to_private!
+    params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+  end
+
+  def mark_as_set_to_public!
+    params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+    if action_name == 'update' and params[:id]
+      @visibility_changed_to_public = GenericWork.find(params[:id]).private?
+    end
+  end
+
+
+  ## Send email
+
   def notify_rdr
-    location = main_app.hyrax_generic_work_url(curation_concern.id) 
-    depositor = curation_concern.depositor
-    title = curation_concern.title.join("','")
-    creator = curation_concern.creator.join("','")
-    visibility = curation_concern.visibility  
-    @msg = title + " (" + location + ") by " + creator + ", with " + visibility + " access was deposited by " + depositor
-    email = WorkMailer.deposit_work(Rails.configuration.notification_email,@msg)
+    location   = main_app.hyrax_generic_work_url(curation_concern.id)
+    depositor  = curation_concern.depositor
+    title      = curation_concern.title.join("','")
+    creator    = curation_concern.creator.join("','")
+    visibility = curation_concern.visibility
+    msg        = title + " (" + location + ") by " + creator +
+                 ", with " + visibility +
+                 " access was deposited by " + depositor
+    email      = WorkMailer.deposit_work(Rails.configuration.notification_email, msg)
     email.deliver_now
   end
 
+  def notify_rdr_on_update_to_public
+    return unless @visibility_changed_to_public
+    location   = main_app.hyrax_generic_work_url(curation_concern.id)
+    depositor  = curation_concern.depositor
+    title      = curation_concern.title.join("','")
+    creator    = curation_concern.creator.join("','")
+    visibility = curation_concern.visibility
+    msg        = title + " (" + location + ") by " + creator +
+                 ", previously deposited by " + depositor +
+                 ", was updated to " + visibility + " access"
+    email      = WorkMailer.publish_work(Rails.configuration.notification_email, msg)
+    email.deliver_now
+  end
 
   # Begin processes to mint hdl and doi for the work
   def identifiers
@@ -66,13 +111,6 @@ class Hyrax::GenericWorksController < ApplicationController
     send_file zipfile_name 
   end  
 
-  def assign_visibility
-    if params["isDraft"] == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-     params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-    else
-      params["generic_work"]["visibility"] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
-    end  
-  end  
   # Create EDTF::Interval from form parameters
   # Replace the date coverage parameter prior with serialization of EDTF::Interval
   def assign_date_coverage
@@ -138,6 +176,5 @@ class Hyrax::GenericWorksController < ApplicationController
         Rails.logger.info "Unable to parse date: #{field.first.inspect} for #{self['id']}"
       end
     end
-
 
 end

@@ -19,6 +19,14 @@ class GenericWork < ActiveFedora::Base
   def set_defaults
     return unless new_record?
     self.resource_type = ["Dataset"]
-    
+  end
+
+  # Visibility helpers
+  def private?
+    visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+  end
+
+  def public?
+    visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
   end
 end
