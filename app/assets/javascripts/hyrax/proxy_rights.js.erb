@@ -14,7 +14,7 @@
         type: "POST",
         url: '<%= Rails.application.routes.url_helpers.root_path %>users/'+grantor+'/depositors',
         dataType: 'json',
-        data: {grantee_id: id},
+        data: {grantee_id: name},
         success: function (data) {
           if (data.name !== undefined) {
             row = rowTemplate(data);
@@ -54,7 +54,7 @@
       obj = $("#user").select2("data")
       grantor = $('#user').data('grantor')
       $("#user").select2("val", '')
-      addContributor(obj.text, obj.id, grantor);
+      addContributor(obj.user_key, obj.id, grantor);
     });
 
     $('body').on('click', 'a.remove-proxy-button', removeContributor);
