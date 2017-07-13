@@ -13,11 +13,10 @@ module HyraxHelper
              login
            end
 
+    href = profile_path(user)
+
     # TODO: Fix the link to the user profiles when the sufia object isn't available.
-    # TODO: Don't hard code relative paths.  Sort out the proper url helper to use here.
-    #   sufia_helper_behavior uses Sufia::Engine.routes.url_helpers.profile_path(user) --- WHY?
-    #   link_to text, sufia.profile_path(user) # works when sufia is available. 
-    link_to text, "/data/users/#{login}"
+    link_to text, href
   end
   # Sufia upstream method has changed
   #def link_to_field(fieldname, fieldvalue, displayvalue = nil)
