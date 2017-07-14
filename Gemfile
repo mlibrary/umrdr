@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 
 # Added Gems
 gem 'hyrax', '1.0.1'
+# When the hyrax gem is updated, check whether the following files are still needed:
+# * app/views/hyrax/admin/stats/_deposits.html.erb
+# * app/views/hyrax/admin/stats/_new_users.html.erb
+
 gem 'flipflop', github: 'voormedia/flipflop'
 gem 'blacklight_advanced_search', '~> 6.0'
 
@@ -69,6 +73,8 @@ group :development, :test do
   gem 'capybara'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'rails-controller-testing'
+  gem 'rspec-html-matchers'
 end
 
 group :development do
