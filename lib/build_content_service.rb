@@ -129,6 +129,10 @@ class BuildContentService
     gw.apply_depositor_metadata(user_key)
     gw.owner=(user_key)
     gw.visibility = visibility
+    
+    #Put the work in the default admin_set.
+    gw.update(admin_set: AdminSet.find(AdminSet::DEFAULT_ID))
+
     gw.save!
     return gw
   end
