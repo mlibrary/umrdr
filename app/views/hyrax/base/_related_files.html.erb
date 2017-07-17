@@ -23,6 +23,7 @@
   <%= form_tag(main_app.download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
     <%= hidden_field_tag('generic_work[nop]') %>
     <%= submit_tag(t('simple_form.actions.generic_work.download'), class: 'btn btn-primary') %>
+    <%= submit_tag(t('simple_form.actions.generic_work.globus'), class: 'btn btn-primary') %>
   <% end %>
 <p></p>
 <% end %>

@@ -111,6 +111,37 @@ class Hyrax::GenericWorksController < ApplicationController
     send_file zipfile_name 
   end  
 
+
+  def globus 
+    require 'tempfile'
+    
+    # hard coding the nectar umrdr-data directory to
+    # use unless ENV['GLOBUSDIR'] is set
+    globus_dir = ENV['GLOBUSDIR'] || "/hydra-dev/umrdr-data/globus"
+    folder = globus_dir + "/DeepBlueData_" + curation_concern.id
+    FileUtils.rm_rf(folder) if File.exists?(folder)
+    Dir.mkdir(folder) unless File.exists?(folder)
+    FileUtils.rm_rf(Dir.glob(folder + '/*')) 
+    
+    puts "GLOBUS GLOBUS GLOBUS GLOBUS GLOBUS GLOBUS GLOBUS GLOBUS "
+    puts "GLOBUS, globus dir is: #{globus_dir} and folder is: #{folder}"
+
+    curation_concern.file_sets.each do |file_set|   
+      file = file_set.files[0]
+      filename = file_set.label
+
+      url = file.uri.value
+      output = folder + "/" + filename
+  
+      puts "GLOBUS, filename is: #{filename} and url is: #{url} and output is: #{output}"
+
+      open(url) do |io|
+        IO.copy_stream(io, output)
+      end
+    end
+    @recent_globus_dir = folder 
+  end 
+  
   # Create EDTF::Interval from form parameters
   # Replace the date coverage parameter prior with serialization of EDTF::Interval
   def assign_date_coverage

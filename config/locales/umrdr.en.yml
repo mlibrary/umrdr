@@ -11,7 +11,7 @@ en:
 
   generic_work:
     upload_success: 'Your upload was successful! It may take a few minutes for the file(s) to be available for download.'
-
+    globus_success: 'Your globus preparation was successful!'
   simple_form:
     required:
       html: '<span class="required required-tag">required</span>'
@@ -155,6 +155,7 @@ en:
       generic_work:
         mint_doi: "Mint DOI"
         download: "Download All Files"
+        globus: "Download All for Globus"
     # TODO: Consolidate/clean up remove/add difference.
     #  such that it can be under the add_remove_labels.
         remove:

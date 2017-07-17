@@ -7,6 +7,7 @@
 <% collector = can?(:collect, @presenter.id) %>
 <% editor    = can?(:edit,    @presenter.id) %>
 
+<%= render 'recent_globus', work: @presenter %>
 <%= render 'recent_uploads', work: @presenter %>
 <%= render 'attributes', presenter: @presenter %>
 <%= render 'related_files', presenter: @presenter %>
