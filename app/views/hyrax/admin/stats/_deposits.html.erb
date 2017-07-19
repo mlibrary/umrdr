@@ -1,0 +1,10 @@
+<%# This file may be removed once the hyrax gem is updated to a version that renders a correctly escaped profile link in line 6 %>
+<h3>Deposits By Users (<%= @presenter.date_filter_string %>)</h3>
+<ul>
+  <% @presenter.depositors.each do |usr| %>
+    <li>
+      <a href="<%= hyrax.profile_path(usr[:user]) %>" title="View user's profile"><%= usr[:user].name %></a>
+      deposited <%= pluralize(usr[:deposits], "file") %>
+    </li>
+  <% end %>
+</ul>
