@@ -26,6 +26,10 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
   # Reports `true` if a virus is found, `false` for all other
   # states (no virus or some sort of error)
   def infected?
+    unless alive?
+      warning "Cannot connect to virus scanner. Skipping"
+      return false
+    end
     file_io = File.open(file, 'rb')
     resp    = scan(file_io)
     case resp
@@ -37,10 +41,10 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
       true
     when ClamAV::ErrorResponse
       warn "ClamAV error: #{resp.error_str} for file #{file}. File not scanned!"
-      true # err on the side of trust? Need to think about this
+      false # err on the side of trust? Need to think about this
     else
       warn "ClamAV response unknown type '#{resp.class}': #{resp}. File not scanned!"
-      true
+      false
     end
   end
 
