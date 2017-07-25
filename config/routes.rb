@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       member do
         post 'identifiers'
         post 'download'
+        post 'globus'
       end
     end
   end
