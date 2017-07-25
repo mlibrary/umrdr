@@ -85,7 +85,7 @@ class Hyrax::GenericWorksController < ApplicationController
                  ", previously deposited by " + depositor + "."
                  
     msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info        
-    email      = WorkMailer.globus_push_work(Rails.configuration.notification_email, msg)
+    email      = WorkMailer.globus_push_work(Rails.configuration.user_email, msg)
     email.deliver_now
     # @recent_globus_dir = nil
   end
