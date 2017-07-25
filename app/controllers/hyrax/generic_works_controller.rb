@@ -14,7 +14,9 @@ class Hyrax::GenericWorksController < ApplicationController
   before_action :assign_visibility, only: [:create, :update]
   after_action  :notify_rdr, only: [:create]
   after_action  :notify_rdr_on_update_to_public, only: [:update]
+  after_action  :notify_user_on_globus, only: [:globus]
   protect_from_forgery with: :null_session, only: [:download]
+  protect_from_forgery with: :null_session, only: [:globus]
 
   self.curation_concern_type = GenericWork
 
@@ -44,7 +46,6 @@ class Hyrax::GenericWorksController < ApplicationController
     end
   end
 
-
   ## Send email
 
   def notify_rdr
@@ -72,6 +73,21 @@ class Hyrax::GenericWorksController < ApplicationController
                  ", was updated to " + visibility + " access"
     email      = WorkMailer.publish_work(Rails.configuration.notification_email, msg)
     email.deliver_now
+  end
+  
+  def notify_user_on_globus
+    return if @recent_globus_dir.nil?
+    location   = main_app.hyrax_generic_work_url(curation_concern.id)
+    depositor  = curation_concern.depositor
+    title      = curation_concern.title.join("','")
+    creator    = curation_concern.creator.join("','")
+    work_info = "work " + title + " (" + location + ") by " + creator +
+                 ", previously deposited by " + depositor + "."
+                 
+    msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info        
+    email      = WorkMailer.globus_push_work(Rails.configuration.notification_email, msg)
+    email.deliver_now
+    # @recent_globus_dir = nil
   end
 
   # Begin processes to mint hdl and doi for the work
@@ -111,6 +127,36 @@ class Hyrax::GenericWorksController < ApplicationController
     send_file zipfile_name 
   end  
 
+  # For local testing set globus_dir = "."
+  def globus 
+    require 'tempfile'
+
+    # hard coding the nectar umrdr-data directory to
+    # use unless ENV['GLOBUSDIR'] is set
+    globus_dir = ENV['GLOBUSDIR'] || "/hydra-dev/umrdr-data/globus"
+    # globus_dir = "."
+    folder = globus_dir + "/DeepBlueData_" + curation_concern.id
+    
+    FileUtils.rm_rf(folder) if File.exists?(folder)
+    Dir.mkdir(folder) unless File.exists?(folder)
+    FileUtils.rm_rf(Dir.glob(folder + '/*')) 
+    
+    curation_concern.file_sets.each do |file_set|   
+      file = file_set.files[0]
+      filename = file_set.label
+
+      url = file.uri.value
+      output = folder + "/" + filename
+  
+      open(url) do |io|
+        IO.copy_stream(io, output)
+      end
+    end
+    @recent_globus_dir = folder
+    flash[:notice] = "Globus data is ready in directory: #{@recent_globus_dir}"
+    redirect_to :back
+  end 
+  
   # Create EDTF::Interval from form parameters
   # Replace the date coverage parameter prior with serialization of EDTF::Interval
   def assign_date_coverage
