@@ -13,6 +13,6 @@ default from: Rails.configuration.notification_email
   end
     
   def globus_push_work(from, body)
-    mail(to: Rails.configuration.notification_email, from: from, subject: 'DBD: Globus Work Files Prepared', body: body)
+    mail(to: Rails.configuration.user_email, from: from, subject: 'DBD: Globus Work Files Prepared', body: body)
   end
 end
