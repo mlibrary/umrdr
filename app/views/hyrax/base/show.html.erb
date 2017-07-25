@@ -7,7 +7,10 @@
 <% collector = can?(:collect, @presenter.id) %>
 <% editor    = can?(:edit,    @presenter.id) %>
 
-<%= render 'recent_globus', work: @presenter %>
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
 <%= render 'recent_uploads', work: @presenter %>
 <%= render 'attributes', presenter: @presenter %>
 <%= render 'related_files', presenter: @presenter %>
