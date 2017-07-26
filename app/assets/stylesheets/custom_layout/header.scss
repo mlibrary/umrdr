@@ -1,23 +1,10 @@
 @import 'falafel';
 
 @mixin header_link($icon) {
-  padding: 0 0.4rem 0.4rem 0.4em;
-
-  @include fa_pseudo_icon(
-    $icon,
-    'white',
-    $fill: $fa_main_1,
-    $width: 2em,
-    $padding: 0.3em,
-    $position: top,
-    $inner_nudge: 0.3em,
-    $outer_nudge: 1.5em,
-    $border_radius: 0.3em
-  );
-
+  padding: 1em 0 .6em;
   color: #FFF;
   min-width: 8em;
-  border-bottom: 0.7rem solid transparent;
+  border-bottom: 0.4rem solid transparent;
 
   &:hover {
     text-decoration: none;
@@ -43,7 +30,7 @@
   .dashboard-quick-links {
     text-align: center;
     background-color: $fa_main_3;
-    margin: 1rem 0;
+    margin-bottom: 1em;
     font-size: 0.95em;
 
     * {
@@ -71,12 +58,18 @@
       @include header_link('account');
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0b9b64f1b94079d9193fc3399e471bd5e019aaea
 
     .active {
       border-bottom: 0.4rem solid $fa-white;
     }
+<<<<<<< HEAD
 >>>>>>> 0b9b64f... Remove icons from dashboard ribbon.
+=======
+>>>>>>> 0b9b64f1b94079d9193fc3399e471bd5e019aaea
   }
 
   #masthead {
@@ -161,11 +154,7 @@
   .navbar-nav li.active a,
   .dashboard-quick-links a.active {
     &::after {
-      display: block;
-      content: '';
-      height: 0;
-      width: 0;
-      border: 0.8em solid transparent;
+      border: 0.4em solid transparent;
       border-bottom-color: #FFF;
       position: absolute;
       bottom: -0.8em;
@@ -175,7 +164,7 @@
   }
 
   #masthead_controls .navbar-nav a {
-    border-bottom: 0.7em solid transparent;
+    border-bottom: 0.4em solid transparent;
     padding: 1em 0.6em 0.3em;
     display: inline-block;
     position: relative;
@@ -232,11 +221,14 @@
 
       .bottom-links a {
 <<<<<<< HEAD
+<<<<<<< HEAD
         padding-bottom: 0.2em;
         padding-top: 0;
         padding-top: 3.5em;
 =======
 >>>>>>> 0b9b64f... Remove icons from dashboard ribbon.
+=======
+>>>>>>> 0b9b64f1b94079d9193fc3399e471bd5e019aaea
 
         &::before {
           top: 0.5em;
@@ -245,11 +237,14 @@
 
       .top-links a {
 <<<<<<< HEAD
+<<<<<<< HEAD
         border-bottom: 0;
         border-top: 0.6rem solid transparent;
         padding-top: 3.5em;
 =======
 >>>>>>> 0b9b64f... Remove icons from dashboard ribbon.
+=======
+>>>>>>> 0b9b64f1b94079d9193fc3399e471bd5e019aaea
 
         &::before {
           top: 0.5em;
@@ -260,8 +255,7 @@
         }
 
         &.active::after {
-          border-bottom-color: transparent;
-          border-top-color: #FFF;
+          border-bottom: 0.4rem solid transparent;
           position: absolute;
           top: -0.8em;
           bottom: auto;
@@ -278,8 +272,8 @@
 #masthead_controls #search-submit-header {
   background-color: #333;
   color: #fff;
-  border-top: 1px solid #CECDCD;
-  border-bottom: 1px solid #CECDCD;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
 
   &:hover {
     background-color: #DDD;
