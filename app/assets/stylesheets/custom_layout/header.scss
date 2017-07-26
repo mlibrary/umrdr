@@ -52,7 +52,6 @@
 
     .view-works {
       @include header_link('apps');
-     
     }
 
     .view-dashboard {
@@ -62,8 +61,6 @@
     .active {
       border-bottom: 0.4rem solid $fa-white;
     }
-
-
   }
 
   #masthead {
@@ -214,7 +211,6 @@
       }
 
       .bottom-links a {
-      
 
         &::before {
           top: 0.5em;
@@ -222,7 +218,6 @@
       }
 
       .top-links a {
-    
 
         &::before {
           top: 0.5em;
