@@ -70,6 +70,13 @@
     .view-dashboard {
       @include header_link('account');
     }
+<<<<<<< HEAD
+=======
+
+    .active {
+      border-bottom: 0.4rem solid $fa-white;
+    }
+>>>>>>> 0b9b64f... Remove icons from dashboard ribbon.
   }
 
   #masthead {
@@ -224,9 +231,12 @@
       }
 
       .bottom-links a {
+<<<<<<< HEAD
         padding-bottom: 0.2em;
         padding-top: 0;
         padding-top: 3.5em;
+=======
+>>>>>>> 0b9b64f... Remove icons from dashboard ribbon.
 
         &::before {
           top: 0.5em;
@@ -234,9 +244,12 @@
       }
 
       .top-links a {
+<<<<<<< HEAD
         border-bottom: 0;
         border-top: 0.6rem solid transparent;
         padding-top: 3.5em;
+=======
+>>>>>>> 0b9b64f... Remove icons from dashboard ribbon.
 
         &::before {
           top: 0.5em;
