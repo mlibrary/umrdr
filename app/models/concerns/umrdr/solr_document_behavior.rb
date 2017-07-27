@@ -14,7 +14,6 @@ module Umrdr
       Array(self[Solrizer.solr_name('isReferencedBy')]).first
     end
 
-
     def authoremail
       Array(self[Solrizer.solr_name('authoremail')]).first
     end
@@ -25,6 +24,10 @@ module Umrdr
 
     def grantnumber
       Array(self[Solrizer.solr_name('grantnumber')]).first
+    end
+
+    def tombstone
+      Array(self[Solrizer.solr_name('tombstone')]).first
     end
   end
 

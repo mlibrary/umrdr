@@ -23,3 +23,4 @@
 //= require date_coverage_field
 //= require more
 //= require draft_save
+//= require tombstone

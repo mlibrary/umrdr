@@ -2,15 +2,6 @@ module Umrdr
   module FileSetBehavior
     extend ActiveSupport::Concern
 
-    # Dirty dirty trick to ensure all have 'open' visibility.
-    # Can leave all the rest of the Sufia machinery in place.
-    def visibility
-      'open'
-    end
-
-    def visibility=(value)
-      super('open')
-    end
 
     # Override the derivatives generation to avoid full text and non-thumbnail
     # generation.
