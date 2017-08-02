@@ -13,13 +13,14 @@ class Hyrax::GenericWorksController < ApplicationController
   before_action :assign_date_coverage, only: [:create, :update]
   before_action :assign_visibility, only: [:create, :update]
   after_action  :notify_rdr, only: [:create]
+  after_action  :prov_work_created, only: [:create]
+  after_action  :prov_work_updated, only: [:update]
   after_action  :notify_rdr_on_update_to_public, only: [:update]
   after_action  :notify_user_on_globus, only: [:globus]
   protect_from_forgery with: :null_session, only: [:download]
   protect_from_forgery with: :null_session, only: [:globus]
 
   self.curation_concern_type = GenericWork
-
 
   ## Changes in visibility
 
@@ -60,7 +61,7 @@ class Hyrax::GenericWorksController < ApplicationController
     email      = WorkMailer.deposit_work(Rails.configuration.notification_email, msg)
     email.deliver_now
   end
-
+  
   def notify_rdr_on_update_to_public
     return unless @visibility_changed_to_public
     location   = main_app.hyrax_generic_work_url(curation_concern.id)
@@ -71,6 +72,7 @@ class Hyrax::GenericWorksController < ApplicationController
     msg        = title + " (" + location + ") by " + creator +
                  ", previously deposited by " + depositor +
                  ", was updated to " + visibility + " access"
+    PROV_LOGGER.info (msg)
     email      = WorkMailer.publish_work(Rails.configuration.notification_email, msg)
     email.deliver_now
   end
@@ -84,12 +86,65 @@ class Hyrax::GenericWorksController < ApplicationController
     work_info = "work " + title + " (" + location + ") by " + creator +
                  ", previously deposited by " + depositor + "."
                  
-    msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info        
+    msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info
+    PROV_LOGGER.info (msg)    
     email      = WorkMailer.globus_push_work(Rails.configuration.user_email, msg)
     email.deliver_now
     # @recent_globus_dir = nil
   end
 
+  def prov_work_created
+    location      = main_app.hyrax_generic_work_url(curation_concern.id)
+    depositor     = curation_concern.depositor
+    methodology   = curation_concern.methodology
+    visibility = curation_concern.visibility
+    rights = curation_concern.rights
+    title         = curation_concern.title.join("','")
+    creator       = curation_concern.creator.join("','")
+    description   = curation_concern.description.join("','")
+    publisher     = curation_concern.publisher.join("','")
+    subject       = curation_concern.subject.join("','")
+    admin_set_id  = curation_concern.admin_set_id
+
+    msg        = "WORK CREATED:" + " (" + location + ") by " + creator +
+                 ", with " + visibility +
+                 " access was created with title: " + title + 
+                 ", rights: " + rights[0] + 
+                 ", methodology: " + methodology + 
+                 ", publisher: " + publisher + 
+                 ", subject: " + subject + 
+                 ", description: " + description + 
+                 ", admin set id: " + admin_set_id
+    PROV_LOGGER.info (msg)
+  end
+  
+  def prov_work_updated
+    location      = main_app.hyrax_generic_work_url(curation_concern.id)
+    depositor     = curation_concern.depositor
+    methodology   = curation_concern.methodology
+    visibility = curation_concern.visibility
+    date_modified = curation_concern.date_modified
+    rights = curation_concern.rights
+    title         = curation_concern.title.join("','")
+    creator       = curation_concern.creator.join("','")
+    description   = curation_concern.description.join("','")
+    publisher     = curation_concern.publisher.join("','")
+    subject       = curation_concern.subject.join("','")
+    admin_set_id  = curation_concern.admin_set_id
+
+    msg        = "WORK UPDATED:" + " (" + location + ") by " + creator +
+                 ", with " + visibility +
+                 " access was updated with title: " + title + 
+                 ", on: " + date_modified.to_s + 
+                 ", rights: " + rights[0] + 
+                 ", methodology: " + methodology + 
+                 ", publisher: " + publisher + 
+                 ", subject: " + subject + 
+                 ", description: " + description + 
+                 ", admin set id: " + admin_set_id
+    PROV_LOGGER.info (msg)
+  end
+  
   # Begin processes to mint hdl and doi for the work
   def identifiers
     mint_doi
@@ -203,6 +258,8 @@ class Hyrax::GenericWorksController < ApplicationController
     curation_concern.save
 
     # Kick off job to get a doi
+    msg = "DOI process kicked off for work id: #{curation_concern.id}"
+    PROV_LOGGER.info (msg)
     ::DoiMintingJob.perform_later(curation_concern.id)
   end
 
