@@ -1,5 +1,5 @@
 <%= f.input key, as: :multi_value_with_accessible_help, input_html: { 
   class: 'form-control',
-  pattern: "(\\s*[A-Za-z0-9À-ÖØ-ßà-öø-ÿŒœąćęłńśźżĄĆĘŁŃŚŹŻªºµ]+['\\-]*)+(,(\\s*[A-Za-zÀ-ÖØ-ßà-öø-ÿŒœąćęłńśźżĄĆĘŁŃŚŹŻªºµ]+['\\-]*\\s*)+)+",
+  pattern: "(\\s*[A-Za-z0-9À-ÖØ-ßà-öø-ÿŒœąćęłńśźżĄĆĘŁŃŚŹŻªºµ]+['\\-\\.]*)+(,(\\s*[A-Za-zÀ-ÖØ-ßà-öø-ÿŒœąćęłńśźżĄĆĘŁŃŚŹŻªºµ]+['\\-\\.]*\\s*)+)+",
   title: "Last name, First name, MI"
 }, required: f.object.required?(key) %>
