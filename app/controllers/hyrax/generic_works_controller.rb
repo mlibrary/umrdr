@@ -20,7 +20,6 @@ class Hyrax::GenericWorksController < ApplicationController
 
   self.curation_concern_type = GenericWork
 
-
   ## Changes in visibility
 
   def assign_visibility
@@ -57,6 +56,7 @@ class Hyrax::GenericWorksController < ApplicationController
     msg        = title + " (" + location + ") by " + creator +
                  ", with " + visibility +
                  " access was deposited by " + depositor
+    PROV_LOGGER.info (msg)
     email      = WorkMailer.deposit_work(Rails.configuration.notification_email, msg)
     email.deliver_now
   end
@@ -71,6 +71,7 @@ class Hyrax::GenericWorksController < ApplicationController
     msg        = title + " (" + location + ") by " + creator +
                  ", previously deposited by " + depositor +
                  ", was updated to " + visibility + " access"
+    PROV_LOGGER.info (msg)
     email      = WorkMailer.publish_work(Rails.configuration.notification_email, msg)
     email.deliver_now
   end
@@ -203,6 +204,8 @@ class Hyrax::GenericWorksController < ApplicationController
     curation_concern.save
 
     # Kick off job to get a doi
+    msg = "DOI process kicked off for work id: #{curation_concern.id}"
+    PROV_LOGGER.info (msg)
     ::DoiMintingJob.perform_later(curation_concern.id)
   end
 

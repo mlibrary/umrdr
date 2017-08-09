@@ -13,6 +13,11 @@ module Hyrax
    end 
 
    def create_from_upload(params)
+     
+     msg = "File Uploaded: In create_from_upload with " + params.to_s
+     puts "FILE UPLOAD MSG IS #{msg}"
+     PROV_LOGGER.info (msg)
+     
       # check error condition No files
       return render_json_response(response_type: :bad_request, options: { message: 'Error! No file to save' }) unless params.key?(:file_set) && params.fetch(:file_set).key?(:files)
 
@@ -30,6 +35,9 @@ module Hyrax
 #         attempt_process_file_for_create_from_upload(file)
 
         if process_file(actor, file)
+          msg = "File Uploaded: " + file.to_s
+          puts "FILE UPLOAD MSG IS #{msg}"
+          PROV_LOGGER.info (msg)
           response_for_successfully_processed_file
         else
           msg = curation_concern.errors.full_messages.join(', ')
