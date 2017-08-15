@@ -5,6 +5,7 @@
 # for an example of setting a path (we want "TEMP", not "WORK"), but I don't know where to set it.
 #
 # It's possible that we can mess with /etc/libreoffice/sofficerc, too, but I don't know how.
+require "provenance_logger"
 
 tmpdir =  File.join(Rails.root, 'tmp', 'derivatives')
 ENV['TMPDIR'] = tmpdir;
