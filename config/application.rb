@@ -13,6 +13,9 @@ module Umrdr
       g.test_framework :rspec, :spec => true
     end
 
+    # set a temporary GLOBUS setting to disable display of globus before_action
+    config.show_globus = false
+    
     # deposit notification email addresses
     config.notification_email = Settings.notification_email
     config.user_email = Settings.user_email    

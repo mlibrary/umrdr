@@ -136,25 +136,41 @@ class Hyrax::GenericWorksController < ApplicationController
     globus_dir = ENV['GLOBUSDIR'] || "/hydra-dev/umrdr-data/globus"
     # globus_dir = "."
     folder = globus_dir + "/DeepBlueData_" + curation_concern.id
+    #use dot folders to flag download status
+    complete_folder = folder + "/.complete"
     
-    FileUtils.rm_rf(folder) if File.exists?(folder)
-    Dir.mkdir(folder) unless File.exists?(folder)
-    FileUtils.rm_rf(Dir.glob(folder + '/*')) 
-    
-    curation_concern.file_sets.each do |file_set|   
-      file = file_set.files[0]
-      filename = file_set.label
-
-      url = file.uri.value
-      output = folder + "/" + filename
-  
-      open(url) do |io|
-        IO.copy_stream(io, output)
+    if File.exists?(folder)
+      if File.exists?(complete_folder)
+        @recent_globus_dir = nil
+        flash[:notice] = "Globus data is already available in directory: #{folder}"
+        redirect_to :back
+      else
+        @recent_globus_dir = nil
+        flash[:notice] = "Work files being downloaded for globus but is not yet available. Please try again later."
+        redirect_to :back
       end
+    else
+      Dir.mkdir(folder)
+      FileUtils.rm_rf(Dir.glob(folder + '/*')) 
+      
+      curation_concern.file_sets.each do |file_set|   
+        file = file_set.files[0]
+        filename = file_set.label
+
+        url = file.uri.value
+        output = folder + "/" + filename
+    
+        open(url) do |io|
+          IO.copy_stream(io, output)
+        end
+      end
+      
+      #add .complete directory
+      Dir.mkdir(complete_folder)
+      @recent_globus_dir = folder
+      flash.now[:notice] = "Globus data is ready in directory: #{@recent_globus_dir}"
+      redirect_to :back
     end
-    @recent_globus_dir = folder
-    flash[:notice] = "Globus data is ready in directory: #{@recent_globus_dir}"
-    redirect_to :back
   end 
   
   # Create EDTF::Interval from form parameters
