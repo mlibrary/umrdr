@@ -1,4 +1,4 @@
-<% if @presenter.current_ability.admin? %>
+<% if @presenter.tombstone.blank? && @presenter.current_ability.admin? %>
   <div class="well">
     <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
       <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
@@ -12,7 +12,7 @@
         <% end %>
       <% end %>
   </div>
-<% else %>
+<% elsif @presenter.tombstone.blank? %>
 <% unless @presenter.identifiers_minted?(:doi) && @presenter.solr_document.public? %>
   <div class="well">
     <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>

@@ -2,7 +2,7 @@
 module Umrdr
   class WorkShowPresenter < ::Hyrax::WorkShowPresenter
 
-    delegate :methodology, :date_coverage, :isReferencedBy, :authoremail, :fundedby, :grantnumber, :doi, to: :solr_document
+    delegate :methodology, :date_coverage, :isReferencedBy, :authoremail, :fundedby, :grantnumber, :doi, :tombstone, to: :solr_document
 
     # display date range as from_date To to_date
     def date_coverage
@@ -27,7 +27,14 @@ module Umrdr
       
     def doi
       @solr_document[Solrizer.solr_name('doi', :symbol)].first
-      
+    end
+
+    def tombstone
+      if @solr_document[Solrizer.solr_name('tombstone', :symbol)].nil?
+        nil
+      else
+        @solr_document[Solrizer.solr_name('tombstone', :symbol)].first
+      end
     end
 
     def hdl
@@ -37,7 +44,7 @@ module Umrdr
     def identifiers_minted?(identifier)
       #the first time this is called, doi will not be solr.
       begin
-        @solr_document[Solrizer.solr_name('doi', :symbol)].first\
+        @solr_document[Solrizer.solr_name('doi', :symbol)].first
       rescue
         nil
       end

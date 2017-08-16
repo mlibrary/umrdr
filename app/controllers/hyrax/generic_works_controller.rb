@@ -154,6 +154,24 @@ class Hyrax::GenericWorksController < ApplicationController
     end
   end
 
+  def tombstone
+    #Make it so work does not show up in search result for anyone, not even admins.
+    curation_concern.visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+    curation_concern.depositor = 'TOMBSTONE-' +   curation_concern.depositor
+
+    #I tried this but it did not work.  And gets complicated.
+    #curation_concern.state = Vocab::FedoraResourceStatus.inactive
+
+    for i in 0 ... curation_concern.file_sets.size
+       curation_concern.file_sets[i].visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+    end 
+
+    curation_concern.tombstone = [params[:tombstone]]
+    curation_concern.save
+
+    redirect_to dashboard_works_path, notice: "Tombstoned: \"#{curation_concern.title.first}\" for this reason: #{curation_concern.tombstone.first}"
+  end
+
   def download 
     require 'zip' 
     require 'tempfile'

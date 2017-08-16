@@ -36,6 +36,7 @@ module Umrdr
         index.as :stored_searchable
       end
 
+      property :tombstone, predicate: ::RDF::Vocab::DC.provenance
     end
   end
 end
