@@ -5,6 +5,7 @@ development:
     - blancoj@umich.edu
     - roger@umich.edu
     - gordonl@umich.edu
+    - fritx@umich.edu
 test:
   archivist:
     - archivist1@example.com
