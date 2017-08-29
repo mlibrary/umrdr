@@ -28,7 +28,6 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
                                           wrapper: ::ClamAV::Wrappers::NewLineWrapper.new)
       ClamAV::Client.new(connection)
     rescue Errno::ECONNREFUSED => e
-      puts "IN HERE!!!!"
       CannotConnectClient.new
     end
   end
