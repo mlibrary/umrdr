@@ -2,6 +2,8 @@
 
 # An AV class that streams the file to an already-running
 # clamav daemon
+
+require 'clamav/client'
 class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
 
 
@@ -13,13 +15,33 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
 
   CHUNKSIZE = 4096
 
+
+  class CannotConnectClient
+  end
+
+  attr_accessor :client
+
+  def initialize(filename)
+    super
+    @client = begin
+      connection = ClamAV::Connection.new(socket:  ::TCPSocket.new('127.0.0.1', 3310),
+                                          wrapper: ::ClamAV::Wrappers::NewLineWrapper.new)
+      ClamAV::Client.new(connection)
+    rescue Errno::ECONNREFUSED => e
+      puts "IN HERE!!!!"
+      CannotConnectClient.new
+    end
+  end
+
   # Check to see if we can connect to the configured
   # ClamAV daemon
   def alive?
-    client.execute(ClamAV::Commands::PingCommand.new)
-    true
-  rescue Errno::ECONNREFUSED
-    false
+    case client
+    when CannotConnectClient
+      false
+    else
+      client.execute(ClamAV::Commands::PingCommand.new)
+    end
   end
 
   # Check to see if the file passed on `#new` is infected
@@ -30,8 +52,7 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
       warning "Cannot connect to virus scanner. Skipping"
       return false
     end
-    file_io = File.open(file, 'rb')
-    resp    = scan(file_io)
+    resp = scan_response
     case resp
     when ClamAV::SuccessResponse
       info "Clean virus check for '#{file}'"
@@ -48,6 +69,19 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
     end
   end
 
+  def scan_response
+    begin
+      file_io = File.open(file, 'rb')
+    rescue => e
+      msg = "Can't open file #{file} for scanning: #{e}"
+      error msg
+      raise RuntimeError.new(msg)
+    end
+
+    scan(file_io)
+  end
+
+
   # Do the scan by streaming to the daemon
   # @param [#read] io The IO stream (probably an open file) to read from
   # @return A ClamAV::*Response object
@@ -55,8 +89,6 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
     cmd = UMInstreamScanner.new(io, CHUNKSIZE)
     client.execute(cmd)
   end
-
-
 
 
   private
@@ -69,8 +101,11 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
     ActiveFedora::Base.logger.warn(msg) if ActiveFedora::Base.logger
   end
 
-end
+  def error(msg)
+    ActiveFedora::Base.logger.error(msg) if ActiveFedora::Base.logger
+  end
 
+end
 
 
 # Stream a file to the AV scanner in chucks to avoid
@@ -79,7 +114,7 @@ end
 class UMInstreamScanner < ClamAV::Commands::InstreamCommand
   def call(conn)
     conn.write_request("INSTREAM")
-    while(packet = @io.read(@max_chunk_size))
+    while (packet = @io.read(@max_chunk_size))
       scan_packet(conn, packet)
     end
     send_end_of_file(conn)
@@ -103,9 +138,6 @@ class UMInstreamScanner < ClamAV::Commands::InstreamCommand
 
 
 end
-
-
-
 
 
 # To use a virus checker other than ClamAV:
