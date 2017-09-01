@@ -6,12 +6,14 @@ class CharacterizeJob < ActiveJob::Base
   # @param [String, NilClass] filepath the cached file within the Hyrax.config.working_path
   def perform(file_set, file_id, filepath = nil)
     filename = Hyrax::WorkingDirectory.find_or_retrieve(file_id, file_set.id, filepath)
+    #Rails.logger.warn "File to characterize: " + filepath
 
+    # TODO: put in a config file?
     # nc files will can't be retrieved if they go through characterization.
     if file_set.label.end_with?(".nc")
       if File.exist?(filepath)
         File.delete (filepath)
-        Rails.logger.debug "File deleted: " + filepath 
+        Rails.logger.debug "Characterize file deleted: " + filepath
       end
       return
     end
@@ -22,6 +24,14 @@ class CharacterizeJob < ActiveJob::Base
     file_set.characterization_proxy.save!
     file_set.update_index
     file_set.parent.in_collections.each(&:update_index) if file_set.parent
+
+    # TODO: Is this the right place? Want to prevent full text indexing.
+    # TODO: put in a config file?
+    # prevent derivatives of files with sizes over 100 megabytes
+    if File.exist?(filepath) && filepath.size > 100_000_000
+      File.delete(filepath)
+      Rails.logger.warn "Characterize large file deleted: " + filepath
+    end
     CreateDerivativesJob.perform_later(file_set, file_id, filename)
   end
 end
