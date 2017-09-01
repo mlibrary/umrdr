@@ -1,9 +1,17 @@
 <% presenter = featured.presenter %>
 <li class="col-xs-12 col-sm-6 col-lg-4 featured-item" data-id="<%= presenter.id %>">
   <h3>
-    <%= link_to truncate(presenter.title.first, length: 28, separator: ' '), hyrax_generic_work_path(presenter), class: 'btn btn-primary'  %>
+   <%= render_thumbnail_tag presenter.solr_document, { class: 'hidden-xs file_listing_thumbnail' }, { suppress_link: true } %>
+    <%= link_to [main_app, presenter.solr_document], id: "src_copy_link#{presenter.solr_document.id}",
+                class: 'btn btn-primary' do %>
+            <span class="sr-only">
+              <%= t("hyrax.dashboard.my.sr.show_label") %>
+            </span>
+      <%= truncate(presenter.title.first, length: 28, separator: ' ') %>
+    <% end %>
+
   </h3>
-  <%= render_thumbnail_tag presenter %>
+
   <div class="featured-work-info">
 
     <%
