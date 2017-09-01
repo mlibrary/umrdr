@@ -56,7 +56,7 @@ gem 'rubyzip', '>=1.0.0'
 
 group :production do
   # Only try to run virus scan in production
-  gem 'clamav'
+  gem 'clamav-client'
 end
 
 group :development, :test do
