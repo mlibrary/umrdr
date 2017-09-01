@@ -112,3 +112,13 @@
     }
   }
 }
+
+div#announcement {
+  text-align: center;
+  color: white;
+  font-size: 1.5em;
+  background-color: $fa_main_2;
+  border: 10px solid white;
+  padding-top: 10px;
+  border-radius: 15px;
+}
