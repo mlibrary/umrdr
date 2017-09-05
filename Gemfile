@@ -2,7 +2,10 @@ source 'https://rubygems.org'
 
 # Pin ruby
 
-ruby '2.4.1'
+ruby '2.3'
+
+# Force more modern version of json
+gem 'json', '~> 1.8.0'
 
 # Added Gems
 gem 'sufia', '~> 7.0'
