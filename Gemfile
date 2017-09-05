@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # Pin ruby
 
-ruby '2.3'
+ruby '~> 2.3'
 
 # Force more modern version of json
 gem 'json', '~> 1.8.0'
