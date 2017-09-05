@@ -2,9 +2,10 @@ source 'https://rubygems.org'
 
 # Pin ruby
 
-ruby '2.3.4'
+ruby '~> 2.4'
 
 # Force more modern version of json
+# that will work with ruby 2.4
 gem 'json', '~> 1.8.0'
 
 # Added Gems
