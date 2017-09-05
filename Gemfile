@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# Pin ruby
+
+ruby '2.4.1'
+
 # Added Gems
 gem 'sufia', '~> 7.0'
 # EZID client from Duke
