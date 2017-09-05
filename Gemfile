@@ -54,10 +54,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # will load new rubyzip version
 gem 'rubyzip', '>=1.0.0'
 
-group :production do
-  # Only try to run virus scan in production
-  gem 'clamav-client'
-end
+gem 'clamav-client'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

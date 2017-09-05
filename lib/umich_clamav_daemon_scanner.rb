@@ -48,7 +48,7 @@ class UMichClamAVDaemonScanner < Hydra::Works::VirusScanner
   # states (no virus or some sort of error)
   def infected?
     unless alive?
-      warning "Cannot connect to virus scanner. Skipping"
+      warning "Cannot connect to virus scanner. Skipping file #{file}"
       return false
     end
     resp = scan_response
