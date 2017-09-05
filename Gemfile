@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
-# Pin ruby
-
-ruby '~> 2.3'
 
 # Force more modern version of json
 # that will work with ruby 2.4
