@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 # Added Gems
+gem 'json', '~> 1.8.0'
 gem 'hyrax', '1.0.1'
 # When the hyrax gem is updated, check whether the following files are still needed:
 # * app/views/hyrax/admin/stats/_deposits.html.erb
