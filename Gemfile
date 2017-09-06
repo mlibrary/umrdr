@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 # Added Gems
 gem 'json', '~> 1.8.0'
 gem 'hyrax', '1.0.1'
+gem 'rails', '~>5.0'
+
 # When the hyrax gem is updated, check whether the following files are still needed:
 # * app/views/hyrax/admin/stats/_deposits.html.erb
 # * app/views/hyrax/admin/stats/_new_users.html.erb
@@ -29,7 +31,7 @@ gem 'config'
 
 # Gems added by generator
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails'
+# gem 'rails'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
