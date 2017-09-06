@@ -732,7 +732,7 @@ DEPENDENCIES
   hyrax (= 1.0.1)
   jbuilder (~> 2.0)
   jquery-rails
-  json (~> 1.8)
+  json (~> 1.8.0)
   mail_form
   mysql2
   net-ldap

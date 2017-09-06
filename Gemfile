@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 
 # Force a newer json for 2.4 compatibility
 gem 'json', '~>1.8.0'
-
 # Added Gems
 gem 'hyrax', '1.0.1'
 # When the hyrax gem is updated, check whether the following files are still needed:
