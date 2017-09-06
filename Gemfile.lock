@@ -732,6 +732,7 @@ DEPENDENCIES
   hyrax (= 1.0.1)
   jbuilder (~> 2.0)
   jquery-rails
+  json (~> 1.8)
   mail_form
   mysql2
   net-ldap
@@ -760,4 +761,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.14.4
+   1.15.4
