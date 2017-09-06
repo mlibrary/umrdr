@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Force a newer json for 2.4 compatibility
-gem 'json', '~>1.8'
+gem 'json', '~>1.8.0'
 
 # Added Gems
 gem 'hyrax', '1.0.1'
