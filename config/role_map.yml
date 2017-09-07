@@ -27,3 +27,4 @@ production:
     - archivist1@example.com
   admin:
     - njaffer@umich.edu    
+    - fritx@umich.edu

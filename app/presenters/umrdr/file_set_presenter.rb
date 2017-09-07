@@ -1,6 +1,19 @@
 module Umrdr
   class FileSetPresenter < ::Hyrax::FileSetPresenter
 
+    def identifiers_minted?(identifier)
+      #the first time this is called, doi will not be solr.
+      begin
+        @solr_document[Solrizer.solr_name('doi', :symbol)].first
+      rescue
+        nil
+      end
+    end
+
+    def identifiers_pending?(identifier)
+      @solr_document[Solrizer.solr_name('doi', :symbol)].first == GenericWork::PENDING
+    end
+
   	def parent_doi?
   		g =GenericWork.find (self.parent.id)
   		g.doi.present?
