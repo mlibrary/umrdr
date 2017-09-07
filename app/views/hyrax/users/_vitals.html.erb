@@ -4,8 +4,9 @@
 
 <div class="list-group-item">
   <span class="badge"><%= number_of_collections(user) %></span>
-  <span class="glyphicon glyphicon-folder-open"></span> <%= link_to_field('depositor', user.to_s, t("hyrax.dashboard.stats.collections"), generic_type: "Collection") %>
+  <span class="glyphicon glyphicon-folder-open"></span> <%= link_to_field('depositor', user.to_s, t("hyrax.dashboard.stats.collections"), human_readable_type: "Collection") %>
 </div>
+
 
 
 
