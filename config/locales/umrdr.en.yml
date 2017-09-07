@@ -176,6 +176,8 @@ en:
     search:
       fields:
         facet:
+          generic_type_sim: Type
+          human_readable_type_sim: Readable
           subject_sim: Discipline
         index:
           subject_tesim: Discipline
