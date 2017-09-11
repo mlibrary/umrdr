@@ -149,7 +149,7 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
-    clamav (0.4.1)
+    clamav-client (3.1.0)
     clipboard-rails (1.6.1)
     cliver (0.3.2)
     coderay (1.1.1)
@@ -716,7 +716,7 @@ DEPENDENCIES
   binding_of_caller
   blacklight_advanced_search (~> 6.0)
   capybara
-  clamav
+  clamav-client
   coffee-rails (~> 4.1.0)
   config
   database_cleaner

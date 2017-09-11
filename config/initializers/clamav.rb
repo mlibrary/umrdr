@@ -1,4 +1,7 @@
 if defined? ClamAV and !(ENV['CI'] == 'true')
-  ClamAV.instance.loaddb
-  ClamAV.instance.setstring(ClamAV::CL_ENGINE_TMPDIR, File.join(Rails.root, 'tmp/derivatives'))
+  require "umich_clamav_daemon_scanner"
+  Hydra::Works.default_system_virus_scanner = UMichClamAVDaemonScanner
+  Rails.logger.info "Using ClamAV Daemon"
+else
+  Rails.logger.warn "No virus check in use."
 end
