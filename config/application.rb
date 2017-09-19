@@ -26,6 +26,9 @@ module Umrdr
     config.max_total_file_size = config.max_file_size * 5
     config.max_total_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_total_file_size, {})
 
+    config.max_derivative_file_size = 4_000_000_000 # set to -1 for no limit
+    config.max_derivative_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( config.max_derivative_file_size, precision: 3 )
+
     # Deploy to /data instead of /
     config.relative_url_root = '/data' unless Rails.env.test?
 
