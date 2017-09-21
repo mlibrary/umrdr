@@ -7,14 +7,13 @@ module Hyrax
     alias_method :monkey_create_office_document_derivatives, :create_office_document_derivatives
 
     def create_derivatives(filename)
-      Rails.logger.warn "About to call create_derivatives(" + filename + ")"
-      monkey_create_derivatives(filename)
-      Rails.logger.warn "Returned from call create_derivatives(" + filename + ")"
-    rescue Exception => e
-      # TODO: Revisit this. The Rails.logger.error call fails to send anything to the log
-      #Rails.logger.warn "create_derivatives(" + filename + ") exception: " + e
-      #Rails.logger.warn "create_derivatives() exception: " + e
-      Rails.logger.error "create_derivatives(" + filename + ") exception: " + e
+      begin
+        Rails.logger.debug "About to call create_derivatives(#{filename})"
+        monkey_create_derivatives(filename)
+        Rails.logger.debug "Returned from call create_derivatives(#{filename})"
+      rescue Exception => e
+        Rails.logger.error "create_derivatives error #{filename} - #{e.class}: #{e.message}"
+      end
     end
 
     def create_pdf_derivatives(filename)
