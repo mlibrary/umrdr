@@ -1,3 +1,4 @@
+<div class="nogroup not-required">
 <% options = FundedbyService.select_options.dup %>
 <% options.unshift(['- Choose Funding Agency -', nil]) %>
 <%= f.input :fundedby, as: :select_with_accessible_help, required: false,

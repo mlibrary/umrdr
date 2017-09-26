@@ -4,12 +4,12 @@
   form#new_collection,
   form#new_generic_work,
   .edit-profile {
-    max-width: 40em;
+    max-width: 45em;
     margin: 2em auto;
   }
 
   .required-tag {
-    @include fa_tag($fill: $fa_teal_1, $color: #FFF);
+    @include fa_tag($fill: #0C5292, $color: #FFF);
   }
 
   form label.optional {
