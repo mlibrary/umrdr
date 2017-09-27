@@ -1,5 +1,48 @@
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
 .align-right {
     text-align: right;
+}
+/* Describe Data Form */
+#works_edit > h2.non.lower {
+  text-align: center;
+  background-color: #FAFAFA;
+  padding: .75em;
+  margin: 0;
+  border-bottom: 2px solid #E5E5E5;
+}
+
+#page-positioner .form-group {
+  margin: 1em;
+  padding: 0 .5em;
+}
+
+#works_edit {
+  background-color: #fff;
+}
+
+div.nogroup {
+  background-color: #fff;
+}
+
+form#new_generic_work {
+    background-color: #FFFFFF;  
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.24);
+}
+
+.describe_sub {
+  margin: 1em;
+  padding: 0 .5em .5em;
+}
+
+.help-block {
+  font-size: .85em;
+}
+
+.multi_value .field-controls .btn.add.btn-add-another::before {
+  content: " + "
 }
 
 /* to support use of bootstrap cells within the list items */
@@ -57,3 +100,52 @@ ol.catalog li:after {
  }
  /* End [more...] and [less...] */
 
+#page-positioner {
+  background-color: #F2F2F2;
+}
+
+footer {
+  background-color: #fff;
+}
+
+/*** Deposit Data Page ***/
+
+div.not-required {
+  background-color: #FAFAFA;
+  border-top: solid 1px #E5E5E5;
+  border-bottom: solid 1px #E5E5E5;
+  margin-bottom: 1.5em;
+}
+
+.date-add-coverage-button::before {
+  content: " + "
+}
+
+.date-reset::before {
+  content: " - "
+}
+
+.date-reset {
+  float: right;
+}
+
+.radio aside {
+  padding: 0 0 .25em 1em;
+}
+
+div.radio p {
+  margin: 0;
+}
+
+.radio p > label {
+  font-weight: bold;
+}
+
+/**** Buttons for Deposit Page ****/
+.data-buttons {
+  text-align: center;
+}
+
+.cancel-btn::after {
+content: ' X ';
+}

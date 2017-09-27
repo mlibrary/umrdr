@@ -1,42 +1,47 @@
-<% if respond_to?(:curation_concern) %>
+</div>
+<!--<% if respond_to?(:curation_concern) %>
  <p><label>
  <% if (curation_concern.visibility ==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE && curation_concern.date_uploaded ==nil)%> 
   <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>  Save as Draft
-  <p>If you select Save as Draft, your work will not be published yet and you can make changes to the work.</p>
-  <p>If you do not select Save as Draft, your work will be published after adding files to your work. It will be openly accessible and you cannot make changes to the work. </p>
-  <p>Proceed to the next page to add files.</p>
+  </div>
+  <hr>
     <div class="primary-actions">
-      <%= f.submit 'Publish', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
       <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
+       <%= f.submit 'Save Description & Upload Files', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
     </div>
 
 <% elsif (curation_concern.visibility==Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE) %>
    <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, true %>   Save as Draft
-   <p>If you select Save as Draft, your work will not be published yet and you can make changes to the work.</p>
-   <p>If you do not select Save as Draft, your work will be published after adding files to your work. It will be openly accessible and you cannot make changes to  the work. </p>
-   <p>Proceed to the next page to add files.</p>
+   </div>
+   <hr>
     <div class="primary-actions">
-      <%= f.submit 'Save Draft', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
-      <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
+    <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
+      <%= f.submit 'Save as Draft', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
     </div>
 
 <% elsif (curation_concern.visibility !=Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)%> 
    <%= check_box_tag 'isDraft', Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false %>   Save as Draft
-   <p>If you select Save as Draft, your work will not be published yet and you can make changes to the work.</p>
-   <p>If you do not select Save as Draft, your work will be published after adding files to your work. It will be openly accessible and you cannot make changes to the work. </p>
-    <p>Proceed to the next page to add files.</p>
+    <hr>
     <div class="primary-actions">
-      <%= f.submit 'Publish', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
-      <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
+     <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
+      <%= f.submit 'Save Description & Upload Files', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
     </div>
 <% else %>
-    <p>Proceed to the next page to add files.</p>
+    <hr>
     <div class="primary-actions">
-      <%= f.submit 'Publish', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
-      <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
+    <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
+      <%= f.submit 'Save Description & Upload Files', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
     </div>
 <% end %>
 </label>
 </p>
-<% end %>
+<% end %>-->
+
+<div class="data-buttons">
+<%= f.submit 'Save as Draft (Private)', class: 'btn btn-default', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
+
+<%= f.submit 'Save Description (Public)', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
+<br>
+  <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link cancel-btn' %>
+</div>
 
