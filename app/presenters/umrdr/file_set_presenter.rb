@@ -1,6 +1,8 @@
 module Umrdr
   class FileSetPresenter < ::Hyrax::FileSetPresenter
 
+    delegate :file_size, :file_size_readable, :original_checksum, :mime_type, to: :solr_document
+
     def identifiers_minted?(identifier)
       #the first time this is called, doi will not be solr.
       begin

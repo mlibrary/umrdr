@@ -36,7 +36,12 @@ module Umrdr
         index.as :stored_searchable
       end
 
-      property :tombstone, predicate: ::RDF::Vocab::DC.provenance
+      property :tombstone, predicate: ::RDF::Vocab::DC.provenance, multiple: false
+
+      property :total_file_size, predicate: ::RDF::Vocab::DC.SizeOrDuration, multiple: false
+      # TODO: can't use the same predicate twice
+      #property :total_file_size_human_readable, predicate: ::RDF::Vocab::DC.SizeOrDuration, multiple: false
+
     end
   end
 end

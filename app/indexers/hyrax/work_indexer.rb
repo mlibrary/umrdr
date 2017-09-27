@@ -17,7 +17,11 @@ module Hyrax
         solr_doc[Solrizer.solr_name('file_set_ids', :symbol)] = solr_doc[Solrizer.solr_name('member_ids', :symbol)]
         solr_doc[Solrizer.solr_name('doi', :symbol)] = object.doi
         solr_doc[Solrizer.solr_name('tombstone', :symbol)] = object.tombstone
-        
+        total = solr_doc[Solrizer.solr_name('total_file_size', Hyrax::FileSetIndexer::STORED_LONG)]
+        total = object.total_file_size
+        solr_doc[Solrizer.solr_name('total_file_size', Hyrax::FileSetIndexer::STORED_LONG)] = object.total_file_size
+        #solr_doc[Solrizer.solr_name('total_file_size_human_readable', :symbol)] = object.total_file_size_human_readable
+
         admin_set_label = object.admin_set.to_s
         solr_doc[Solrizer.solr_name('admin_set', :facetable)] = admin_set_label
         solr_doc[Solrizer.solr_name('admin_set', :stored_searchable)] = admin_set_label

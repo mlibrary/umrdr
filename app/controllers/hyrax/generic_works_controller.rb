@@ -271,6 +271,10 @@ class Hyrax::GenericWorksController < ApplicationController
     end
   end
 
+  def update_total_file_size!
+    curation_concern.update_total_file_size!
+  end
+
   # TODO move this to an actor after sufia 7.0 dependency.
 
   def mint_doi
