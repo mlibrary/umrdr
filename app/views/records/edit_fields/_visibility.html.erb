@@ -38,7 +38,8 @@
 <% end %>-->
 
 <div class="data-buttons">
-<%= f.submit 'Save as Draft (Private)', class: 'btn btn-default', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
+<%= hidden_field_tag(:isDraft, Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC) %>
+<%= f.submit 'Save as Draft (Private)', class: 'btn btn-default', onclick: "confirmation_needed = false; document.getElementById('isDraft').value = '#{Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE}';", id: "with_files_submit", name: "save_with_files" %>
 
 <%= f.submit 'Save Description (Public)', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
 <br>
