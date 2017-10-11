@@ -14,7 +14,7 @@ en:
     globus_success: 'Your globus preparation was successful!'
   simple_form:
     required:
-      html: '<span class="required required-tag">required</span>'
+      html: '<span class="required required-tag">Required</span>'
     hints:
       generic_work:
         title:
@@ -27,7 +27,7 @@ en:
           'The date the work’s data was created, as determined by the creator.'
 
         date_coverage:
-          'The span of time the data set relates to or describes.'
+          'The span of time the data set relates to or describes. (e.g. 2017, 1998/12/10, or -700 (meaning 700 BC))'
 
         contributor:
           'Person or organization outside the Creator role who have contributed to the work in some way (e.g., interns, other non-authors/creators).'

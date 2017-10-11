@@ -33,5 +33,5 @@ en:
         identifier: "A unique handle identifying the work. An example would be a DOI for a journal article, or an ISBN or OCLC number for a book."
         language: "The language of the work's content."
         publisher: "The person or group making the work available. Generally this is the institution."
-        rights: "Licensing and distribution information governing access to the work. Select from the provided drop-down list."
+        rights: "Licensing and distribution information governing access to the work. Select from the provided list."
 
