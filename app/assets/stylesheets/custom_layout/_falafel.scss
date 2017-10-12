@@ -416,6 +416,8 @@ $fa_color_names: map_keys($fa_colors);
   line-height: $line_height;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
 @mixin fa_info_box($icon_name:  false,
                    $icon_color: false,
                    $color:      $fa_teal_1,

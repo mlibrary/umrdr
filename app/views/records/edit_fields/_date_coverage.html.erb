@@ -23,17 +23,17 @@
             <legend class="legend-label">Start Date</legend>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-sm-4">
             <label for="date_coverage_begin_year" data-label="Date">Year</label>
             <input type="text" id="date_coverage_begin_year" name="date_coverage_begin_year" class="form-control" value="<%=cov_year_begin%>" pattern="\d{4}" title="Please enter a valid year (yyyy)"></input>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <label for="date_coverage_begin_month">Month</label>
             <%= select_tag :date_coverage_begin_month, options_for_select(wmon,cov_month_begin), { class: 'form-control'} %>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <label for="date_coverage_begin_day">Day</label>
             <%= select_tag :date_coverage_begin_day, options_for_select(wday,cov_day_begin), { class: 'form-control'} %>
           </div>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="col-md-6 date-coverage-element <% if cov_year_end %>hidden<% end %>">
-      <button type="button" class="btn btn-link date-add-coverage-button">Add date range</button>
+      <button type="button" class="btn btn-link date-add-coverage-button">Add Date Range</button>
     </div>
 
     <div class="col-md-6 date-coverage-element date-coverage-end-date <% if !cov_year_end %>hidden<% end %>">
@@ -52,21 +52,20 @@
 
         <fieldset>
           <div class="col-md-12">
-
-            <%= content_tag(:legend, t('simple_form.labels.generic_work.date_coverage_end'), class: "legent-label") %>
+            <%= content_tag(:legend, t('simple_form.labels.generic_work.date_coverage_end'), class: "legend-label") %>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-sm-4">
             <label for="date_coverage_end_year" data-label="Date">Year</label>
             <input type="text" id="date_coverage_end_year" name="date_coverage_end_year" class="form-control" value="<%= cov_year_end%>" pattern="\d{4}" title="Please enter a valid year (yyyy)"></input>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <label for="date_coverage_end_month">Month</label>
             <%= select_tag :date_coverage_end_month, options_for_select(wmon,cov_month_end), { class: 'form-control'} %>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <label for="date_coverage_end_day">Day</label>
             <%= select_tag :date_coverage_end_day, options_for_select(wday,cov_day_end), { class: 'form-control'} %>
           </div>
