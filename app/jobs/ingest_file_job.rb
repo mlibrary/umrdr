@@ -15,6 +15,13 @@ class IngestFileJob < ActiveJob::Base
       Rails.logger.debug "Returned from call to IngestFileJob.perform(#{filepath})"
     rescue Exception => e
       Rails.logger.error "IngestFileJob.perform(#{file_set},#{filepath},#{user}) #{e.class}: #{e.message}"
+    ensure
+      total = file_set.parent.total_file_size
+      if total.nil? || 0 == total
+        file_set.parent.update_total_file_size!
+      else
+        file_set.parent.total_file_size_add_file_set! file_set
+      end
       # Clean up in case the down stream jobs did not get called
       if File.exist?(filepath)
         File.delete (filepath)
