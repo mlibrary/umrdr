@@ -102,6 +102,7 @@ class AppendContentService
   # If filename not given, use basename from path
   def build_file_set(path, filename=nil)
     fname = filename || File.basename(path)
+    puts "Processing: " + fname
     file = File.open(path)
     #So that filename comes from the name of the file
     #And not the hash
@@ -111,13 +112,14 @@ class AppendContentService
 
     fs = FileSet.new()
     fs.apply_depositor_metadata(user_key)
-    Hydra::Works::UploadFileToFileSet.call(fs, file)    
+    Hydra::Works::UploadFileToFileSet.call(fs, file)
     fs.title = Array(fname)
     fs.label = fname
     now = DateTime.now.new_offset(0)
     fs.date_uploaded = now
     fs.visibility = visibility
     fs.save!
+    puts "Finished:   " + fname
     return fs
   end
 end

@@ -14,7 +14,11 @@ module Umrdr
     end
 
     # set a temporary GLOBUS setting to disable display of globus before_action
-    config.show_globus = false
+    config.show_globus = true
+    config.globus_dir = ENV['GLOBUSDIR'] || "/hydra-dev/umrdr-data/globus"
+    # For local testing set config.globus_dir = "."
+    #config.globus_dir = "."
+    config.globus_complete = ".complete"
     
     # deposit notification email addresses
     config.notification_email = Settings.notification_email
