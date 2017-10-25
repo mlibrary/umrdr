@@ -1,4 +1,5 @@
 require 'hydra/file_characterization'
+require 'logger'
 
 Hydra::FileCharacterization::Characterizers::Fits.tool_path = `which fits || which fits.sh`.strip
 
@@ -9,8 +10,7 @@ class AppendContentService
     config = YAML.load_file(path_to_config)
     base_path = File.dirname(path_to_config)
     bcs = AppendContentService.new( config, base_path)   
-    puts "NEW CONTENT SERVICE AT YOUR ... SERVICE"
-    bcs.config_is_okay? ? bcs.run : puts("Config Check Failed.")
+    bcs.run
   end
 
   attr :cfg, :base_path
@@ -18,18 +18,19 @@ class AppendContentService
   def initialize( config, base_path )
     @cfg = config
     @base_path = base_path
+    logger.debug "NEW CONTENT SERVICE AT YOUR ... SERVICE"
   end
 
   # config needs default user to attribute collections/works/filesets to
   # User needs to have only works or collections
   def config_is_okay?
     if @cfg.keys != [:user]
-      puts "Top level key needs to be 'user'"
+      logger.error "Top level key needs to be 'user'"
       return false
     end
 
     if (@cfg[:user].keys <=> [:collections, :works]) < 1
-      puts "user can only contain collections and works"
+      logger.error "user can only contain collections and works"
       return false
     end
 
@@ -57,18 +58,21 @@ class AppendContentService
   end
 
   def run
-    # build the stuff described in the config
-    build_repo_contents
+    if config_is_okay?
+      build_repo_contents
+    else
+      logger.error("Config Check Failed.")
+    end
   end
 
   def log_object(obj)
-    puts "id: #{obj.id} title: #{obj.title.first}"
+    logger.info "id: #{obj.id} title: #{obj.title.first}"
   end
 
   def build_repo_contents
     user = User.find_by_user_key(user_key) || create_user(user_key)
     if user.nil?
-      puts "User not found."
+      logger.warn "User not found: #{user_key}"
       return
     end
 
@@ -102,7 +106,7 @@ class AppendContentService
   # If filename not given, use basename from path
   def build_file_set(path, filename=nil)
     fname = filename || File.basename(path)
-    puts "Processing: " + fname
+    logger.info "Processing: #{fname}"
     file = File.open(path)
     #So that filename comes from the name of the file
     #And not the hash
@@ -119,8 +123,14 @@ class AppendContentService
     fs.date_uploaded = now
     fs.visibility = visibility
     fs.save!
-    puts "Finished:   " + fname
+    logger.info "Finished:   #{fname}"
     return fs
+  end
+
+  private
+
+  def logger
+    @logger ||= Logger.new(STDOUT).tap {|logger| logger.level = Logger::INFO }
   end
 end
 
