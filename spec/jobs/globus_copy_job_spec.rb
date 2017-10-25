@@ -1,0 +1,175 @@
+require 'rails_helper'
+require 'uri'
+
+describe GlobusCopyJob do
+  let( :globus_dir ) { "/tmp/deepbluedata-globus" }
+  let( :target_name ) { "DeepBlueData_id321" }
+  let( :target_name_prep_dir ) { "#{Rails.env}_#{target_name}" }
+  let( :globus_prep_dir ) { "#{globus_dir}/prep" }
+  let( :job_ready_file ) { "#{globus_prep_dir}/.test.ready.#{target_name}" }
+
+  describe "#perform" do
+    let( :user ) { FactoryGirl.build(:user) }
+    let( :work ) { FactoryGirl.build(:generic_work, id: 'id321', title: ['test title'], user: user) }
+    let( :globus_download_dir ) { "#{globus_dir}/download" }
+    let( :error_file ) { "#{globus_prep_dir}/.test.error.#{target_name}" }
+    let( :lock_file ) { "#{globus_prep_dir}/.test.lock.#{target_name}" }
+    let( :globus_download_ready_dir ) { "#{globus_download_dir}/#{target_name}" }
+    let( :globus_download_ready_file1 ) { "#{globus_download_ready_dir}/File01" }
+    let( :globus_download_ready_file2 ) { "#{globus_download_ready_dir}/File02" }
+    let( :file_set1 ) { FactoryGirl.build(:file_set, label: 'File01', id: 'fs0001') }
+    let( :file_set2 ) { FactoryGirl.build(:file_set, label: 'File02', id: 'fs0002') }
+    let( :file1 ) { Tempfile.new( "File01-" ) }
+    let( :file2 ) { Tempfile.new( "File02-" ) }
+    let( :uri1 ) { URI.join('file:///', "#{file1.path}" ) }
+    let( :uri2 ) { URI.join('file:///', "#{file2.path}" ) }
+    let( :lock_file ) { "#{globus_prep_dir}/.test.lock.DeepBlueData_id321" }
+    let( :ready_file ) { "#{globus_prep_dir}/.test.ready.DeepBlueData_id321" }
+    let( :log_prefix ) { "Globus: globus_copy_job" }
+    let( :lock_file_msg ) { "#{log_prefix} lock file #{lock_file}" }
+    let( :globus_prep_copy_dir ) { "#{globus_prep_dir}/#{target_name_prep_dir}" }
+    let( :globus_prep_copy_tmp_dir ) { "#{globus_prep_copy_dir}_tmp" }
+    let( :current_token ) { GlobusJob.token }
+    let( :mailer ) { "mailer" }
+
+    context "when can acquire lock" do
+      before do
+        expect( ActiveFedora::Base ).to receive( :find ).and_return( work )
+        file_set1.define_singleton_method( :files ) do nil; end
+        file_set2.define_singleton_method( :files ) do nil; end
+        file1.define_singleton_method( :uri ) do nil; end
+        file2.define_singleton_method( :uri ) do nil; end
+        uri1.define_singleton_method( :value ) do nil; end
+        uri2.define_singleton_method( :value ) do nil; end
+        expect( file_set1 ).to receive( :files ).and_return( [file1] )
+        expect( file_set2 ).to receive( :files ).and_return( [file2] )
+        expect( file1 ).to receive( :uri ).and_return( uri1 )
+        expect( file2 ).to receive( :uri ).and_return( uri2 )
+        expect( uri1 ).to receive( :value ).and_return( file1.path )
+        expect( uri2 ).to receive( :value ).and_return( file2.path )
+        allow( work ).to receive( :file_sets ).and_return( [file_set1,file_set2] )
+        File.delete error_file if File.exists? error_file
+        File.delete lock_file if File.exists? lock_file
+        #Dir.delete globus_prep_copy_dir if Dir.exists? globus_prep_copy_dir
+        #Dir.delete globus_prep_copy_tmp_dir if Dir.exists? globus_prep_copy_tmp_dir
+        allow( Rails.logger ).to receive( :debug )
+        allow( Rails.logger ).to receive( :error )
+        expect( PROV_LOGGER ).to receive( :info )
+        mailer.define_singleton_method( :deliver_now ) do nil; end
+        expect( WorkMailer ).to receive( :globus_push_work ).with( any_args ).and_return( mailer )
+        expect( mailer ).to receive( :deliver_now )
+      end
+      it "calls globus block." do
+        open( file1.path, 'w' ) { |f| f << "File01" << "\n" }
+        open( file2.path, 'w' ) { |f| f << "File02" << "\n" }
+        described_class.perform_now( "id321" )
+        expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} lock file #{lock_file}" )
+        expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} writing lock token #{current_token} to #{lock_file}" )
+        expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} begin copy" )
+        expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} Starting copy to #{globus_prep_copy_tmp_dir}" )
+        expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} copy complete" )
+        #expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} this is not a logger message that is sent" )
+        expect( Rails.logger ).not_to have_received( :error )
+        expect( File.exists? ready_file ).to eq( true )
+        expect( Dir.exists? globus_download_ready_dir ).to eq( true )
+        expect( Dir.exists? globus_prep_copy_dir ).to eq( false )
+        expect( Dir.exists? globus_prep_copy_tmp_dir ).to eq( false )
+        expect( File.exists? globus_download_ready_file1 ).to eq( true )
+        expect( File.exists? globus_download_ready_file2 ).to eq( true )
+      end
+      after do
+        File.delete error_file if File.exists? error_file
+        File.delete lock_file if File.exists? lock_file
+        File.delete ready_file if File.exists? ready_file
+        File.delete globus_download_ready_file1 if File.exists? globus_download_ready_file1
+        File.delete globus_download_ready_file2 if File.exists? globus_download_ready_file2
+        Dir.delete globus_download_ready_dir if Dir.exists? globus_download_ready_dir
+      end
+    end
+  end
+
+  describe "#globus_do_copy?" do
+    let( :job ) { described_class.new }
+    let( :target_file_name ) { "targetfile" }
+    let( :prep_file_name ) { "#{globus_dir}/prep/#{target_file_name}" }
+    before do
+      prep_dir = "#{globus_dir}/prep/"
+      job.define_singleton_method( :set_parms ) do
+        @globus_concern_id = "id321"
+        @globus_log_prefix = "Globus: "
+        @target_prep_dir = prep_dir
+      end
+      job.set_parms
+    end
+    context "when prep file exists" do
+      before do
+        expect( File ).to receive( :exists? ).with( prep_file_name ).and_return( true )
+        msg = "Globus:  skipping copy because #{prep_file_name} already exists"
+        expect( Rails.logger ).to receive( :debug ).with( msg )
+      end
+      it "returns false." do
+        expect( job.send( :globus_do_copy?, target_file_name ) ).to eq( false )
+      end
+    end
+    context "when prep file does not exist" do
+      before do
+        expect( File ).to receive( :exists? ).with( prep_file_name ).and_return( false )
+      end
+      it "returns true." do
+        expect( job.send( :globus_do_copy?, target_file_name ) ).to eq( true )
+      end
+    end
+  end
+
+  describe "#globus_job_complete_file" do
+    let( :job ) { described_class.new }
+    before do
+      job.define_singleton_method( :set_parms ) do @globus_concern_id = "id321"; end
+      job.set_parms
+    end
+    it "returns the ready file name." do
+      expect( job.send( :globus_job_complete_file ) ).to eq( job_ready_file )
+    end
+  end
+
+  describe "#globus_job_complete?" do
+    let( :job ) { described_class.new }
+    let( :job_complete_dir ) { "#{globus_dir}/download/DeepBlueData_id321" }
+    before do
+      job.define_singleton_method( :set_parms ) do @globus_concern_id = "id321"; end
+      job.set_parms
+    end
+    context "when file exists" do
+      before do
+        expect( Dir ).to receive( :exists? ).with( job_complete_dir ).and_return( true )
+      end
+      it "return true." do
+        expect( job.send( :globus_job_complete? ) ).to eq( true )
+      end
+    end
+    context "when file does not exist" do
+      before do
+        expect( Dir ).to receive( :exists? ).with( job_complete_dir ).and_return( false )
+      end
+      it "return true." do
+        expect( job.send( :globus_job_complete? ) ).to eq( false )
+      end
+    end
+  end
+
+  describe "#globus_notify_user" do
+    # TODO
+  end
+
+  describe "#globus_ready_file" do
+    let( :job ) { described_class.new }
+    before do
+      job.define_singleton_method( :set_parms ) do @globus_concern_id = "id321"; end
+      job.set_parms
+    end
+    it "returns the ready file name." do
+      expect( job.send( :globus_ready_file ) ).to eq( job_ready_file )
+    end
+  end
+
+end
