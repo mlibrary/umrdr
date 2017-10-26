@@ -13,13 +13,26 @@ module Umrdr
       g.test_framework :rspec, :spec => true
     end
 
-    # set a temporary GLOBUS setting to disable display of globus before_action
-    config.show_globus = true
-    config.globus_dir = ENV['GLOBUSDIR'] || "/hydra-dev/umrdr-data/globus"
-    # For local testing set config.globus_dir = "."
-    #config.globus_dir = "."
-    config.globus_complete = ".complete"
-    
+    ## configure for Globus
+    # -- To enable Globus for development, create /deepbluedata-globus/download and /deepbluedata-globus/prep
+    if Rails.env.test?
+      config.globus_dir = '/tmp/deepbluedata-globus'
+      Dir.mkdir config.globus_dir unless Dir.exists? config.globus_dir
+    else
+      config.globus_dir = ENV['GLOBUS_DIR'] || '/deepbluedata-globus'
+    end
+    config.globus_dir = Pathname.new config.globus_dir
+    config.globus_download_dir = config.globus_dir.join 'download'
+    config.globus_prep_dir = config.globus_dir.join 'prep'
+    if Rails.env.test?
+      Dir.mkdir config.globus_download_dir unless Dir.exists? config.globus_download_dir
+      Dir.mkdir config.globus_prep_dir unless Dir.exists? config.globus_prep_dir
+    end
+    config.globus_enabled = true && File.exists?( config.globus_download_dir ) && File.exists?( config.globus_prep_dir )
+    config.base_file_name = "DeepBlueData_"
+    config.globus_base_url = 'https://www.globus.org/app/transfer?origin_id=99d8c648-a9ff-11e7-aedd-22000a92523b&origin_path=%2Fdownload%2F'
+    config.globus_era_file = Tempfile.new( 'globus_era_', ( config.globus_enabled ? config.globus_prep_dir : "." ) )
+
     # deposit notification email addresses
     config.notification_email = Settings.notification_email
     config.user_email = Settings.user_email    
