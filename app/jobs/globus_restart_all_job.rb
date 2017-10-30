@@ -71,11 +71,15 @@ class GlobusRestartAllJob < GlobusJob
     file = globus_job_complete_file
     Rails.logger.debug "#{@globus_log_prefix} globus job complete file #{file}"
     return false unless File.exists? file
-    last_complete_time = File.birthtime file
+    last_complete_time = last_complete_time file
     token_time = ::GlobusJob.token_time
     Rails.logger.debug "#{@globus_log_prefix} token_time:#{token_time} <= last_complete_time:#{last_complete_time}"
     Rails.logger.debug "#{@globus_log_prefix} token_time.class:#{token_time.class} <= last_complete_time.class:#{last_complete_time.class}"
     token_time <= last_complete_time
+  end
+  
+  def last_complete_time( file )
+    File.birthtime file
   end
 
 end
