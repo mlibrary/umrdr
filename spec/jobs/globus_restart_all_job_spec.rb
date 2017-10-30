@@ -98,7 +98,8 @@ describe GlobusRestartAllJob do
       before do
         allow( Rails.logger ).to receive( :debug )
         expect( File ).to receive( :exists? ).with( job_complete_file ).and_return( true )
-        expect( File ).to receive( :birthtime ).with( job_complete_file ).and_return( time_now )
+        #expect( File ).to receive( :birthtime ).with( job_complete_file ).and_return( time_now )
+        expect( job ).to receive( :last_complete_time ).with( job_complete_file ).and_return( time_now )
         expect( GlobusJob ).to receive( :token_time ).with( no_args ).and_return( time_now )
       end
       it "return true." do
