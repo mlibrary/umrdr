@@ -36,7 +36,7 @@ class GlobusJob < ActiveJob::Base
   end
 
   def self.token_time
-    File::birthtime @@globus_token.path
+    File.birthtime @@globus_token.path
   end
 
   # @param [String] concern_id
