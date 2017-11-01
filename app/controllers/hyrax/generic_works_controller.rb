@@ -1,9 +1,9 @@
 require 'edtf'
 
 class Hyrax::GenericWorksController < ApplicationController
-    # Adds Sufia behaviors to the controller.
-    #include Sufia::WorksControllerBehavior
-    include Hyrax::WorksControllerBehavior
+  # Adds Sufia behaviors to the controller.
+  #include Sufia::WorksControllerBehavior
+  include Hyrax::WorksControllerBehavior
 
   # Adds Sufia behaviors to the controller.
   #Override Sufia behavior to change the after_create message
@@ -56,12 +56,12 @@ class Hyrax::GenericWorksController < ApplicationController
     creator    = curation_concern.creator.join("','")
     visibility = curation_concern.visibility
     msg        = title + " (" + location + ") by " + creator +
-                 ", with " + visibility +
-                 " access was deposited by " + depositor
+        ", with " + visibility +
+        " access was deposited by " + depositor
     email      = WorkMailer.deposit_work(Rails.configuration.notification_email, msg)
     email.deliver_now
   end
-  
+
   def notify_rdr_on_update_to_public
     return unless @visibility_changed_to_public
     location   = main_app.hyrax_generic_work_url(curation_concern.id)
@@ -70,27 +70,27 @@ class Hyrax::GenericWorksController < ApplicationController
     creator    = curation_concern.creator.join("','")
     visibility = curation_concern.visibility
     msg        = title + " (" + location + ") by " + creator +
-                 ", previously deposited by " + depositor +
-                 ", was updated to " + visibility + " access"
+        ", previously deposited by " + depositor +
+        ", was updated to " + visibility + " access"
     PROV_LOGGER.info (msg)
     email      = WorkMailer.publish_work(Rails.configuration.notification_email, msg)
     email.deliver_now
   end
-  
+
   def notify_user_on_globus
-    return if @recent_globus_dir.nil?
-    location   = main_app.hyrax_generic_work_url(curation_concern.id)
-    depositor  = curation_concern.depositor
-    title      = curation_concern.title.join("','")
-    creator    = curation_concern.creator.join("','")
-    work_info = "work " + title + " (" + location + ") by " + creator +
-                 ", previously deposited by " + depositor + "."
-                 
-    msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info
-    PROV_LOGGER.info (msg)    
-    email      = WorkMailer.globus_push_work(Rails.configuration.user_email, msg)
-    email.deliver_now
-    # @recent_globus_dir = nil
+    # return if @recent_globus_dir.nil?
+    # location   = main_app.hyrax_generic_work_url(curation_concern.id)
+    # depositor  = curation_concern.depositor
+    # title      = curation_concern.title.join("','")
+    # creator    = curation_concern.creator.join("','")
+    # work_info = "work " + title + " (" + location + ") by " + creator +
+    #              ", previously deposited by " + depositor + "."
+    #
+    # msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info
+    # PROV_LOGGER.info (msg)
+    # email      = WorkMailer.globus_push_work(Rails.configuration.user_email, msg)
+    # email.deliver_now
+    # # @recent_globus_dir = nil
   end
 
   def prov_work_created
@@ -107,17 +107,17 @@ class Hyrax::GenericWorksController < ApplicationController
     admin_set_id  = curation_concern.admin_set_id
 
     msg        = "WORK CREATED:" + " (" + location + ") by " + creator +
-                 ", with " + visibility +
-                 " access was created with title: " + title + 
-                 ", rights: " + rights[0] + 
-                 ", methodology: " + methodology + 
-                 ", publisher: " + publisher + 
-                 ", subject: " + subject + 
-                 ", description: " + description + 
-                 ", admin set id: " + admin_set_id
+        ", with " + visibility +
+        " access was created with title: " + title +
+        ", rights: " + rights[0] +
+        ", methodology: " + methodology +
+        ", publisher: " + publisher +
+        ", subject: " + subject +
+        ", description: " + description +
+        ", admin set id: " + admin_set_id
     PROV_LOGGER.info (msg)
   end
-  
+
   def prov_work_updated
     location      = main_app.hyrax_generic_work_url(curation_concern.id)
     depositor     = curation_concern.depositor
@@ -133,18 +133,18 @@ class Hyrax::GenericWorksController < ApplicationController
     admin_set_id  = curation_concern.admin_set_id
 
     msg        = "WORK UPDATED:" + " (" + location + ") by " + creator +
-                 ", with " + visibility +
-                 " access was updated with title: " + title + 
-                 ", on: " + date_modified.to_s + 
-                 ", rights: " + rights[0] + 
-                 ", methodology: " + methodology + 
-                 ", publisher: " + publisher + 
-                 ", subject: " + subject + 
-                 ", description: " + description + 
-                 ", admin set id: " + admin_set_id
+        ", with " + visibility +
+        " access was updated with title: " + title +
+        ", on: " + date_modified.to_s +
+        ", rights: " + rights[0] +
+        ", methodology: " + methodology +
+        ", publisher: " + publisher +
+        ", subject: " + subject +
+        ", description: " + description +
+        ", admin set id: " + admin_set_id
     PROV_LOGGER.info (msg)
   end
-  
+
   # Begin processes to mint hdl and doi for the work
   def identifiers
     mint_doi
@@ -163,8 +163,8 @@ class Hyrax::GenericWorksController < ApplicationController
     #curation_concern.state = Vocab::FedoraResourceStatus.inactive
 
     for i in 0 ... curation_concern.file_sets.size
-       curation_concern.file_sets[i].visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-    end 
+      curation_concern.file_sets[i].visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+    end
 
     curation_concern.tombstone = [params[:tombstone]]
     curation_concern.save
@@ -172,90 +172,52 @@ class Hyrax::GenericWorksController < ApplicationController
     redirect_to dashboard_works_path, notice: "Tombstoned: \"#{curation_concern.title.first}\" for this reason: #{curation_concern.tombstone.first}"
   end
 
-  def download 
-    require 'zip' 
+  def download
+    require 'zip'
     require 'tempfile'
 
     tmp_dir = ENV['TMPDIR'] || "/tmp"
-    folder = tmp_dir + "/DeepBlueData_" + curation_concern.id
-    zipfile_name = folder + "/DeepBlueData_" + curation_concern.id + ".zip"
-    FileUtils.rm_rf(folder) if File.exists?(folder)
-    Dir.mkdir(folder) unless File.exists?(folder)
-    FileUtils.rm_rf(Dir.glob(folder + '/*')) 
+    tmp_dir = Pathname tmp_dir
+    folder = target_name_id( tmp_dir, curation_concern.id )
+    zipfile_name = target_name_id( folder, curation_concern.id, ".zip" )
+    FileUtils.rm_rf( folder ) if File.exists?( folder )
+    Dir.mkdir(folder) unless File.exists?( folder )
+    FileUtils.rm_rf( Dir.glob( folder + '/*' ) )
 
+    Rails.logger.debug "Download Zip begin copy to folder #{folder}"
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-      curation_concern.file_sets.each do |file_set|   
-        file = file_set.files[0]
-        filename = file_set.label
-
-        url = file.uri.value
-        output = folder + "/" + filename
-
-        open(url) do |io|
-          IO.copy_stream(io, output)
-        end
-        zipfile.add(filename, output)
+      copy_file_sets_to( folder, log_prefix: "Zip: " ) do |target_file_name, target_file|
+        zipfile.add( target_file_name, target_file )
       end
     end
-    send_file zipfile_name 
-  end  
+    Rails.logger.debug "Download Zip copy complete to folder #{folder}"
+    send_file zipfile_name
+  end
 
-  # For local testing set globus_dir = "."
-  def globus 
-    require 'tempfile'
-
-    globus_dir = Umrdr::Application.config.globus_dir
-    # globus_dir = "."
-    folder = globus_dir + "/DeepBlueData_" + curation_concern.id
-    Rails.logger.debug "Globus begin copy to folder #{folder}"
-    #use dot folders to flag download status
-    complete_folder = folder + "/#{Umrdr::Application.config.globus_complete}"
-    
-    if File.exists?(folder)
-      if File.exists?(complete_folder)
-        @recent_globus_dir = nil
-        flash[:notice] = "Globus data is already available in directory: #{folder}"
-        Rails.logger.debug "Redirect back: Globus data is already available in directory: #{folder}"
-        redirect_to :back
-      else
-        @recent_globus_dir = nil
-        flash[:notice] = "Work files being downloaded for globus but is not yet available. Please try again later."
-        Rails.logger.debug "Redirect back: Work files being downloaded for globus but is not yet available. Please try again later."
-        redirect_to :back
-      end
+  def globus
+    concern_id = curation_concern.id
+    msg = nil
+    if globus_complete?
+      msg = "Globus files are available for download here: #{globus_url}"
     else
-      Dir.mkdir(folder)
-      FileUtils.rm_rf(Dir.glob(folder + '/*')) 
-      
-      curation_concern.file_sets.each do |file_set|   
-        file = file_set.files[0]
-        filename = file_set.label
-
-        url = file.uri.value
-        output = folder + "/" + filename
-        Rails.logger.debug "Globus starting copy of #{filename} to #{output}"
-
-        open(url) do |io|
-          IO.copy_stream(io, output)
-        end
-        Rails.logger.debug "Globus copy finished of #{filename} to #{output}"
+      if globus_prepping?
+        msg = "Files are being copied to globus and are not yet available. Please try again later."
+      else
+        msg = "Files are being copied to globus. Please check back later."
       end
-
-      #add .complete directory
-      Dir.mkdir(complete_folder)
-      Rails.logger.debug "Globus copy complete to folder #{folder}"
-      @recent_globus_dir = folder
-      flash.now[:notice] = "Globus data is ready in directory: #{@recent_globus_dir}"
-      redirect_to :back
+      ::GlobusCopyJob.perform_later( concern_id ) #, generate_error: false )
     end
-  end 
-  
+    Rails.logger.debug msg
+    flash.now[:notice] = msg
+    redirect_to :back
+  end
+
   # Create EDTF::Interval from form parameters
   # Replace the date coverage parameter prior with serialization of EDTF::Interval
   def assign_date_coverage
     cov_interval = Umrdr::DateCoverageService.params_to_interval params
     params['generic_work']['date_coverage'] = cov_interval ? [cov_interval.edtf] : []
-  end  
+  end
 
   def check_recent_uploads
     if params[:uploads_since]
@@ -275,15 +237,11 @@ class Hyrax::GenericWorksController < ApplicationController
     end
   end
 
-  def update_total_file_size!
-    curation_concern.update_total_file_size!
-  end
-
   # TODO move this to an actor after sufia 7.0 dependency.
 
   def mint_doi
     # Do not mint doi if
-    #   one already exists 
+    #   one already exists
     #   work file_set count is 0.
     if curation_concern.doi
       flash[:notice] = "A DOI already exists or is being minted."
@@ -305,21 +263,94 @@ class Hyrax::GenericWorksController < ApplicationController
     ::DoiMintingJob.perform_later(curation_concern.id)
   end
 
-  protected
+  def copy_file_sets_to( target_dir \
+                       , log_prefix: "" \
+                       , do_copy_predicate: lambda { |target_file_name, target_file| true } \
+                       , &block \
+                       )
+    file_sets = curation_concern.file_sets
+    Hyrax::GenericWorksController.copy_file_sets( target_dir \
+                                                , file_sets \
+                                                , log_prefix: log_prefix \
+                                                , do_copy_predicate: do_copy_predicate \
+                                                , &block \
+                                                )
+  end
 
-    def show_presenter
-     Umrdr::WorkShowPresenter
-    end
-
-  private
-    def get_date_uploaded_from_solr(file_set)
-      field = file_set.solr_document[Solrizer.solr_name('date_uploaded', :stored_sortable, type: :date)]
-      return unless field.present?
-      begin
-        Time.parse(field)
-      rescue
-        Rails.logger.info "Unable to parse date: #{field.first.inspect} for #{self['id']}"
+  def self.copy_file_sets( target_dir \
+                         , file_sets \
+                         , log_prefix: "copy_file_sets" \
+                         , do_copy_predicate: lambda { |target_file_name, target_file| true } \
+                         , &on_copy_block \
+                         )
+    Rails.logger.debug "#{log_prefix} Starting copy to #{target_dir}"
+    files_extracted = Hash.new
+    total_bytes = 0
+    file_sets.each do |file_set|
+      file = file_set.files[0]
+      target_file_name = file_set.label
+      if files_extracted.has_key? target_file_name
+        dup_count = 1
+        base_ext = File.extname target_file_name
+        base_target_file_name = File.basename target_file_name, base_ext
+        target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
+        while files_extracted.has_key? target_file_name
+          dup_count += 1
+          target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
+        end
+      end
+      files_extracted.store( target_file_name, true )
+      target_file = target_dir.join target_file_name
+      if do_copy_predicate.call( target_file_name, target_file )
+        source_uri = file.uri.value
+        Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exists?( source_uri )}"
+        Rails.logger.debug "#{log_prefix} copy #{target_file} << #{source_uri}"
+        bytes_copied = open(source_uri) { |io| IO.copy_stream(io, target_file) }
+        total_bytes += bytes_copied
+        copied = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( bytes_copied, precision: 3 )
+        Rails.logger.debug "#{log_prefix} copied #{copied} to #{target_file}"
+        on_copy_block.call( target_file_name, target_file ) if on_copy_block
+      else
+        Rails.logger.debug "#{log_prefix} skipped copy of #{target_file}"
       end
     end
+    total_copied = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( total_bytes, precision: 3 )
+    Rails.logger.debug "#{log_prefix} Finished copy to #{target_dir}; total #{total_copied} in #{files_extracted.size} files"
+    total_bytes
+  end
+
+  def globus_complete?
+    ::GlobusJob.copy_complete? curation_concern.id
+  end
+
+  def globus_prepping?
+    ::GlobusJob.files_prepping? curation_concern.id
+  end
+
+  def globus_url
+    ::GlobusJob.external_url curation_concern.id
+  end
+
+  protected
+
+  def show_presenter
+    Umrdr::WorkShowPresenter
+  end
+
+  private
+
+  def get_date_uploaded_from_solr(file_set)
+    field = file_set.solr_document[Solrizer.solr_name('date_uploaded', :stored_sortable, type: :date)]
+    return unless field.present?
+    begin
+      Time.parse(field)
+    rescue
+      Rails.logger.info "Unable to parse date: #{field.first.inspect} for #{self['id']}"
+    end
+  end
+
+  def target_dir_name_id( dir, id, ext = '' )
+    dir.join "#{Umrdr::Application.config.base_file_name}#{id}#{ext}"
+  end
 
 end
