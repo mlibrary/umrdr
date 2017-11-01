@@ -23,7 +23,7 @@ class CharacterizeJob < ActiveJob::Base
     end
     begin
       Hydra::Works::CharacterizationService.run(file_set.characterization_proxy, filename)
-      Rails.logger.debug "Ran characterization on "
+      Rails.logger.debug "Ran characterization on " \
             + "#{file_set.characterization_proxy.id} (#{file_set.characterization_proxy.mime_type})"
       file_set.characterization_proxy.save!
       file_set.update_index

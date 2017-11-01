@@ -28,8 +28,12 @@
   <%= form_tag(main_app.globus_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
     <%= hidden_field_tag('generic_work[nop]') %>
     
-    <% if Umrdr::Application.config.show_globus != false %>
-      <%= submit_tag(t('simple_form.actions.generic_work.globus'), class: 'btn btn-primary') %>
+    <% if Umrdr::Application.config.globus_enabled != false %>
+      <% if @presenter.globus_files_available? %>
+        <p>Files available on Globus: <a title="link to external globus files" href="<%=@presenter.globus_external_url%>" target="_blank">click here</a></p>
+      <% else %>
+        <%= submit_tag(t('simple_form.actions.generic_work.globus'), class: 'btn btn-primary') %>
+      <% end %>
     <% end %>
       
   <% end %>

@@ -23,6 +23,16 @@ module Umrdr
       @solr_document.fundedby
     end
 
+    def globus_external_url
+      concern_id = @solr_document.id
+      ::GlobusJob.external_url concern_id
+    end
+
+    def globus_files_available?
+      concern_id = @solr_document.id
+      ::GlobusJob.files_available? concern_id
+    end
+
     def grantnumber
       @solr_document.grantnumber
     end
