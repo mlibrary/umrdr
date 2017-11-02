@@ -1,0 +1,17 @@
+<div id="works_walkthrough" style="background-color:white;padding-top:3em;">
+  <h2 class="non lower" style="text-align:center;font-weight:bold;">Depositing Your Work is Easy</h2>
+  <h4 class="non lower" style="text-align:center;">We'll walk you through the 3 simple steps!</h4>
+  <%= image_tag image_path("walkthrough.png"), alt: "Describe, Upload, and Review & Deposit, ",
+                class: "img-responsive", width: 2038, height: 594,
+                style: "padding-left:5em;" %>
+  <hr/>
+
+  <h4 class="non lower" style="text-align:center;">Let's start by adding details about your work.</h4>
+  <div class="data-buttons">
+    <%= button_tag t("hyrax.dashboard.describe_work").html_safe, type: :button,
+                   onclick: "document.getElementById('generic_work_form_container').style.display='block';
+                   document.getElementById('walkthrough_splash_container').style.display='none';",
+                   class: "btn btn-primary", id: "contribute_link",
+                   style: "margin-bottom:2em;" %>
+  </div>
+</div>
