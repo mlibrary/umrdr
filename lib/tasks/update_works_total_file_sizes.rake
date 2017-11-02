@@ -1,5 +1,5 @@
-require 'rspec/core'
-require 'rspec/core/rake_task'
+#require 'rspec/core'
+#require 'rspec/core/rake_task'
 
 desc 'Update generic works to include total file size'
 task :update_works => :environment do
