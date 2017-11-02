@@ -1,5 +1,5 @@
-require 'rspec/core'
-require 'rspec/core/rake_task'
+#require 'rspec/core'
+#require 'rspec/core/rake_task'
 require 'open-uri'
 
 desc 'Extract files from fedora 01'
