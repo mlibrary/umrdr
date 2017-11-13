@@ -6,7 +6,7 @@
     text-align: right;
 }
 /* Describe Data Form */
-#works_edit > h2.non.lower {
+h2.non.lower {
   text-align: center;
   background-color: #FAFAFA;
   padding: .75em;
@@ -148,4 +148,73 @@ div.radio p {
 
 .cancel-btn::after {
 content: ' X ';
+}
+
+/**** Search Results *****/
+
+#search-results ul.catalog {
+  list-style: none;
+}
+
+/*** Deposit Intro Page ****/
+
+.position-page {
+  max-width: 45em;
+  margin: 2em auto;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.24);
+  padding-bottom: 1em;
+}
+
+.position-page h2{
+  padding-top: 1em;
+}
+
+.position-page .text-block {
+  text-align: center;
+  padding: 0 2.5em;
+}
+
+.position-page ul {
+  list-style: none;
+  padding: 1em 0;
+}
+
+.position-page ul li {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.position-page .input-group {
+  padding: .5em 3em;
+}
+
+span.icon.arrow:before {
+ content: url(https://www.lib.umich.edu/falafel/v0/icons/white/arrow_right.svg);
+  position: relative;
+  top: 6px;
+  display: inline-block;
+}
+
+.emphasis {
+  color: #126DC1;
+  margin: 0;
+  font-weight: 500;
+}
+
+.collection-icon-search {
+  color: #2C72B6;
+  font-size: 6em;
+ }
+
+/**** Utility Classes ****/
+
+.top-border {
+  border-top: 2px solid #E5E5E5;
+  padding: 1em 0;
+}
+
+.align-left {
+  text-align: left;
 }

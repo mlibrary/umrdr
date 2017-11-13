@@ -57,7 +57,7 @@ class CatalogController < ApplicationController
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
-    config.add_facet_field solr_name("resource_type", :facetable), label: "Resource Type", limit: 5
+    # config.add_facet_field solr_name("resource_type", :facetable), label: "Resource Type", limit: 5
     config.add_facet_field solr_name("creator", :facetable), label: "Creator", limit: 5
     config.add_facet_field solr_name("subject", :facetable), label: "Discipline", limit: 5
     config.add_facet_field solr_name("tag", :facetable), label: "Keywords", limit: 5
@@ -73,7 +73,8 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name'
+    # config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name'
+    config.index.thumbnail_field = 'thumbnail_path_ss'
     config.add_index_field solr_name("creator", :stored_searchable), label: "Creator", itemprop: 'creator'
     config.add_index_field solr_name("description", :stored_searchable), label: "Description", itemprop: 'description'
     config.add_index_field solr_name("date_uploaded", :stored_searchable), label: "Date Uploaded", itemprop: 'datePublished'
