@@ -28,7 +28,7 @@ module Umrdr
       Dir.mkdir config.globus_download_dir unless Dir.exists? config.globus_download_dir
       Dir.mkdir config.globus_prep_dir unless Dir.exists? config.globus_prep_dir
     end
-    config.globus_enabled = true && File.exists?( config.globus_download_dir ) && File.exists?( config.globus_prep_dir )
+    config.globus_enabled = false && File.exists?( config.globus_download_dir ) && File.exists?( config.globus_prep_dir )
     config.base_file_name = "DeepBlueData_"
     config.globus_base_url = 'https://www.globus.org/app/transfer?origin_id=99d8c648-a9ff-11e7-aedd-22000a92523b&origin_path=%2Fdownload%2F'
     config.globus_era_file = Tempfile.new( 'globus_era_', ( config.globus_enabled ? config.globus_prep_dir : "." ) )
