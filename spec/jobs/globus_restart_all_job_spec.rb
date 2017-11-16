@@ -1,6 +1,10 @@
 require 'rails_helper'
 #require 'uri'
 
+RSpec.configure do |config|
+  config.filter_run_excluding :globus_enabled => :true unless Umrdr::Application.config.globus_enabled
+end
+describe "GlobusJob :globus_enabled => :true", :globus_enabled => :true do
 describe GlobusRestartAllJob do
   let( :globus_dir ) { Pathname "/tmp/deepbluedata-globus" }
   let( :target_name ) { "DeepBlueData_Restart_All" }
@@ -123,5 +127,5 @@ describe GlobusRestartAllJob do
       end
     end
   end
-
+end
 end
