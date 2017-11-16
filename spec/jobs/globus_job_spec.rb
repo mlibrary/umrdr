@@ -1,4 +1,8 @@
 
+RSpec.configure do |config|
+  config.filter_run_excluding :globus_enabled => :true unless Umrdr::Application.config.globus_enabled
+end
+describe "GlobusJob :globus_enabled => :true", :globus_enabled => :true do
 describe GlobusJob do
   let( :globus_dir ) { Pathname.new "/tmp/deepbluedata-globus" }
   let( :globus_download_dir ) { globus_dir.join 'download' }
@@ -501,5 +505,5 @@ describe GlobusJob do
       end
     end
   end
-
+end
 end

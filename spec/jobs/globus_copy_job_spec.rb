@@ -1,6 +1,10 @@
 require 'rails_helper'
 require 'uri'
 
+RSpec.configure do |config|
+  config.filter_run_excluding :globus_enabled => :true unless Umrdr::Application.config.globus_enabled
+end
+describe "GlobusJob :globus_enabled => :true", :globus_enabled => :true do
 describe GlobusCopyJob do
   let( :globus_dir ) { Pathname "/tmp/deepbluedata-globus" }
   let( :globus_download_dir ) { globus_dir.join 'download' }
@@ -171,5 +175,5 @@ describe GlobusCopyJob do
       expect( job.send( :globus_ready_file ) ).to eq( job_ready_file )
     end
   end
-
+end
 end
