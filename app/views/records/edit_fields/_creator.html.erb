@@ -1,5 +1,7 @@
 <%= f.input key, as: :multi_value, input_html: {
   class: 'form-control',
-  pattern: "(\\s*[A-Za-z0-9À-ÖØ-ßà-öø-ÿŒœąćęłńśźżĄĆĘŁŃŚŹŻªºµ]+['\\-\\.]*)+(,(\\s*[A-Za-zÀ-ÖØ-ßà-öø-ÿŒœąćęłńśźżĄĆĘŁŃŚŹŻªºµ]+['\\-\\.]*\\s*)+)+",
-  title: "Last name, First name, MI"
+  #pattern: "(\\s*[A-Za-z0-9À-ÖØ-ßà-öø-ÿŒœąćęłńśźżĄĆĘŁŃŚŹŻªºµ]+['\\-\\.]*)+(,(\\s*[A-Za-zÀ-ÖØ-ßà-öø-ÿŒœąćęłńśźżĄĆĘŁŃŚŹŻªºµ]+['\\-\\.]*\\s*)+)+",
+  #title: "Last name, First name, MI"
+  pattern: "\\s*(\\S+\\s*)+",
+  title: "Name"
 }, required: f.object.required?(key) %>
