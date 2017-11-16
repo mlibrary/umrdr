@@ -178,20 +178,27 @@ class Hyrax::GenericWorksController < ApplicationController
 
     tmp_dir = ENV['TMPDIR'] || "/tmp"
     tmp_dir = Pathname tmp_dir
-    folder = target_name_id( tmp_dir, curation_concern.id )
-    zipfile_name = target_name_id( folder, curation_concern.id, ".zip" )
-    FileUtils.rm_rf( folder ) if File.exists?( folder )
-    Dir.mkdir(folder) unless File.exists?( folder )
-    FileUtils.rm_rf( Dir.glob( folder + '/*' ) )
-
-    Rails.logger.debug "Download Zip begin copy to folder #{folder}"
-    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-      copy_file_sets_to( folder, log_prefix: "Zip: " ) do |target_file_name, target_file|
+    #Rails.logger.debug "Download Zip begin tmp_dir #{tmp_dir}"
+    target_dir = target_dir_name_id( tmp_dir, curation_concern.id )
+    #Rails.logger.debug "Download Zip begin copy to folder #{target_dir}"
+    Dir.mkdir(target_dir) unless Dir.exists?( target_dir )
+    target_zipfile = target_dir_name_id( target_dir, curation_concern.id, ".zip" )
+    #Rails.logger.debug "Download Zip begin copy to target_zipfile #{target_zipfile}"
+    File.delete target_zipfile if File.exists? target_zipfile
+    # clean the zip directory if necessary, since the zip structure is currently flat, only
+    # have to clean files in the target folder
+    files = Dir.glob( "#{target_dir.join '*'}")
+    files.each do |file|
+      File.delete file if File.exists? file
+    end
+    Rails.logger.debug "Download Zip begin copy to folder #{target_dir}"
+    Zip::File.open(target_zipfile.to_s, Zip::File::CREATE ) do |zipfile|
+      copy_file_sets_to( target_dir, log_prefix: "Zip: " ) do |target_file_name, target_file|
         zipfile.add( target_file_name, target_file )
       end
     end
-    Rails.logger.debug "Download Zip copy complete to folder #{folder}"
-    send_file zipfile_name
+    Rails.logger.debug "Download Zip copy complete to folder #{target_dir}"
+    send_file target_zipfile.to_s
   end
 
   def globus
