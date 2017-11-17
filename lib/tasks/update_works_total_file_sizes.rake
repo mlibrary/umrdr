@@ -1,12 +1,12 @@
 
 desc 'Update generic works to include total file size'
 task :update_works => :environment do
-  Umrdr::UpdateWorksTotalFileSizes.run
+  Umrdr::UpdateWorks.run
 end
 
 desc 'Update single generic work to include total file size'
 task :update_work => :environment do
-  Umrdr::UpdateWorkTotalFileSizes.run
+  Umrdr::UpdateWork.run
 end
 
 module Umrdr
