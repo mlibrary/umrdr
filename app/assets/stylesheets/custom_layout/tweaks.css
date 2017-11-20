@@ -208,6 +208,12 @@ span.icon.arrow:before {
   font-size: 6em;
  }
 
+/**** Footer ****/
+
+footer > .ribbon-content p {
+  padding-left: 0;
+}
+
 /**** Utility Classes ****/
 
 .top-border {
@@ -217,4 +223,8 @@ span.icon.arrow:before {
 
 .align-left {
   text-align: left;
+}
+
+.align-right {
+  text-align: right;
 }
