@@ -305,8 +305,8 @@ module Umrdr
           rv = `df -h /tmp`.chop
           rv += ";"
           rv += `du -h --summarize #{@java_io_tmpdir}`.chop
-          rv.gsub( /\s+/, ' ' )
-          printf "#{prefix}#{rv}#{postfix}" ; STDOUT.flush
+          rv = rv.gsub( /\s+/, ' ' )
+          print "#{prefix}#{rv}#{postfix}" ; STDOUT.flush
         else
           print `df -h /tmp` ; STDOUT.flush
           print `du -h --summarize #{@java_io_tmpdir}` ; STDOUT.flush
