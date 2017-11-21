@@ -1,4 +1,4 @@
-  <%= raw (@presenter.attribute_to_html(:methodology)).gsub!('<span', '<span class="more"') %>
+  <%= raw (@presenter.attribute_to_html(:methodology)).gsub!('<li', '<li class="more"') %>
   <%= raw (@presenter.attribute_to_html(:description)).gsub!('<span', '<span class="more"') %>
   <%= @presenter.attribute_to_html(:creator, catalog_search_link: true ) %>
   <% @presenter.depositor.gsub!('@', 'at_sign_at') %>
