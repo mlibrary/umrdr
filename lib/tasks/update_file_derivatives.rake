@@ -24,9 +24,10 @@ module Umrdr
     def self.run
       # TODO: pass in the work ids
       works = []
-      works << ::GenericWork.find( '1n79h444s' )
-      works << ::GenericWork.find( 'ft848q70w' )
+      #works << ::GenericWork.find( '1n79h444s' )
+      #works << ::GenericWork.find( 'ft848q70w' )
       #works << ::GenericWork.find( 'pr76f340k' )
+      works << ::GenericWork.find( 'kd17cs870' )
       UpdateFileDerivatives.new( works ).run
     end
   end
@@ -34,6 +35,18 @@ module Umrdr
   class UpdateFileDerivatives
     
     def initialize( works, restart_with_work_id: nil )
+      puts "ENV['TMPDIR']=#{ENV['TMPDIR']}"
+      #puts "Umrdr::Application.config.tmpdir=#{Umrdr::Application.config.tmpdir}"
+      puts "ENV['_JAVA_OPTIONS']=#{ENV['_JAVA_OPTIONS']}"
+      @tmpdir = Pathname.new "/deepbluedata-prep/fedora-extract"
+      Dir.mkdir @tmpdir unless Dir.exists? @tmpdir
+      @java_io_tmpdir = @tmpdir
+      Dir.mkdir @java_io_tmpdir unless Dir.exists? @java_io_tmpdir
+      ENV['_JAVA_OPTIONS']='-Djava.io.tmpdir=' + ENV['TMPDIR']
+      puts "ENV['_JAVA_OPTIONS']=#{ENV['_JAVA_OPTIONS']}"
+      puts "#{`echo $_JAVA_OPTIONS`}"
+      @do_report_tmpdir_usage = true
+
       @works = works
       @characterize = true
       @create_derivatives = true
@@ -47,8 +60,6 @@ module Umrdr
       @min_derivative_file_size = 0 # can skip over small sizes
       @max_derivative_file_size = 100_000_000 # something smaller than 4_000_000_000
       #@max_derivative_file_size = Umrdr::Application.config.max_derivative_file_size
-      @tmpdir = Pathname.new "/deepbluedata-prep/fedora-extract"
-      Dir.mkdir @tmpdir unless Dir.exists? @tmpdir
       @skip_derivative_ext = { '.zip' => true, '.gz' => true }
       @tracking_report_to_console = false
       
@@ -186,6 +197,7 @@ module Umrdr
         count += 1
         if 0 == count % 20
           pacify "(#{count})"
+          pacify "#{report_tmpdir_usage( inline: true, prefix: '(', postfix: ')' )}"
         end
         characterize_file_set fid
       end
@@ -215,7 +227,15 @@ module Umrdr
         ActiveSupport::NumberHelper.number_to_human_size( value )
       end
     end
-  
+
+    def is_skip_derivative_ext?( fs )
+      ext = File.extname fs.label
+      if @verbose_ext
+        pacify "{#{ext}}"
+      end
+      @skip_derivative_ext.has_key? ext
+    end
+
     def logger
       @logger ||= Logger.new(STDOUT).tap {|logger| logger.level = Logger::INFO }
     end
@@ -228,7 +248,23 @@ module Umrdr
       end
       file.nil?      
     end
-    
+
+    def nil_date_modified?( af )
+      af.date_modified.nil?
+    end
+
+    def no_original_checksum?( af )
+      0 == af.original_checksum.size
+    end
+
+    def no_thumbnail?( af )
+      if af.thumbnail_id.nil?
+        true
+      else
+        !thumbnail?( thumbnail_fetch( af ) )
+      end
+    end
+
     def original_file_too_large?( fs )
       if original_size( fs ) > @max_derivative_file_size
         true
@@ -251,6 +287,10 @@ module Umrdr
       report_error( "fs.original_file.size", e )
     end
 
+    def pacify( x )
+      print x; STDOUT.flush
+    end
+
     def report_error( msg, e )
       if @report_error_full_backtrace
         puts "#{msg} #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}\n"
@@ -258,17 +298,20 @@ module Umrdr
         puts "#{msg} #{e.class}: #{e.message}\n#{e.backtrace[0]}\n"
       end
     end
-    
-    def pacify( x )
-      print x; STDOUT.flush
-    end
-    
-    def is_skip_derivative_ext?( fs )
-      ext = File.extname fs.label
-      if @verbose_ext
-        pacify "{#{ext}}"
+
+    def report_tmpdir_usage( inline: false, prefix: '', postfix: "\n" )
+      if @do_report_tmpdir_usage
+        if inline
+          rv = `df -h /tmp`.chop
+          rv += ";"
+          rv += `du -h --summarize #{@java_io_tmpdir}`.chop
+          rv = rv.gsub( /\s+/, ' ' )
+          print "#{prefix}#{rv}#{postfix}" ; STDOUT.flush
+        else
+          print `df -h /tmp` ; STDOUT.flush
+          print `du -h --summarize #{@java_io_tmpdir}` ; STDOUT.flush
+        end
       end
-      @skip_derivative_ext.has_key? ext
     end
 
     def run
@@ -277,6 +320,7 @@ module Umrdr
       file_count = 0
       work_count = 0
       begin
+        report_tmpdir_usage( inline: true )
         restarted = @restart_with_work_id.nil?
         @works.map do |w|
           work_count += 1
@@ -341,12 +385,14 @@ module Umrdr
                 if file.nil?
                   track( :nil_fs_files, wid, fid )
                 else
-                  
+                  #TODO
                 end
               end
             end
             print "Subtotal:" if @verbose
-            print " #{human_readable( subtotal )}\n"; STDOUT.flush
+            print " #{human_readable( subtotal )}" ; STDOUT.flush
+            report_tmpdir_usage( inline: true, prefix: ' :: ' )
+            print "\n" ; STDOUT.flush
             do_characterize w
           end
         end
@@ -354,6 +400,7 @@ module Umrdr
         report_error( "UpdateFileDerivatives.run", e )
       end
       begin
+        report_tmpdir_usage( inline: true )
         prefix = "#{Time.now.strftime('%Y%m%d')}_update_derivatives_report"
         report_file = Pathname.new( '.' ).join "#{prefix}.txt"
         @out = nil
@@ -386,23 +433,7 @@ module Umrdr
         end
       end
     end
-    
-    def nil_date_modified?( af )
-      af.date_modified.nil?
-    end
-    
-    def no_original_checksum?( af )
-      0 == af.original_checksum.size
-    end
-    
-    def no_thumbnail?( af )
-      if af.thumbnail_id.nil?
-        true
-      else
-        !thumbnail?( thumbnail_fetch( af ) )
-      end
-    end
-    
+
     def test_date_modified( wid, af )
        puts "#{value_or_nil('af.date_modified',af.date_modified)}" if @verbose
        return unless af.date_modified.nil?
