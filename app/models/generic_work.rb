@@ -1,3 +1,6 @@
+require_dependency 'app/helpers/ordered_string_helper'
+include OrderedStringHelper
+
 class GenericWork < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
   include ::Hyrax::BasicMetadata
@@ -29,4 +32,28 @@ class GenericWork < ActiveFedora::Base
   def public?
     visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
   end
+
+  #
+  # we want to handle the language list as an ordered set
+  #
+  def creator
+    return OrderedStringHelper.deserialize( super )
+  end
+
+  def creator= values
+    super OrderedStringHelper.serialize( values )
+  end
+
+  #
+  # we want to handle the keyword list as an ordered set
+  #
+  def keyword
+    return OrderedStringHelper.deserialize( super )
+  end
+
+  def keyword= values
+    super OrderedStringHelper.serialize( values )
+  end
+
+
 end
