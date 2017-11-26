@@ -28,6 +28,7 @@ Rails.application.routes.draw do
         post 'identifiers'
         post 'download'
         post 'globus'
+        post 'confirm'
         delete 'tombstone'
       end
     end

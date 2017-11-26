@@ -172,6 +172,10 @@ class Hyrax::GenericWorksController < ApplicationController
     redirect_to dashboard_works_path, notice: "Tombstoned: \"#{curation_concern.title.first}\" for this reason: #{curation_concern.tombstone.first}"
   end
 
+  def confirm
+    render 'confirm_work' 
+  end  
+
   def download
     require 'zip'
     require 'tempfile'

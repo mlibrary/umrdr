@@ -11,6 +11,7 @@ class Ability
     alias_action :identifiers, to: :update
     alias_action :download, to: :read
     alias_action :globus, to: :read
+    alias_action :confirm, to: :read
     alias_action :tombstone, to: :delete
   end
 
