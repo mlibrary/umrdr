@@ -20,25 +20,32 @@
     </tbody>
   </table>
 </div>
-<% if Hyrax.config.download_files && presenter.file_set_presenters.length > 1 %>
-  <%= form_tag(main_app.download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
-    <%= hidden_field_tag('generic_work[nop]') %>
-    <%= submit_tag(t('simple_form.actions.generic_work.download'), class: 'btn btn-primary') %>
-  <% end %>
-  <%= form_tag(main_app.globus_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
-    <%= hidden_field_tag('generic_work[nop]') %>
-    
-    <% if Umrdr::Application.config.globus_enabled != false %>
-      <% if @presenter.globus_files_available? %>
-        <p>Files available on Globus: <a title="link to external globus files" href="<%=@presenter.globus_external_url%>" target="_blank">click here</a></p>
+  <% if Hyrax.config.download_files %><!-- && presenter.file_set_presenters.length > 1 -->
+    <%= form_tag(main_app.download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
+      <%= hidden_field_tag('generic_work[nop]') %>
+      <% if Umrdr::Application.config.max_work_file_size_to_download < @presenter.total_file_size %>
+        <p>Total work file size of <%= @presenter.total_file_size_human_readable %> is too large to download directly.</p>
       <% else %>
-        <%= submit_tag(t('simple_form.actions.generic_work.globus'), class: 'btn btn-primary') %>
+        <%= submit_tag(t('simple_form.actions.generic_work.download'), class: 'btn btn-primary') %>
+        <% if Umrdr::Application.config.min_work_file_size_to_download_warn < @presenter.total_file_size %>
+          &nbsp;&mdash;&nbsp;<span>Total file size of <%= @presenter.total_file_size_human_readable %> may be too large to download directly.</span>
+        <% end %>
       <% end %>
     <% end %>
-      
+
+    <%= form_tag(main_app.globus_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
+      <p></p>
+      <%= hidden_field_tag('generic_work[nop]') %>
+      <% if Umrdr::Application.config.globus_enabled %>
+        <% if @presenter.globus_files_available? %>
+          <p>Files available on Globus: <a title="link to external globus files" href="<%=@presenter.globus_external_url%>" target="_blank">click here</a></p>
+        <% else %>
+          <%= submit_tag(t('simple_form.actions.generic_work.globus'), class: 'btn btn-primary') %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <p></p>
   <% end %>
-<p></p>
-<% end %>
 <% elsif can? :edit, presenter.id %>
 
 <% if @presenter.tombstone.blank? %>
