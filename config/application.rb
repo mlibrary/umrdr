@@ -92,7 +92,7 @@ module Umrdr
 
     # creator ordered list hack
     config.creator_ordered_list_hack = true
-    config.creator_ordered_list_hack_save = false
+    config.creator_ordered_list_hack_save = true
 
   end
 end
