@@ -2,6 +2,12 @@ module Umrdr
   module SolrDocumentBehavior
     extend ActiveSupport::Concern
 
+    # def creator
+    #   descriptor = hydra_model.index_config[:creator].behaviors.first
+    #   rv = fetch(Solrizer.solr_name('creator', descriptor), [])
+    #   rv
+    # end
+
     def methodology
       Array(self[Solrizer.solr_name('methodology')]).first
     end
