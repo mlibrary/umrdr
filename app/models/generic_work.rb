@@ -1,3 +1,6 @@
+
+include OrderedStringHelper
+
 class GenericWork < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
   include ::Hyrax::BasicMetadata
@@ -29,4 +32,29 @@ class GenericWork < ActiveFedora::Base
   def public?
     visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
   end
+
+  #
+  # handle the list of creators as ordered
+  #
+  def creator
+    values = super
+    if Umrdr::Application.config.creator_ordered_list_hack
+      # check for existence of creator_ordered and override values it isn't null
+      ordered = self.creator_ordered
+      values = OrderedStringHelper.deserialize( ordered ) unless ordered.nil?
+    end
+    values
+  end
+
+  def creator= values
+    if Umrdr::Application.config.creator_ordered_list_hack
+      if Umrdr::Application.config.creator_ordered_list_hack_save
+        self.creator_ordered = OrderedStringHelper.serialize( values )
+      elsif !self.creator_ordered.nil?
+        self.creator_ordered = OrderedStringHelper.serialize( values )
+      end
+    end
+    super values
+  end
+
 end

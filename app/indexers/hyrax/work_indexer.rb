@@ -6,6 +6,7 @@ module Hyrax
     self.thumbnail_path_service = Hyrax::WorkThumbnailPathService
     def generate_solr_document
       super.tap do |solr_doc|
+        solr_doc[Solrizer.solr_name('creator_ordered', :stored_searchable)] = object.creator_ordered
         solr_doc[Solrizer.solr_name('member_ids', :symbol)] = object.member_ids
         solr_doc[Solrizer.solr_name('member_of_collections', :symbol)] = object.member_of_collections.map(&:first_title)
         solr_doc[Solrizer.solr_name('member_of_collection_ids', :symbol)] = object.member_of_collections.map(&:id)
@@ -17,8 +18,8 @@ module Hyrax
         solr_doc[Solrizer.solr_name('file_set_ids', :symbol)] = solr_doc[Solrizer.solr_name('member_ids', :symbol)]
         solr_doc[Solrizer.solr_name('doi', :symbol)] = object.doi
         solr_doc[Solrizer.solr_name('tombstone', :symbol)] = object.tombstone
-        total = solr_doc[Solrizer.solr_name('total_file_size', Hyrax::FileSetIndexer::STORED_LONG)]
-        total = object.total_file_size
+        #total = solr_doc[Solrizer.solr_name('total_file_size', Hyrax::FileSetIndexer::STORED_LONG)]
+        #total = object.total_file_size
         solr_doc[Solrizer.solr_name('total_file_size', Hyrax::FileSetIndexer::STORED_LONG)] = object.total_file_size
         #solr_doc[Solrizer.solr_name('total_file_size_human_readable', :symbol)] = object.total_file_size_human_readable
 
