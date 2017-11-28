@@ -34,7 +34,7 @@ class GenericWork < ActiveFedora::Base
   end
 
   #
-  # we want to handle the language list as an ordered set
+  # handle the list of creators as ordered
   #
   def creator
     values = super
