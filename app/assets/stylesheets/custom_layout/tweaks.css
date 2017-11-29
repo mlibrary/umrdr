@@ -228,3 +228,19 @@ footer > .ribbon-content p {
 .align-right {
   text-align: right;
 }
+
+/* Fixes for insanely-positioned facet values on "My Works" page. */
+.dropdown-menu, .twitter-typeahead .tt-menu {
+  border: 0px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0px;
+  box-shadow: none;
+  margin: 1px 0 0;
+  padding: 1px 0;
+  position: static;
+  top: auto;
+  z-index: 1000;
+}
+
+.facet-values {
+  display: table;
+}
