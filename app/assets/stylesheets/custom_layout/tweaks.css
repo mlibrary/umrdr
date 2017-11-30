@@ -229,7 +229,7 @@ footer > .ribbon-content p {
   text-align: right;
 }
 
-/* Fixes for insanely-positioned facet values on "My Works" page. */
+/* Fixes for insanely-positioned facet values on "My Works" and "My Collections" page. */
 .dropdown-menu, .twitter-typeahead .tt-menu {
   border: 0px solid rgba(0, 0, 0, 0.15);
   border-radius: 0px;
@@ -244,3 +244,12 @@ footer > .ribbon-content p {
 .facet-values {
   display: table;
 }
+
+.panel {
+  background-color: #f2f2f2;
+  box-shadow: none;
+ }
+
+div.panel-body {
+  background-color: #fff;
+ }
