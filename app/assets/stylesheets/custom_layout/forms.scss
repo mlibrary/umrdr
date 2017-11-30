@@ -3,7 +3,9 @@
 #page-positioner {
   form#new_collection,
   form#new_generic_work,
-  .edit-profile {
+  .edit-profile,
+  form.edit_generic_work,
+  .simple_form.editor {
     max-width: 45em;
     margin: 2em auto;
   }
