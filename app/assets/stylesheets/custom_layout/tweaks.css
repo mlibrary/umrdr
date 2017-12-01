@@ -2,10 +2,7 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-.align-right {
-    text-align: right;
-}
-/* Describe Data Form */
+/* Describe Work/Collections Form */
 h2.non.lower {
   text-align: center;
   background-color: #FAFAFA;
@@ -19,7 +16,8 @@ h2.non.lower {
   padding: 0 .5em;
 }
 
-#works_edit {
+#works_edit, 
+#descriptions_display {
   background-color: #fff;
 }
 
@@ -27,7 +25,10 @@ div.nogroup {
   background-color: #fff;
 }
 
-form#new_generic_work {
+form#new_generic_work,
+form#new_collection,
+.edit_generic_work,
+.simple_form.editor {
     background-color: #FFFFFF;  
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.24);
 }
@@ -43,6 +44,12 @@ form#new_generic_work {
 
 .multi_value .field-controls .btn.add.btn-add-another::before {
   content: " + "
+}
+
+.primary-actions {
+  margin: 1em;
+  padding-bottom: 1em;
+  text-align: center;
 }
 
 /* to support use of bootstrap cells within the list items */
@@ -141,7 +148,7 @@ div.radio p {
   font-weight: bold;
 }
 
-/**** Buttons for Deposit Page ****/
+/**** Buttons for Works/Collections Forms ****/
 .data-buttons {
   text-align: center;
 }

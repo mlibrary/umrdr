@@ -87,7 +87,7 @@ en:
       view_files:               "My Files"
       view_works:               "My Works"
       create_work:              "Deposit Work"
-      describe_work:            "Describe my work →"
+      describe_work:            'Describe my work <span class="glyphicon glyphicon-arrow-right"></span>'
       create_collection:        "New Collection"
       user_activity:            "User Activity"
       no_activity:              "User has no recent activity"

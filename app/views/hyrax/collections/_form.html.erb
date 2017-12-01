@@ -36,6 +36,7 @@
     <% else %>
       <%= f.submit 'Update Collection', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "update_submit", name: "update_collection" %>
     <% end %>
-    <%= link_to t(:'helpers.action.cancel'), main_app.root_path, class: 'btn btn-link' %>
+    <br>
+    <%= link_to t(:'helpers.action.cancel'), main_app.root_path, class: 'btn btn-link cancel-btn' %>
   </div>
 <% end %>
