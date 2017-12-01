@@ -43,16 +43,11 @@ module Umrdr
     config.max_total_file_size = config.max_file_size * 5
     config.max_total_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.max_total_file_size, {})
 
+    config.max_derivative_file_size = 4_000_000_000 # set to -1 for no limit
+    config.max_derivative_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( config.max_derivative_file_size, precision: 3 )
+
     config.max_work_file_size_to_download = 10_000_000_000
     config.min_work_file_size_to_download_warn = 1_000_000_000
-
-    # ingest characterization config
-    config.characterize_excluded_ext_set = { '.csv' => 'text/plain' }.freeze
-
-    # ingest derivative config
-    config.derivative_excluded_ext_set = {}.freeze
-    config.derivative_max_file_size = 4_000_000_000 # set to -1 for no limit
-    config.derivative_max_file_size_str = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert(config.derivative_max_file_size, precision: 3 )
 
     # Deploy to /data instead of /
     config.relative_url_root = '/data' unless Rails.env.test?
