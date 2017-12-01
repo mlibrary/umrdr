@@ -57,9 +57,9 @@ module Umrdr
       @verbose_file_size = false
       @report_error_full_backtrace = false
 
-      @min_derivative_file_size = 0 # can skip over small sizes
-      @max_derivative_file_size = 100_000_000 # something smaller than 4_000_000_000
-      #@max_derivative_file_size = Umrdr::Application.config.max_derivative_file_size
+      @derivative_min_file_size = 0 # can skip over small sizes
+      @derivative_max_file_size = 100_000_000 # something smaller than 4_000_000_000
+      #@derivative_max_file_size = Umrdr::Application.config.derivative_max_file_size
       @skip_derivative_ext = { '.zip' => true, '.gz' => true }
       @tracking_report_to_console = false
       
@@ -109,7 +109,13 @@ module Umrdr
     end
     
     def characterize( file_set )
+      # see characterization_helper.rb - CharacterizationHelper.characterize
       return unless no_original_checksum? file_set
+      file_ext = File.extname file_set.label
+      if Umrdr::Application.config.characterize_excluded_ext_set.has_key? file_ext
+        pacify "<!#{file_ext}>"
+        return
+      end
       unless file_set.characterization_proxy?
         pacify '<!cp>'
         return
@@ -147,6 +153,12 @@ module Umrdr
     end
     
     def create_derivatives( file_set )
+      # see characterization_helper.rb - CharacterizationHelper.create_derivatives
+      file_ext = File.extname file_set.label
+      if Umrdr::Application.config.derivative_excluded_ext_set.has_key? file_ext
+        pacify "<!#{file_ext}>"
+        return
+      end
       return unless no_thumbnail? file_set
       if is_skip_derivative_ext? file_set
         pacify 'x'
@@ -266,7 +278,7 @@ module Umrdr
     end
 
     def original_file_too_large?( fs )
-      if original_size( fs ) > @max_derivative_file_size
+      if original_size( fs ) > @derivative_max_file_size
         true
       else
         false
@@ -274,7 +286,7 @@ module Umrdr
     end
 
     def original_file_too_small?( fs )
-      if original_size( fs ) < @min_derivative_file_size
+      if original_size( fs ) < @derivative_min_file_size
         true
       else
         false
