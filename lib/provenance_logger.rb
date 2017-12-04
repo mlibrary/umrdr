@@ -1,7 +1,9 @@
 # lib/custom_logger.rb
+include EmailHelper
+
 class ProvenanceLogger < Logger
   def format_message(severity, timestamp, progname, msg)
-    "#{timestamp.to_formatted_s(:db)} #{severity} User: #{Rails.configuration.user_email} #{msg}\n"
+    "#{timestamp.to_formatted_s(:db)} #{severity} User: #{EmailHelper.user_email} #{msg}\n"
   end
 end
 

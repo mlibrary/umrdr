@@ -1,4 +1,5 @@
 require 'edtf'
+include EmailHelper
 
 class Hyrax::GenericWorksController < ApplicationController
   # Adds Sufia behaviors to the controller.
@@ -58,7 +59,7 @@ class Hyrax::GenericWorksController < ApplicationController
     msg        = title + " (" + location + ") by " + creator +
         ", with " + visibility +
         " access was deposited by " + depositor
-    email      = WorkMailer.deposit_work(Rails.configuration.notification_email, msg)
+    email      = WorkMailer.deposit_work( EmailHelper.notification_email, msg)
     email.deliver_now
   end
 
@@ -73,7 +74,7 @@ class Hyrax::GenericWorksController < ApplicationController
         ", previously deposited by " + depositor +
         ", was updated to " + visibility + " access"
     PROV_LOGGER.info (msg)
-    email      = WorkMailer.publish_work(Rails.configuration.notification_email, msg)
+    email      = WorkMailer.publish_work( EmailHelper.notification_email, msg)
     email.deliver_now
   end
 
@@ -216,7 +217,8 @@ class Hyrax::GenericWorksController < ApplicationController
       else
         msg = "Files are being copied to globus. Please check back later."
       end
-      ::GlobusCopyJob.perform_later( concern_id ) #, generate_error: false )
+      user_email = EmailHelper.user_email_from( current_user )
+      ::GlobusCopyJob.perform_later( concern_id, user_email: user_email ) #, generate_error: false )
     end
     Rails.logger.debug msg
     flash.now[:notice] = msg
