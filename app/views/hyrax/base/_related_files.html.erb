@@ -24,7 +24,7 @@
     <%= form_tag(main_app.download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.max_work_file_size_to_download < @presenter.total_file_size %>
-        <p>Total work file size of <%= @presenter.total_file_size_human_readable %> is too large to download directly.</p>
+        <p>Total work file size of <%= @presenter.total_file_size_human_readable %> is too large to download directly, please contact <a href="mailto:deepblue@umich.edu">deepblue@umich.edu</a> .</p>
       <% else %>
         <%= submit_tag(t('simple_form.actions.generic_work.download'), class: 'btn btn-primary') %>
         <% if Umrdr::Application.config.min_work_file_size_to_download_warn < @presenter.total_file_size %>
