@@ -1,5 +1,5 @@
 
-<% if presenter.file_set_presenters.present? %>
+<% if @presenter.file_set_presenters.present? %>
 <div class="panel panel-default related_files">
   <div class="panel-heading">
     <h2>Files</h2>
@@ -16,11 +16,11 @@
       </tr>
     </thead>
     <tbody>
-    <%= render partial: 'member', collection: presenter.member_presenters %>
+    <%= render partial: 'member', collection: @presenter.member_presenters %>
     </tbody>
   </table>
 </div>
-  <% if Hyrax.config.download_files %><!-- && presenter.file_set_presenters.length > 1 -->
+  <% if Hyrax.config.download_files %><!-- && @presenter.file_set_presenters.length > 1 -->
     <%= form_tag(main_app.download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.max_work_file_size_to_download < @presenter.total_file_size %>
@@ -46,7 +46,7 @@
     <% end %>
     <p></p>
   <% end %>
-<% elsif can? :edit, presenter.id %>
+<% elsif can? :edit, @presenter.id %>
 
 <% if @presenter.tombstone.blank? %>
   <div class="panel panel-default related_files">
@@ -54,7 +54,7 @@
       <h2>Files</h2>
     </div>
     <div class="alert alert-block alert-warning">
-      <p class="center">This <%= presenter.human_readable_type %> has no files associated with it. You can add one using the "Attach Files" buttons below.</p>
+      <p class="center">This <%= @presenter.human_readable_type %> has no files associated with it. You can add one using the "Attach Files" buttons below.</p>
     </div>
   </div>
 <% end %>
