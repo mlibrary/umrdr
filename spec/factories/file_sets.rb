@@ -7,6 +7,14 @@ FactoryGirl.define do
       fs.apply_depositor_metadata evaluator.user.user_key
     end
 
+    # after(:create) do |file, evaluator|
+    #   if evaluator.content
+    #     Hydra::Works::UploadFileToFileSet.call(file, evaluator.content)
+    #   end
+    # end
+
+    visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+
     trait :public do
       read_groups ["public"]
     end
@@ -46,6 +54,17 @@ FactoryGirl.define do
       read_groups ["public"]
       title ["Fake Wav File.wav"]
       subject %w(sed do eiusmod tempor incididunt ut labore)
+    end
+  end
+  factory :file_with_work do
+    after(:build) do |file, _evaluator|
+      file.title = ['testfile']
+    end
+    after(:create) do |file, evaluator|
+      if evaluator.content
+        Hydra::Works::UploadFileToFileSet.call(file, evaluator.content)
+      end
+      FactoryGirl.create(:generic_work, user: evaluator.user).members << file
     end
   end
 end
