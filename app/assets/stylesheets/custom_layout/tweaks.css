@@ -260,3 +260,13 @@ footer > .ribbon-content p {
 div.panel-body {
   background-color: #fff;
  }
+
+.pagination {
+
+  a.disabled {
+    color: #000000;
+    pointer-events: none;
+    cursor: default;
+  }
+
+}
