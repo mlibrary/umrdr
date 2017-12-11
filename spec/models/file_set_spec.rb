@@ -401,6 +401,7 @@ describe FileSet do
     let(:file_path) { fixture_path + '/small_file.txt' }
     let(:digest_string) { '88fb4e88c15682c18e8b19b8a7b6eaf8770d33cf' }
     before do
+      allow(Hydra::Works::VirusCheckerService).to receive(:file_has_virus?) { true }
       allow(file).to receive(:warn) # suppress virus warnings
       of = file.build_original_file
       of.content = File.open(file_path)
