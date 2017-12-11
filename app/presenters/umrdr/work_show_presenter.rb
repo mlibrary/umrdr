@@ -12,6 +12,7 @@ module Umrdr
 
     # display date range as from_date To to_date
     def date_coverage
+      return @solr_document.date_coverage.sub("/open", "") if @solr_document.date_coverage&.match("/open")
       @solr_document.date_coverage.sub("/", " to ") if @solr_document.date_coverage
     end
 
