@@ -8,12 +8,13 @@
 
   &:hover {
     text-decoration: none;
-    border-bottom-color: #FFF;
+    border-bottom-color: #126DC1;
   }
 
   &:focus {
     text-decoration: none;
-    background-color: $fa_main_2;
+    background-color: #e6e6e6;
+    border-bottom-color: #555;
     outline: 0;
   }
 }
@@ -29,10 +30,14 @@
 
   .dashboard-quick-links {
     text-align: center;
-    background-color: $fa_main_3;
-    margin-bottom: 1em;
+    background-color: #fafafa;
     font-size: 0.95em;
+    border-bottom: 2px solid #e5e5e5;
 
+     .bottom-links a, .top-links a {
+        color: #4E4E4E;
+      }
+  
     * {
       display: inline-block;
       text-align: center;
@@ -58,8 +63,16 @@
       @include header_link('account');
     }
     
-    .active {
-    border-bottom: 0.4em solid $fa-white;
+    a.active {
+    border-bottom: 0.4em solid #126DC1;
+    }
+
+    a.active {
+    color: #126DC1;
+    }
+
+    a:hover {
+    border-bottom: 0.4em solid #126DC1
     }
   }
 
@@ -112,7 +125,8 @@
 
   #masthead_controls {
     border: 0;
-    background-color: $fa_main_2;
+    background-color: #E6F3FF;
+    border-bottom: 2px solid #cce6ff;
   }
 
   .navbar-wrapper {
@@ -139,7 +153,7 @@
   #masthead_controls .navbar a:hover,
   #masthead_controls .navbar a:focus {
     background-color: transparent;
-    color: white;
+    color: #4E4E4E;
   }
 
   .navbar-nav li.active a,
@@ -151,6 +165,7 @@
       bottom: -0.8em;
       left: 50%;
       margin-left: -0.8em;
+      color: #126DC1;
     }
   }
 
@@ -170,6 +185,32 @@
       outline: 0;
     }
   }
+}
+
+.header-nav-list li {
+  display: inline;
+  padding: .25em;
+}
+
+.header-nav-list {
+  padding-top: 1em;
+  color: #fff;
+}
+
+ul.header-nav-list {
+  padding-left: 0;
+}
+
+.header-nav-links {
+  color: #fff;
+
+  &:hover {
+  color: #ddd;
+  }
+}
+
+.container-fluid {
+  padding-top: .5em;
 }
 
 @media (max-width: 768px) {
@@ -227,10 +268,6 @@
           top: 0.5em;
         }
 
-        &:hover {
-          border-bottom-color: #FFF;
-        }
-
         &.active::after {
           border-bottom: 0.4em solid transparent;
           position: absolute;
@@ -247,13 +284,16 @@
 */
 
 #masthead_controls #search-submit-header {
-  background-color: #333;
+  background-color: #337ab7;
   color: #fff;
-  border-top: 1px solid #333;
-  border-bottom: 1px solid #333;
 
   &:hover {
     background-color: #DDD;
     color: #000;
   }
+}
+
+.search-box-container {
+  max-width: 40rem;
+  margin: 0 auto;
 }
