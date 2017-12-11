@@ -1,10 +1,10 @@
 <% unless request.path.index('/admin') %>
 <div id="masthead" class="container-fluid">
   <div class="row ribbon-content">
-    <div class="col-xs-12 col-sm-8 site-brand-wrap">
+    <div class="col-sm-12 col-md-5 site-brand-wrap">
       <%= render partial: '/logo' %>
     </div>
-    <div class="col-xs-12 col-sm-4 login-wrap">
+    <div class="col-sm-12 col-md-7 login-wrap">
         <%= render partial: '/user_util_links' %>
     </div>
   </div>

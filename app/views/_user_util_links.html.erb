@@ -1,3 +1,10 @@
+<div>
+  <nav role="navigation">
+     <ul class="header-nav-list" >
+          <li <%= 'class=active' if current_page?(hyrax.about_path) %>><a href="<%= hyrax.about_path %>" class="header-nav-links">About</a></li>
+          <li <%= 'class=active' if action_name == "help" %>><a href="<%= hyrax.help_path('help') %>" class="header-nav-links">Help</a></li>
+          <li <%= 'class=active' if current_page?(hyrax.contact_path) %>><a href="<%= hyrax.contact_path %>" class="header-nav-links">Contact</a></li>
+          <li>
 <% if user_signed_in? %>
     <div class="btn-group" id="user_utility_links">
       <%= link_to hyrax.profile_path(current_user), class: "btn btn-default", id: "dashboard_link" do %>
@@ -12,3 +19,6 @@
     <%= link_to raw('Login'), main_app.new_user_session_path, class: "btn btn-default btn-group" %>
     </div>
 <% end %>
+        </li>
+    </nav>
+</div>
