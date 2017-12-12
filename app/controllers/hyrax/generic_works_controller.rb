@@ -13,11 +13,11 @@ class Hyrax::GenericWorksController < ApplicationController
   before_action :check_recent_uploads, only: [:show]
   before_action :assign_date_coverage, only: [:create, :update]
   before_action :assign_visibility, only: [:create, :update]
-  after_action  :notify_rdr, only: [:create]
+  after_action :notify_rds, only: [:create]
   after_action  :prov_work_created, only: [:create]
   after_action  :prov_work_updated, only: [:update]
-  after_action  :notify_rdr_on_update_to_public, only: [:update]
-  after_action  :notify_user_on_globus, only: [:globus]
+  after_action :notify_rds_on_update_to_public, only: [:update]
+  #after_action  :notify_user_on_globus, only: [:globus]
   protect_from_forgery with: :null_session, only: [:download]
   protect_from_forgery with: :null_session, only: [:globus]
 
@@ -50,7 +50,7 @@ class Hyrax::GenericWorksController < ApplicationController
 
   ## Send email
 
-  def notify_rdr
+  def notify_rds
     location   = main_app.hyrax_generic_work_url(curation_concern.id)
     depositor  = curation_concern.depositor
     title      = curation_concern.title.join("','")
@@ -63,7 +63,7 @@ class Hyrax::GenericWorksController < ApplicationController
     email.deliver_now
   end
 
-  def notify_rdr_on_update_to_public
+  def notify_rds_on_update_to_public
     return unless @visibility_changed_to_public
     location   = main_app.hyrax_generic_work_url(curation_concern.id)
     depositor  = curation_concern.depositor
@@ -78,21 +78,21 @@ class Hyrax::GenericWorksController < ApplicationController
     email.deliver_now
   end
 
-  def notify_user_on_globus
-    # return if @recent_globus_dir.nil?
-    # location   = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor  = curation_concern.depositor
-    # title      = curation_concern.title.join("','")
-    # creator    = curation_concern.creator.join("','")
-    # work_info = "work " + title + " (" + location + ") by " + creator +
-    #              ", previously deposited by " + depositor + "."
-    #
-    # msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info
-    # PROV_LOGGER.info (msg)
-    # email      = WorkMailer.globus_push_work(Rails.configuration.user_email, msg)
-    # email.deliver_now
-    # # @recent_globus_dir = nil
-  end
+  # def notify_user_on_globus
+  #   # return if @recent_globus_dir.nil?
+  #   # location   = main_app.hyrax_generic_work_url(curation_concern.id)
+  #   # depositor  = curation_concern.depositor
+  #   # title      = curation_concern.title.join("','")
+  #   # creator    = curation_concern.creator.join("','")
+  #   # work_info = "work " + title + " (" + location + ") by " + creator +
+  #   #              ", previously deposited by " + depositor + "."
+  #   #
+  #   # msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info
+  #   # PROV_LOGGER.info (msg)
+  #   # email      = WorkMailer.globus_push_work(Rails.configuration.user_email, msg)
+  #   # email.deliver_now
+  #   # # @recent_globus_dir = nil
+  # end
 
   def prov_work_created
     location      = main_app.hyrax_generic_work_url(curation_concern.id)
@@ -218,7 +218,7 @@ class Hyrax::GenericWorksController < ApplicationController
         msg = "Files are being copied to globus. Please check back later."
       end
       user_email = EmailHelper.user_email_from( current_user )
-      ::GlobusCopyJob.perform_later( concern_id, user_email: user_email ) #, generate_error: false )
+      ::GlobusCopyJob.perform_later( concern_id, user_email: user_email )#, delay_seconds: 30, generate_error: false )
     end
     Rails.logger.debug msg
     flash.now[:notice] = msg
@@ -279,6 +279,7 @@ class Hyrax::GenericWorksController < ApplicationController
   def copy_file_sets_to( target_dir \
                        , log_prefix: "" \
                        , do_copy_predicate: lambda { |target_file_name, target_file| true } \
+                       , quiet: false \
                        , &block \
                        )
     file_sets = curation_concern.file_sets
@@ -286,6 +287,7 @@ class Hyrax::GenericWorksController < ApplicationController
                                                 , file_sets \
                                                 , log_prefix: log_prefix \
                                                 , do_copy_predicate: do_copy_predicate \
+                                                , quiet: quiet \
                                                 , &block \
                                                 )
   end
@@ -294,9 +296,10 @@ class Hyrax::GenericWorksController < ApplicationController
                          , file_sets \
                          , log_prefix: "copy_file_sets" \
                          , do_copy_predicate: lambda { |target_file_name, target_file| true } \
+                         , quiet: false \
                          , &on_copy_block \
                          )
-    Rails.logger.debug "#{log_prefix} Starting copy to #{target_dir}"
+    Rails.logger.debug "#{log_prefix} Starting copy to #{target_dir}" unless quiet
     files_extracted = Hash.new
     total_bytes = 0
     file_sets.each do |file_set|
@@ -316,19 +319,19 @@ class Hyrax::GenericWorksController < ApplicationController
       target_file = target_dir.join target_file_name
       if do_copy_predicate.call( target_file_name, target_file )
         source_uri = file.uri.value
-        Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exists?( source_uri )}"
-        Rails.logger.debug "#{log_prefix} copy #{target_file} << #{source_uri}"
+        #Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exists?( source_uri )}" unless quiet
+        Rails.logger.debug "#{log_prefix} copy #{target_file} << #{source_uri}" unless quiet
         bytes_copied = open(source_uri) { |io| IO.copy_stream(io, target_file) }
         total_bytes += bytes_copied
         copied = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( bytes_copied, precision: 3 )
-        Rails.logger.debug "#{log_prefix} copied #{copied} to #{target_file}"
+        Rails.logger.debug "#{log_prefix} copied #{copied} to #{target_file}" unless quiet
         on_copy_block.call( target_file_name, target_file ) if on_copy_block
       else
-        Rails.logger.debug "#{log_prefix} skipped copy of #{target_file}"
+        Rails.logger.debug "#{log_prefix} skipped copy of #{target_file}" unless quiet
       end
     end
     total_copied = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( total_bytes, precision: 3 )
-    Rails.logger.debug "#{log_prefix} Finished copy to #{target_dir}; total #{total_copied} in #{files_extracted.size} files"
+    Rails.logger.debug "#{log_prefix} Finished copy to #{target_dir}; total #{total_copied} in #{files_extracted.size} files" unless quiet
     total_bytes
   end
 

@@ -21,6 +21,7 @@ module Umrdr
     else
       config.globus_dir = ENV['GLOBUS_DIR'] || '/deepbluedata-globus'
     end
+    #puts "globus_dir=#{config.globus_dir}"
     config.globus_dir = Pathname.new config.globus_dir
     config.globus_download_dir = config.globus_dir.join 'download'
     config.globus_prep_dir = config.globus_dir.join 'prep'
@@ -28,10 +29,15 @@ module Umrdr
       Dir.mkdir config.globus_download_dir unless Dir.exists? config.globus_download_dir
       Dir.mkdir config.globus_prep_dir unless Dir.exists? config.globus_prep_dir
     end
-    config.globus_enabled = false && File.exists?( config.globus_download_dir ) && File.exists?( config.globus_prep_dir )
+    config.globus_enabled = true && File.exists?( config.globus_download_dir ) && File.exists?( config.globus_prep_dir )
+    #puts "globus_enabled=#{config.globus_enabled}"
     config.base_file_name = "DeepBlueData_"
     config.globus_base_url = 'https://www.globus.org/app/transfer?origin_id=99d8c648-a9ff-11e7-aedd-22000a92523b&origin_path=%2Fdownload%2F'
-    config.globus_era_file = Tempfile.new( 'globus_era_', ( config.globus_enabled ? config.globus_prep_dir : "." ) )
+    if config.globus_enabled
+      config.globus_era_file = Tempfile.new( 'globus_era_', config.globus_prep_dir )
+    end
+    config.globus_log_provenance_copy_job_complete = false
+    config.globus_restart_all_copy_jobs_quiet = true
 
     # deposit notification email addresses
     config.notification_email = Settings.notification_email

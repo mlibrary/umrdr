@@ -60,13 +60,13 @@ class GlobusJob < ActiveJob::Base
 
   def globus_error( msg )
     file = globus_error_file
-    Rails.logger.debug "#{@globus_log_prefix} writing error message to #{file}"
+    Rails.logger.debug "#{@globus_log_prefix} writing error message to #{file}" unless @globus_job_quiet
     open( file, 'w' ) { |f| f << msg << "\n" }
     file
   end
 
   def globus_error_file
-    target_file_name_env(@@globus_prep_dir, 'error', target_base_name( @globus_concern_id ) )
+    target_file_name_env( @@globus_prep_dir, 'error', target_base_name( @globus_concern_id ) )
   end
 
   def globus_error_file_exists?( write_error_to_log: false )
@@ -76,7 +76,7 @@ class GlobusJob < ActiveJob::Base
       if write_error_to_log
         msg = nil
         open( error_file, 'r' ) { |f| msg = f.read; msg.chomp! }
-        Rails.logger.debug "#{@globus_log_prefix} error file contains: #{msg}"
+        Rails.logger.debug "#{@globus_log_prefix} error file contains: #{msg}" unless @globus_job_quiet
       end
       error_file_exists = true
     end
@@ -89,40 +89,52 @@ class GlobusJob < ActiveJob::Base
     true
   end
 
-  def globus_job_complete
-    file = globus_job_complete_file
-    timestamp = Time.now.to_s
-    open( file, 'w' ) { |f| f << timestamp << "\n" }
-    globus_error_reset
-    Rails.logger.debug "#{@globus_log_prefix} job complete at #{timestamp}"
-    file
+  def globus_file_lock( file, mode: File::LOCK_EX )
+    success = true
+    if File.exists? file
+      success = file.flock( mode )
+      if success
+        begin
+          yield file
+        ensure
+          file.flock( File::LOCK_UN )
+        end
+      end
+    else
+      yield file
+    end
+    return success
   end
 
-  def globus_job_perform( concern_id: '', log_prefix: 'Globus: ', &globus_block )
-    return unless @@globus_enabled
+  def globus_job_perform( concern_id: '', email: nil, log_prefix: 'Globus: ', quiet: false, &globus_block )
     @globus_concern_id = concern_id
     @globus_log_prefix = log_prefix
     @globus_lock_file = nil
+    @globus_job_quiet = quiet
+    return unless @@globus_enabled
     begin
       if globus_job_complete?
-        Rails.logger.debug "#{@globus_log_prefix} skipping already complete globus job"
+        globus_job_perform_already_complete( email: email )
         return
       end
       @globus_lock_file = globus_lock_file @globus_concern_id
-      Rails.logger.debug "#{@globus_log_prefix} lock file #{@globus_lock_file}"
+      Rails.logger.debug "#{@globus_log_prefix} lock file #{@globus_lock_file}" unless @globus_job_quiet
     rescue Exception => e
       msg = "#{@globus_log_prefix} #{e.class}: #{e.message} at #{e.backtrace[0]}"
       Rails.logger.error msg
       globus_error msg
       return
     end
-    return unless globus_acquire_lock?
+    unless globus_acquire_lock?
+      globus_job_perform_in_progress( email: email )
+      return
+    end
     begin
       globus_error_reset
-      globus_job_complete_reset
+      globus_job_perform_complete_reset
       globus_block.call
       @globus_lock_file = globus_unlock
-      globus_job_complete
+      globus_job_perform_complete
     rescue Exception => e
       msg = "#{@globus_log_prefix} #{e.class}: #{e.message} at #{e.backtrace[0]}"
       Rails.logger.error msg
@@ -132,7 +144,24 @@ class GlobusJob < ActiveJob::Base
     end
   end
 
-  def globus_job_complete_reset
+  def globus_job_perform_already_complete( email: nil )
+    Rails.logger.debug "#{@globus_log_prefix} skipping already complete globus job" unless @globus_job_quiet
+  end
+
+  def globus_job_perform_in_progress( email: nil )
+    Rails.logger.debug "#{@globus_log_prefix} skipping in progress globus job" unless @globus_job_quiet
+  end
+
+  def globus_job_perform_complete
+    file = globus_job_complete_file
+    timestamp = Time.now.to_s
+    open( file, 'w' ) { |f| f << timestamp << "\n" }
+    globus_error_reset
+    Rails.logger.debug "#{@globus_log_prefix} job complete at #{timestamp}" unless @globus_job_quiet
+    return file
+  end
+
+  def globus_job_perform_complete_reset
     file = globus_job_complete_file
     File.delete file if File.exists? file
     true
@@ -141,13 +170,13 @@ class GlobusJob < ActiveJob::Base
   def globus_lock
     lock_token = GlobusJob.token
     lock_file = globus_lock_file @globus_concern_id
-    Rails.logger.debug "#{@globus_log_prefix} writing lock token #{lock_token} to #{lock_file}"
+    Rails.logger.debug "#{@globus_log_prefix} writing lock token #{lock_token} to #{lock_file}" unless @globus_job_quiet
     open( lock_file, 'w' ) { |f| f << lock_token << "\n" }
     File.exists? lock_file
   end
 
   def globus_lock_file( id = '' )
-    target_file_name_env(@@globus_prep_dir, 'lock', target_base_name( id ) )
+    target_file_name_env( @@globus_prep_dir, 'lock', target_base_name( id ) )
   end
 
   def globus_locked?
@@ -158,14 +187,14 @@ class GlobusJob < ActiveJob::Base
     lock_token = nil
     open( lock_file, 'r' ) { |f| lock_token = f.read.chomp! }
     rv = ( current_token == lock_token )
-    Rails.logger.debug "#{@globus_log_prefix} testing token from #{lock_file}: current_token: #{current_token} == lock_token: #{lock_token}: #{rv}"
+    Rails.logger.debug "#{@globus_log_prefix} testing token from #{lock_file}: current_token: #{current_token} == lock_token: #{lock_token}: #{rv}" unless @globus_job_quiet
     rv
   end
 
   def globus_unlock
     return nil if @globus_lock_file.nil?
     return nil unless File.exists? @globus_lock_file
-    Rails.logger.debug "#{@globus_log_prefix} unlock by deleting file #{@globus_lock_file}"
+    Rails.logger.debug "#{@globus_log_prefix} unlock by deleting file #{@globus_lock_file}" unless @globus_job_quiet
     File.delete @globus_lock_file
     nil
   end

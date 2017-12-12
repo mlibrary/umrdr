@@ -174,7 +174,7 @@ describe GlobusJob do
     end
     it "writes out the globus complete file." do
       before = Time.now.round(0) - 1.second
-      expect( job.send( :globus_job_complete ) ).to eq( complete_file_tmp.path )
+      expect( job.send( :globus_job_perform_complete ) ).to eq(complete_file_tmp.path )
       after = Time.now.round(0) + 1.second
       file_contents = nil
       open( complete_file_tmp.path, 'r' ) { |f| file_contents = f.read.chomp! }
@@ -208,6 +208,7 @@ describe GlobusJob do
       before do
         expect( job ).to receive( :globus_job_complete? ).and_return( false )
         expect( job ).to receive( :globus_acquire_lock? ).and_return( false )
+        expect( job ).to receive( :globus_job_perform_in_progress )
         expect( job ).not_to receive( :inside_block )
         expect( Rails.logger ).to receive( :debug ).with( lock_file_msg )
       end
@@ -221,9 +222,9 @@ describe GlobusJob do
         expect( job ).to receive( :globus_acquire_lock? ).and_return( true )
         expect( Rails.logger ).to receive( :debug ).with( lock_file_msg )
         expect( job ).to receive( :globus_error_reset )
-        expect( job ).to receive( :globus_job_complete_reset )
+        expect( job ).to receive( :globus_job_perform_complete_reset )
         expect( job ).to receive( :inside_block )
-        expect( job ).to receive( :globus_job_complete )
+        expect( job ).to receive( :globus_job_perform_complete )
         allow( job ).to receive( :globus_unlock )
       end
       it "calls globus block." do
@@ -237,9 +238,9 @@ describe GlobusJob do
         expect( job ).to receive( :globus_acquire_lock? ).and_return( true )
         expect( Rails.logger ).to receive( :debug ).with( lock_file_msg )
         expect( job ).to receive( :globus_error_reset )
-        expect( job ).to receive( :globus_job_complete_reset )
+        expect( job ).to receive( :globus_job_perform_complete_reset )
         expect( job ).to receive( :inside_block ).and_raise( StandardError, "generated error" )
-        expect( job ).not_to receive( :globus_job_complete )
+        expect( job ).not_to receive( :globus_job_perform_complete )
         allow( Rails.logger ).to receive( :error )
         expect( job ).to receive( :globus_error ).with(  /^Globus:  StandardError: generated error at/ )
         expect( job ).to receive( :globus_unlock )
@@ -262,7 +263,7 @@ describe GlobusJob do
         expect( File ).to receive( :delete ).with( complete_file )
       end
       it "return true when file exists." do
-        expect( job.send( :globus_job_complete_reset ) ).to eq( true )
+        expect( job.send( :globus_job_perform_complete_reset ) ).to eq(true )
       end
     end
     context "when complete file doesn't exist." do
@@ -273,7 +274,7 @@ describe GlobusJob do
         expect( File ).not_to receive( :delete )
       end
       it "return true when file doesn't exist." do
-        expect( job.send( :globus_job_complete_reset ) ).to eq( true )
+        expect( job.send( :globus_job_perform_complete_reset ) ).to eq(true )
       end
     end
   end
