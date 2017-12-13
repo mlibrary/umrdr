@@ -9,6 +9,9 @@ class WorkMailer < ApplicationMailer
     mail( to: EmailHelper.notification_email, from: from, subject: 'DBD: New Deposit', body: body )
   end
 
+  def globus_job_complete( to, body )
+    mail( to: to, from: to, subject: 'DBD: Globus Work Files Available', body: body )
+  end
   
   def publish_work(from, body)
     mail( to: EmailHelper.notification_email, from: from, subject: 'DBD: Work Published', body: body )

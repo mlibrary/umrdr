@@ -14,6 +14,7 @@ describe GlobusCopyJob do
   let( :error_file ) { globus_prep_dir.join ".test.error.#{target_name}" }
   let( :job_ready_file ) { globus_prep_dir.join ".test.ready.#{target_name}" }
   let( :lock_file ) { globus_prep_dir.join ".test.lock.#{target_name}" }
+  let( :email_file ) { globus_prep_dir.join ".test.copy_job_emails.#{target_name}" }
 
   describe "#perform" do
     let( :user ) { FactoryGirl.build(:user) }
@@ -33,6 +34,8 @@ describe GlobusCopyJob do
     let( :globus_prep_copy_dir ) { globus_prep_dir.join target_name_prep_dir }
     let( :globus_prep_copy_tmp_dir ) { globus_prep_dir.join( target_name_prep_dir + '_tmp' ) }
     let( :current_token ) { GlobusJob.token }
+    let( :user_email ) { "test@email.edu" }
+    let( :email_addresses ) { [ user_email ] }
     let( :mailer ) { "mailer" }
 
     context "when can acquire lock" do
@@ -57,16 +60,15 @@ describe GlobusCopyJob do
         #Dir.delete globus_prep_copy_tmp_dir if Dir.exists? globus_prep_copy_tmp_dir
         allow( Rails.logger ).to receive( :debug )
         allow( Rails.logger ).to receive( :error )
-        expect( PROV_LOGGER ).to receive( :info )
-        ## TODO: fix email user, currently undefined/nil and thus won't send email
-        #mailer.define_singleton_method( :deliver_now ) do nil; end
-        #expect( WorkMailer ).to receive( :globus_push_work ).with( any_args ).and_return( mailer )
-        #expect( mailer ).to receive( :deliver_now )
+        expect( PROV_LOGGER ).to receive( :info ) if Umrdr::Application.config.globus_log_provenance_copy_job_complete
+        mailer.define_singleton_method( :deliver_now ) do nil; end
+        expect( WorkMailer ).to receive( :globus_job_complete ).with( any_args ).and_return( mailer )
+        expect( mailer ).to receive( :deliver_now )
       end
       it "calls globus block." do
         open( file1.path, 'w' ) { |f| f << "File01" << "\n" }
         open( file2.path, 'w' ) { |f| f << "File02" << "\n" }
-        described_class.perform_now( "id321" )
+        described_class.perform_now( "id321", user_email: user_email )
         #expect( Rails.logger ).to have_received( :debug ).with( 'bogus so we can look at the logger output' )
         expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} lock file #{lock_file}" )
         expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} writing lock token #{current_token} to #{lock_file}" )
@@ -83,6 +85,7 @@ describe GlobusCopyJob do
         expect( File.exists? globus_download_ready_file2 ).to eq( true )
       end
       after do
+        File.delete email_file if File.exists? email_file
         File.delete error_file if File.exists? error_file
         File.delete lock_file if File.exists? lock_file
         File.delete ready_file if File.exists? ready_file
