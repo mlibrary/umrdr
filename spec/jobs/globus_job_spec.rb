@@ -32,16 +32,54 @@ describe GlobusJob do
   describe "GlobusJob#files_prepping?" do
     context "directory exists in prep dir" do
       before do
-        allow( Dir ).to receive( :exists? ).with( globus_target_prep_dir ).and_return( true )
+        allow( Dir ).to receive( :exists? ).with( globus_target_download_dir ).and_return( false )
+        allow( File ).to receive( :exists? ).with( error_file ).and_return( false )
+        allow( GlobusJob ).to receive( :locked? ).with( "id321" ).and_return( true )
       end
       it "returns true." do expect( GlobusJob.files_prepping?( "id321" ) ).to eq( true ); end
     end
+  end
+
+  describe "GlobusJob#locked?" do
+    context "lock file does not exist" do
+      before do
+        allow( File ).to receive( :exists? ).with( error_file ).and_return( false )
+        allow( File ).to receive( :exists? ).with( lock_file ).and_return( false )
+      end
+      it "returns true." do expect( GlobusJob.locked?( "id321" ) ).to eq( false ); end
+    end
+    ## see context "#globus_locked?" for more tests
   end
 
   describe "GlobusJob#files_target_file_name" do
     it "returns target file name." do
       url = GlobusJob.files_target_file_name "id321"
       expect( url ).to eq( "DeepBlueData_id321" )
+    end
+  end
+
+  describe "GlobusJob#globus_lock_file" do
+    it "returns the lock file name." do
+      expect( GlobusJob.lock_file("id321" ) ).to eq(lock_file )
+    end
+  end
+
+  describe "GlobusJob#target_base_name" do
+    it "returns a target base name." do
+      expect( GlobusJob.target_base_name( "id321" ) ).to eq( "DeepBlueData_id321" )
+    end
+  end
+
+  describe "GlobusJob#target_file_name" do
+    it "returns a target base name." do
+      expect( GlobusJob.target_file_name( Pathname.new( 'aDir' ), "aFile" ) ).to eq( Pathname.new( 'aDir' ).join( 'aFile' ) )
+    end
+  end
+
+  describe "GlobusJob#target_file_name_env" do
+    let( :file ) { Pathname.new( 'aDir' ).join( '.test.atype.basename' ) }
+    it "returns a target base name." do
+      expect( GlobusJob.target_file_name_env( Pathname.new( 'aDir' ), "atype", "basename" ) ).to eq( file )
     end
   end
 
@@ -118,6 +156,7 @@ describe GlobusJob do
       let( :error_msg ) { "An error message." }
       before do
         allow( job2 ).to receive( :globus_error_file ).and_return( error_file_tmp.path )
+        allow( GlobusJob ).to receive( :error_file ).and_return( error_file_tmp.path )
         open( error_file_tmp.path, 'w' ) { |f| f << error_msg << "\n" }
         expect( Rails.logger ).to receive( :debug ).with( "Globus:  error file contains: #{error_msg}" )
       end
@@ -279,19 +318,12 @@ describe GlobusJob do
     end
   end
 
-  describe "#globus_lock_file" do
-    let( :job ) { j = described_class.new; j.perform( "abc" ); j }
-    it "returns the lock file name." do
-      expect( job.send( :globus_lock_file, "id321" ) ).to eq( lock_file )
-    end
-  end
-
   context "#globus_lock" do
     let( :job ) { j = described_class.new; j.perform( "id321" ); j }
     let( :lock_file_tmp ) { Tempfile.new( ".test.lock.DeepBlueData_id321", globus_dir ) }
     let( :current_token ) { GlobusJob.token }
     before do
-      expect( job ).to receive( :globus_lock_file ).and_return( lock_file_tmp.path )
+      allow( GlobusJob ).to receive( :lock_file ).and_return( lock_file_tmp.path )
       log_msg = "Globus:  writing lock token #{current_token} to #{lock_file_tmp.path}"
       expect( Rails.logger ).to receive( :debug ).with( log_msg )
     end
@@ -310,7 +342,7 @@ describe GlobusJob do
     context "If error file exists" do
       let( :job ) { j = described_class.new; j.perform( "id321" ); j }
       before do
-        expect( job ).to receive( :globus_error_file_exists? ).and_return( true )
+        expect( GlobusJob ).to receive( :error_file_exists? ).and_return( true )
       end
       it "then return false if error file exists." do
         expect( job.send( :globus_locked? ) ).to eq( false )
@@ -319,7 +351,7 @@ describe GlobusJob do
     context "If lock file does not exist"  do
       let( :job ) { j = described_class.new; j.perform( "id321" ); j }
       before do
-        expect( job ).to receive( :globus_error_file_exists? ).and_return( false )
+        expect( GlobusJob ).to receive( :error_file_exists? ).and_return( false )
         expect( File ).to receive( :exists? ).with( lock_file ).and_return( false )
       end
       it "then return false." do
@@ -332,8 +364,8 @@ describe GlobusJob do
       let( :current_token ) { GlobusJob.token }
       let( :lock_token ) { "theToken" }
       before do
-        expect( job ).to receive( :globus_error_file_exists? ).and_return( false )
-        expect( job ).to receive( :globus_lock_file ).and_return( lock_file_tmp.path )
+        expect( GlobusJob ).to receive( :error_file_exists? ).and_return( false )
+        allow( GlobusJob ).to receive( :lock_file ).and_return( lock_file_tmp.path )
         open( lock_file_tmp.path, 'w' ) { |f| f << lock_token << "\n" }
         log_msg = "Globus:  testing token from #{lock_file_tmp.path}: current_token: #{current_token} == lock_token: #{lock_token}: false"
         expect( Rails.logger ).to receive( :debug ).with( log_msg )
@@ -351,8 +383,8 @@ describe GlobusJob do
       let( :current_token ) { GlobusJob.token }
       let( :lock_token ) { GlobusJob.token }
       before do
-        expect( job ).to receive( :globus_error_file_exists? ).and_return( false )
-        expect( job ).to receive( :globus_lock_file ).and_return( lock_file_tmp.path )
+        expect( GlobusJob ).to receive( :error_file_exists? ).and_return( false )
+        allow( GlobusJob ).to receive( :lock_file ).and_return(lock_file_tmp.path )
         open( lock_file_tmp.path, 'w' ) { |f| f << lock_token << "\n" }
         log_msg = "Globus:  testing token from #{lock_file_tmp.path}: current_token: #{current_token} == lock_token: #{lock_token}: true"
         expect( Rails.logger ).to receive( :debug ).with( log_msg )
@@ -401,13 +433,6 @@ describe GlobusJob do
     end
   end
 
-  describe "#target_base_name" do
-    let( :job ) { described_class.new }
-    it "returns a target base name." do
-      expect( job.send( :target_base_name, "id321" ) ).to eq( "DeepBlueData_id321" )
-    end
-  end
-
   context "#target_dir_name" do
     let( :job ) { described_class.new }
     let( :dir ) { Pathname.new( 'aDir' ).join( 'aSubdir' ) }
@@ -439,21 +464,6 @@ describe GlobusJob do
     let( :job ) { described_class.new }
     it "returns target dowload dir name." do
       expect( job.send( :target_download_dir, "id321" ) ).to eq( globus_target_download_dir )
-    end
-  end
-
-  describe "#target_file_name" do
-    let( :job ) { described_class.new }
-    it "returns a target base name." do
-      expect( job.send( :target_file_name, Pathname.new( 'aDir' ), "aFile" ) ).to eq( Pathname.new( 'aDir' ).join( 'aFile' ) )
-    end
-  end
-
-  describe "#target_file_name_env" do
-    let( :job ) { described_class.new }
-    let( :file ) { Pathname.new( 'aDir' ).join( '.test.atype.basename' ) }
-    it "returns a target base name." do
-      expect( job.send( :target_file_name_env, Pathname.new( 'aDir' ), "atype", "basename" ) ).to eq( file )
     end
   end
 

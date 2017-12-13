@@ -32,17 +32,27 @@
         <% end %>
       <% end %>
     <% end %>
-
-    <%= form_tag(main_app.globus_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
+    <%= form_tag(main_app.globus_download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
       <p></p>
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.globus_enabled %>
         <% if @presenter.globus_files_available? %>
           <p>Files available on Globus: <a title="link to external globus files" href="<%=@presenter.globus_external_url%>" target="_blank">click here</a></p>
-        <% else %>
-          <%= submit_tag(t('simple_form.actions.generic_work.globus'), class: 'btn btn-primary') %>
+        <% elsif !@presenter.globus_files_prepping? %>
+          <%= submit_tag(t('simple_form.actions.generic_work.globus_download'), class: 'btn btn-primary') %>
         <% end %>
       <% end %>
+    <% end %>
+    <%= form_tag(main_app.globus_download_add_email_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
+      <p></p>
+      <%= hidden_field_tag('generic_work[nop]') %>
+      <% if Umrdr::Application.config.globus_enabled %>
+        <% if @presenter.globus_files_prepping? %>
+          Globus is currently downloading files for this work...<br/>
+          <%= submit_tag(t('simple_form.actions.generic_work.globus_download_add_email'), class: 'btn btn-primary') %>
+        <% end %>
+      <% end %>
+      <p></p>
     <% end %>
     <p></p>
   <% end %>

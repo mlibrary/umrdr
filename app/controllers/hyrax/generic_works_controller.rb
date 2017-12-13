@@ -13,15 +13,19 @@ class Hyrax::GenericWorksController < ApplicationController
   before_action :check_recent_uploads, only: [:show]
   before_action :assign_date_coverage, only: [:create, :update]
   before_action :assign_visibility, only: [:create, :update]
-  after_action :notify_rds, only: [:create]
+  after_action  :notify_rds, only: [:create]
   after_action  :prov_work_created, only: [:create]
   after_action  :prov_work_updated, only: [:update]
-  after_action :notify_rds_on_update_to_public, only: [:update]
-  #after_action  :notify_user_on_globus, only: [:globus]
+  after_action  :notify_rds_on_update_to_public, only: [:update]
   protect_from_forgery with: :null_session, only: [:download]
-  protect_from_forgery with: :null_session, only: [:globus]
+  protect_from_forgery with: :null_session, only: [:globus_download]
+  protect_from_forgery with: :null_session, only: [:globus_add_email]
+  protect_from_forgery with: :null_session, only: [:globus_download_add_email]
+  protect_from_forgery with: :null_session, only: [:globus_download_notify_me]
 
   self.curation_concern_type = GenericWork
+
+  attr_accessor :user_email_one, :user_email_two
 
   ## Changes in visibility
 
@@ -51,99 +55,78 @@ class Hyrax::GenericWorksController < ApplicationController
   ## Send email
 
   def notify_rds
-    location   = main_app.hyrax_generic_work_url(curation_concern.id)
-    depositor  = curation_concern.depositor
-    title      = curation_concern.title.join("','")
-    creator    = curation_concern.creator.join("','")
-    visibility = curation_concern.visibility
-    msg        = title + " (" + location + ") by " + creator +
-        ", with " + visibility +
-        " access was deposited by " + depositor
-    email      = WorkMailer.deposit_work( EmailHelper.notification_email, msg)
-    email.deliver_now
+    email_rds( action: "deposited by #{curation_concern.depositor}", log_provenance: false )
+    # location   = main_app.hyrax_generic_work_url(curation_concern.id)
+    # depositor  = curation_concern.depositor
+    # title      = curation_concern.title.join("','")
+    # creator    = curation_concern.creator.join("','")
+    # visibility = curation_concern.visibility
+    # msg        = title + " (" + location + ") by " + creator + ", with " + visibility + " access was deposited by " + depositor
+    # email      = WorkMailer.deposit_work( EmailHelper.notification_email, msg)
+    # email.deliver_now
   end
 
   def notify_rds_on_update_to_public
     return unless @visibility_changed_to_public
-    location   = main_app.hyrax_generic_work_url(curation_concern.id)
-    depositor  = curation_concern.depositor
-    title      = curation_concern.title.join("','")
-    creator    = curation_concern.creator.join("','")
-    visibility = curation_concern.visibility
-    msg        = title + " (" + location + ") by " + creator +
-        ", previously deposited by " + depositor +
-        ", was updated to " + visibility + " access"
-    PROV_LOGGER.info (msg)
-    email      = WorkMailer.publish_work( EmailHelper.notification_email, msg)
-    email.deliver_now
+    action = "previously deposited by #{curation_concern.depositor}, was updated to #{curation_concern.visibility} access"
+    email_rds( action: action, log_provenance: true )
+    # location   = main_app.hyrax_generic_work_url(curation_concern.id)
+    # depositor  = curation_concern.depositor
+    # title      = curation_concern.title.join("','")
+    # creator    = curation_concern.creator.join("','")
+    # visibility = curation_concern.visibility
+    # msg        = title + " (" + location + ") by " + creator + ", previously deposited by " + depositor + ", was updated to " + visibility + " access"
+    # PROV_LOGGER.info (msg)
+    # email      = WorkMailer.publish_work( EmailHelper.notification_email, msg)
+    # email.deliver_now
   end
 
-  # def notify_user_on_globus
-  #   # return if @recent_globus_dir.nil?
-  #   # location   = main_app.hyrax_generic_work_url(curation_concern.id)
-  #   # depositor  = curation_concern.depositor
-  #   # title      = curation_concern.title.join("','")
-  #   # creator    = curation_concern.creator.join("','")
-  #   # work_info = "work " + title + " (" + location + ") by " + creator +
-  #   #              ", previously deposited by " + depositor + "."
-  #   #
-  #   # msg        = "Globus files are available at: #{@recent_globus_dir} for " + work_info
-  #   # PROV_LOGGER.info (msg)
-  #   # email      = WorkMailer.globus_push_work(Rails.configuration.user_email, msg)
-  #   # email.deliver_now
-  #   # # @recent_globus_dir = nil
-  # end
-
   def prov_work_created
-    location      = main_app.hyrax_generic_work_url(curation_concern.id)
-    depositor     = curation_concern.depositor
-    methodology   = curation_concern.methodology
-    visibility = curation_concern.visibility
-    rights = curation_concern.rights
-    title         = curation_concern.title.join("','")
-    creator       = curation_concern.creator.join("','")
-    description   = curation_concern.description.join("','")
-    publisher     = curation_concern.publisher.join("','")
-    subject       = curation_concern.subject.join("','")
-    admin_set_id  = curation_concern.admin_set_id
-
-    msg        = "WORK CREATED:" + " (" + location + ") by " + creator +
-        ", with " + visibility +
-        " access was created with title: " + title +
-        ", rights: " + rights[0] +
-        ", methodology: " + methodology +
-        ", publisher: " + publisher +
-        ", subject: " + subject +
-        ", description: " + description +
-        ", admin set id: " + admin_set_id
-    PROV_LOGGER.info (msg)
+    provenance_log( action: 'created' )
+    # location      = main_app.hyrax_generic_work_url(curation_concern.id)
+    # depositor     = curation_concern.depositor
+    # title         = curation_concern.title.join("','")
+    # creator       = curation_concern.creator.join("','")
+    # description   = curation_concern.description.join("','")
+    # publisher     = curation_concern.publisher.join("','")
+    # subject       = curation_concern.subject.join("','")
+    # msg = "WORK CREATED: (#{location}) by + #{creator} with #{curation_concern.visibility}" +
+    #     " access was created with title: #{title} " +
+    #     ", rights: #{curation_concern.rights[0]}" +
+    #     ", methodology: #{curation_concern.methodology}" +
+    #     ", publisher: #{publisher}" +
+    #     ", subject: #{subject}" +
+    #     ", description: #{description}" +
+    #     ", admin set id: #{curation_concern.admin_set_id}"
+    # PROV_LOGGER.info (msg)
   end
 
   def prov_work_updated
-    location      = main_app.hyrax_generic_work_url(curation_concern.id)
-    depositor     = curation_concern.depositor
-    methodology   = curation_concern.methodology
-    visibility = curation_concern.visibility
-    date_modified = curation_concern.date_modified
-    rights = curation_concern.rights
-    title         = curation_concern.title.join("','")
-    creator       = curation_concern.creator.join("','")
-    description   = curation_concern.description.join("','")
-    publisher     = curation_concern.publisher.join("','")
-    subject       = curation_concern.subject.join("','")
-    admin_set_id  = curation_concern.admin_set_id
-
-    msg        = "WORK UPDATED:" + " (" + location + ") by " + creator +
-        ", with " + visibility +
-        " access was updated with title: " + title +
-        ", on: " + date_modified.to_s +
-        ", rights: " + rights[0] +
-        ", methodology: " + methodology +
-        ", publisher: " + publisher +
-        ", subject: " + subject +
-        ", description: " + description +
-        ", admin set id: " + admin_set_id
-    PROV_LOGGER.info (msg)
+    provenance_log( action: 'updated', modified: "on: #{curation_concern.date_modified}" )
+    # location      = main_app.hyrax_generic_work_url(curation_concern.id)
+    # depositor     = curation_concern.depositor
+    # methodology   = curation_concern.methodology
+    # visibility = curation_concern.visibility
+    # date_modified = curation_concern.date_modified
+    # rights = curation_concern.rights
+    # title         = curation_concern.title.join("','")
+    # creator       = curation_concern.creator.join("','")
+    # description   = curation_concern.description.join("','")
+    # publisher     = curation_concern.publisher.join("','")
+    # subject       = curation_concern.subject.join("','")
+    # admin_set_id  = curation_concern.admin_set_id
+    #
+    # msg        = "WORK UPDATED:" + " (" + location + ") by " + creator +
+    #     ", with " + visibility +
+    #     " access was updated with title: " + title +
+    #     ", on: " + date_modified.to_s +
+    #     ", rights: " + rights[0] +
+    #     ", methodology: " + methodology +
+    #     ", publisher: " + publisher +
+    #     ", subject: " + subject +
+    #     ", description: " + description +
+    #     ", admin set id: " + admin_set_id
+    # PROV_LOGGER.info (msg)
   end
 
   # Begin processes to mint hdl and doi for the work
@@ -175,7 +158,9 @@ class Hyrax::GenericWorksController < ApplicationController
 
   def confirm
     render 'confirm_work' 
-  end  
+  end
+
+  ## download_zip
 
   def download
     require 'zip'
@@ -206,23 +191,76 @@ class Hyrax::GenericWorksController < ApplicationController
     send_file target_zipfile.to_s
   end
 
-  def globus
-    concern_id = curation_concern.id
-    msg = nil
-    if globus_complete?
-      msg = "Globus files are available for download here: #{globus_url}"
-    else
-      if globus_prepping?
-        msg = "Files are being copied to globus and are not yet available. Please try again later."
-      else
-        msg = "Files are being copied to globus. Please check back later."
-      end
+  ## globus operations
+
+  def globus_add_email
+    if user_signed_in?
       user_email = EmailHelper.user_email_from( current_user )
-      ::GlobusCopyJob.perform_later( concern_id, user_email: user_email )#, delay_seconds: 30, generate_error: false )
+      ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email )
+      flash_and_go_back globus_files_prepping_msg( user_email: user_email )
+    elsif params[:user_email_one].present? || params[:user_email_two].present?
+      user_email_one = params[:user_email_one].present? ? params[:user_email_one].strip : ''
+      user_email_two = params[:user_email_two].present? ? params[:user_email_two].strip : ''
+      if user_email_one === user_email_two
+        ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email_one )
+        flash_and_redirect_to_main_cc globus_files_prepping_msg( user_email: user_email_one )
+      else
+        flash.now[:error] = emails_did_not_match_msg( user_email_one, user_email_two )
+        render 'globus_download_add_email_form'
+      end
+    else
+      flash_and_redirect_to_main_cc globus_status_msg
     end
-    Rails.logger.debug msg
-    flash.now[:notice] = msg
-    redirect_to :back
+  end
+
+  def globus_download
+    if globus_complete?
+      flash_and_redirect_to_main_cc globus_files_available_here
+    else
+      user_email = EmailHelper.user_email_from( current_user, user_signed_in: user_signed_in? )
+      msg = nil
+      if globus_prepping?
+        msg = globus_files_prepping_msg( user_email: user_email )
+      else
+        msg = globus_file_prep_started_msg( user_email: user_email )
+      end
+      if user_signed_in?
+        ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email, delay_seconds: 60, generate_error: false )
+        flash_and_redirect_to_main_cc msg
+      else
+        render 'globus_download_notify_me_form'
+      end
+    end
+  end
+
+  def globus_download_add_email
+    if user_signed_in?
+      globus_add_email
+    else
+      render 'globus_download_add_email_form'
+    end
+  end
+
+  def globus_download_notify_me
+    if user_signed_in?
+      user_email = EmailHelper.user_email_from( current_user )
+      ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email )#, delay_seconds: 60, generate_error: false )
+      flash_and_go_back globus_file_prep_started_msg( user_email: user_email )
+    elsif params[:user_email_one].present? || params[:user_email_two].present?
+      user_email_one = params[:user_email_one].present? ? params[:user_email_one].strip : ''
+      user_email_two = params[:user_email_two].present? ? params[:user_email_two].strip : ''
+      if user_email_one === user_email_two
+        ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email_one )#, delay_seconds: 60, generate_error: false )
+        flash_and_redirect_to_main_cc globus_file_prep_started_msg( user_email: user_email_one )
+      else
+        #flash_and_go_back emails_did_not_match_msg( user_email_one, user_email_two )
+        flash.now[:error] = emails_did_not_match_msg( user_email_one, user_email_two )
+        render 'globus_download_notify_me_form'
+      end
+    else
+      ::GlobusCopyJob.perform_later( curation_concern.id, user_email: nil )#, delay_seconds: 60, generate_error: false )
+      flash_and_redirect_to_main_cc globus_file_prep_started_msg
+    end
   end
 
   # Create EDTF::Interval from form parameters
@@ -348,6 +386,87 @@ class Hyrax::GenericWorksController < ApplicationController
   end
 
   protected
+
+  def emails_did_not_match_msg( user_email_one, user_email_two )
+    "Emails did not match" # + ": '#{user_email_one}' != '#{user_email_two}'"
+  end
+
+  def email_rds( action: '', log_provenance: false )
+    location = MsgHelper.work_location( curation_concern )
+    title    = MsgHelper.title( curation_concern )
+    creator  = MsgHelper.creator( curation_concern )
+    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{action}"
+    if log_provenance
+      PROV_LOGGER.info (msg)
+    end
+    email = WorkMailer.deposit_work( EmailHelper.notification_email, msg )
+    email.deliver_now
+  end
+
+  def flash_and_go_back( msg )
+    Rails.logger.debug msg
+    redirect_to :back, notice: msg
+  end
+
+  def flash_error_and_go_back( msg )
+    Rails.logger.debug msg
+    redirect_to :back, error: msg
+  end
+
+  def flash_and_redirect_to_main_cc( msg )
+    Rails.logger.debug msg
+    redirect_to [main_app, curation_concern], notice: msg
+  end
+
+  def globus_file_prep_started_msg( user_email: nil )
+    msg = "Files have started copying to Globus. #{globus_files_when_available( user_email: user_email )}"
+  end
+
+  def globus_files_prepping_msg( user_email: nil )
+    "Files are currently being copied to Globus. #{globus_files_when_available( user_email: user_email )}"
+  end
+
+  def globus_files_when_available( user_email: nil )
+    if user_email.nil?
+      "Please check back later."
+    else
+      "#{user_email} will be sent an email when the files are available for download via Globus."
+    end
+  end
+
+  def globus_files_available_here
+    "Files are available for download using Globus here: #{globus_url}"
+  end
+
+  def globus_status_msg( user_email: nil )
+    msg = nil
+    if globus_complete?
+      msg = globus_files_available_here
+    elsif globus_prepping?
+      msg = globus_files_prepping_msg( user_email: user_email )
+    else
+      msg = globus_file_prep_started_msg( user_email: user_email )
+    end
+    msg
+  end
+
+  def provenance_log( prefix: '', action: '', modified: '' )
+    location    = MsgHelper.work_location( curation_concern )
+    title       = MsgHelper.title( curation_concern )
+    creator     = MsgHelper.creator( curation_concern )
+    description = MsgHelper.description( curation_concern )
+    publisher   = MsgHelper.publisher( curation_concern )
+    subject     = MsgHelper.subject( curation_concern )
+    msg = "WORK #{action.capitalize}: (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{action}" +
+        " title: #{title} " + "#{modified}"
+    ", rights: #{curation_concern.rights[0]}" +
+        ", methodology: #{curation_concern.methodology}" +
+        ", publisher: #{publisher}" +
+        ", subject: #{subject}" +
+        ", description: #{description}" +
+        ", admin set id: #{curation_concern.admin_set_id}"
+    PROV_LOGGER.info (msg)
+  end
 
   def show_presenter
     Umrdr::WorkShowPresenter
