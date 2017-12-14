@@ -1,4 +1,37 @@
-Thank you for depositing!
+<div class="row">
+  <div class="col-sm-12">
+    <div class="position-page">
+      <h2 class="non lower">Thank You for Your Deposit in Deep Blue Data!</h2>
+        <p class="box-padding emphasis-text">Your work is now available to the public!</p>
+
+        <form class="copy-url box-padding align-left">
+          <label for="copy-input" >Share your new work with the following link:</label>
+          <div class="input-group">
+            <input type="text" class="form-control"
+                value="The works url goes here" placeholder="A url path" id="copy-input">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" id="copy-button" onclick="copyClick()">
+                Copy URL
+              </button>
+            </span>
+          </div>
+        </form>
+
+        <p class="box-padding align-left">We’ve sent you an email confirmation regarding your deposit and a data curator will review your submission and contact you with any questions about your materials.</p>
+
+        <div class="top-border">
+        
+        <%= link_to t("hyrax.dashboard.return_dashboard"), hyrax.dashboard_index_path, type: :button, class: "btn btn-primary dashboard-btn " %>
+        
+          <div class="box-padding align-left">
+          <p class="bold"> Make your work citable!</p>
+          <p>Visit your <a href="<%= t("hyrax.dashboard.view_works") %>"> work page</a> to make your new work citable with a DOI. If you have any questions please <a href="<%= hyrax.contact_path %>">Contact Us</a>.</p>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
 <% id = curation_concern.id %>
 <% title = curation_concern.title.first %>
 

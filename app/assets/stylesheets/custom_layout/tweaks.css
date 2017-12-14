@@ -115,7 +115,7 @@ footer {
   background-color: #fff;
 }
 
-/*** Deposit Data Page ***/
+/*** Deposit Work Page ***/
 
 div.not-required {
   background-color: #FAFAFA;
@@ -215,6 +215,20 @@ span.icon.arrow:before {
   font-size: 6em;
  }
 
+/*** Confirm Page ***/
+
+form.copy-url > .input-group {
+  padding: 0;
+}
+
+.box-padding {
+  padding: .5em 3.5em;
+}
+
+.dashboard-btn {
+  margin: .5em 0;
+}
+
 /**** Footer ****/
 
 footer > .ribbon-content p {
@@ -234,6 +248,17 @@ footer > .ribbon-content p {
 
 .align-right {
   text-align: right;
+}
+
+.emphasis-text {
+  padding-top: 1em;
+  font-size: 1.5em;
+  color: #126DC1;
+  font-weight: 500;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 /* Fixes for insanely-positioned facet values on "My Works" and "My Collections" page. */
