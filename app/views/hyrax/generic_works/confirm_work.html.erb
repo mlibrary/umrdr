@@ -8,7 +8,7 @@
           <label for="copy-input" >Share your new work with the following link:</label>
           <div class="input-group">
             <input type="text" class="form-control"
-                value="The works url goes here" placeholder="A url path" id="copy-input">
+                value="<%= polymorphic_url([main_app, curation_concern]) %>" placeholder="The work URL path" id="copy-input">
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button" id="copy-button" onclick="copyClick()">
                 Copy URL
@@ -25,15 +25,9 @@
         
           <div class="box-padding align-left">
           <p class="bold"> Make your work citable!</p>
-          <p>Visit your <a href="<%= t("hyrax.dashboard.view_works") %>"> work page</a> to make your new work citable with a DOI. If you have any questions please <a href="<%= hyrax.contact_path %>">Contact Us</a>.</p>
+          <p>Visit your <a href="<%= hyrax.dashboard_works_path %> "> works page</a> to make your new work citable with a DOI. If you have any questions please <a href="<%= hyrax.contact_path %>">Contact Us</a>.</p>
           </div>
         </div>
     </div>
   </div>
 </div>
-
-<% id = curation_concern.id %>
-<% title = curation_concern.title.first %>
-
-
-<%= title %>

@@ -154,6 +154,7 @@ en:
     actions:
       generic_work:
         mint_doi: "Mint DOI"
+        confirm: "Confirm Your Deposit"
         download: "Download All Files"
         globus: "Download All for Globus"
         globus_download: "Download All for Globus"

@@ -148,13 +148,18 @@ div.radio p {
   font-weight: bold;
 }
 
-/**** Buttons for Works/Collections Forms ****/
+/**** Buttons for Works/Collections/Upload Forms ****/
 .data-buttons {
   text-align: center;
 }
 
 .cancel-btn::after {
-content: ' X ';
+  content: ' X ';
+}
+
+.confirm-group {
+  text-align: center;
+  padding: 1em 0;
 }
 
 /**** Search Results *****/

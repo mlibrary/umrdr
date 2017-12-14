@@ -1,7 +1,7 @@
 @import 'falafel';
 
 @mixin header_link($icon) {
-  padding: 1em 0 .6em;
+  padding: .6em 0 .2em;
   color: #FFF;
   min-width: 8em;
   border-bottom: 0.4rem solid transparent;
@@ -13,8 +13,8 @@
 
   &:focus {
     text-decoration: none;
-    background-color: #e6e6e6;
-    border-bottom-color: #555;
+    background-color: #ddd;
+    border-bottom-color: #126DC1;
     outline: 0;
   }
 }
