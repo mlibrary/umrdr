@@ -38,14 +38,13 @@
 
 <% if @presenter.tombstone.blank? && @presenter.current_ability.admin? %>
 <p></p>
-<div class="form-group" >
+<div class="well">
 <p>Reason for Tombstone:</p>
 <select id="select-tombstone">
     <option value="Removed from view by legal order." selected>Removed from view by legal order.</option>
     <option value="Removed from view by the University.">Removed from view by the University.</option>
     <option value="Removed from view at request of the author.">Removed from view at request of the author.</option>
 </select>
-
 
 <%= link_to "Tombstone This #{@presenter.human_readable_type}", main_app.tombstone_hyrax_generic_work_path + "&tombstone=Removed from view by legal order.", class: 'tomb btn btn-danger pull-right', data: { confirm: "Tombstone this #{@presenter.human_readable_type}?" }, method: :delete %>
 
@@ -54,8 +53,10 @@
 <% end %>
 </div>
 
-<!-- %= form_tag(main_app.confirm_hyrax_generic_work_path(@presenter.id), method: 'post') do % -->
-    <!-- %= hidden_field_tag('generic_work[nop]') % -->
-    <!-- %= submit_tag(t('simple_form.actions.generic_work.confirm'), class: 'btn btn-primary') % -->
-  <!-- % end % -->
+<div class="confirm-group">
+<%= form_tag(main_app.confirm_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
+    <%= hidden_field_tag('generic_work[nop]') %>
+    <%= submit_tag(t('simple_form.actions.generic_work.confirm'), class: 'btn btn-primary confirm-btn') %>
+  <% end %>
+</div>
 
