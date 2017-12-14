@@ -1,3 +1,4 @@
+
 module Hyrax
   # There is an interplay between an AdminSet and a PermissionTemplate. Given
   # that AdminSet is an ActiveFedora::Base and PermissionTemplate is ActiveRecord::Base
@@ -44,6 +45,8 @@ module Hyrax
           Hyrax::AdminSetCreateService.create_default_admin_set(admin_set_id: DEFAULT_ID, title: DEFAULT_TITLE)
         end
         DEFAULT_ID
+      rescue ActiveRecord::RecordNotUnique => e
+        Rails.logger.error "AdminSetBehavior.find_or_create_default_admin_set_id #{e.class}: #{e.message} #{DEFAULT_ID}"
       end
 
       validates_with HasOneTitleValidator

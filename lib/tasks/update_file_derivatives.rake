@@ -96,8 +96,8 @@ module Umrdr
       end
       #return unless @copy_the_file_to_tmpdir
       begin
-        characterize( af )
-        create_derivatives( af )
+        characterize_fs( af )
+        create_derivatives_fs( af )
       rescue OpenURI::HTTPError => e
         # TODO: record the problem
         pacify '<!HTTPError!>'
@@ -108,7 +108,7 @@ module Umrdr
       end
     end
     
-    def characterize( file_set )
+    def characterize_fs( file_set )
       # see characterization_helper.rb - CharacterizationHelper.characterize
       return unless no_original_checksum? file_set
       file_ext = File.extname file_set.label
@@ -134,7 +134,7 @@ module Umrdr
         # TODO: record the problem
         pacify '<!HTTPError!>'
       rescue Exception => e
-        puts "characterize(#{file_set.id}) #{e.class}: #{e.message}"
+        puts "characterize_fs(#{file_set.id}) #{e.class}: #{e.message}"
       end
     end
     
@@ -152,7 +152,7 @@ module Umrdr
       target_file
     end
     
-    def create_derivatives( file_set )
+    def create_derivatives_fs( file_set )
       # see characterization_helper.rb - CharacterizationHelper.create_derivatives
       file_ext = File.extname file_set.label
       if Umrdr::Application.config.derivative_excluded_ext_set.has_key? file_ext
@@ -181,7 +181,7 @@ module Umrdr
       file_set.update_index
       file_set.parent.update_index if parent_needs_reindex?(file_set)
     rescue Exception => e
-      puts "create_derivatives(#{file_set}) #{e.class}: #{e.message}"
+      puts "create_derivatives_fs(#{file_set}) #{e.class}: #{e.message}"
     end
 
     def create_derivatives_desired_mime_type?( file_set )
