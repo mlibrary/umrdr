@@ -10,7 +10,8 @@ module EmailHelper
     #Umrdr::Application.config.user_email
   end
 
-  def self.user_email_from( current_user )
+  def self.user_email_from( current_user, user_signed_in: true )
+    return nil unless user_signed_in
     user_email = nil
     unless current_user.nil?
       #Rails.logger.debug "current_user=#{current_user}"

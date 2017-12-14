@@ -114,7 +114,7 @@ describe 'hyrax/base/_related_files.html.erb', type: :view do
       expect(rendered).to have_tag( 'th', text: 'Access' )
       expect(rendered).to have_tag( 'th', text: 'Actions' )
 
-      expect(rendered).to have_tag( 'form', count: 2 )
+      expect(rendered).to have_tag( 'form', count: 3 )
       # TODO: forms
     end
   end

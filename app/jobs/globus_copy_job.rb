@@ -24,7 +24,7 @@ class GlobusCopyJob < GlobusJob
                                                   , log_prefix: @globus_log_prefix \
                                                   , do_copy_predicate: do_copy_predicate \
                                                   ) do |target_file_name, target_file|
-        move_destination = target_file_name( @target_prep_dir, target_file_name )
+        move_destination = GlobusJob.target_file_name( @target_prep_dir, target_file_name )
         Rails.logger.debug "#{@globus_log_prefix} mv #{target_file} to #{move_destination}" unless @globus_job_quiet
         FileUtils.move( target_file, move_destination )
         if generate_error
@@ -104,7 +104,7 @@ class GlobusCopyJob < GlobusJob
   end
 
   def globus_copy_job_email_file
-    rv = target_file_name_env( @@globus_prep_dir, 'copy_job_emails', target_base_name( @globus_concern_id ) )
+    rv = GlobusJob.target_file_name_env( @@globus_prep_dir, 'copy_job_emails', GlobusJob.target_base_name( @globus_concern_id ) )
     return rv
   end
 
@@ -143,7 +143,7 @@ class GlobusCopyJob < GlobusJob
   end
 
   def globus_do_copy?( target_file_name )
-    prep_file_name = target_file_name( @target_prep_dir, target_file_name )
+    prep_file_name = GlobusJob.target_file_name( @target_prep_dir, target_file_name )
     do_copy = true
     if File.exists? prep_file_name
       Rails.logger.debug "#{@globus_log_prefix} skipping copy because #{prep_file_name} already exists" unless @globus_job_quiet
@@ -187,7 +187,7 @@ class GlobusCopyJob < GlobusJob
   # end
 
   def globus_ready_file
-    target_file_name_env( @@globus_prep_dir, 'ready', target_base_name( @globus_concern_id ) )
+    GlobusJob.target_file_name_env( @@globus_prep_dir, 'ready', GlobusJob.target_base_name( @globus_concern_id ) )
   end
 
 end

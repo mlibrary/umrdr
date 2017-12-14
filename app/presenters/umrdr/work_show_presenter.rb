@@ -34,6 +34,11 @@ module Umrdr
       ::GlobusJob.files_available? concern_id
     end
 
+    def globus_files_prepping?
+      concern_id = @solr_document.id
+      ::GlobusJob.files_prepping? concern_id
+    end
+
     def grantnumber
       @solr_document.grantnumber
     end

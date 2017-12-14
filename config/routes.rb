@@ -27,7 +27,13 @@ Rails.application.routes.draw do
       member do
         post 'identifiers'
         post 'download'
-        post 'globus'
+        post 'globus_download'
+        post 'globus_add_email'
+        get 'globus_add_email'
+        post 'globus_download_add_email'
+        get 'globus_download_add_email'
+        post 'globus_download_notify_me'
+        get 'globus_download_notify_me'
         post 'confirm'
         delete 'tombstone'
       end
@@ -37,8 +43,6 @@ Rails.application.routes.draw do
   resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
     concerns :exportable
   end
-
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.

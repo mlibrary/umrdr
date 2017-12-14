@@ -10,7 +10,10 @@ class Ability
   def umrdr_abilities
     alias_action :identifiers, to: :update
     alias_action :download, to: :read
-    alias_action :globus, to: :read
+    alias_action :globus_download, to: :read
+    alias_action :globus_add_email, to: :read
+    alias_action :globus_download_add_email, to: :read
+    alias_action :globus_download_notify_me, to: :read
     alias_action :confirm, to: :read
     alias_action :tombstone, to: :delete
   end

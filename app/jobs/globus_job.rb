@@ -17,18 +17,64 @@ class GlobusJob < ActiveJob::Base
     Dir.exists? dir
   end
 
+  def self.error_file( id )
+    target_file_name_env( @@globus_prep_dir, 'error', target_base_name( id ) )
+  end
+
+  def self.error_file_exists?( id, write_error_to_log: false, log_prefix: '', quiet: true )
+    error_file = error_file( id )
+    error_file_exists = false
+    if File.exists? error_file
+      if write_error_to_log
+        msg = nil
+        open( error_file, 'r' ) { |f| msg = f.read; msg.chomp! }
+        Rails.logger.debug "#{log_prefix} error file contains: #{msg}" unless quiet
+      end
+      error_file_exists = true
+    end
+    error_file_exists
+  end
+
   def self.external_url( id )
     "#{@@globus_base_url}#{files_target_file_name(id)}%2F"
   end
 
-  def self.files_target_file_name( id )
+  def self.files_target_file_name( id = '' )
     "#{@@globus_base_file_name}#{id}"
   end
 
   def self.files_prepping?( id )
-    dir = @@globus_prep_dir
-    dir = dir.join( Rails.env + '_' + files_target_file_name( id ) )
-    Dir.exists? dir
+    rv = !copy_complete?( id ) && locked?( id )
+    rv
+  end
+
+  def self.lock_file( id = '' )
+    target_file_name_env( @@globus_prep_dir, 'lock', target_base_name( id ) )
+  end
+
+  def self.locked?( concern_id, write_error_to_log: false, log_prefix: '', quiet: true )
+    return false if error_file_exists?( concern_id, write_error_to_log: true, log_prefix: log_prefix, quiet: quiet )
+    lock_file = lock_file concern_id
+    return false unless File.exists? lock_file
+    current_token = GlobusJob.token
+    lock_token = nil
+    open( lock_file, 'r' ) { |f| lock_token = f.read.chomp! }
+    rv = ( current_token == lock_token )
+    Rails.logger.debug "#{log_prefix} testing token from #{lock_file}: current_token: #{current_token} == lock_token: #{lock_token}: #{rv}" unless @quiet
+    rv
+  end
+
+  def self.target_base_name( id = '', prefix: '', postfix: '' )
+    "#{prefix}#{@@globus_base_file_name}#{id}#{postfix}"
+  end
+
+  def self.target_file_name_env( dir, file_type, base_name )
+    target_file_name( dir, ".#{Rails.env}.#{file_type}.#{base_name}" )
+  end
+
+  def self.target_file_name( dir, filename, ext = '' )
+    return Pathname.new( filename + ext ) if dir.nil?
+    dir.join( filename + ext )
   end
 
   def self.token
@@ -44,7 +90,7 @@ class GlobusJob < ActiveJob::Base
   def perform( concern_id, log_prefix: "Globus: " )
     @globus_concern_id = concern_id
     @globus_log_prefix = log_prefix
-    @globus_lock_file = globus_lock_file concern_id
+    @globus_lock_file = GlobusJob.lock_file concern_id
   end
 
   protected
@@ -66,21 +112,25 @@ class GlobusJob < ActiveJob::Base
   end
 
   def globus_error_file
-    target_file_name_env( @@globus_prep_dir, 'error', target_base_name( @globus_concern_id ) )
+    GlobusJob.target_file_name_env( @@globus_prep_dir, 'error', GlobusJob.target_base_name( @globus_concern_id ) )
   end
 
   def globus_error_file_exists?( write_error_to_log: false )
-    error_file = globus_error_file
-    error_file_exists = false
-    if File.exists? error_file
-      if write_error_to_log
-        msg = nil
-        open( error_file, 'r' ) { |f| msg = f.read; msg.chomp! }
-        Rails.logger.debug "#{@globus_log_prefix} error file contains: #{msg}" unless @globus_job_quiet
-      end
-      error_file_exists = true
-    end
-    error_file_exists
+    GlobusJob.error_file_exists?( @globus_concern_id,
+                              write_error_to_log: write_error_to_log,
+                              log_prefix: @globus_log_prefix,
+                              quiet: @globus_job_quiet )
+    # error_file = globus_error_file
+    # error_file_exists = false
+    # if File.exists? error_file
+    #   if write_error_to_log
+    #     msg = nil
+    #     open( error_file, 'r' ) { |f| msg = f.read; msg.chomp! }
+    #     Rails.logger.debug "#{@globus_log_prefix} error file contains: #{msg}" unless @globus_job_quiet
+    #   end
+    #   error_file_exists = true
+    # end
+    # error_file_exists
   end
 
   def globus_error_reset
@@ -117,7 +167,7 @@ class GlobusJob < ActiveJob::Base
         globus_job_perform_already_complete( email: email )
         return
       end
-      @globus_lock_file = globus_lock_file @globus_concern_id
+      @globus_lock_file = GlobusJob.lock_file @globus_concern_id
       Rails.logger.debug "#{@globus_log_prefix} lock file #{@globus_lock_file}" unless @globus_job_quiet
     rescue Exception => e
       msg = "#{@globus_log_prefix} #{e.class}: #{e.message} at #{e.backtrace[0]}"
@@ -145,11 +195,19 @@ class GlobusJob < ActiveJob::Base
   end
 
   def globus_job_perform_already_complete( email: nil )
-    Rails.logger.debug "#{@globus_log_prefix} skipping already complete globus job" unless @globus_job_quiet
+    if email.nil?
+      Rails.logger.debug "#{@globus_log_prefix} skipping already complete globus job" unless @globus_job_quiet
+    else
+      Rails.logger.debug "#{@globus_log_prefix} skipping already complete globus job, email=#{email}" unless @globus_job_quiet
+    end
   end
 
   def globus_job_perform_in_progress( email: nil )
-    Rails.logger.debug "#{@globus_log_prefix} skipping in progress globus job" unless @globus_job_quiet
+    if email.nil?
+      Rails.logger.debug "#{@globus_log_prefix} skipping in progress globus job" unless @globus_job_quiet
+    else
+      Rails.logger.debug "#{@globus_log_prefix} skipping in progress globus job, email=#{email}" unless @globus_job_quiet
+    end
   end
 
   def globus_job_perform_complete
@@ -169,26 +227,30 @@ class GlobusJob < ActiveJob::Base
 
   def globus_lock
     lock_token = GlobusJob.token
-    lock_file = globus_lock_file @globus_concern_id
+    lock_file = GlobusJob.lock_file @globus_concern_id
     Rails.logger.debug "#{@globus_log_prefix} writing lock token #{lock_token} to #{lock_file}" unless @globus_job_quiet
     open( lock_file, 'w' ) { |f| f << lock_token << "\n" }
     File.exists? lock_file
   end
 
   def globus_lock_file( id = '' )
-    target_file_name_env( @@globus_prep_dir, 'lock', target_base_name( id ) )
+    GlobusJob.lock_file id
   end
 
   def globus_locked?
-    return false if globus_error_file_exists?( write_error_to_log: true )
-    lock_file = globus_lock_file @globus_concern_id
-    return false unless File.exists? lock_file
-    current_token = GlobusJob.token
-    lock_token = nil
-    open( lock_file, 'r' ) { |f| lock_token = f.read.chomp! }
-    rv = ( current_token == lock_token )
-    Rails.logger.debug "#{@globus_log_prefix} testing token from #{lock_file}: current_token: #{current_token} == lock_token: #{lock_token}: #{rv}" unless @globus_job_quiet
-    rv
+    GlobusJob.locked?( @globus_concern_id,
+                       write_error_to_log: true,
+                       log_prefix: @globus_log_prefix,
+                       quiet: @globus_job_quiet )
+    # return false if globus_error_file_exists?( write_error_to_log: true )
+    # lock_file = GlobusJob.lock_file @globus_concern_id
+    # return false unless File.exists? lock_file
+    # current_token = GlobusJob.token
+    # lock_token = nil
+    # open( lock_file, 'r' ) { |f| lock_token = f.read.chomp! }
+    # rv = ( current_token == lock_token )
+    # Rails.logger.debug "#{@globus_log_prefix} testing token from #{lock_file}: current_token: #{current_token} == lock_token: #{lock_token}: #{rv}" unless @globus_job_quiet
+    # rv
   end
 
   def globus_unlock
@@ -199,12 +261,8 @@ class GlobusJob < ActiveJob::Base
     nil
   end
 
-  def target_base_name( id = '', prefix: '', postfix: '' )
-    "#{prefix}#{@@globus_base_file_name}#{id}#{postfix}"
-  end
-
   def target_download_dir( concern_id )
-    target_dir_name( @@globus_download_dir, target_base_name( concern_id ) )
+    target_dir_name( @@globus_download_dir, GlobusJob.target_base_name( concern_id ) )
   end
 
   def target_dir_name( dir, subdir, mkdir: false )
@@ -215,17 +273,8 @@ class GlobusJob < ActiveJob::Base
     target_dir
   end
 
-  def target_file_name( dir, filename, ext = '' )
-    return Pathname.new( filename + ext ) if dir.nil?
-    dir.join( filename + ext )
-  end
-
-  def target_file_name_env( dir, file_type, base_name )
-    target_file_name( dir, ".#{Rails.env}.#{file_type}.#{base_name}" )
-  end
-
   def target_prep_dir( concern_id, prefix: '', postfix: '', mkdir: false )
-    subdir = target_base_name( concern_id, prefix: prefix, postfix: postfix )
+    subdir = GlobusJob.target_base_name( concern_id, prefix: prefix, postfix: postfix )
     target_dir_name( @@globus_prep_dir, subdir, mkdir: mkdir )
   end
 

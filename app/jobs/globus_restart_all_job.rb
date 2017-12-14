@@ -7,13 +7,13 @@ class GlobusRestartAllJob < GlobusJob
     globus_job_perform( concern_id: "Restart_All", log_prefix: "#{log_prefix}globus_restart_all_job", quiet: quiet ) do
       Rails.logger.debug "#{@globus_log_prefix} begin restart all" unless @globus_job_quiet
       concern_ids_to_restart = Hash.new()
-      base_name = target_base_name ''
-      prefix = target_file_name_env(nil,'lock', base_name ).to_s
+      base_name = GlobusJob.target_base_name ''
+      prefix = GlobusJob.target_file_name_env(nil,'lock', base_name ).to_s
       lock_file_re = Regexp.compile( '^' + prefix + '([0-9a-z-]+)' + '$' )
       #Rails.logger.debug "#{@globus_log_prefix} lock_file_re=#{lock_file_re}" unless @globus_job_quiet
-      prefix = target_file_name_env(nil,'error', base_name ).to_s
+      prefix = GlobusJob.target_file_name_env(nil,'error', base_name ).to_s
       error_file_re = Regexp.compile( '^' + prefix + '([0-9a-z-]+)' + '$' )
-      prefix = target_file_name( nil, "#{Rails.env}_#{base_name}" ).to_s
+      prefix = GlobusJob.target_file_name( nil, "#{Rails.env}_#{base_name}" ).to_s
       prep_dir_re = Regexp.compile( '^' + prefix + '([0-9a-z-]+)' + '$' )
       #Rails.logger.debug "#{@globus_log_prefix} prep_dir_re=#{prep_dir_re}" unless @globus_job_quiet
       prep_tmp_dir_re = Regexp.compile( '^' + prefix + '([0-9a-z-]+)_tmp' + '$' )
@@ -64,7 +64,7 @@ class GlobusRestartAllJob < GlobusJob
   protected
 
   def globus_job_complete_file
-    target_file_name_env( @@globus_prep_dir, 'restarted', target_base_name( @globus_concern_id ) )
+    GlobusJob.target_file_name_env( @@globus_prep_dir, 'restarted', GlobusJob.target_base_name( @globus_concern_id ) )
   end
 
   def globus_job_complete?
