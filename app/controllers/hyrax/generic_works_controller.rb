@@ -225,7 +225,9 @@ class Hyrax::GenericWorksController < ApplicationController
         msg = globus_file_prep_started_msg( user_email: user_email )
       end
       if user_signed_in?
-        ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email, delay_seconds: 60, generate_error: false )
+        ::GlobusCopyJob.perform_later( curation_concern.id,
+                                       user_email: user_email,
+                                       delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
         flash_and_redirect_to_main_cc msg
       else
         render 'globus_download_notify_me_form'
@@ -244,13 +246,17 @@ class Hyrax::GenericWorksController < ApplicationController
   def globus_download_notify_me
     if user_signed_in?
       user_email = EmailHelper.user_email_from( current_user )
-      ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email )#, delay_seconds: 60, generate_error: false )
+      ::GlobusCopyJob.perform_later( curation_concern.id,
+                                     user_email: user_email,
+                                     delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
       flash_and_go_back globus_file_prep_started_msg( user_email: user_email )
     elsif params[:user_email_one].present? || params[:user_email_two].present?
       user_email_one = params[:user_email_one].present? ? params[:user_email_one].strip : ''
       user_email_two = params[:user_email_two].present? ? params[:user_email_two].strip : ''
       if user_email_one === user_email_two
-        ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email_one )#, delay_seconds: 60, generate_error: false )
+        ::GlobusCopyJob.perform_later( curation_concern.id,
+                                       user_email: user_email_one,
+                                       delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
         flash_and_redirect_to_main_cc globus_file_prep_started_msg( user_email: user_email_one )
       else
         #flash_and_go_back emails_did_not_match_msg( user_email_one, user_email_two )
@@ -258,7 +264,9 @@ class Hyrax::GenericWorksController < ApplicationController
         render 'globus_download_notify_me_form'
       end
     else
-      ::GlobusCopyJob.perform_later( curation_concern.id, user_email: nil )#, delay_seconds: 60, generate_error: false )
+      ::GlobusCopyJob.perform_later( curation_concern.id,
+                                     user_email: nil,
+                                     delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
       flash_and_redirect_to_main_cc globus_file_prep_started_msg
     end
   end
