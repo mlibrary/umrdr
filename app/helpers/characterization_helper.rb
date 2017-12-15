@@ -2,21 +2,22 @@
 module CharacterizationHelper
 
   # @param [FileSet] file_set
-  # @param [String] file_id identifier for a Hydra::PCDM::File
+  # @param [String] repository_file_id identifier for a Hydra::PCDM::File
   # @param [String, NilClass] file_path the cached file within the Hyrax.config.working_path
   def self.characterize( file_set,
-                         file_id,
+                         repository_file_id,
                          file_path = nil,
                          delete_input_file: true,
                          continue_job_chain: true,
                          continue_job_chain_later: true )
-    file_name = Hyrax::WorkingDirectory.find_or_retrieve( file_id, file_set.id, file_path )
+    file_name = Hyrax::WorkingDirectory.find_or_retrieve( repository_file_id, file_set.id, file_path )
     file_ext = File.extname file_set.label
     if Umrdr::Application.config.characterize_excluded_ext_set.has_key? file_ext
       Rails.logger.info "Skipping characterization of file with extension #{file_ext}: #{file_name}"
       perform_create_derivatives_job( file_set,
-                                      file_id,
+                                      repository_file_id,
                                       file_name,
+                                      file_path,
                                       delete_input_file: delete_input_file,
                                       continue_job_chain: continue_job_chain,
                                       continue_job_chain_later: continue_job_chain_later )
@@ -38,8 +39,9 @@ module CharacterizationHelper
       Rails.logger.error "CharacterizationHelper.create_derivatives(#{file_name}) #{e.class}: #{e.message}"
     ensure
       perform_create_derivatives_job( file_set,
-                                      file_id,
+                                      repository_file_id,
                                       file_name,
+                                      file_path,
                                       delete_input_file: delete_input_file,
                                       continue_job_chain: continue_job_chain,
                                       continue_job_chain_later: continue_job_chain_later )
@@ -47,10 +49,10 @@ module CharacterizationHelper
   end
 
   # @param [FileSet] file_set
-  # @param [String] file_id identifier for a Hydra::PCDM::File
+  # @param [String] repository_file_id identifier for a Hydra::PCDM::File
   # @param [String, NilClass] file_path the cached file within the Hyrax.config.working_path
-  def create_derivatives( file_set, file_id, file_path = nil, delete_input_file: true )
-    file_name = Hyrax::WorkingDirectory.find_or_retrieve( file_id, file_set.id, file_path )
+  def self.create_derivatives( file_set, repository_file_id, file_path = nil, delete_input_file: true )
+    file_name = Hyrax::WorkingDirectory.find_or_retrieve( repository_file_id, file_set.id, file_path )
     Rails.logger.warn "Create derivatives for: #{file_name}."
     begin
       file_ext = File.extname file_set.label
@@ -78,7 +80,7 @@ module CharacterizationHelper
       Rails.logger.debug "Successful create derivative job for file: #{file_name}"
       #delete_file( file_path, delete_file_flag: delete_input_file, msg_prefix: 'Create derivatives ' )
     rescue Exception => e
-      Rails.logger.error "CharacterizationHelper.create_derivatives(#{file_set},#{file_id},#{file_path}) #{e.class}: #{e.message}"
+      Rails.logger.error "CharacterizationHelper.create_derivatives(#{file_set},#{repository_file_id},#{file_path}) #{e.class}: #{e.message}"
     ensure
       #This is the last step in the process ( ingest job -> characterization job -> create derivative (last step))
       #So now it's safe to remove the file uploaded file.
@@ -103,16 +105,17 @@ module CharacterizationHelper
   end
 
   def self.perform_create_derivatives_job( file_set,
-                                           file_id,
+                                           repository_file_id,
                                            file_name,
+                                           file_path,
                                            delete_input_file: true,
                                            continue_job_chain: true,
                                            continue_job_chain_later: true )
     if continue_job_chain
       if continue_job_chain_later
-        CreateDerivativesJob.perform_later( file_set, file_id, file_name, delete_input_file )
+        CreateDerivativesJob.perform_later( file_set, repository_file_id, file_name, delete_input_file )
       else
-        CreateDerivativesJob.perform_now( file_set, file_id, file_name, delete_input_file )
+        CreateDerivativesJob.perform_now( file_set, repository_file_id, file_name, delete_input_file )
       end
     else
       delete_file( file_path, delete_file_flag: delete_input_file, msg_prefix: 'Characterize ' )
