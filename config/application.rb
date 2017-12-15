@@ -38,6 +38,7 @@ module Umrdr
     end
     config.globus_log_provenance_copy_job_complete = false
     config.globus_restart_all_copy_jobs_quiet = true
+    config.globus_debug_delay_copy_job_seconds = 0
 
     # deposit notification email addresses
     config.notification_email = Settings.notification_email

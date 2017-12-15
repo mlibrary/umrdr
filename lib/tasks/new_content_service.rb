@@ -202,7 +202,12 @@ class NewContentService
   end
 
   def logger
-    @logger ||= Umrdr::TaskLogger.new(STDOUT).tap { |logger| logger.level = Logger::INFO }
+    @logger ||= logger_initialize
+  end
+
+  def logger_initialize
+    # TODO: add some flags to the input yml file for log level and Rails logging integration
+    Umrdr::TaskLogger.new(STDOUT).tap { |logger| logger.level = Logger::INFO; Rails.logger = logger }
   end
 
   def user_key

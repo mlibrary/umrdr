@@ -46,22 +46,22 @@ describe 'hyrax/base/_attributes.html.erb', type: :view do
       # puts rendered
       # puts '====='
 
-      element_count = 4
+      element_count = 6
       expect(rendered).to have_tag( 'table', count: 1, with: {class: "table table-striped file_set attributes", itemscope: '', itemtype: "http://schema.org/CreativeWork"} )
       expect(rendered).to have_tag( 'caption', count: 1, with: { class: "table-heading" } )
       expect(rendered).to have_tag( 'h2', count: 1, text: "Work Description:" )
       expect(rendered).to have_tag( 'thead', count: 1 )
-      expect(rendered).to have_tag( 'th', count: 3 + element_count )
+      expect(rendered).to have_tag( 'th', count: 1 + element_count )
       expect(rendered).to have_tag( 'th', with: { colspan: 2 }, text: "Title: My File" )
       expect(rendered).to have_tag( 'th', text: "Attribute Name" )
       expect(rendered).to have_tag( 'th', text: "Values" )
       expect(rendered).to have_tag( 'tbody', count: 1 )
 
-      expect(rendered).to have_tag( 'tr', count: 2 + element_count )
-      expect(rendered).to have_tag( 'td', count: element_count )
+      expect(rendered).to have_tag( 'tr', count: element_count )
+      expect(rendered).to have_tag( 'td', count: element_count - 2 )
       expect(rendered).to have_tag( 'ul', count: element_count )
-      expect(rendered).to have_tag( 'li', count: element_count )
-      expect(rendered).to have_tag( 'ul', count: element_count, with: { class: "tabular" } )
+      expect(rendered).to have_tag( 'li', count: element_count + 4 )
+      expect(rendered).to have_tag( 'ul', count: element_count - 2, with: { class: "tabular" } )
 
       expect(rendered).to have_tag( 'th', text: "Visibility" )
       expect(rendered).to have_tag( 'li', with: { class: "attribute permission_badge" } )
