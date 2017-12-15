@@ -1,4 +1,22 @@
+  <div class="progress-group">
+     <div class="progress-deposit-bar">
+       <ul>
+        <li class="active"></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <div class="progress-deposit ">
+      <ul >
+        <li>Describe Work</li>
+        <li>Upload File(s)</li>
+        <li>Confirm Deposit</li>
+      </ul>
+    </div>
+  </div>
+
 <%= simple_form_for [main_app, @form], html: { multipart: true } do |f| %>
+  
   <div id="works_edit">
     <h2 class="non lower">Describe Work</h2>
      <p class="describe_sub">The more descriptive information you provide the better we can serve your needs. All works deposited in Deep Blue Data are considered Open Access. Please select a creative commons license designation below.</p>
