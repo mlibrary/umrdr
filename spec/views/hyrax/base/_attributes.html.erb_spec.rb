@@ -59,7 +59,7 @@ describe 'hyrax/base/_attributes.html.erb', type: :view do
 
       expect(rendered).to have_tag( 'tr', count: element_count )
       expect(rendered).to have_tag( 'td', count: element_count - 2 )
-      expect(rendered).to have_tag( 'ul', count: element_count )
+      expect(rendered).to have_tag( 'ul', count: element_count - 2)
       expect(rendered).to have_tag( 'li', count: element_count + 4 )
       expect(rendered).to have_tag( 'ul', count: element_count - 2, with: { class: "tabular" } )
 
