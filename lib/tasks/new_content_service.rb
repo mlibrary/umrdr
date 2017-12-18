@@ -43,7 +43,10 @@ class NewContentService
   def add_file_sets_to_work( work_hash, work )
     paths_and_names = work_hash[:files].zip work_hash[:filenames]
     fsets = paths_and_names.map{|fp| build_file_set(fp[0], fp[1])}
-    fsets.each { |fs| work.ordered_members << fs }
+    fsets.each do |fs|
+      work.ordered_members << fs
+      work.total_file_size_add_file_set fs
+    end
     return work
   end
 
