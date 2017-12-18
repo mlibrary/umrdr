@@ -1,7 +1,11 @@
+require 'globus_era'
+
 class GlobusJob < ActiveJob::Base
 
+  @@globus_era = Umrdr::GlobusEra.instance
   @@globus_enabled = Umrdr::Application.config.globus_enabled.freeze
-  @@globus_token = Umrdr::Application.config.globus_era_file
+  #@@globus_token = Umrdr::Application.config.globus_era_file
+  #@@globus_era_file = Umrdr::Application.config.globus_era_file
   @@globus_base_file_name = Umrdr::Application.config.base_file_name.freeze
   @@globus_base_url = Umrdr::Application.config.globus_base_url.freeze
   @@globus_download_dir = Umrdr::Application.config.globus_download_dir.freeze
@@ -48,6 +52,14 @@ class GlobusJob < ActiveJob::Base
     rv
   end
 
+  def self.lock( concern_id, log_prefix )
+    lock_token = era_token
+    lock_file = lock_file concern_id
+    Rails.logger.debug "#{log_prefix} writing lock token #{lock_token} to #{lock_file}" unless @globus_job_quiet
+    open( lock_file, 'w' ) { |f| f << lock_token << "\n" }
+    File.exists? lock_file
+  end
+
   def self.lock_file( id = '' )
     target_file_name_env( @@globus_prep_dir, 'lock', target_base_name( id ) )
   end
@@ -56,12 +68,17 @@ class GlobusJob < ActiveJob::Base
     return false if error_file_exists?( concern_id, write_error_to_log: true, log_prefix: log_prefix, quiet: quiet )
     lock_file = lock_file concern_id
     return false unless File.exists? lock_file
-    current_token = GlobusJob.token
-    lock_token = nil
-    open( lock_file, 'r' ) { |f| lock_token = f.read.chomp! }
+    current_token = era_token
+    lock_token = read_token lock_file
     rv = ( current_token == lock_token )
     Rails.logger.debug "#{log_prefix} testing token from #{lock_file}: current_token: #{current_token} == lock_token: #{lock_token}: #{rv}" unless @quiet
     rv
+  end
+
+  def self.read_token( token_file )
+    token = nil
+    open( token_file, 'r' ) { |f| token = f.read.chomp! }
+    return token
   end
 
   def self.target_base_name( id = '', prefix: '', postfix: '' )
@@ -77,13 +94,29 @@ class GlobusJob < ActiveJob::Base
     dir.join( filename + ext )
   end
 
-  def self.token
-    @@globus_token.path
+  # def self.token
+  #   # TODO: remove this, replace by self.era_token
+  #   #@@globus_token.path #if it's a Tempfile
+  #   #@@globus_token
+  #   @@globus_era.era_file
+  # end
+
+  def self.era_token
+    #read_token @@globus_era_file
+    read_token @@globus_era.era_file
   end
 
-  def self.token_time
-    File.birthtime @@globus_token.path
+  def self.era_token_time
+    timestamp = era_token
+    Time.parse( timestamp )
   end
+
+  # def self.token_time
+  #   ## TODO: remove as replaced by era_token_time
+  #   File.birthtime @@globus_token
+  #   #File.birthtime @@globus_token.path # if it's a Tempfile
+  #   #Umrdr::GlobusEra.era_begin_timestamp
+  # end
 
   # @param [String] concern_id
   # @param [String, "Globus: "] log_prefix
@@ -226,11 +259,12 @@ class GlobusJob < ActiveJob::Base
   end
 
   def globus_lock
-    lock_token = GlobusJob.token
-    lock_file = GlobusJob.lock_file @globus_concern_id
-    Rails.logger.debug "#{@globus_log_prefix} writing lock token #{lock_token} to #{lock_file}" unless @globus_job_quiet
-    open( lock_file, 'w' ) { |f| f << lock_token << "\n" }
-    File.exists? lock_file
+    GlobusJob.lock( @globus_concern_id, @globus_log_prefix )
+    # lock_token = GlobusJob.token
+    # lock_file = GlobusJob.lock_file @globus_concern_id
+    # Rails.logger.debug "#{@globus_log_prefix} writing lock token #{lock_token} to #{lock_file}" unless @globus_job_quiet
+    # open( lock_file, 'w' ) { |f| f << lock_token << "\n" }
+    # File.exists? lock_file
   end
 
   def globus_lock_file( id = '' )

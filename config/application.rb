@@ -7,8 +7,9 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module Umrdr
+
   class Application < Rails::Application
-    
+
     config.generators do |g|
       g.test_framework :rspec, :spec => true
     end
@@ -30,15 +31,16 @@ module Umrdr
       Dir.mkdir config.globus_prep_dir unless Dir.exists? config.globus_prep_dir
     end
     config.globus_enabled = true && File.exists?( config.globus_download_dir ) && File.exists?( config.globus_prep_dir )
-    #puts "globus_enabled=#{config.globus_enabled}"
     config.base_file_name = "DeepBlueData_"
     config.globus_base_url = 'https://www.globus.org/app/transfer?origin_id=99d8c648-a9ff-11e7-aedd-22000a92523b&origin_path=%2Fdownload%2F'
-    if config.globus_enabled
-      config.globus_era_file = Tempfile.new( 'globus_era_', config.globus_prep_dir )
-    end
     config.globus_log_provenance_copy_job_complete = false
     config.globus_restart_all_copy_jobs_quiet = true
-    config.globus_debug_delay_copy_job_seconds = 0
+    config.globus_debug_delay_copy_job_seconds = 60
+
+    # if config.globus_enabled
+    #   config.globus_era = Umrdr::GlobusEra.instance
+    #   #config.globus_era_file = GlobusEra.instance.era_file
+    # end
 
     # deposit notification email addresses
     config.notification_email = Settings.notification_email
