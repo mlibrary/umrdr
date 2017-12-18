@@ -321,7 +321,7 @@ describe GlobusJob do
   context "#globus_lock" do
     let( :job ) { j = described_class.new; j.perform( "id321" ); j }
     let( :lock_file_tmp ) { Tempfile.new( ".test.lock.DeepBlueData_id321", globus_dir ) }
-    let( :current_token ) { GlobusJob.token }
+    let( :current_token ) { GlobusJob.era_token }
     before do
       allow( GlobusJob ).to receive( :lock_file ).and_return( lock_file_tmp.path )
       log_msg = "Globus:  writing lock token #{current_token} to #{lock_file_tmp.path}"
@@ -361,7 +361,7 @@ describe GlobusJob do
     context "lock file exists with different token." do
       let( :job ) { j = described_class.new; j.perform( "id321" ); j }
       let( :lock_file_tmp ) { Tempfile.new( ".test.lock.DeepBlueData_id321", globus_dir ) }
-      let( :current_token ) { GlobusJob.token }
+      let( :current_token ) { GlobusJob.era_token }
       let( :lock_token ) { "theToken" }
       before do
         expect( GlobusJob ).to receive( :error_file_exists? ).and_return( false )
@@ -380,8 +380,8 @@ describe GlobusJob do
     context "lock file exists with same token." do
       let( :job ) { j = described_class.new; j.perform( "id321" ); j }
       let( :lock_file_tmp ) { Tempfile.new( ".test.lock.DeepBlueData_id321", globus_dir ) }
-      let( :current_token ) { GlobusJob.token }
-      let( :lock_token ) { GlobusJob.token }
+      let( :current_token ) { GlobusJob.era_token }
+      let( :lock_token ) { GlobusJob.era_token }
       before do
         expect( GlobusJob ).to receive( :error_file_exists? ).and_return( false )
         allow( GlobusJob ).to receive( :lock_file ).and_return(lock_file_tmp.path )

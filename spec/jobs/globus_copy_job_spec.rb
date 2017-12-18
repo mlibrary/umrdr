@@ -33,7 +33,7 @@ describe GlobusCopyJob do
     let( :lock_file_msg ) { "#{log_prefix} lock file #{lock_file}" }
     let( :globus_prep_copy_dir ) { globus_prep_dir.join target_name_prep_dir }
     let( :globus_prep_copy_tmp_dir ) { globus_prep_dir.join( target_name_prep_dir + '_tmp' ) }
-    let( :current_token ) { GlobusJob.token }
+    let( :current_token ) { GlobusJob.era_token }
     let( :user_email ) { "test@email.edu" }
     let( :email_addresses ) { [ user_email ] }
     let( :mailer ) { "mailer" }

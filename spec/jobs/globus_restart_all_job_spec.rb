@@ -18,7 +18,7 @@ describe GlobusRestartAllJob do
     context "when can acquire lock" do
       let( :job ) { j = GlobusCopyJob.new; j.define_singleton_method( :set_id, id ) { |id| @globus_concern_id = id; self }; j }
       let( :log_prefix ) { "Globus: globus_restart_all_job " }
-      let( :globus_era_file ) { GlobusJob.token }
+      let( :globus_era_file ) { GlobusJob.era_token }
       let( :target ) { "DeepBlueData_" }
       let( :id00 ) { "id000" }
       let( :file00 ) { "#{globus_prep_dir}/.development.lock.#{target}#{id00}" }
@@ -104,7 +104,7 @@ describe GlobusRestartAllJob do
         expect( File ).to receive( :exists? ).with( job_complete_file ).and_return( true )
         #expect( File ).to receive( :birthtime ).with( job_complete_file ).and_return( time_now )
         expect( job ).to receive( :last_complete_time ).with( job_complete_file ).and_return( time_now )
-        expect( GlobusJob ).to receive( :token_time ).with( no_args ).and_return( time_now )
+        expect( GlobusJob ).to receive( :era_token_time ).with( no_args ).and_return( time_now )
       end
       it "return true." do
         expect( job.send( :globus_job_complete? ) ).to eq( true )
@@ -118,7 +118,7 @@ describe GlobusRestartAllJob do
         expect( File ).to receive( :exists? ).with( job_complete_file ).and_return( true )
         #expect( File ).to receive( :birthtime ).with( job_complete_file ).and_return( time_before_now )
         expect( job ).to receive( :last_complete_time ).with( job_complete_file ).and_return( time_before_now )
-        expect( GlobusJob ).to receive( :token_time ).with( no_args ).and_return( time_now )
+        expect( GlobusJob ).to receive( :era_token_time ).with( no_args ).and_return( time_now )
       end
       it "return false." do
         expect( job.send( :globus_job_complete? ) ).to eq( false )
