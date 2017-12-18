@@ -36,7 +36,7 @@ module CharacterizationHelper
       file_set.update_index
       file_set.parent.in_collections.each(&:update_index) if file_set.parent
     rescue Exception => e
-      Rails.logger.error "CharacterizationHelper.create_derivatives(#{file_name}) #{e.class}: #{e.message}"
+      Rails.logger.error "CharacterizationHelper.create_derivatives(#{file_name}) #{e.class}: #{e.message} at #{e.backtrace[0]}"
     ensure
       perform_create_derivatives_job( file_set,
                                       repository_file_id,
@@ -80,7 +80,7 @@ module CharacterizationHelper
       Rails.logger.debug "Successful create derivative job for file: #{file_name}"
       #delete_file( file_path, delete_file_flag: delete_input_file, msg_prefix: 'Create derivatives ' )
     rescue Exception => e
-      Rails.logger.error "CharacterizationHelper.create_derivatives(#{file_set},#{repository_file_id},#{file_path}) #{e.class}: #{e.message}"
+      Rails.logger.error "CharacterizationHelper.create_derivatives(#{file_set},#{repository_file_id},#{file_path}) #{e.class}: #{e.message} at #{e.backtrace[0]}"
     ensure
       #This is the last step in the process ( ingest job -> characterization job -> create derivative (last step))
       #So now it's safe to remove the file uploaded file.
@@ -95,6 +95,46 @@ module CharacterizationHelper
         Rails.logger.debug "#{msg_prefix}file deleted: #{file_path}"
       end
     end
+  end
+
+  # @param [FileSet] file_set
+  # @param [String] filepath the cached file within the Hyrax.config.working_path
+  # @param [User] user
+  # @option opts [String] mime_type
+  # @option opts [String] filename
+  # @option opts [String] relation, ex. :original_file
+  def self.ingest( file_set, filepath, user, opts = {} )
+    Rails.logger.debug "CharacterizationHelper.ingest(#{file_set},#{filepath},#{user},#{opts})"
+    ## see require File.join(Gem::Specification.find_by_name("hyrax").full_gem_path, "app/jobs/ingest_file_job.rb")
+    relation = opts.fetch(:relation, :original_file).to_sym
+
+    # Wrap in an IO decorator to attach passed-in options
+    local_file = Hydra::Derivatives::IoDecorator.new(File.open(filepath, "rb"))
+    local_file.mime_type = opts.fetch(:mime_type, nil)
+    local_file.original_name = opts.fetch(:filename, File.basename(filepath))
+
+    # Tell AddFileToFileSet service to skip versioning because versions will be minted by
+    # VersionCommitter when necessary during save_characterize_and_record_committer.
+    Hydra::Works::AddFileToFileSet.call(file_set,
+                                        local_file,
+                                        relation,
+                                        versioning: false)
+
+    # Persist changes to the file_set
+    file_set.save!
+
+    repository_file = file_set.send(relation)
+
+    # Do post file ingest actions
+    Hyrax::VersioningService.create(repository_file, user)
+
+    update_total_file_size( file_set )#, log_prefix: "CharacterizationHelper.ingest()" )
+
+    # # TODO: this is a problem, the file may not be available at this path on another machine.
+    # # It may be local, or it may be in s3
+    CharacterizeJob.perform_later( file_set, repository_file.id, filepath )
+  rescue Exception => e
+    Rails.logger.error "CharacterizationHelper.ingest(#{file_set},#{filepath},#{user},#{opts}) #{e.class}: #{e.message} at #{e.backtrace[0]}"
   end
 
   # If this file_set is the thumbnail for the parent work,
@@ -120,6 +160,23 @@ module CharacterizationHelper
     else
       delete_file( file_path, delete_file_flag: delete_input_file, msg_prefix: 'Characterize ' )
     end
+  end
+
+  def self.update_total_file_size( file_set, log_prefix: nil )
+    Rails.logger.info "begin CharacterizationHelper.update_total_file_size"
+    Rails.logger.debug "#{log_prefix} file_set.orginal_file.size=#{file_set.original_file.size}" unless log_prefix.nil?
+    return if file_set.parent.nil?
+    total = file_set.parent.total_file_size
+    if total.nil? || 0 == total
+      Rails.logger.debug "#{log_prefix}.file_set.parent.update_total_file_size!" unless log_prefix.nil?
+      file_set.parent.update_total_file_size!
+    else
+      Rails.logger.debug "#{log_prefix}.file_set.parent.total_file_size_add_file_set!" unless log_prefix.nil?
+      file_set.parent.total_file_size_add_file_set! file_set
+    end
+    Rails.logger.info "end CharacterizationHelper.update_total_file_size"
+  rescue Exception => e
+    Rails.logger.error "CharacterizationHelper.update_total_file_size(#{file_set}) #{e.class}: #{e.message} at #{e.backtrace[0]}"
   end
 
 end

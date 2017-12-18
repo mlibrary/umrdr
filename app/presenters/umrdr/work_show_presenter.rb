@@ -68,6 +68,17 @@ module Umrdr
       @solr_document.isReferencedBy
     end
 
+    def label_with_total_file_size( label )
+      total = total_file_size
+      if 0 == total
+        label
+      else
+        count = total_file_count
+        files = 1 == count ? 'file' : 'files'
+        "#{label} (#{total_file_size_human_readable} in #{count} #{files})"
+      end
+    end
+
     def tombstone
       if @solr_document[Solrizer.solr_name('tombstone', :symbol)].nil?
         nil
