@@ -1,8 +1,11 @@
-require 'globus_era'
+#require 'globus_era'
 
 class GlobusJob < ActiveJob::Base
 
-  @@globus_era = Umrdr::GlobusEra.instance
+  #@@globus_era = Umrdr::GlobusEra.new
+  @@globus_era_timestamp = Umrdr::Application.config.globus_era_timestamp
+  @@globus_era_token = Umrdr::Application.config.globus_era_token.freeze
+
   @@globus_enabled = Umrdr::Application.config.globus_enabled.freeze
   #@@globus_token = Umrdr::Application.config.globus_era_file
   #@@globus_era_file = Umrdr::Application.config.globus_era_file
@@ -103,7 +106,8 @@ class GlobusJob < ActiveJob::Base
 
   def self.era_token
     #read_token @@globus_era_file
-    read_token @@globus_era.era_file
+    #read_token @@globus_era.era_file
+    @@globus_era_token
   end
 
   def self.era_token_time
