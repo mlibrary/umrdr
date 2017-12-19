@@ -16,6 +16,8 @@ module Umrdr
 
     ## configure for Globus
     # -- To enable Globus for development, create /deepbluedata-globus/download and /deepbluedata-globus/prep
+    config.globus_era_timestamp = Time.now.freeze
+    config.globus_era_token = config.globus_era_timestamp.to_s.freeze
     if Rails.env.test?
       config.globus_dir = '/tmp/deepbluedata-globus'
       Dir.mkdir config.globus_dir unless Dir.exists? config.globus_dir
