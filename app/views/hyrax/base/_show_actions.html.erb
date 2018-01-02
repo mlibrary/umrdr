@@ -39,6 +39,8 @@
 <% if @presenter.tombstone.blank? && @presenter.current_ability.admin? %>
 <p></p>
 <div class="well">
+<h2 class="well-title">Tombstone</h2>
+  <div class="well-inner-wrapper">
 <p>Reason for Tombstone:</p>
 <select id="select-tombstone">
     <option value="Removed from view by legal order." selected>Removed from view by legal order.</option>
@@ -47,7 +49,7 @@
 </select>
 
 <%= link_to "Tombstone This #{@presenter.human_readable_type}", main_app.tombstone_hyrax_generic_work_path + "&tombstone=Removed from view by legal order.", class: 'tomb btn btn-danger pull-right', data: { confirm: "Tombstone this #{@presenter.human_readable_type}?" }, method: :delete %>
-
+  </div>
 </div>
 
 <% end %>
