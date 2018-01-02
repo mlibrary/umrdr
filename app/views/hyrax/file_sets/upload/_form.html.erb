@@ -2,30 +2,40 @@
   <div class="well">
     <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
       <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
+  </div>
     <% end %>
     <%# editor    = can?(:edit,    @presenter.id) %>
     <% if @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
+    <div class="well">
+      <h2 class="well-title">Mint DOI</h2>
+      <div class="well-inner-wrapper">
       <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
         <%= hidden_field_tag('generic_work[nop]') %>
-        <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
         <p class="alert alert-info">You can mint a DOI once you have uploaded all your files. Once a DOI is minted, you may not upload additional files, edit, or delete your work. For questions or help, please <strong><%= link_to "contact Deep Blue Data", "https://deepblue.lib.umich.edu/data/contact" %></strong>.</p>
+         <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
+       </div>
+     </div>
         <% end %>
       <% end %>
-  </div>
 <% elsif @presenter.tombstone.blank? %>
 <% unless @presenter.identifiers_minted?(:doi) && @presenter.solr_document.public? %>
   <div class="well">
     <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
       <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
+  </div>
     <% end %>
     <%# editor    = can?(:edit,    @presenter.id) %>
     <% if @presenter.editor? && @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
-      <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
-        <%= hidden_field_tag('generic_work[nop]') %>
-        <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
-        <p class="alert alert-info">You can mint a DOI once you have uploaded all your files. Once a DOI is minted, you may not upload additional files, edit, or delete your work. For questions or help, please <strong><%= link_to "contact Deep Blue Data", "https://deepblue.lib.umich.edu/data/contact" %></strong>.</p>
+      <div class="well">
+        <h2 class="well-title">Mint DOI</h2>
+        <div class="well-inner-wrapper">
+        <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
+          <%= hidden_field_tag('generic_work[nop]') %>
+          <p class="alert alert-info">You can mint a DOI once you have uploaded all your files. Once a DOI is minted, you may not upload additional files, edit, or delete your work. For questions or help, please <strong><%= link_to "contact Deep Blue Data", "https://deepblue.lib.umich.edu/data/contact" %></strong>.</p>
+           <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
+         </div>
+      </div>
         <% end %>
       <% end %>
-  </div>
 <% end %>
 <% end %>
