@@ -49,7 +49,7 @@ describe 'hyrax/base/_attributes.html.erb', type: :view do
       element_count = 6
       expect(rendered).to have_tag( 'table', count: 1, with: {class: "table table-striped file_set attributes", itemscope: '', itemtype: "http://schema.org/CreativeWork"} )
       expect(rendered).to have_tag( 'caption', count: 1, with: { class: "table-heading" } )
-      expect(rendered).to have_tag( 'h2', count: 1, text: "Work Description:" )
+      expect(rendered).to have_tag( 'h2', count: 1, text: "Work Description" )
       expect(rendered).to have_tag( 'thead', count: 1 )
       expect(rendered).to have_tag( 'th', count: 1 + element_count )
       expect(rendered).to have_tag( 'th', with: { colspan: 2 }, text: "Title: My File" )
