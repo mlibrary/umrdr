@@ -212,6 +212,9 @@ en:
           heading: "Display files deposited by users"
           start_label: "Starting"
           end_label: "Ending [defaults to now]"
+    works:
+      create:
+        after_create_html: "The metadata and access controls you specified are being applied."
 
   simple_form:
     labels:
