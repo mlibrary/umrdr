@@ -1,4 +1,4 @@
-require 'tasks/active_fedora_indexing_descendent_fetcher'
+require 'tasks/active_fedora_indexing_descendent_fetcher2'
 
 class MissingSolrdocs
 
@@ -6,6 +6,25 @@ class MissingSolrdocs
     ActiveFedora::Indexing::DescendantFetcher2.new( uri,
                                                     exclude_self: exclude_uri,
                                                     user_pacifier: user_pacifier ).descendant_and_self_uris
+  end
+
+  def collection?( uri, id )
+    rv = false
+    begin
+      c = Collection.find id
+      rv = true unless c.nil?
+    rescue Exception => ignore
+    end
+    return rv
+  end
+
+  def collection_or_nil( uri, id )
+    rv = nil
+    begin
+      rv = Collection.find id
+    rescue Exception => ignore
+    end
+    return rv
   end
 
   def filter_in( uri, id )
@@ -25,11 +44,39 @@ class MissingSolrdocs
     return rv
   end
 
+  def file_set_or_nil( uri, id )
+    rv = nil
+    begin
+      rv = FileSet.find id
+    rescue Exception => ignore
+    end
+    return rv
+  end
+
+  def find_missing_files_for_work( uri, id )
+    missing_files = []
+    w = GenericWork.find id
+    w.file_set_ids.each do |fs|
+      doc = solr_doc_from_id( fs.id )
+      missing_files << fs.id if doc.nil?
+    end
+    return missing_files
+  end
+
   def generic_work?( uri, id )
     rv = false
     begin
       w = GenericWork.find id
       rv = true unless w.nil?
+    rescue Exception => ignore
+    end
+    return rv
+  end
+
+  def generic_work_or_nil( uri, id )
+    rv = nil
+    begin
+      rv = GenericWork.find id
     rescue Exception => ignore
     end
     return rv
@@ -49,9 +96,9 @@ class MissingSolrdocs
     begin
       doc = SolrDocument.find id
     rescue Blacklight::Exceptions::RecordNotFound => e2
-      #puts "#{e2.class}: #{e2.message}"
+      #puts "e2 #{e2.class}: #{e2.message}"
     rescue Exception => e
-      puts "#{e.class}: #{e.message} at #{e.backtrace[0]}"
+      puts "e #{e.class}: #{e.message} at #{e.backtrace[0]}"
     end
     return doc
   end

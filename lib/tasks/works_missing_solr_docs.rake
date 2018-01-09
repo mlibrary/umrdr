@@ -1,5 +1,4 @@
 require 'tasks/missing_solr_docs'
-require 'tasks/active_fedora_indexing_descendent_fetcher'
 
 desc 'List works missing solr docs'
 task :works_missing_solr_docs => :environment do
@@ -9,8 +8,9 @@ end
 class WorksMissingSolrdocs < MissingSolrdocs
 
   def run
-    @works_missing_solr_docs = []
+    @collections_missing_solr_docs = []
     @files_missing_solr_docs = []
+    @works_missing_solr_docs = []
     @other_missing_solr_docs = []
     @report_missing_files = false
     @report_missing_other = false
@@ -37,14 +37,18 @@ class WorksMissingSolrdocs < MissingSolrdocs
             @works_missing_solr_docs << id
           elsif file_set?( uri, id )
             @files_missing_solr_docs << id
+          elsif collection?( uri, id )
+            @collections_missing_solr_docs << id
           else
             @other_missing_solr_docs << id
           end
         elsif hydra_model == "GenericWork"
           count += 1
-          puts "#{id}...good"
+          puts "#{id}...good work" if @verbose
         elsif hydra_model == "FileSet"
           # skip
+        elsif hydra_model == "Collection"
+          puts "#{id}...good collection" if @verbose
         else
           puts "skipped '#{hydra_model}'"
           # skip
@@ -53,6 +57,8 @@ class WorksMissingSolrdocs < MissingSolrdocs
     end
     puts "done"
     puts "count=#{count}"
+    puts "collections_missing_solr_docs.count #{@collections_missing_solr_docs.count}"
+    puts "collections_missing_solr_docs=#{@collections_missing_solr_docs}"
     puts "works_missing_solr_docs.count #{@works_missing_solr_docs.count}"
     puts "works_missing_solr_docs=#{@works_missing_solr_docs}"
     puts "files_missing_solr_docs.count #{@files_missing_solr_docs.count}"
