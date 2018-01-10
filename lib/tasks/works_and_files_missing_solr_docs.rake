@@ -1,5 +1,4 @@
 require 'tasks/missing_solr_docs'
-require 'tasks/active_fedora_indexing_descendent_fetcher'
 
 desc 'List works and their files missing solr docs'
 task :works_and_files_missing_solr_docs => :environment do
@@ -10,6 +9,7 @@ class WorksAndFilesMissingSolrdocs < MissingSolrdocs
 
   ## TODO
   def run
+    @collections_missing_solr_docs = []
     @works_missing_solr_docs = []
     @work_id_to_missing_files_map = Hash.new()
     @orphan_file_ids = Hash.new()
@@ -45,14 +45,18 @@ class WorksAndFilesMissingSolrdocs < MissingSolrdocs
           elsif file_set?( uri, id )
             @files_missing_solr_docs << id
             @orphan_file_ids[id] = true
+          elsif collection?( uri, id )
+            @collections_missing_solr_docs << id
           else
             @other_missing_solr_docs << id
           end
         elsif hydra_model == "GenericWork"
           count += 1
-          puts "#{id}...good"
+          puts "#{id}...good work" if @verbose
         elsif hydra_model == "FileSet"
           # skip
+        elsif hydra_model == "Collection"
+          puts "#{id}...good collection" if @verbose
         else
           puts "skipped '#{hydra_model}'"
           # skip
@@ -62,6 +66,9 @@ class WorksAndFilesMissingSolrdocs < MissingSolrdocs
     @works_missing_file_ids.keys.each { |fid| @orphan_file_ids.remove fid }
     puts "done"
     puts "count=#{count}"
+    # report missing collections
+    puts "collections_missing_solr_docs.count #{@collections_missing_solr_docs.count}"
+    puts "collections_missing_solr_docs=#{@collections_missing_solr_docs}"
     # report missing works
     puts "works_missing_solr_docs.count #{@works_missing_solr_docs.count}"
     puts "works_missing_solr_docs=#{@works_missing_solr_docs}"
@@ -81,16 +88,6 @@ class WorksAndFilesMissingSolrdocs < MissingSolrdocs
     # other
     puts "other_missing_solr_docs.count #{@other_missing_solr_docs.count}"
     puts "other_missing_solr_docs=#{@other_missing_solr_docs.count}" if @report_missing_other
-  end
-
-  def find_missing_files_for_work( uri, id )
-    missing_files = []
-    w = GenericWork.find id
-    w.file_set_ids.each do |fs|
-      doc = solr_doc_from_id( fs.id )
-      missing_files << fs.id if doc.nil?
-    end
-    return missing_files
   end
 
 end
