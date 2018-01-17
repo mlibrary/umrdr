@@ -2,7 +2,7 @@ Hyrax.config do |config|
 
   config.arkivo_api = false
 
-  config.max_days_between_audits = 7
+  # config.max_days_between_audits = 7
 
   config.max_notifications_for_dashboard = 5
   config.register_curation_concern :generic_work

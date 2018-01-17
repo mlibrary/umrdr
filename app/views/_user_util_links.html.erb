@@ -6,18 +6,30 @@
           <li <%= 'class=active' if current_page?(hyrax.contact_path) %>><a href="<%= hyrax.contact_path %>" class="header-nav-links">Contact</a></li>
           <li>
 <% if user_signed_in? %>
-    <div class="btn-group" id="user_utility_links">
-      <%= link_to hyrax.profile_path(current_user), class: "btn btn-default", id: "dashboard_link" do %>
-        My Profile
+    <li>
+      <%#= render_notifications(user: current_user) %>
+    </li>
+    <li class="dropdown">
+      <%= link_to hyrax.dashboard_profile_path(current_user), role: 'button', data: { toggle: 'dropdown' }, aria: { haspopup: true, expanded: false} do %>
+        <span class="sr-only"><%= t("hyrax.toolbar.profile.sr_action") %></span>
+        <span class="hidden-xs">&nbsp;<%= current_user.name %></span>
+        <span class="sr-only"> <%= t("hyrax.toolbar.profile.sr_target") %></span>
+        <span class="fa fa-user"></span>
+        <span class="caret"></span>
       <% end %>
-      <%= link_to main_app.destroy_user_session_path, class: "btn btn-default", id: "logout_nav_link" do %>
-        Log Out
-      <% end %>
-    </div>
+      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <li><%= link_to t("hyrax.toolbar.dashboard.menu"), hyrax.dashboard_path %></li>
+
+        <li class="divider"></li>
+        <li><%= link_to t("hyrax.toolbar.profile.logout"), main_app.destroy_user_session_path %></li>
+      </ul>
+    </li><!-- /.btn-group -->
 <% else %>
-    <div class="btn-group login_button pull-right">
-    <%= link_to raw('Login'), main_app.new_user_session_path, class: "btn btn-default btn-group" %>
-    </div>
+    <li>
+      <%= link_to main_app.new_user_session_path do %>
+        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> <%= t("hyrax.toolbar.profile.login") %>
+      <% end %>
+    </li>
 <% end %>
         </li>
     </nav>
