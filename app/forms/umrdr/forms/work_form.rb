@@ -28,9 +28,9 @@ module Umrdr::Forms
       end
     end
 
-    def rights
-        @model.rights.first
-    end
+    #def rights
+    #    @model.rights.first
+    #end
 
     # You like danger?! Because you better pass in a hash with the correct keys. 
     # Can be alleviated when form coverage attribute is:

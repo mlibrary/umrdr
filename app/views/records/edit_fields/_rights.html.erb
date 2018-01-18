@@ -1,20 +1,20 @@
 <% license = Hyrax::LicenseService.new %>
 
-<% if ((license.select_active_options.join(",").split(',').include? (curation_concern.rights[0])) || (curation_concern.date_uploaded==nil) )%>
+<% if ((license.select_active_options.join(",").split(',').include? (curation_concern.license[0])) || (curation_concern.date_uploaded==nil) )%>
 <% options = license.select_active_options.dup %>
 <% else %>
 <% options = license.select_all_options.dup %>
 <% end %>
 
-<div class="form-group radio_buttons generic_work_rights">
-    <%= f.label :rights %>
-    <%= f.hint :rights %>
-    <%= f.collection_radio_buttons(:rights, options, :last, :first, item_wrapper_class: 'radio', item_wrapper_tag: :div, boolean_style: :inline) do |b|
+<div class="form-group radio_buttons generic_work_license">
+    <%= f.label :license %>
+    <%= f.hint :license %>
+    <%= f.collection_radio_buttons(:license, options, :last, :first, item_wrapper_class: 'radio', item_wrapper_tag: :div, boolean_style: :inline) do |b|
         ( content_tag :p do
             b.label { b.radio_button(required: true) + b.text }
         end ) + 
         ( content_tag :aside do
-            t_uri(:description, scope: [ :rights, b.value ])
+            t_uri(:description, scope: [ :license, b.value ])
         end )
     end %>
     
