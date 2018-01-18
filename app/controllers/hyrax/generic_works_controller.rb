@@ -350,30 +350,37 @@ class Hyrax::GenericWorksController < ApplicationController
     total_bytes = 0
     file_sets.each do |file_set|
       file = file_set.files[0]
-      target_file_name = file_set.label
-      if files_extracted.has_key? target_file_name
-        dup_count = 1
-        base_ext = File.extname target_file_name
-        base_target_file_name = File.basename target_file_name, base_ext
-        target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
-        while files_extracted.has_key? target_file_name
-          dup_count += 1
-          target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
-        end
-      end
-      files_extracted.store( target_file_name, true )
-      target_file = target_dir.join target_file_name
-      if do_copy_predicate.call( target_file_name, target_file )
-        source_uri = file.uri.value
-        #Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exists?( source_uri )}" unless quiet
-        Rails.logger.debug "#{log_prefix} copy #{target_file} << #{source_uri}" unless quiet
-        bytes_copied = open(source_uri) { |io| IO.copy_stream(io, target_file) }
-        total_bytes += bytes_copied
-        copied = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( bytes_copied, precision: 3 )
-        Rails.logger.debug "#{log_prefix} copied #{copied} to #{target_file}" unless quiet
-        on_copy_block.call( target_file_name, target_file ) if on_copy_block
+      if file.nil?
+        Rails.logger.warning "#{log_prefix} file_set.id #{file_set.id} files[0] is nil"
       else
-        Rails.logger.debug "#{log_prefix} skipped copy of #{target_file}" unless quiet
+        target_file_name = file_set.label
+        # fix possible issues with target file name
+        target_file_name = '_nil_' if target_file_name.nil?
+        target_file_name = '_empty_' if target_file_name.empty?
+        if files_extracted.has_key? target_file_name
+          dup_count = 1
+          base_ext = File.extname target_file_name
+          base_target_file_name = File.basename target_file_name, base_ext
+          target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
+          while files_extracted.has_key? target_file_name
+            dup_count += 1
+            target_file_name = base_target_file_nakme + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
+          end
+        end
+        files_extracted.store( target_file_name, true )
+        target_file = target_dir.join target_file_name
+        if do_copy_predicate.call( target_file_name, target_file )
+          source_uri = file.uri.value
+          #Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exists?( source_uri )}" unless quiet
+          Rails.logger.debug "#{log_prefix} copy #{target_file} << #{source_uri}" unless quiet
+          bytes_copied = open(source_uri) { |io| IO.copy_stream(io, target_file) }
+          total_bytes += bytes_copied
+          copied = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( bytes_copied, precision: 3 )
+          Rails.logger.debug "#{log_prefix} copied #{copied} to #{target_file}" unless quiet
+          on_copy_block.call( target_file_name, target_file ) if on_copy_block
+        else
+          Rails.logger.debug "#{log_prefix} skipped copy of #{target_file}" unless quiet
+        end
       end
     end
     total_copied = ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( total_bytes, precision: 3 )
