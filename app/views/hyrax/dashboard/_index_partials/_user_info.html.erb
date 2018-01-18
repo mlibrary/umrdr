@@ -8,10 +8,10 @@
     </div>
 
     <div class="col-xs-6 col-sm-12 col-md-6 user-info">
-      <%= link_to t("hyrax.view_profile"), hyrax.profile_path(@user), class: "btn btn-default" %>
+      <%= link_to t("hyrax.view_profile"), hyrax.dashboard_profile_path(@user.to_param), class: "btn btn-default" %>
     </div>
     <div class="col-xs-6 col-sm-12 col-md-6 user-info">
-      <%= link_to t("hyrax.edit_profile"), hyrax.edit_profile_path(@user), class: "btn btn-default" %>
+      <%= link_to t("hyrax.edit_profile"), hyrax.edit_dashboard_profile_path(@user.to_param), class: "btn btn-default" %>
     </div>
   </div>
 </div>

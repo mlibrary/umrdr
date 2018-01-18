@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Force a newer json for 2.4 compatibility
 gem 'json', '~>1.8.0'
 # Added Gems
-gem 'hyrax', '1.0.5'
+gem 'hyrax', '2.0.1'
 # When the hyrax gem is updated, check whether the following files are still needed:
 # * app/views/hyrax/admin/stats/_deposits.html.erb
 # * app/views/hyrax/admin/stats/_new_users.html.erb
