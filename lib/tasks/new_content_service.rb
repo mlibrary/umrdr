@@ -92,8 +92,8 @@ class NewContentService
     fs.visibility = visibility
     fs.save!
     repository_file_id = nil
-    CharacterizationHelper.characterize( fs, repository_file_id, path, delete_input_file: false, continue_job_chain: false )
-    CharacterizationHelper.create_derivatives( fs, repository_file_id, path, delete_input_file: false )
+    TaskCharacterizationHelper.characterize( fs, repository_file_id, path, delete_input_file: false, continue_job_chain: false )
+    TaskCharacterizationHelper.create_derivatives( fs, repository_file_id, path, delete_input_file: false )
     logger.info "Finished:   #{fname}"
     return fs
   end
@@ -195,6 +195,12 @@ class NewContentService
   end
 
   def initialize_with_msg( config, base_path, msg: "NEW CONTENT SERVICE AT YOUR ... SERVICE" )
+    verbose_init = false
+    puts "ENV['TMPDIR']=#{ENV['TMPDIR']}" if verbose_init
+    puts "ENV['_JAVA_OPTIONS']=#{ENV['_JAVA_OPTIONS']}" if verbose_init
+    ENV['_JAVA_OPTIONS']='-Djava.io.tmpdir=' + ENV['TMPDIR']
+    puts "ENV['_JAVA_OPTIONS']=#{ENV['_JAVA_OPTIONS']}" if verbose_init
+    puts "#{`echo $_JAVA_OPTIONS`}" if verbose_init
     @cfg = config
     @base_path = base_path
     logger.info msg unless msg.nil?
