@@ -3,7 +3,7 @@
 <ul>
   <% @presenter.depositors.each do |usr| %>
     <li>
-      <a href="<%= hyrax.profile_path(usr[:user]) %>" title="View user's profile"><%= usr[:user].name %></a>
+      <a href="<%= hyrax.dashboard_profile_path(usr[:user]) %>" title="View user's profile"><%= usr[:user].name %></a>
       deposited <%= pluralize(usr[:deposits], "file") %>
     </li>
   <% end %>

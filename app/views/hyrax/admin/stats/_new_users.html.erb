@@ -10,7 +10,7 @@
 <ul>
   <% @presenter.recent_users.each do |usr| %>
     <li>
-      <a href="<%= hyrax.profile_path(usr) %>" title="View user's profile"><%= usr.name %></a>
+      <a href="<%= hyrax.dashboard_profile_path(usr.to_param) %>" title="View user's profile"><%= usr.name %></a>
       <%- if usr.department %>
         of <%= usr.department %>
       <%- end %>
