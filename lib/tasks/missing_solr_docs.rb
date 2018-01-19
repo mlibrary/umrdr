@@ -1,11 +1,14 @@
 require 'tasks/active_fedora_indexing_descendent_fetcher2'
+require 'tasks/task_logger'
 
 class MissingSolrdocs
 
-  def descendant_uris( uri, exclude_uri: false, user_pacifier: false )
+  def descendant_uris( uri, exclude_uri: false, user_pacifier: false, pacifier: nil, logger: nil )
     ActiveFedora::Indexing::DescendantFetcher2.new( uri,
                                                     exclude_self: exclude_uri,
-                                                    user_pacifier: user_pacifier ).descendant_and_self_uris
+                                                    user_pacifier: user_pacifier,
+                                                    pacifier: pacifier,
+                                                    logger: logger ).descendant_and_self_uris
   end
 
   def collection?( uri, id )
@@ -85,6 +88,15 @@ class MissingSolrdocs
   def hydra_model( doc )
     return '' if doc.nil?
     return "#{doc.hydra_model}"
+  end
+
+  def logger
+    @logger ||= logger_initialize
+  end
+
+  def logger_initialize
+    # TODO: add some flags to the input yml file for log level and Rails logging integration
+    Umrdr::TaskLogger.new(STDOUT).tap { |logger| logger.level = Logger::INFO; Rails.logger = logger }
   end
 
   def solr_doc( uri, id )
