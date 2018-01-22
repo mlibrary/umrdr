@@ -1,3 +1,11 @@
+
+resque_web_constraint = lambda do |request|
+  current_user = request.env['warden'].user
+  ability = Ability.new current_user
+  rv = ability.present? && ability.respond_to?(:admin?) && ability.admin?
+  rv
+end
+
 Rails.application.routes.draw do
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
@@ -43,6 +51,14 @@ Rails.application.routes.draw do
   resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
     concerns :exportable
   end
+
+  constraints resque_web_constraint do
+    mount ResqueWeb::Engine => "/resque"
+  end
+
+  # For anyone who doesn't meet resque_web_constraint,
+  # fall through to this controller.
+  get 'resque', controller: :jobs, action: :forbid
 
 
   # The priority is based upon order of creation: first created -> highest priority.

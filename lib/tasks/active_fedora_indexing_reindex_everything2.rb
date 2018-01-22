@@ -32,7 +32,8 @@ module ActiveFedora
         descendants.each do |uri|
           logger.debug "Re-index everything ... #{uri}" unless logger.nil?
 
-          batch << ActiveFedora::Base.find( ActiveFedora::Base.uri_to_id(uri) ).to_solr
+          # TODO catch errors
+          batch << ActiveFedora::Base.find(ActiveFedora::Base.uri_to_id(uri)).to_solr
 
           if (batch.count % batch_size).zero?
             SolrService.add(batch, softCommit: softCommit)
