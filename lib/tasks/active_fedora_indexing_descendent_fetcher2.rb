@@ -32,24 +32,28 @@ module ActiveFedora
                      priority_models: self.class.default_priority_models,
                      exclude_self: false,
                      user_pacifier: false,
+                     pacifier: nil,
+                     logger: nil,
                      depth: 0 )
         @uri = uri
         @priority_models = priority_models
         @exclude_self = exclude_self
         @user_pacifier = user_pacifier
+        @pacifier = pacifier
         @depth = depth
+        @logger = logger
       end
 
       def descendant_and_self_uris
         partitioned = descendant_and_self_uris_partitioned
-        print "[#{partitioned[:priority].count},#{partitioned[:other].count}]" if @user_pacifier
+        @pacifier.pacify "[#{partitioned[:priority].count},#{partitioned[:other].count}]" if @user_pacifier
         partitioned[:priority] + partitioned[:other]
       end
 
       # returns a hash where key :priority is an array of all prioritized
       # type objects, key :other is an array of the rest.
       def descendant_and_self_uris_partitioned
-        print '(' if @user_pacifier
+        @pacifier.pacify '(' if @user_pacifier
         resource = Ldp::Resource::RdfSource.new(ActiveFedora.fedora.connection, uri)
         # GET could be slow if it's a big resource, we're using HEAD to avoid this problem,
         # but this causes more requests to Fedora.
@@ -58,9 +62,10 @@ module ActiveFedora
         is_rdf_source = false
         begin
           is_rdf_source = resource.head.rdf_source?
-        rescue Exception => ignore
+        rescue Exception => e
           # TODO: collect and report on these errors
-          print '!' if @user_pacifier
+          @pacifier.pacify '!' if @user_pacifier
+          @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
         end
         return partitioned_uris unless is_rdf_source
         ### end update
@@ -69,19 +74,21 @@ module ActiveFedora
 
         immediate_descendant_uris = rdf_graph.query(predicate: ::RDF::Vocab::LDP.contains).map { |descendant| descendant.object.to_s }
         immediate_descendant_uris.each do |descendant_uri|
-          #print '.' if @user_pacifier
+          #@pacifier.pacify '.' if @user_pacifier
           self.class.new(
               descendant_uri,
               priority_models: priority_models,
               user_pacifier: @user_pacifier,
+              pacifier: @pacifier,
+              logger: @logger,
               depth: @depth + 1
           ).descendant_and_self_uris_partitioned.tap do |descendant_partitioned|
-            print "[#{descendant_partitioned[:priority].count},#{descendant_partitioned[:other].count}]" if @user_pacifier
+            @pacifier.pacify "[#{descendant_partitioned[:priority].count},#{descendant_partitioned[:other].count}]" if @user_pacifier
             partitioned_uris[:priority].concat descendant_partitioned[:priority]
             partitioned_uris[:other].concat descendant_partitioned[:other]
           end
         end
-        print ')' if @user_pacifier
+        @pacifier.pacify ')' if @user_pacifier
         partitioned_uris
       end
 

@@ -16,9 +16,13 @@ module ActiveFedora
                                softCommit: true,
                                progress_bar: false,
                                final_commit: false,
-                               user_pacifier: false )
+                               user_pacifier: false,
+                               logger: nil )
         # skip root url
-        descendants = descendant_uris( ActiveFedora.fedora.base_uri, exclude_uri: true, user_pacifier: user_pacifier )
+        descendants = descendant_uris( ActiveFedora.fedora.base_uri,
+                                       exclude_uri: true,
+                                       user_pacifier: user_pacifier,
+                                       logger: logger )
 
         batch = []
 
@@ -26,9 +30,9 @@ module ActiveFedora
                                                       format: "%t: |%B| %p%% %e" ) if progress_bar
 
         descendants.each do |uri|
-          logger.debug "Re-index everything ... #{uri}"
+          logger.debug "Re-index everything ... #{uri}" unless logger.nil?
 
-          batch << ActiveFedora::Base.find(ActiveFedora::Base.uri_to_id(uri)).to_solr
+          batch << ActiveFedora::Base.find( ActiveFedora::Base.uri_to_id(uri) ).to_solr
 
           if (batch.count % batch_size).zero?
             SolrService.add(batch, softCommit: softCommit)
@@ -44,15 +48,17 @@ module ActiveFedora
         end
 
         if final_commit
-          logger.debug "Solr hard commit..."
+          logger.debug "Solr hard commit..." unless logger.nil?
           SolrService.commit
         end
+
       end
 
-      def descendant_uris( uri, exclude_uri: false, user_pacifier: false )
+      def descendant_uris( uri, exclude_uri: false, user_pacifier: false, logger: nil )
         DescendantFetcher2.new( uri,
                                 exclude_self: exclude_uri,
-                                user_pacifier: user_pacifier ).descendant_and_self_uris
+                                user_pacifier: user_pacifier,
+                                logger: logger ).descendant_and_self_uris
       end
     end
 
