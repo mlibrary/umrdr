@@ -178,6 +178,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    commonjs (0.2.7)
     concurrent-ruby (1.0.5)
     config (1.6.1)
       activesupport (>= 3.0)
@@ -269,6 +270,8 @@ GEM
       jquery-rails
     font-awesome-rails (4.7.0.3)
       railties (>= 3.2, < 5.2)
+    font-awesome-sass (4.7.0)
+      sass (>= 3.2)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     google-api-client (0.19.3)
@@ -448,6 +451,13 @@ GEM
       slop
     legato (0.7.0)
       multi_json
+    less (2.6.0)
+      commonjs (~> 0.2.7)
+    less-rails (2.8.0)
+      actionpack (>= 4.0)
+      less (~> 2.6.0)
+      sprockets (> 2, < 4)
+      tilt
     link_header (0.0.8)
     linkeddata (2.2.4)
       equivalent-xml (~> 0.6)
@@ -666,6 +676,13 @@ GEM
     resque-pool (0.6.0)
       rake
       resque (~> 1.22)
+    resque-web (0.0.12)
+      coffee-rails
+      font-awesome-sass
+      jquery-rails
+      resque
+      sass-rails
+      twitter-bootstrap-rails
     retriable (3.1.1)
     rsolr (2.1.0)
       builder (>= 2.1.2)
@@ -792,6 +809,11 @@ GEM
     turbolinks (5.1.0)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
+    twitter-bootstrap-rails (4.0.0)
+      actionpack (~> 5.0, >= 5.0.1)
+      execjs (~> 2.7)
+      less-rails (~> 2.8, >= 2.8.0)
+      railties (~> 5.0, >= 5.0.1)
     twitter-typeahead-rails (0.11.1.pre.corejavascript)
       actionpack (>= 3.1)
       jquery-rails
@@ -857,6 +879,7 @@ DEPENDENCIES
   rdf-reasoner
   resque
   resque-pool
+  resque-web (~> 0.0.7)
   rsolr
   rspec-activemodel-mocks
   rspec-html-matchers
