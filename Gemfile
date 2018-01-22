@@ -27,6 +27,11 @@ gem 'edtf'
 # Use mysql as the database for Active Record
 gem 'mysql2'
 
+# Pinning Rack commit that resolves the large file upload issue
+# When 2.0.4 is out this might not be needed anymore
+# See: https://tools.lib.umich.edu/jira/browse/DBD-920
+gem 'rack', git: 'https://github.com/rack/rack.git', ref: 'ee01748'
+
 gem 'config'
 
 # Gems added by generator
