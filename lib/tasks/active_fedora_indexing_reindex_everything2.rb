@@ -16,12 +16,12 @@ module ActiveFedora
                                softCommit: true,
                                progress_bar: false,
                                final_commit: false,
-                               user_pacifier: false,
+                               pacifier: nil,
                                logger: nil )
         # skip root url
         descendants = descendant_uris( ActiveFedora.fedora.base_uri,
                                        exclude_uri: true,
-                                       user_pacifier: user_pacifier,
+                                       pacifier: pacifier,
                                        logger: logger )
 
         batch = []
@@ -31,34 +31,60 @@ module ActiveFedora
 
         descendants.each do |uri|
           logger.debug "Re-index everything ... #{uri}" unless logger.nil?
+          #pacifier.pacify '.' unless pacifier.nil?
 
-          # TODO catch errors
-          batch << ActiveFedora::Base.find(ActiveFedora::Base.uri_to_id(uri)).to_solr
+          # catch errors
+          begin
+            id = ActiveFedora::Base.uri_to_id(uri)
+            obj = ActiveFedora::Base.find(id)
+            batch << obj.to_solr
+          rescue Exception => e
+            pacifier.pacify '!' unless pacifier.nil?
+            @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
+          end
 
           if (batch.count % batch_size).zero?
-            SolrService.add(batch, softCommit: softCommit)
-            batch.clear
+            begin
+              pacifier.pacify 's' unless pacifier.nil?
+              SolrService.add(batch, softCommit: softCommit)
+              batch.clear
+            rescue Exception => e
+              pacifier.pacify '!' unless pacifier.nil?
+              @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
+            end
           end
 
           progress_bar_controller.increment if progress_bar_controller
         end
 
         if batch.present?
-          SolrService.add(batch, softCommit: softCommit)
-          batch.clear
+          begin
+            pacifier.pacify 's' unless pacifier.nil?
+            SolrService.add(batch, softCommit: softCommit)
+            batch.clear
+          rescue Exception => e
+            pacifier.pacify '!' unless pacifier.nil?
+            @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
+          end
         end
 
         if final_commit
-          logger.debug "Solr hard commit..." unless logger.nil?
-          SolrService.commit
+          begin
+            pacifier.pacify 'c' unless pacifier.nil?
+            logger.debug "Solr hard commit..." unless logger.nil?
+            SolrService.commit
+          rescue Exception => e
+            pacifier.pacify '!' unless pacifier.nil?
+            @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
+          end
         end
-
+        logger.info "\nRe-index everything complete." unless logger.nil?
       end
 
-      def descendant_uris( uri, exclude_uri: false, user_pacifier: false, logger: nil )
+      def descendant_uris( uri, exclude_uri: false, pacifier: nil, logger: nil )
         DescendantFetcher2.new( uri,
                                 exclude_self: exclude_uri,
-                                user_pacifier: user_pacifier,
+                                pacifier: pacifier,
                                 logger: logger ).descendant_and_self_uris
       end
     end
