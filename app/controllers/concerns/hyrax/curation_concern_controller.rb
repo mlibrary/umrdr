@@ -101,6 +101,11 @@ module Hyrax
       title = curation_concern.to_s
       return unless actor.destroy
       Hyrax.config.callback.run(:after_destroy, curation_concern.id, current_user)
+
+      #Send email letting RDS know that the work was deleted, and add entry to provenace log
+      action = "deleted from the system"
+      email_rds( action: action, log_provenance: true )
+
       after_destroy_response(title)
     end
 
