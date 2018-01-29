@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   root 'hyrax/homepage#index'
   #curation_concerns_collections
   curation_concerns_basic_routes
-  #curation_concerns_embargo_management
+  # curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
 
   namespace :hyrax,  path: :concern do

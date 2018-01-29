@@ -1,7 +1,4 @@
-require 'hydra/file_characterization'
 require 'tasks/new_content_service'
-
-Hydra::FileCharacterization::Characterizers::Fits.tool_path = `which fits || which fits.sh`.strip
 
 # Given a configuration hash read from a yaml file,
 # build the contents in the repository.

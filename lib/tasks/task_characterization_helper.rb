@@ -1,5 +1,5 @@
 
-module CharacterizationHelper
+module TaskCharacterizationHelper
 
   # @param [FileSet] file_set
   # @param [String] repository_file_id identifier for a Hydra::PCDM::File
