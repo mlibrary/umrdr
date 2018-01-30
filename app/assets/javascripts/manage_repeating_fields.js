@@ -72,7 +72,7 @@ var HydraEditor = (function($) {
           },
 
           inputIsEmpty: function($activeField) {
-              return $activeField.children('input.multi-text-field').val() === '';
+              return (() $activeField.children('textarea.multi-text-field').val() === '') || ($activeField.children('input.multi-text-field').val() === ''));
           },
 
           _newField: function ($activeField) {
