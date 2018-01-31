@@ -1,3 +1,32 @@
+# see: https://gist.github.com/cjcolvar/8f0485e3cf88307228447726b6b55dd3
+
+ActiveFedora::Fedora.class_eval do
+
+  def request_options
+    @config[:request]
+  end
+
+  def ntriples_connection
+    authorized_connection.tap { |conn| conn.headers['Accept'] = 'application/n-triples' }
+  end
+
+  def build_ntriples_connection
+    ActiveFedora::InitializingConnection.new(ActiveFedora::CachingConnection.new(ntriples_connection, omit_ldpr_interaction_model: true), root_resource_path)
+  end
+
+  def authorized_connection2
+    STDOUT.puts "authorized_connection" ; STDOUT.flush
+    options = {}
+    options[:ssl] = ssl_options if ssl_options
+    options[:request] = request_options if request_options
+    Faraday.new(host, options) do |conn|
+      conn.response :encoding # use Faraday::Encoding middleware
+      conn.adapter Faraday.default_adapter # net/http
+      conn.basic_auth(user, password)
+    end
+  end
+
+end
 
 module ActiveFedora
   module Indexing
@@ -94,7 +123,9 @@ module ActiveFedora
       protected
 
       def rdf_resource
-        @rdf_resource ||= Ldp::Resource::RdfSource.new(ActiveFedora.fedora.connection, uri)
+        #@rdf_resource ||= Ldp::Resource::RdfSource.new(ActiveFedora.fedora.connection, uri)
+        # see: https://gist.github.com/cjcolvar/8f0485e3cf88307228447726b6b55dd3
+        @rdf_resource ||= Ldp::Resource::RdfSource.new(ActiveFedora.fedora.build_ntriples_connection, uri)
       end
 
       def rdf_graph

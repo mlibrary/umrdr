@@ -21,7 +21,6 @@ class WorksMissingSolrdocs < MissingSolrdocs
     count = 0
     descendants = descendant_uris( ActiveFedora.fedora.base_uri,
                                    exclude_uri: true,
-                                   user_pacifier: @user_pacifier,
                                    pacifier: @pacifier,
                                    logger: @logger )
     puts
@@ -52,7 +51,7 @@ class WorksMissingSolrdocs < MissingSolrdocs
         elsif hydra_model == "FileSet"
           # skip
         elsif hydra_model == "Collection"
-                  @logger.info "#{id}...good collection" if @verbose
+          @logger.info "#{id}...good collection" if @verbose
         else
           @logger.info "skipped '#{hydra_model}'"
           # skip

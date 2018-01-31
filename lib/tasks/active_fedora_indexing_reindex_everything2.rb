@@ -19,12 +19,13 @@ module ActiveFedora
                                pacifier: nil,
                                logger: nil )
         # skip root url
-        descendants = descendant_uris( ActiveFedora.fedora.base_uri,
+        descendants = descendant_uris2( ActiveFedora.fedora.base_uri,
                                        exclude_uri: true,
                                        pacifier: pacifier,
                                        logger: logger )
 
         batch = []
+        batch_uri = []
 
         progress_bar_controller = ProgressBar.create( total: descendants.count,
                                                       format: "%t: |%B| %p%% %e" ) if progress_bar
@@ -38,34 +39,25 @@ module ActiveFedora
             id = ActiveFedora::Base.uri_to_id(uri)
             obj = ActiveFedora::Base.find(id)
             batch << obj.to_solr
+            batch_uri << uri
           rescue Exception => e
-            pacifier.pacify '!' unless pacifier.nil?
-            @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
+            pacifier.pacify '<!b>' unless pacifier.nil?
+            logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless logger.nil?
           end
 
           if (batch.count % batch_size).zero?
-            begin
-              pacifier.pacify 's' unless pacifier.nil?
-              SolrService.add(batch, softCommit: softCommit)
-              batch.clear
-            rescue Exception => e
-              pacifier.pacify '!' unless pacifier.nil?
-              @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
-            end
+            batch_save2( batch, batch_uri, softCommit, pacifier, logger )
+            batch.clear
+            batch_uri.clear
           end
 
           progress_bar_controller.increment if progress_bar_controller
         end
 
         if batch.present?
-          begin
-            pacifier.pacify 's' unless pacifier.nil?
-            SolrService.add(batch, softCommit: softCommit)
-            batch.clear
-          rescue Exception => e
-            pacifier.pacify '!' unless pacifier.nil?
-            @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
-          end
+          batch_save2( batch, batch_uri, softCommit, pacifier, logger )
+          batch.clear
+          batch_uri.clear
         end
 
         if final_commit
@@ -74,18 +66,38 @@ module ActiveFedora
             logger.debug "Solr hard commit..." unless logger.nil?
             SolrService.commit
           rescue Exception => e
-            pacifier.pacify '!' unless pacifier.nil?
-            @logger.error "#{uri} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
+            pacifier.pacify '<!c>' unless pacifier.nil?
+            logger.error "#{e.class}: #{e.message} at #{e.backtrace[0]}" unless logger.nil?
           end
         end
         logger.info "\nRe-index everything complete." unless logger.nil?
       end
 
-      def descendant_uris( uri, exclude_uri: false, pacifier: nil, logger: nil )
+      def descendant_uris2( uri, exclude_uri: false, pacifier: nil, logger: nil )
         DescendantFetcher2.new( uri,
                                 exclude_self: exclude_uri,
                                 pacifier: pacifier,
                                 logger: logger ).descendant_and_self_uris
+      end
+
+      def batch_save2( batch, batch_uri, softCommit, pacifier, logger, recurse_on_error: true )
+        begin
+          pacifier.pacify 's' unless pacifier.nil?
+          SolrService.add(batch, softCommit: softCommit)
+        rescue Exception => e
+          pacifier.pacify '<!s>' unless pacifier.nil?
+          if recurse_on_error
+            logger.error "#{e.class}: #{e.message} at #{e.backtrace[0]}" unless logger.nil?
+          else
+            logger.error "#{batch_uri[0]} #{e.class}: #{e.message} at #{e.backtrace[0]}" unless logger.nil?
+          end
+          if recurse_on_error
+            pacifier.pacify '(' unless pacifier.nil?
+            i = 0
+            batch.each { |b| batch_save2( [b], [batch_uri[i]],  softCommit, pacifier, logger, recurse_on_error: false ); i = i + 1 }
+            pacifier.pacify ')' unless pacifier.nil?
+          end
+        end
       end
     end
 

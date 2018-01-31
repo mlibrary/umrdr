@@ -28,7 +28,6 @@ class WorksAndFilesMissingSolrdocs < MissingSolrdocs
     descendants = descendant_uris( ActiveFedora.fedora.base_uri,
                                    exclude_uri: true,
                                    pacifier: @pacifier,
-                                   user_pacifier: @user_pacifier,
                                    logger: @logger )
     @logger.info
     descendants.each do |uri|
