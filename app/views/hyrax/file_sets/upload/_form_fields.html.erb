@@ -9,10 +9,6 @@
 <%= hidden_field_tag(:parent_id, @work_id) %>
 <%= hidden_field_tag "file_coming_from", "local" %>
 
-<div class="upload-terms-of-service">
-  <%= render 'hyrax/file_sets/upload/tos_checkbox' %>
-  <%= render 'hyrax/file_sets/upload/agreement' %>
-</div>
 
 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 <div class="fileupload-buttonbar">
@@ -30,8 +26,8 @@
     <input type="file" name="file_set[files][]" directory webkitdirectory mozdirectory />
   </span>
   <% end %>
-  <div id="main_upload_start_span"  class="activate-container visible-all-inline-block" data-toggle="tooltip" data-title="<%= t('hyrax.upload_tooltip') %>">
-    <button disabled type="submit" name="main_upload_start" class="activate-submit btn btn-info start"   id="main_upload_start">
+  <div class="activate-container visible-all-inline-block" data-toggle="tooltip" data-title="<%= t('hyrax.upload_tooltip') %>">
+    <button type="submit"  class="activate-submit btn btn-info start"  >
       <i class="glyphicon glyphicon-upload"></i>
       <span>Start upload</span>
     </button>
