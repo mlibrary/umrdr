@@ -36,6 +36,7 @@ class ReindexWorksWithMismatchingSolrDocs
     rescue Exception => e
       @pacifier.pacify '<!b>' unless @pacifier.nil?
       @logger.error "#{id} - #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
+      return
     end
     begin
       @pacifier.pacify 's' unless @pacifier.nil?
