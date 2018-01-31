@@ -40,7 +40,7 @@ class ReindexWorksWithMismatchingSolrDocs
     end
     begin
       @pacifier.pacify 's' unless @pacifier.nil?
-      SolrService.add( batch, softCommit: true )
+      ActiveFedora::SolrService.add( batch, softCommit: true )
     rescue Exception => e
       @pacifier.pacify '<!s>' unless @pacifier.nil?
       @logger.error "#{id} -- #{e.class}: #{e.message} at #{e.backtrace[0]}" unless @logger.nil?
