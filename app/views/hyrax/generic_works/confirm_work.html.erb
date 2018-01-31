@@ -6,7 +6,7 @@
         <li class="active"></li>
       </ul>
     </div>
-    <div class="progress-deposit ">
+    <div class="progress-deposit">
       <ul >
         <li>Describe Work</li>
         <li>Upload File(s)</li>
@@ -19,10 +19,10 @@
   <div class="col-sm-12">
     <div class="position-page">
       <h2 class="non lower">Thank You for Your Deposit in Deep Blue Data!</h2>
-        <p class="box-padding emphasis-text">Your work is now available to the public!</p>
+        <p class="box-padding emphasis-text">Your work will remain private until Research Data Services has reviewed your submission. You will be notified once your data are published.</p>
 
         <form class="copy-url box-padding align-left">
-          <label for="copy-input" >Share your new work with the following link:</label>
+          <label for="copy-input" >Share your work with the following link:</label>
           <div class="input-group">
             <input type="text" class="form-control"
                 value="<%= polymorphic_url([main_app, curation_concern]) %>" placeholder="The work URL path" id="copy-input">
@@ -33,8 +33,6 @@
             </span>
           </div>
         </form>
-
-        <p class="box-padding align-left">We’ve sent you an email confirmation regarding your deposit and a data curator will review your submission and contact you with any questions about your materials.</p>
 
         <div class="top-border">
         
