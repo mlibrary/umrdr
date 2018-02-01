@@ -214,7 +214,7 @@ en:
           end_label: "Ending [defaults to now]"
     works:
       create:
-        after_create_html: "The metadata and access controls you specified are being applied."
+        after_create_html: "The metadata you specified is being applied."
 
   simple_form:
     labels:
