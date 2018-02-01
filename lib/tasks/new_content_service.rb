@@ -216,7 +216,11 @@ class NewContentService
 
   def logger_initialize
     # TODO: add some flags to the input yml file for log level and Rails logging integration
-    Umrdr::TaskLogger.new(STDOUT).tap { |logger| logger.level = Logger::INFO; Rails.logger = logger }
+    Umrdr::TaskLogger.new(STDOUT).tap { |logger| logger.level = logger_level; Rails.logger = logger }
+  end
+
+  def logger_level
+    return config_value( :logger_level, 'info' )
   end
 
   def user_key
@@ -224,11 +228,22 @@ class NewContentService
     @cfg[:user][:email]
   end
 
+  def config_value( key, default_value )
+    rv = default_value
+    if @cfg.has_key? :config
+      if @cfg[:config].has_key? key
+        rv = @cfg[:config][key]
+      end
+    end
+    return rv
+  end
+
   # config needs default user to attribute collections/works/filesets to
   # User needs to have only works or collections
   def validate_config
-    if @cfg.keys != [:user]
-      raise TaskConfigError.new "Top level key needs to be 'user'"
+    # if @cfg.keys != [:user]
+    unless @cfg.has_key?( :user )
+      raise TaskConfigError.new "Top level keys needs to contain 'user'"
     end
     if (@cfg[:user].keys <=> [:collections, :works]) < 1
       raise TaskConfigError.new "user can only contain collections and works"

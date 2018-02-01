@@ -20,8 +20,7 @@ class WorksAndFilesMissingEditUsers < MissingSolrdocs
     @user_pacifier = false
     @verbose = false
     descendants = descendant_uris( ActiveFedora.fedora.base_uri,
-                                   exclude_uri: true,
-                                   user_pacifier: @user_pacifier )
+                                   exclude_uri: true )
     puts
     descendants.each do |uri|
       print "#{uri} ... " if @verbose
