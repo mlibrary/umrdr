@@ -44,9 +44,15 @@
 
 <div class="data-buttons">
 <%= hidden_field_tag(:isDraft, Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC) %>
-<%= f.submit 'Save as Draft (Private)', class: 'btn btn-default', onclick: "confirmation_needed = false; document.getElementById('isDraft').value = '#{Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE}';", id: "with_files_submit", name: "save_with_files" %>
 
-<%= f.submit 'Save Description (Public)', class: 'btn btn-primary', onclick: "confirmation_needed = false; document.getElementById('isDraft').value = '#{Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}';", id: "with_files_submit", name: "save_with_files" %>
+<% if current_ability.admin? %>
+  <%= f.submit 'Save as Draft (Private)', class: 'btn btn-default', onclick: "confirmation_needed = false; document.getElementById('isDraft').value = '#{Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE}';", id: "with_files_submit", name: "save_with_files" %>
+
+  <%= f.submit 'Save Description (Public)', class: 'btn btn-primary', onclick: "confirmation_needed = false; document.getElementById('isDraft').value = '#{Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}';", id: "with_files_submit", name: "save_with_files" %>
+<% else %>
+  <%= f.submit 'Save as Draft (Private)', class: 'btn btn-default', onclick: "confirmation_needed = false; document.getElementById('isDraft').value = '#{Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE}';", id: "with_files_submit", name: "save_with_files" %>
+<% end %>
+
 <br>
   <%= link_to t(:'helpers.action.cancel'), curation_concern.new_record? ? main_app.root_path : polymorphic_path([main_app, curation_concern]), class: 'btn btn-link cancel-btn' %>
 </div>
