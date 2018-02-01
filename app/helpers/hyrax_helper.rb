@@ -13,7 +13,7 @@ module HyraxHelper
              login
            end
 
-    href = profile_path(user)
+    href = dashboard_profile_path(user.to_param)
 
     # TODO: Fix the link to the user profiles when the sufia object isn't available.
     link_to text, href

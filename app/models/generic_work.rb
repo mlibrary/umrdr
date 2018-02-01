@@ -3,11 +3,11 @@ include OrderedStringHelper
 
 class GenericWork < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
-  include ::Hyrax::BasicMetadata
   #include Sufia::WorkBehavior
   self.human_readable_type = 'Generic Work'
   include Umrdr::GenericWorkBehavior
   include Umrdr::GenericWorkMetadata
+   include ::Hyrax::BasicMetadata
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :creator, presence: { message: 'Your work must have a creator.' }
   validates :description, presence: { message: 'Your work must have a description.' }
@@ -36,25 +36,25 @@ class GenericWork < ActiveFedora::Base
   #
   # handle the list of creators as ordered
   #
-  def creator
-    values = super
-    if Umrdr::Application.config.creator_ordered_list_hack
+ #def creator
+ #   values = super
+ #   if Umrdr::Application.config.creator_ordered_list_hack
       # check for existence of creator_ordered and override values it isn't null
-      ordered = self.creator_ordered
-      values = OrderedStringHelper.deserialize( ordered ) unless ordered.nil?
-    end
-    values
-  end
+ #     ordered = self.creator_ordered
+ #     values = OrderedStringHelper.deserialize( ordered ) unless ordered.nil?
+ #   end
+ #   values
+ # end
 
-  def creator= values
-    if Umrdr::Application.config.creator_ordered_list_hack
-      if Umrdr::Application.config.creator_ordered_list_hack_save
-        self.creator_ordered = OrderedStringHelper.serialize( values )
-      elsif !self.creator_ordered.nil?
-        self.creator_ordered = OrderedStringHelper.serialize( values )
-      end
-    end
-    super values
-  end
+ # def creator= values
+ #   if Umrdr::Application.config.creator_ordered_list_hack
+ #     if Umrdr::Application.config.creator_ordered_list_hack_save
+ #       self.creator_ordered = OrderedStringHelper.serialize( values )
+ #     elsif !self.creator_ordered.nil?
+ #       self.creator_ordered = OrderedStringHelper.serialize( values )
+ #     end
+ #   end
+ #   super values
+ # end
 
 end
