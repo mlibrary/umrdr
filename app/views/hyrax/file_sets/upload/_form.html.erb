@@ -1,3 +1,6 @@
+<% if !@presenter.current_ability.admin? %>
+  <h2 class="well-title"> You must be an admin to upload data.  Here are the instructions for uploading file(s) via MBox. </h2>
+<% else %>
 <% if @presenter.tombstone.blank? && @presenter.current_ability.admin? %>
   <div class="well">
     <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
@@ -37,5 +40,6 @@
       </div>
         <% end %>
       <% end %>
+<% end %>
 <% end %>
 <% end %>
