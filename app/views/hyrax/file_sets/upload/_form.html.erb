@@ -1,5 +1,5 @@
 <% if !@presenter.current_ability.admin? %>
-  <h2 class="well-title"> You must be an admin to upload data.  Here are the instructions for uploading file(s) via MBox. </h2>
+  <h2 class="well-title"> Please upload your files to <a href="https://umich.app.box.com/folder/45101723215" target="_blank">this MBox folder</a>. If you require assistance, <a href="<%= hyrax.contact_path %>">contact Us for assistance</a>.</h2>
 <% else %>
 <% if @presenter.tombstone.blank? && @presenter.current_ability.admin? %>
   <div class="well">
