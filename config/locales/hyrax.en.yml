@@ -201,7 +201,7 @@ en:
     work:
       browse_view: "Browse View"
     footer:
-      copyright_html: "© 2017 Regents of the University of Michigan"
+      copyright_html: "© 2018 Regents of the University of Michigan"
       source_html: "Powered by Samvera"
     admin:
       stats:
