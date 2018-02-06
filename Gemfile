@@ -9,6 +9,8 @@ gem 'hyrax', '1.0.5'
 # * app/views/hyrax/admin/stats/_deposits.html.erb
 # * app/views/hyrax/admin/stats/_new_users.html.erb
 
+gem 'ffi', '1.9.18' # v '1.9.21' fails to build
+
 gem 'flipflop', github: 'voormedia/flipflop'
 gem 'blacklight_advanced_search', '~> 6.0'
 
