@@ -270,7 +270,7 @@ GEM
     fcrepo_wrapper (0.9.0)
       ruby-progressbar
     ffaker (2.8.1)
-    ffi (1.9.18)
+    ffi (1.9.21)
     flot-rails (0.0.7)
       jquery-rails
     font-awesome-rails (4.7.0.3)
@@ -865,7 +865,6 @@ DEPENDENCIES
   factory_girl_rails
   fcrepo_wrapper (~> 0.1)
   ffaker
-  ffi (= 1.9.18)
   flipflop!
   hyrax (= 1.0.5)
   jbuilder (~> 2.0)
