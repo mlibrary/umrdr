@@ -406,6 +406,19 @@ class Hyrax::GenericWorksController < ApplicationController
     "Emails did not match" # + ": '#{user_email_one}' != '#{user_email_two}'"
   end
 
+  def email_user( action: '', log_provenance: false )
+    location = MsgHelper.work_location( curation_concern )
+    title    = MsgHelper.title( curation_concern )
+    creator  = MsgHelper.creator( curation_concern )
+    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{action}."
+    if log_provenance
+      PROV_LOGGER.info (msg)
+    end
+
+    email = WorkMailer.create_work( to: EmailHelper.user_email_from( current_user ), from: EmailHelper.notification_email, body: msg )
+    email.deliver_now
+  end
+
   def email_rds( action: '', log_provenance: false )
     location = MsgHelper.work_location( curation_concern )
     title    = MsgHelper.title( curation_concern )

@@ -5,6 +5,10 @@ class WorkMailer < ApplicationMailer
 
   layout "mailer.html"
  
+  def create_work(to: '', from: '', body: '')
+    mail( to: to, from: from, subject: 'DBD: New Work Created', body: body )
+  end
+
   def deposit_work(from, body)
     mail( to: EmailHelper.notification_email, from: from, subject: 'DBD: New Deposit', body: body )
   end

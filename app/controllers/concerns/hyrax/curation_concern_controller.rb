@@ -42,6 +42,10 @@ module Hyrax
 
     def create
       if actor.create(attributes_for_actor)
+        #Send email to depositor
+        action = "created"
+        email_user( action: action, log_provenance: false )
+
         after_create_response
       else
         respond_to do |wants|
