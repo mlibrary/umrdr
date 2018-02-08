@@ -58,7 +58,7 @@ module Umrdr
     config.min_work_file_size_to_download_warn = 1_000_000_000
 
     # ingest characterization config
-    config.characterize_excluded_ext_set = { '.csv' => 'text/plain', '.nc' => 'text/plain' }.freeze
+    config.characterize_excluded_ext_set = { '.csv' => 'text/plain' }.freeze #, '.nc' => 'text/plain' }.freeze
 
     # ingest derivative config
     config.derivative_excluded_ext_set = {}.freeze
