@@ -39,9 +39,9 @@ module Umrdr
       #puts "Umrdr::Application.config.tmpdir=#{Umrdr::Application.config.tmpdir}"
       puts "ENV['_JAVA_OPTIONS']=#{ENV['_JAVA_OPTIONS']}"
       @tmpdir = Pathname.new "/deepbluedata-prep/fedora-extract"
-      Dir.mkdir @tmpdir unless Dir.exists? @tmpdir
+      Dir.mkdir @tmpdir unless Dir.exist? @tmpdir
       @java_io_tmpdir = @tmpdir
-      Dir.mkdir @java_io_tmpdir unless Dir.exists? @java_io_tmpdir
+      Dir.mkdir @java_io_tmpdir unless Dir.exist? @java_io_tmpdir
       ENV['_JAVA_OPTIONS']='-Djava.io.tmpdir=' + ENV['TMPDIR']
       puts "ENV['_JAVA_OPTIONS']=#{ENV['_JAVA_OPTIONS']}"
       puts "#{`echo $_JAVA_OPTIONS`}"
@@ -144,7 +144,7 @@ module Umrdr
     
     def copy_file_to_tmpdir( fs )
       target_file = target_file_for fs
-      unless File.exists? target_file
+      unless File.exist? target_file
         pacify 'C'
         source_uri = fs.files[0].uri.value
         bytes_copied = open(source_uri) { |io| IO.copy_stream( io, target_file ) }
@@ -229,7 +229,7 @@ module Umrdr
     
     def delete_file_from_tmpdir( fs )
       target_file = target_file_for fs
-      File.delete target_file if File.exists? target_file
+      File.delete target_file if File.exist? target_file
     end
         
     def human_readable( value )
