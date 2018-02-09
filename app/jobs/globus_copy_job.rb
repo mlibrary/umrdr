@@ -4,14 +4,13 @@ class GlobusCopyJob < GlobusJob
   queue_as :globus_copy
 
   # @param [String] concern_id
-  # @param [String, "Globus: "] log_prefix
+  # @param [String, "Globus: " ] log_prefix
   # @param [boolean, false] generate_error
-  def perform( concern_id, log_prefix: "Globus: ", generate_error: false, delay_seconds: 0, user_email: nil )
+  # @param [integer, 0 ] delay_per_file_seconds
+  # @param [String, nil ] user_email
+  def perform( concern_id, log_prefix: "Globus: ", generate_error: false, delay_per_file_seconds: 0, user_email: nil )
     globus_job_perform( concern_id: concern_id, email: user_email, log_prefix: "#{log_prefix}globus_copy_job" ) do
       Rails.logger.debug "#{@globus_log_prefix} begin copy" unless @globus_job_quiet
-      if 0 < delay_seconds
-        sleep delay_seconds
-      end
       @target_download_dir = target_download_dir @globus_concern_id
       prefix = "#{Rails.env}_"
       @target_prep_dir = target_prep_dir( @globus_concern_id, prefix: prefix, mkdir: true )
@@ -24,6 +23,9 @@ class GlobusCopyJob < GlobusJob
                                                   , log_prefix: @globus_log_prefix \
                                                   , do_copy_predicate: do_copy_predicate \
                                                   ) do |target_file_name, target_file|
+        if 0 < delay_per_file_seconds
+          sleep delay_per_file_seconds
+        end
         move_destination = GlobusJob.target_file_name( @target_prep_dir, target_file_name )
         Rails.logger.debug "#{@globus_log_prefix} mv #{target_file} to #{move_destination}" unless @globus_job_quiet
         FileUtils.move( target_file, move_destination )
@@ -111,7 +113,7 @@ class GlobusCopyJob < GlobusJob
   def globus_copy_job_email_reset
     email_file = globus_copy_job_email_file
     Rails.logger.debug "#{@globus_log_prefix} globus_copy_job_email_reset exists? #{email_file}" unless @globus_job_quiet
-    if File.exists? email_file
+    if File.exist? email_file
       Rails.logger.debug "#{@globus_log_prefix} globus_copy_job_email_reset delete #{email_file}" unless @globus_job_quiet
       File.delete email_file
     end
@@ -121,7 +123,7 @@ class GlobusCopyJob < GlobusJob
     email_addresses = Hash.new
     email_file = globus_copy_job_email_file
     Rails.logger.debug "#{@globus_log_prefix} globus_copy_job_emails email_file=#{email_file}" unless @globus_job_quiet
-    if File.exists? email_file
+    if File.exist? email_file
       # read the file, one email address per line
       open( email_file, 'r' ) do |file|
         globus_file_lock( file, mode: File::LOCK_SH ) do |fin|
@@ -145,7 +147,7 @@ class GlobusCopyJob < GlobusJob
   def globus_do_copy?( target_file_name )
     prep_file_name = GlobusJob.target_file_name( @target_prep_dir, target_file_name )
     do_copy = true
-    if File.exists? prep_file_name
+    if File.exist? prep_file_name
       Rails.logger.debug "#{@globus_log_prefix} skipping copy because #{prep_file_name} already exists" unless @globus_job_quiet
       do_copy = false
     end

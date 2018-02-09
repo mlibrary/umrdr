@@ -171,15 +171,15 @@ class Hyrax::GenericWorksController < ApplicationController
     #Rails.logger.debug "Download Zip begin tmp_dir #{tmp_dir}"
     target_dir = target_dir_name_id( tmp_dir, curation_concern.id )
     #Rails.logger.debug "Download Zip begin copy to folder #{target_dir}"
-    Dir.mkdir(target_dir) unless Dir.exists?( target_dir )
+    Dir.mkdir(target_dir) unless Dir.exist?( target_dir )
     target_zipfile = target_dir_name_id( target_dir, curation_concern.id, ".zip" )
     #Rails.logger.debug "Download Zip begin copy to target_zipfile #{target_zipfile}"
-    File.delete target_zipfile if File.exists? target_zipfile
+    File.delete target_zipfile if File.exist? target_zipfile
     # clean the zip directory if necessary, since the zip structure is currently flat, only
     # have to clean files in the target folder
     files = Dir.glob( "#{target_dir.join '*'}")
     files.each do |file|
-      File.delete file if File.exists? file
+      File.delete file if File.exist? file
     end
     Rails.logger.debug "Download Zip begin copy to folder #{target_dir}"
     Zip::File.open(target_zipfile.to_s, Zip::File::CREATE ) do |zipfile|
@@ -196,13 +196,13 @@ class Hyrax::GenericWorksController < ApplicationController
   def globus_add_email
     if user_signed_in?
       user_email = EmailHelper.user_email_from( current_user )
-      ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email )
+      globus_copy_job( user_email: user_email, delay_per_file_seconds: 0 )
       flash_and_go_back globus_files_prepping_msg( user_email: user_email )
     elsif params[:user_email_one].present? || params[:user_email_two].present?
       user_email_one = params[:user_email_one].present? ? params[:user_email_one].strip : ''
       user_email_two = params[:user_email_two].present? ? params[:user_email_two].strip : ''
       if user_email_one === user_email_two
-        ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email_one )
+        globus_copy_job( user_email: user_email_one, delay_per_file_seconds: 0 )
         flash_and_redirect_to_main_cc globus_files_prepping_msg( user_email: user_email_one )
       else
         flash.now[:error] = emails_did_not_match_msg( user_email_one, user_email_two )
@@ -210,6 +210,17 @@ class Hyrax::GenericWorksController < ApplicationController
       end
     else
       flash_and_redirect_to_main_cc globus_status_msg
+    end
+  end
+
+  def globus_copy_job( user_email: nil,
+                       delay_per_file_seconds: Umrdr::Application.config.globus_debug_delay_per_file_copy_job_seconds )
+    ::GlobusCopyJob.perform_later( curation_concern.id,
+                                   user_email: user_email,
+                                   ui_delay_seconds: Umrdr::Application.config.globus_after_copy_job_ui_delay_seconds,
+                                   delay_per_file_seconds: delay_per_file_seconds )
+    if 0 < ui_delay_seconds
+      sleep ui_delay_seconds
     end
   end
 
@@ -225,9 +236,7 @@ class Hyrax::GenericWorksController < ApplicationController
         msg = globus_file_prep_started_msg( user_email: user_email )
       end
       if user_signed_in?
-        ::GlobusCopyJob.perform_later( curation_concern.id,
-                                       user_email: user_email,
-                                       delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
+        globus_copy_job( user_email: user_email )
         flash_and_redirect_to_main_cc msg
       else
         render 'globus_download_notify_me_form'
@@ -246,17 +255,13 @@ class Hyrax::GenericWorksController < ApplicationController
   def globus_download_notify_me
     if user_signed_in?
       user_email = EmailHelper.user_email_from( current_user )
-      ::GlobusCopyJob.perform_later( curation_concern.id,
-                                     user_email: user_email,
-                                     delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
+      globus_copy_job( user_email: user_email )
       flash_and_go_back globus_file_prep_started_msg( user_email: user_email )
     elsif params[:user_email_one].present? || params[:user_email_two].present?
       user_email_one = params[:user_email_one].present? ? params[:user_email_one].strip : ''
       user_email_two = params[:user_email_two].present? ? params[:user_email_two].strip : ''
       if user_email_one === user_email_two
-        ::GlobusCopyJob.perform_later( curation_concern.id,
-                                       user_email: user_email_one,
-                                       delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
+        globus_copy_job( user_email: user_email_one )
         flash_and_redirect_to_main_cc globus_file_prep_started_msg( user_email: user_email_one )
       else
         #flash_and_go_back emails_did_not_match_msg( user_email_one, user_email_two )
@@ -264,9 +269,7 @@ class Hyrax::GenericWorksController < ApplicationController
         render 'globus_download_notify_me_form'
       end
     else
-      ::GlobusCopyJob.perform_later( curation_concern.id,
-                                     user_email: nil,
-                                     delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
+      globus_copy_job( user_email: nil )
       flash_and_redirect_to_main_cc globus_file_prep_started_msg
     end
   end
@@ -364,14 +367,14 @@ class Hyrax::GenericWorksController < ApplicationController
           target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
           while files_extracted.has_key? target_file_name
             dup_count += 1
-            target_file_name = base_target_file_nakme + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
+            target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
           end
         end
         files_extracted.store( target_file_name, true )
         target_file = target_dir.join target_file_name
         if do_copy_predicate.call( target_file_name, target_file )
           source_uri = file.uri.value
-          #Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exists?( source_uri )}" unless quiet
+          #Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exist?( source_uri )}" unless quiet
           Rails.logger.debug "#{log_prefix} copy #{target_file} << #{source_uri}" unless quiet
           bytes_copied = open(source_uri) { |io| IO.copy_stream(io, target_file) }
           total_bytes += bytes_copied

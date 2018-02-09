@@ -16,7 +16,7 @@ describe GlobusJob do
   describe "GlobusJob#copy_complete?" do
     context "directory exists in download dir" do
       before do
-        allow( Dir ).to receive( :exists? ).with( globus_target_download_dir ).and_return( true )
+        allow( Dir ).to receive( :exist? ).with( globus_target_download_dir ).and_return( true )
       end
       it "returns true." do expect( GlobusJob.copy_complete?( "id321" ) ).to eq( true ); end
     end
@@ -32,8 +32,8 @@ describe GlobusJob do
   describe "GlobusJob#files_prepping?" do
     context "directory exists in prep dir" do
       before do
-        allow( Dir ).to receive( :exists? ).with( globus_target_download_dir ).and_return( false )
-        allow( File ).to receive( :exists? ).with( error_file ).and_return( false )
+        allow( Dir ).to receive( :exist? ).with( globus_target_download_dir ).and_return( false )
+        allow( File ).to receive( :exist? ).with( error_file ).and_return( false )
         allow( GlobusJob ).to receive( :locked? ).with( "id321" ).and_return( true )
       end
       it "returns true." do expect( GlobusJob.files_prepping?( "id321" ) ).to eq( true ); end
@@ -43,8 +43,8 @@ describe GlobusJob do
   describe "GlobusJob#locked?" do
     context "lock file does not exist" do
       before do
-        allow( File ).to receive( :exists? ).with( error_file ).and_return( false )
-        allow( File ).to receive( :exists? ).with( lock_file ).and_return( false )
+        allow( File ).to receive( :exist? ).with( error_file ).and_return( false )
+        allow( File ).to receive( :exist? ).with( lock_file ).and_return( false )
       end
       it "returns true." do expect( GlobusJob.locked?( "id321" ) ).to eq( false ); end
     end
@@ -107,7 +107,7 @@ describe GlobusJob do
   describe "#globus_copy_job_complete?" do
     let( :job ) { j = described_class.new; j.perform( "abc" ); j }
     before do
-      expect( Dir ).to receive( :exists? ).with( globus_target_download_dir ).and_return( true )
+      expect( Dir ).to receive( :exist? ).with( globus_target_download_dir ).and_return( true )
     end
     it "returns true." do expect( job.send( :globus_copy_job_complete?, "id321" ) ).to eq( true ); end
   end
@@ -144,7 +144,7 @@ describe GlobusJob do
     let( :job ) { j = described_class.new; j.perform( "id321" ); j }
     context "error file exists" do
       before do
-        expect( File ).to receive( :exists? ).with( error_file ).and_return( true )
+        expect( File ).to receive( :exist? ).with( error_file ).and_return( true )
       end
       it "returns true if error file exists." do
         expect( job.send( :globus_error_file_exists?,   ) ).to eq( true )
@@ -169,7 +169,7 @@ describe GlobusJob do
     end
     context "error file does not exist" do
       before do
-        expect( File ).to receive( :exists? ).with( error_file ).and_return( false )
+        expect( File ).to receive( :exist? ).with( error_file ).and_return( false )
       end
       it "returns true if error file exists." do
         expect( job.send( :globus_error_file_exists? ) ).to eq( false )
@@ -181,7 +181,7 @@ describe GlobusJob do
     let( :job ) { j = described_class.new; j.perform( "id321" ); j }
     context "when error file exists." do
       before do
-        expect( File ).to receive( :exists? ).with( error_file ).and_return( true )
+        expect( File ).to receive( :exist? ).with( error_file ).and_return( true )
         expect( File ).to receive( :delete ).with( error_file )
       end
       it "return true when file exists." do
@@ -190,7 +190,7 @@ describe GlobusJob do
     end
     context "when error file doesn't exist." do
       before do
-        expect( File ).to receive( :exists? ).with( error_file ).and_return( false )
+        expect( File ).to receive( :exist? ).with( error_file ).and_return( false )
         expect( File ).not_to receive( :delete )
       end
       it "return true when file doesn't exist." do
@@ -298,7 +298,7 @@ describe GlobusJob do
       before do
         job.define_singleton_method( :globus_job_complete_file ) do "let the expect define the return value"; end
         expect( job ).to receive( :globus_job_complete_file ).and_return( complete_file )
-        expect( File ).to receive( :exists? ).with( complete_file ).and_return( true )
+        expect( File ).to receive( :exist? ).with( complete_file ).and_return( true )
         expect( File ).to receive( :delete ).with( complete_file )
       end
       it "return true when file exists." do
@@ -309,7 +309,7 @@ describe GlobusJob do
       before do
         job.define_singleton_method( :globus_job_complete_file ) do "let the expect define the return value"; end
         expect( job ).to receive( :globus_job_complete_file ).and_return( complete_file )
-        expect( File ).to receive( :exists? ).with( complete_file ).and_return( false )
+        expect( File ).to receive( :exist? ).with( complete_file ).and_return( false )
         expect( File ).not_to receive( :delete )
       end
       it "return true when file doesn't exist." do
@@ -352,7 +352,7 @@ describe GlobusJob do
       let( :job ) { j = described_class.new; j.perform( "id321" ); j }
       before do
         expect( GlobusJob ).to receive( :error_file_exists? ).and_return( false )
-        expect( File ).to receive( :exists? ).with( lock_file ).and_return( false )
+        expect( File ).to receive( :exist? ).with( lock_file ).and_return( false )
       end
       it "then return false." do
         expect( job.send( :globus_locked? ) ).to eq( false )
@@ -412,7 +412,7 @@ describe GlobusJob do
     context "when globus lock file does not exist" do
       let( :job ) { j = described_class.new; j.perform( "id321" ); j }
       before do
-        expect( File ).to receive( :exists? ).with( lock_file ).and_return( false )
+        expect( File ).to receive( :exist? ).with( lock_file ).and_return( false )
         expect( File ).not_to receive( :delete )
       end
       it "then return nil" do
@@ -422,7 +422,7 @@ describe GlobusJob do
     context "when globus lock file exists" do
       let( :job ) { j = described_class.new; j.perform( "id321" ); j }
       before do
-        expect( File ).to receive( :exists? ).with( lock_file ).and_return( true )
+        expect( File ).to receive( :exist? ).with( lock_file ).and_return( true )
         expect( File ).to receive( :delete ).with( lock_file )
         log_msg = "Globus:  unlock by deleting file #{lock_file}"
         expect( Rails.logger ).to receive( :debug ).with( log_msg )
@@ -443,7 +443,7 @@ describe GlobusJob do
     end
     context "create dir if it doesn't exist." do
       before do
-        expect( Dir ).to receive( :exists? ).with( dir ).and_return( false )
+        expect( Dir ).to receive( :exist? ).with( dir ).and_return( false )
         expect( Dir ).to receive( :mkdir ).with( dir )
       end
       it "returns a target base name and creates the dir." do
@@ -452,7 +452,7 @@ describe GlobusJob do
     end
     context "don't create dir if it exists." do
       before do
-        allow( Dir ).to receive( :exists? ).with( dir ).and_return( true )
+        allow( Dir ).to receive( :exist? ).with( dir ).and_return( true )
       end
       it "returns a target base name and doesn't create the dir." do
         expect( job.send( :target_dir_name, Pathname.new( 'aDir' ), "aSubdir", mkdir: false ) ).to eq( dir )
@@ -478,7 +478,7 @@ describe GlobusJob do
     end
     context "create prep dir if it doesn't exist." do
       before do
-        expect( Dir ).to receive( :exists? ).with( dir ).and_return( false )
+        expect( Dir ).to receive( :exist? ).with( dir ).and_return( false )
         expect( Dir ).to receive( :mkdir ).with( dir )
       end
       it "returns prep dir name and creates the dir." do
@@ -503,7 +503,7 @@ describe GlobusJob do
     end
     context "create tmp prep dir if it doesn't exist." do
       before do
-        expect( Dir ).to receive( :exists? ).with( dir ).and_return( false )
+        expect( Dir ).to receive( :exist? ).with( dir ).and_return( false )
         expect( Dir ).to receive( :mkdir ).with( dir )
       end
       it "returns tmp prep dir name and creates the dir." do

@@ -54,10 +54,10 @@ describe GlobusCopyJob do
         expect( uri1 ).to receive( :value ).and_return( file1.path )
         expect( uri2 ).to receive( :value ).and_return( file2.path )
         allow( work ).to receive( :file_sets ).and_return( [file_set1,file_set2] )
-        File.delete error_file if File.exists? error_file
-        File.delete lock_file if File.exists? lock_file
-        #Dir.delete globus_prep_copy_dir if Dir.exists? globus_prep_copy_dir
-        #Dir.delete globus_prep_copy_tmp_dir if Dir.exists? globus_prep_copy_tmp_dir
+        File.delete error_file if File.exist? error_file
+        File.delete lock_file if File.exist? lock_file
+        #Dir.delete globus_prep_copy_dir if Dir.exist? globus_prep_copy_dir
+        #Dir.delete globus_prep_copy_tmp_dir if Dir.exist? globus_prep_copy_tmp_dir
         allow( Rails.logger ).to receive( :debug )
         allow( Rails.logger ).to receive( :error )
         expect( PROV_LOGGER ).to receive( :info ) if Umrdr::Application.config.globus_log_provenance_copy_job_complete
@@ -77,21 +77,21 @@ describe GlobusCopyJob do
         expect( Rails.logger ).to have_received( :debug ).with( "#{log_prefix} copy complete" )
         #expect( Rails.logger ).to have_received( :debug ).with( 'bogus so we can look at the logger output' )
         expect( Rails.logger ).not_to have_received( :error )
-        expect( File.exists? ready_file ).to eq( true )
-        expect( Dir.exists? globus_download_ready_dir ).to eq( true )
-        expect( Dir.exists? globus_prep_copy_dir ).to eq( false )
-        expect( Dir.exists? globus_prep_copy_tmp_dir ).to eq( false )
-        expect( File.exists? globus_download_ready_file1 ).to eq( true )
-        expect( File.exists? globus_download_ready_file2 ).to eq( true )
+        expect( File.exist? ready_file ).to eq( true )
+        expect( Dir.exist? globus_download_ready_dir ).to eq( true )
+        expect( Dir.exist? globus_prep_copy_dir ).to eq( false )
+        expect( Dir.exist? globus_prep_copy_tmp_dir ).to eq( false )
+        expect( File.exist? globus_download_ready_file1 ).to eq( true )
+        expect( File.exist? globus_download_ready_file2 ).to eq( true )
       end
       after do
-        File.delete email_file if File.exists? email_file
-        File.delete error_file if File.exists? error_file
-        File.delete lock_file if File.exists? lock_file
-        File.delete ready_file if File.exists? ready_file
-        File.delete globus_download_ready_file1 if File.exists? globus_download_ready_file1
-        File.delete globus_download_ready_file2 if File.exists? globus_download_ready_file2
-        Dir.delete globus_download_ready_dir if Dir.exists? globus_download_ready_dir
+        File.delete email_file if File.exist? email_file
+        File.delete error_file if File.exist? error_file
+        File.delete lock_file if File.exist? lock_file
+        File.delete ready_file if File.exist? ready_file
+        File.delete globus_download_ready_file1 if File.exist? globus_download_ready_file1
+        File.delete globus_download_ready_file2 if File.exist? globus_download_ready_file2
+        Dir.delete globus_download_ready_dir if Dir.exist? globus_download_ready_dir
       end
     end
   end
@@ -111,7 +111,7 @@ describe GlobusCopyJob do
     end
     context "when prep file exists" do
       before do
-        expect( File ).to receive( :exists? ).with( prep_file_name ).and_return( true )
+        expect( File ).to receive( :exist? ).with( prep_file_name ).and_return( true )
         msg = "Globus:  skipping copy because #{prep_file_name} already exists"
         expect( Rails.logger ).to receive( :debug ).with( msg )
       end
@@ -121,7 +121,7 @@ describe GlobusCopyJob do
     end
     context "when prep file does not exist" do
       before do
-        expect( File ).to receive( :exists? ).with( prep_file_name ).and_return( false )
+        expect( File ).to receive( :exist? ).with( prep_file_name ).and_return( false )
       end
       it "returns true." do
         expect( job.send( :globus_do_copy?, target_file_name ) ).to eq( true )
@@ -149,7 +149,7 @@ describe GlobusCopyJob do
     end
     context "when file exists" do
       before do
-        expect( Dir ).to receive( :exists? ).with( job_complete_dir ).and_return( true )
+        expect( Dir ).to receive( :exist? ).with( job_complete_dir ).and_return( true )
       end
       it "return true." do
         expect( job.send( :globus_job_complete? ) ).to eq( true )
@@ -157,7 +157,7 @@ describe GlobusCopyJob do
     end
     context "when file does not exist" do
       before do
-        expect( Dir ).to receive( :exists? ).with( job_complete_dir ).and_return( false )
+        expect( Dir ).to receive( :exist? ).with( job_complete_dir ).and_return( false )
       end
       it "return true." do
         expect( job.send( :globus_job_complete? ) ).to eq( false )
