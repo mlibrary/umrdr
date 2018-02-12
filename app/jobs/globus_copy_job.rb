@@ -8,6 +8,7 @@ class GlobusCopyJob < GlobusJob
   # @param [boolean, false] generate_error
   def perform( concern_id, log_prefix: "Globus: ", generate_error: false, delay_seconds: 0, user_email: nil )
     globus_job_perform( concern_id: concern_id, email: user_email, log_prefix: "#{log_prefix}globus_copy_job" ) do
+      email_rds( action: "requested a download via Globus has started", log_provenance: false )
       Rails.logger.debug "#{@globus_log_prefix} begin copy" unless @globus_job_quiet
       if 0 < delay_seconds
         sleep delay_seconds
@@ -38,6 +39,8 @@ class GlobusCopyJob < GlobusJob
       Rails.logger.debug "#{@globus_log_prefix} copy complete" unless @globus_job_quiet
       begin
         globus_copy_job_email_add( user_email )
+        globus_copy_job_email_add( EmailHelper.notification_email )
+
         @email_lines = globus_copy_job_complete_lines( curation_concern )
         globus_copy_job_email_all
         globus_copy_job_email_reset
