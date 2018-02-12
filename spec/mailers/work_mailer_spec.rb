@@ -12,7 +12,7 @@ RSpec.describe WorkMailer, type: :mailer do
 
     describe 'can send email' do
       subject(:email) do
-        msg = WorkMailer.deposit_work(from, body)
+        msg = WorkMailer.deposit_work( from: from, body: body)
         msg.deliver_now
       end
 

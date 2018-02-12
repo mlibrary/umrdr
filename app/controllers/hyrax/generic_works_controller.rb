@@ -55,78 +55,21 @@ class Hyrax::GenericWorksController < ApplicationController
   ## Send email
 
   def notify_rds
-    email_rds( action: "deposited by #{curation_concern.depositor}", log_provenance: false )
-    # location   = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor  = curation_concern.depositor
-    # title      = curation_concern.title.join("','")
-    # creator    = curation_concern.creator.join("','")
-    # visibility = curation_concern.visibility
-    # msg        = title + " (" + location + ") by " + creator + ", with " + visibility + " access was deposited by " + depositor
-    # email      = WorkMailer.deposit_work( EmailHelper.notification_email, msg)
-    # email.deliver_now
+    email_rds( action: 'deposit', description: "deposited by #{curation_concern.depositor}", log_provenance: false )
   end
 
   def notify_rds_on_update_to_public
     return unless @visibility_changed_to_public
-    action = "previously deposited by #{curation_concern.depositor}, was updated to #{curation_concern.visibility} access"
-    email_rds( action: action, log_provenance: true )
-    # location   = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor  = curation_concern.depositor
-    # title      = curation_concern.title.join("','")
-    # creator    = curation_concern.creator.join("','")
-    # visibility = curation_concern.visibility
-    # msg        = title + " (" + location + ") by " + creator + ", previously deposited by " + depositor + ", was updated to " + visibility + " access"
-    # PROV_LOGGER.info (msg)
-    # email      = WorkMailer.publish_work( EmailHelper.notification_email, msg)
-    # email.deliver_now
+    description = "previously deposited by #{curation_concern.depositor}, was updated to #{curation_concern.visibility} access"
+    email_rds( action: 'update', description: description, log_provenance: true )
   end
 
   def prov_work_created
     provenance_log( action: 'created' )
-    # location      = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor     = curation_concern.depositor
-    # title         = curation_concern.title.join("','")
-    # creator       = curation_concern.creator.join("','")
-    # description   = curation_concern.description.join("','")
-    # publisher     = curation_concern.publisher.join("','")
-    # subject       = curation_concern.subject.join("','")
-    # msg = "WORK CREATED: (#{location}) by + #{creator} with #{curation_concern.visibility}" +
-    #     " access was created with title: #{title} " +
-    #     ", rights: #{curation_concern.rights[0]}" +
-    #     ", methodology: #{curation_concern.methodology}" +
-    #     ", publisher: #{publisher}" +
-    #     ", subject: #{subject}" +
-    #     ", description: #{description}" +
-    #     ", admin set id: #{curation_concern.admin_set_id}"
-    # PROV_LOGGER.info (msg)
   end
 
   def prov_work_updated
     provenance_log( action: 'updated', modified: "on: #{curation_concern.date_modified}" )
-    # location      = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor     = curation_concern.depositor
-    # methodology   = curation_concern.methodology
-    # visibility = curation_concern.visibility
-    # date_modified = curation_concern.date_modified
-    # rights = curation_concern.rights
-    # title         = curation_concern.title.join("','")
-    # creator       = curation_concern.creator.join("','")
-    # description   = curation_concern.description.join("','")
-    # publisher     = curation_concern.publisher.join("','")
-    # subject       = curation_concern.subject.join("','")
-    # admin_set_id  = curation_concern.admin_set_id
-    #
-    # msg        = "WORK UPDATED:" + " (" + location + ") by " + creator +
-    #     ", with " + visibility +
-    #     " access was updated with title: " + title +
-    #     ", on: " + date_modified.to_s +
-    #     ", rights: " + rights[0] +
-    #     ", methodology: " + methodology +
-    #     ", publisher: " + publisher +
-    #     ", subject: " + subject +
-    #     ", description: " + description +
-    #     ", admin set id: " + admin_set_id
-    # PROV_LOGGER.info (msg)
   end
 
   # Begin processes to mint hdl and doi for the work
@@ -406,29 +349,88 @@ class Hyrax::GenericWorksController < ApplicationController
     "Emails did not match" # + ": '#{user_email_one}' != '#{user_email_two}'"
   end
 
-  def email_user( action: '', log_provenance: false )
-    location = MsgHelper.work_location( curation_concern )
-    title    = MsgHelper.title( curation_concern )
-    creator  = MsgHelper.creator( curation_concern )
-    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{action}."
-    if log_provenance
-      PROV_LOGGER.info (msg)
-    end
-
-    email = WorkMailer.create_work( to: EmailHelper.user_email_from( current_user ), from: EmailHelper.notification_email, body: msg )
-    email.deliver_now
+  def email_rds_and_user( action: 'create', description: '', log_provenance: false )
+    email_it( action: action,
+              description: description,
+              log_provenance: log_provenance,
+              email_to: EmailHelper.user_email_from( current_user ),
+              email_from: EmailHelper.notification_email )
+    # location = MsgHelper.work_location( curation_concern )
+    # title    = MsgHelper.title( curation_concern )
+    # creator  = MsgHelper.creator( curation_concern )
+    # msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{description}."
+    # if log_provenance
+    #   PROV_LOGGER.info (msg)
+    # end
+    #
+    # email = WorkMailer.create_work( to: EmailHelper.user_email_from( current_user ), from: EmailHelper.notification_email, body: msg )
+    # email.deliver_now
   end
 
-  def email_rds( action: '', log_provenance: false )
+  def email_rds( action: 'deposit', description: '', log_provenance: false )
+    email_it( action: action,
+              description: description,
+              log_provenance: log_provenance,
+              email_to: EmailHelper.notification_email )
+    # location = MsgHelper.work_location( curation_concern )
+    # title    = MsgHelper.title( curation_concern )
+    # creator  = MsgHelper.creator( curation_concern )
+    # msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{description}"
+    # if log_provenance
+    #   PROV_LOGGER.info (msg)
+    # end
+    #email = WorkMailer.deposit_work( EmailHelper.notification_email, msg )
+    # email.deliver_now
+  end
+
+  def email_it( action: 'deposit', description: '', log_provenance: false, email_to: '', email_from: nil )
     location = MsgHelper.work_location( curation_concern )
     title    = MsgHelper.title( curation_concern )
     creator  = MsgHelper.creator( curation_concern )
-    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{action}"
+    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{description}"
     if log_provenance
-      PROV_LOGGER.info (msg)
+      PROV_LOGGER.info( msg )
     end
-    email = WorkMailer.deposit_work( EmailHelper.notification_email, msg )
-    email.deliver_now
+    case action
+      when 'deposit'
+        email = WorkMailer.deposit_work( to: email_to, body: msg )
+        email.deliver_now
+      when 'delete'
+        email = WorkMailer.delete_work( to: email_to, body: msg )
+        email.deliver_now
+      when 'create'
+        email = WorkMailer.create_work( to: email_to, body: msg )
+        email.deliver_now
+      when 'publish'
+        email = WorkMailer.publish_work( to: email_to, body: msg )
+        email.deliver_now
+      when 'update'
+        email = WorkMailer.update_work( to: email_to, body: msg )
+        email.deliver_now
+      else
+        Rails.logger.error "email_it unknown action #{action}"
+    end
+    unless email_from.nil?
+      case action
+        when 'deposit'
+          email = WorkMailer.deposit_work( to: email_to, from: email_from, body: msg )
+          email.deliver_now
+        when 'delete'
+          email = WorkMailer.delete_work( to: email_to, from: email_from, body: msg )
+          email.deliver_now
+        when 'create'
+          email = WorkMailer.create_work( to: email_to, from: email_from, body: msg )
+          email.deliver_now
+        when 'publish'
+          email = WorkMailer.publish_work( to: email_to, from: email_from, body: msg )
+          email.deliver_now
+        when 'update'
+          email = WorkMailer.update_work( to: email_to, from: email_from, body: msg )
+          email.deliver_now
+        else
+          Rails.logger.error "email_it unknown action #{action}"
+      end
+    end
   end
 
   def flash_and_go_back( msg )
