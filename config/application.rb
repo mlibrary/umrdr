@@ -20,7 +20,7 @@ module Umrdr
     config.globus_era_token = config.globus_era_timestamp.to_s.freeze
     if Rails.env.test?
       config.globus_dir = '/tmp/deepbluedata-globus'
-      Dir.mkdir config.globus_dir unless Dir.exists? config.globus_dir
+      Dir.mkdir config.globus_dir unless Dir.exist? config.globus_dir
     else
       config.globus_dir = ENV['GLOBUS_DIR'] || '/deepbluedata-globus'
     end
@@ -29,15 +29,16 @@ module Umrdr
     config.globus_download_dir = config.globus_dir.join 'download'
     config.globus_prep_dir = config.globus_dir.join 'prep'
     if Rails.env.test?
-      Dir.mkdir config.globus_download_dir unless Dir.exists? config.globus_download_dir
-      Dir.mkdir config.globus_prep_dir unless Dir.exists? config.globus_prep_dir
+      Dir.mkdir config.globus_download_dir unless Dir.exist? config.globus_download_dir
+      Dir.mkdir config.globus_prep_dir unless Dir.exist? config.globus_prep_dir
     end
-    config.globus_enabled = true && File.exists?( config.globus_download_dir ) && File.exists?( config.globus_prep_dir )
+    config.globus_enabled = true && Dir.exist?( config.globus_download_dir ) && Dir.exist?( config.globus_prep_dir )
     config.base_file_name = "DeepBlueData_"
     config.globus_base_url = 'https://www.globus.org/app/transfer?origin_id=99d8c648-a9ff-11e7-aedd-22000a92523b&origin_path=%2Fdownload%2F'
     config.globus_log_provenance_copy_job_complete = false
     config.globus_restart_all_copy_jobs_quiet = true
-    config.globus_debug_delay_copy_job_seconds = 60
+    config.globus_debug_delay_per_file_copy_job_seconds = 0
+    config.globus_after_copy_job_ui_delay_seconds = 3
 
     # if config.globus_enabled
     #   config.globus_era = Umrdr::GlobusEra.instance

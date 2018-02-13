@@ -26,7 +26,7 @@ module Umrdr
             log "GlobusEra era file: #{@@c_era_file} -- #{@@c_era_file.class}" if @@c_era_verbose
             read_previous_era_file
             File.open( @@c_era_file, "w" ) { |out| out << @@c_era_begin_timestamp << "\n" }
-            at_exit { File.delete @@c_era_file if File.exists? @@c_era_file }
+            at_exit { File.delete @@c_era_file if File.exist? @@c_era_file }
             log "GlobusEra initialized." if @@c_era_verbose
           else
             @@c_era_file = nil
@@ -58,7 +58,7 @@ module Umrdr
     def self.read_previous_era_file
       # TODO: look for previous era file and store it in:
       @@c_previous_era_begin_timestamp = nil
-      if File.exists? @@c_era_file
+      if File.exist? @@c_era_file
         timestamp = nil
         open( lock_file, 'r' ) { |f| timestamp = f.read.chomp! }
         @@c_previous_era_begin_timestamp = timestamp

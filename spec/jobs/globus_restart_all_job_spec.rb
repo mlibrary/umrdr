@@ -38,9 +38,9 @@ describe GlobusRestartAllJob do
       let( :id05 ) { "id005" }
       let( :dir05tmp ) { "#{globus_prep_dir}/test_#{target}#{id05}_tmp" }
       before do
-        File.delete lock_file if File.exists? lock_file
-        File.delete error_file if File.exists? error_file
-        File.delete job_complete_file if File.exists? job_complete_file
+        File.delete lock_file if File.exist? lock_file
+        File.delete error_file if File.exist? error_file
+        File.delete job_complete_file if File.exist? job_complete_file
         allow( Rails.logger ).to receive( :debug ).with( any_args )
         expect( Dir ).to receive( :glob ).with( any_args ).and_return( files )
         allow( GlobusCopyJob ).to receive( :perform_later ).with( any_args )
@@ -62,7 +62,7 @@ describe GlobusRestartAllJob do
         expect( File.exist? lock_file ).to eq( false )
       end
       after do
-        File.delete job_complete_file if File.exists? job_complete_file
+        File.delete job_complete_file if File.exist? job_complete_file
       end
     end
   end
@@ -91,7 +91,7 @@ describe GlobusRestartAllJob do
     context "when file does not exist" do
       before do
         allow( Rails.logger ).to receive( :debug )
-        expect( File ).to receive( :exists? ).with( job_complete_file ).and_return( false )
+        expect( File ).to receive( :exist? ).with( job_complete_file ).and_return( false )
       end
       it "return true." do
         expect( job.send( :globus_job_complete? ) ).to eq( false )
@@ -101,7 +101,7 @@ describe GlobusRestartAllJob do
     context "when file exists and time matches" do
       before do
         allow( Rails.logger ).to receive( :debug )
-        expect( File ).to receive( :exists? ).with( job_complete_file ).and_return( true )
+        expect( File ).to receive( :exist? ).with( job_complete_file ).and_return( true )
         #expect( File ).to receive( :birthtime ).with( job_complete_file ).and_return( time_now )
         expect( job ).to receive( :last_complete_time ).with( job_complete_file ).and_return( time_now )
         expect( GlobusJob ).to receive( :era_token_time ).with( no_args ).and_return( time_now )
@@ -115,7 +115,7 @@ describe GlobusRestartAllJob do
     context "when file exists and time does not match" do
       before do
         allow( Rails.logger ).to receive( :debug )
-        expect( File ).to receive( :exists? ).with( job_complete_file ).and_return( true )
+        expect( File ).to receive( :exist? ).with( job_complete_file ).and_return( true )
         #expect( File ).to receive( :birthtime ).with( job_complete_file ).and_return( time_before_now )
         expect( job ).to receive( :last_complete_time ).with( job_complete_file ).and_return( time_before_now )
         expect( GlobusJob ).to receive( :era_token_time ).with( no_args ).and_return( time_now )

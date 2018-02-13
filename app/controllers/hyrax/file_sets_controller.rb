@@ -42,7 +42,7 @@ module Hyrax
         else
           msg = curation_concern.errors.full_messages.join(', ')
           flash[:error] = msg
-          json_error "Error creating file #{file.original_filename}: #{msg}"
+          json_error "Error creating file #{file.original_filename}: #{msg}" # TODO log this error?
         end
       end
     rescue RSolr::Error::Http => error
