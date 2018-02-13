@@ -62,8 +62,8 @@ describe GlobusCopyJob do
         allow( Rails.logger ).to receive( :error )
         expect( PROV_LOGGER ).to receive( :info ) if Umrdr::Application.config.globus_log_provenance_copy_job_complete
         mailer.define_singleton_method( :deliver_now ) do nil; end
-        expect( WorkMailer ).to receive( :globus_job_complete ).with( any_args ).and_return( mailer )
-        expect( mailer ).to receive( :deliver_now )
+        expect( WorkMailer ).to receive( :globus_job_complete ).with( any_args ).and_return( mailer ).twice
+        expect( mailer ).to receive( :deliver_now ).twice
       end
       it "calls globus block." do
         open( file1.path, 'w' ) { |f| f << "File01" << "\n" }
