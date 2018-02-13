@@ -18,12 +18,12 @@ module Umrdr
       puts "id=#{id}"
       w = GenericWork.find id
       tmp = "/deepbluedata-prep"
-      Dir.mkdir( tmp ) unless File.exists?( tmp )
+      Dir.mkdir( tmp ) unless File.exist?( tmp )
       tmp = tmp + "/fedora-extract"
-      Dir.mkdir( tmp ) unless File.exists?( tmp )
+      Dir.mkdir( tmp ) unless File.exist?( tmp )
       tmp = tmp + "/" + w.id
       puts "tmp=#{tmp}"
-      Dir.mkdir( tmp ) unless File.exists?( tmp )
+      Dir.mkdir( tmp ) unless File.exist?( tmp )
       files_extracted = Hash.new
       w.file_sets.each do |file_set|
         begin
