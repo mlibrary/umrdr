@@ -17,6 +17,7 @@ class GlobusCopyJob < GlobusJob
       @target_prep_dir = target_prep_dir( @globus_concern_id, prefix: prefix, mkdir: true )
       @target_prep_dir_tmp = target_prep_tmp_dir(@globus_concern_id, prefix: prefix, mkdir: true )
       curation_concern = ActiveFedora::Base.find @globus_concern_id
+      globus_copy_job_started_email_rds( curation_concern, log_provenance: false )
       file_sets = curation_concern.file_sets
       do_copy_predicate = lambda { |target_file_name, target_file| globus_do_copy?( target_file_name ) }
       Hyrax::GenericWorksController.copy_file_sets( @target_prep_dir_tmp \
@@ -38,6 +39,7 @@ class GlobusCopyJob < GlobusJob
       Rails.logger.debug "#{@globus_log_prefix} copy complete" unless @globus_job_quiet
       begin
         globus_copy_job_email_add( user_email )
+        globus_copy_job_email_add( EmailHelper.notification_email )
         @email_lines = globus_copy_job_complete_lines( curation_concern )
         globus_copy_job_email_all
         globus_copy_job_email_reset
@@ -88,6 +90,18 @@ class GlobusCopyJob < GlobusJob
     Rails.logger.debug "#{@globus_log_prefix} globus_copy_job_email_user: work id: #{@globus_concern_id} email: #{email}" unless @globus_job_quiet
     msg = lines.join( "\n" )
     email = WorkMailer.globus_job_complete( email, msg )
+    email.deliver_now
+  end
+
+  def globus_copy_job_started_email_rds( curation_concern, description: '', log_provenance: false )
+    location = MsgHelper.work_location( curation_concern )
+    title    = MsgHelper.title( curation_concern )
+    creator  = MsgHelper.creator( curation_concern )
+    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{description}"
+    if log_provenance
+      PROV_LOGGER.info( msg )
+    end
+    email = WorkMailer.globus_job_started( to: EmailHelper.notification_email, body: msg )
     email.deliver_now
   end
 
