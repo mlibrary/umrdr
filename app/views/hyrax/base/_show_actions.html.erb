@@ -54,12 +54,13 @@
 
 <% end %>
 </div>
-<% 
-if @presenter.editor? %>
-<div class="confirm-group">
-<%= form_tag(main_app.confirm_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
-    <%= hidden_field_tag('generic_work[nop]') %>
-    <%= submit_tag(t('simple_form.actions.generic_work.confirm'), class: 'btn btn-primary confirm-btn') %>
+<% if @presenter.editor? %>
+  <% if request.referrer.include? "generic_works" %>
+    <div class="confirm-group">
+    <%= form_tag(main_app.confirm_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
+      <%= hidden_field_tag('generic_work[nop]') %>
+      <%= submit_tag(t('simple_form.actions.generic_work.confirm'), class: 'btn btn-primary confirm-btn') %>
+    <% end %>
   <% end %>
 <% end %>  
 </div>
