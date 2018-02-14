@@ -27,6 +27,16 @@ class Hyrax::GenericWorksController < ApplicationController
 
   attr_accessor :user_email_one, :user_email_two
 
+  ## box integration
+
+  def box_create_dir
+    # TODO
+  end
+
+  def box_link
+    # TODO
+  end
+
   ## Changes in visibility
 
   def assign_visibility
@@ -353,37 +363,18 @@ class Hyrax::GenericWorksController < ApplicationController
   end
 
   def email_rds_and_user( action: 'create', description: '', log_provenance: false )
+    email_to = EmailHelper.user_email_from( current_user )
+    email_from = EmailHelper.notification_email # will be nil on developer's machine
     email_it( action: action,
               description: description,
               log_provenance: log_provenance,
-              email_to: EmailHelper.user_email_from( current_user ),
-              email_from: EmailHelper.notification_email )
-    # location = MsgHelper.work_location( curation_concern )
-    # title    = MsgHelper.title( curation_concern )
-    # creator  = MsgHelper.creator( curation_concern )
-    # msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{description}."
-    # if log_provenance
-    #   PROV_LOGGER.info (msg)
-    # end
-    #
-    # email = WorkMailer.create_work( to: EmailHelper.user_email_from( current_user ), from: EmailHelper.notification_email, body: msg )
-    # email.deliver_now
+              email_to: email_to,
+              email_from: email_from )
   end
 
   def email_rds( action: 'deposit', description: '', log_provenance: false )
-    email_it( action: action,
-              description: description,
-              log_provenance: log_provenance,
-              email_to: EmailHelper.notification_email )
-    # location = MsgHelper.work_location( curation_concern )
-    # title    = MsgHelper.title( curation_concern )
-    # creator  = MsgHelper.creator( curation_concern )
-    # msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{description}"
-    # if log_provenance
-    #   PROV_LOGGER.info (msg)
-    # end
-    #email = WorkMailer.deposit_work( EmailHelper.notification_email, msg )
-    # email.deliver_now
+    email_to = EmailHelper.notification_email # will be nil on developer's machine
+    email_it( action: action, description: description, log_provenance: log_provenance, email_to: email_to )
   end
 
   def email_it( action: 'deposit', description: '', log_provenance: false, email_to: '', email_from: nil )
@@ -391,48 +382,43 @@ class Hyrax::GenericWorksController < ApplicationController
     title    = MsgHelper.title( curation_concern )
     creator  = MsgHelper.creator( curation_concern )
     msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{description}"
+    Rails.logger.debug "email_it: action=#{action} email_to=#{email_to} email_from=#{email_from} msg='#{msg}'"
     if log_provenance
       PROV_LOGGER.info( msg )
     end
+    email = nil
     case action
       when 'deposit'
         email = WorkMailer.deposit_work( to: email_to, body: msg )
-        email.deliver_now
       when 'delete'
         email = WorkMailer.delete_work( to: email_to, body: msg )
-        email.deliver_now
       when 'create'
         email = WorkMailer.create_work( to: email_to, body: msg )
-        email.deliver_now
       when 'publish'
         email = WorkMailer.publish_work( to: email_to, body: msg )
-        email.deliver_now
       when 'update'
         email = WorkMailer.update_work( to: email_to, body: msg )
-        email.deliver_now
       else
         Rails.logger.error "email_it unknown action #{action}"
     end
+    email.deliver_now unless email.nil? || email_to.nil?
     unless email_from.nil?
+      email = nil
       case action
         when 'deposit'
           email = WorkMailer.deposit_work( to: email_to, from: email_from, body: msg )
-          email.deliver_now
         when 'delete'
           email = WorkMailer.delete_work( to: email_to, from: email_from, body: msg )
-          email.deliver_now
         when 'create'
           email = WorkMailer.create_work( to: email_to, from: email_from, body: msg )
-          email.deliver_now
         when 'publish'
           email = WorkMailer.publish_work( to: email_to, from: email_from, body: msg )
-          email.deliver_now
         when 'update'
           email = WorkMailer.update_work( to: email_to, from: email_from, body: msg )
-          email.deliver_now
         else
           Rails.logger.error "email_it unknown action #{action}"
       end
+      email.deliver_now unless email.nil? || email_to.nil?
     end
   end
 
