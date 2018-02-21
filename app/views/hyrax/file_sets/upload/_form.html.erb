@@ -1,5 +1,24 @@
 <% if !@presenter.current_ability.admin? %>
-  <h2 class="well-title"> Please upload your files to <a href="https://umich.app.box.com/folder/45101723215" target="_blank">this MBox folder</a>. If you require assistance, <a href="<%= hyrax.contact_path %>">contact Us for assistance</a>.</h2>
+  <div class="well">
+    <div class="well-inner-wrapper">
+      <!--Please upload your files to <a href="https://umich.app.box.com/folder/45101723215" target="_blank">this MBox folder</a>.
+      If you require assistance, <a href="<%= hyrax.contact_path %>">contact Us for assistance</a>.-->
+      <br/>
+      The next step is to upload your data and documentation files to M-Box
+      for review. Once in M-Box, upload your files by dragging and dropping or
+      browsing files on your computer. If your dataset is larger than 2GB
+      please contact Research Data Services.
+      <br/><br/>
+      Research Data Services will contact you after a preliminary review of your
+      dataset, typically in 1-2 business days.
+      <br/><br/>
+      <%= link_to "M-Box", "https://umich.app.box.com/folder/45101723215",
+        class: 'btn btn-default', target: "_blank" %>
+      <br/><br/>
+      If you have any questions please contact
+      <a href="mailto: researchdataservices@umich.edu">researchdataservices@umich.edu</a>.
+    </div>
+  </div>
 <% else %>
 <% if @presenter.tombstone.blank? && @presenter.current_ability.admin? %>
   <div class="well">
