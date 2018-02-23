@@ -45,10 +45,12 @@ describe GlobusCopyJob do
         file_set2.define_singleton_method( :files ) do nil; end
         file1.define_singleton_method( :uri ) do nil; end
         file2.define_singleton_method( :uri ) do nil; end
+        file1.define_singleton_method( :original_name ) do 'File01' end
+        file2.define_singleton_method( :original_name ) do 'File02' end
         uri1.define_singleton_method( :value ) do nil; end
         uri2.define_singleton_method( :value ) do nil; end
-        expect( file_set1 ).to receive( :files ).and_return( [file1] )
-        expect( file_set2 ).to receive( :files ).and_return( [file2] )
+        expect( file_set1 ).to receive( :files ).and_return( [file1] ).twice
+        expect( file_set2 ).to receive( :files ).and_return( [file2] ).twice
         expect( file1 ).to receive( :uri ).and_return( uri1 )
         expect( file2 ).to receive( :uri ).and_return( uri2 )
         expect( uri1 ).to receive( :value ).and_return( file1.path )

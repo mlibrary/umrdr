@@ -306,6 +306,9 @@ class Hyrax::GenericWorksController < ApplicationController
     total_bytes = 0
     file_sets.each do |file_set|
       file = file_set.files[0]
+      file_set.files.each do | f |
+        file = f unless f.original_name == ''
+      end
       if file.nil?
         Rails.logger.warning "#{log_prefix} file_set.id #{file_set.id} files[0] is nil"
       else
