@@ -60,8 +60,11 @@ class NewContentService
     works_info = Array(collection_hash['works'])
     c_works = works_info.map { |w| build_work(w) }
 
-    # Add each work to the collection
-    c_works.each { |cw| col.members << cw }
+    # Add each work to the collection (see CollectionBehavior#add_member_objects)
+    c_works.each do |cw|
+      cw.member_of_collections << self
+      cw.save!
+    end
 
     col.save!
   end

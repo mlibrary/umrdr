@@ -58,7 +58,7 @@ describe 'hyrax/base/_related_files.html.erb', type: :view do
       expect(rendered).to have_tag( 'div', with: {class: "panel-heading"} )
       expect(rendered).to have_tag( 'h2', :count => 1, text: 'Files' )
       expect(rendered).to have_tag( 'div', with: {class: "alert alert-block alert-warning"} )
-      expect(rendered).to have_tag( 'p', :count => 1, with: {class: "center"}, text: 'This  has no files associated with it. You can add one using the "Attach Files" buttons below.' )
+      expect(rendered).to have_tag( 'p', :count => 1, with: {class: "center"}, text: 'This  has no files associated with it.' )
 
       expect(rendered).to_not have_tag( 'table' )
       expect(rendered).to_not have_tag( 'form' )
