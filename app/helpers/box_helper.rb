@@ -3,29 +3,148 @@ module BoxHelper
   # http://www.rubydoc.info/gems/boxr/Boxr
   require 'boxr'
   require 'openssl'
+  require 'thread'
+
+  ## So, is it safe to do this in a module?
+  @@mutex_to_guard_token_file
+  @@box
+
+  def self.access_token_developer( developer_token: nil,
+      app_name: nil,
+      client_id: nil,
+      client_secret: nil,
+      config_file: Umrdr::Application.config.box_access_and_refresh_token_file )
+
+    config_hash = Hash.new
+    config_hash['box_access_token']     = ''
+    config_hash['box_app_name']         = app_name
+    config_hash['box_client_id']        = client_id
+    config_hash['box_client_secret']    = client_secret
+    config_hash['box_developer_token']  = developer_token
+    config_hash['box_refresh_token']    = ''
+    config_hash['box_config_timestamp'] = DateTime.now.to_s
+    open( config_file, 'w' ) { |f| f << config_hash.to_yaml << "\n" }
+  end
+
+  def self.access_token_fetch( auth_code: nil,
+      app_name: nil,
+      client_id: nil,
+      client_secret: nil,
+      config_file: Umrdr::Application.config.box_access_and_refresh_token_file )
+
+    rv = `curl https://api.box.com/oauth2/token -d 'grant_type=authorization_code&code=#{auth_code}&client_id=#{client_id}&client_secret=#{client_secret}' -X POST`
+    # rv is of the form: {"access_token":"zmAhTjZ0PZG1EkKrsWfOMvMG0lBAGIgS","expires_in":3842,"restricted_to":[],"refresh_token":"NtJfAO0S85uCIx4R6MKqf3YZgcAfbWWlOGcJXmmy9wV8FCSWEqk9bBbCfXbXk6NA","token_type":"bearer"}
+    puts "rv=#{rv}"
+    if rv.start_with?( "{\"access_token\":" )
+      puts "parse and write to #{config_file}"
+      json = JSON.parse( rv )
+      puts "access_token=#{json['access_token']}"
+      puts "refresh_token=#{json['refresh_token']}"
+
+      config_hash = Hash.new
+      config_hash['box_access_token']     = json['access_token']
+      config_hash['box_app_name']         = app_name
+      config_hash['box_client_id']        = client_id
+      config_hash['box_client_secret']    = client_secret
+      config_hash['box_developer_token']  = ''
+      config_hash['box_refresh_token']    = json['refresh_token']
+      config_hash['box_config_timestamp'] = DateTime.now.to_s
+      open( config_file, 'w' ) { |f| f << config_hash.to_yaml << "\n" }
+    else
+      puts "don't know how parse rv='#{rv}''"
+    end
+  end
+
+  def self.access_token_url( app_name: nil, client_id: nil )
+    puts
+    puts
+    puts "Make sure the app #{app_name} has a redirect link to something like http://localhost:9876"
+    puts "You will have 30 seconds to run access_token_fetch after you grant access using this url in your browser:"
+    puts
+    puts "https://account.box.com/api/oauth2/authorize?response_type=code&client_id=#{client_id}"
+    puts
+  end
+
+  def self.box
+    @@box ||= box_initialize
+  end
+
+  def self.box_initialize
+    mutex_to_guard_token_file
+    developer_token = Umrdr::Application.config.box_developer_token
+    return Box.new( developer_token: developer_token ) unless ( developer_token.nil? || developer_token.empty? )
+    return Box.new
+  end
+
+  def self.box_link( dir_name )
+    rv = box.upload_link( dir_name )
+    return rv
+  end
+
+  def self.box_link_display_for_work?( work_id: nil, work_file_count: -1 )
+    box.box_link_display_for_work?( work_id: work_id, work_file_count: work_file_count )
+  end
+
+  def self.create_box_dir( dir_name )
+    rv = box.directory_create( dir_name )
+    if !rv && box.failed_box_login
+      Rails.logger.error "BoxHelper failed to create directory '#{dir_name}' because box failed to log in."
+    end
+    return rv
+  end
+
+  def self.mutex_to_guard_token_file
+    @@mutex_to_guard_token_file ||= Thread::Mutex.new
+  end
 
   class Box
-
-    @@box_verbose = false
-
+    #include Singleton
     # {"type"=>"folder", "id"=>"45101723215", "sequence_id"=>"1", "etag"=>"1", "name"=>"ulib-dbd-box"}
-    @@ulib_dbd_box_id = '45101723215'.freeze
-    @@dlib_dbd_box_user_id = '3200925346'.freeze
-    @@box_access_and_refresh_token_file = File.join( Rails.root, 'config', 'box_config.yml' ).freeze
+    # @box_access_and_refresh_token_file = Umrdr::Application.config.box_access_and_refresh_token_file.freeze
+    # @box_always_report_not_logged_in_errors = Umrdr::Application.config.box_always_report_not_logged_in_errors
+    # @box_create_dirs_for_empty_works = Umrdr::Application.config.box_create_dirs_for_empty_works
+    # @box_verbose = false
+    # @dlib_dbd_box_user_id = '3200925346'.freeze
+    # @ulib_dbd_box_id = '45101723215'.freeze
 
-    attr_accessor :dir_list, :parent_dir
+    attr_reader :box_access_and_refresh_token_file,
+                :box_always_report_not_logged_in_errors,
+                :box_create_dirs_for_empty_works,
+                :dlib_dbd_box_user_id,
+                :ulib_dbd_box_id,
+                :box_app_name,
+                :box_config_timestamp
+
+    attr_accessor :box_verbose,
+                  :dir_list,
+                  :failed_box_login,
+                  :most_recent_boxr_error,
+                  :parent_dir
+
+    alias directory_list dir_list
+    alias ls dir_list
+    #alias mkdir directory_create
 
     def initialize( access_token: nil,
                     box_client_id: nil,
                     box_client_secret: nil,
-                    developer_token: nil, # parent_dir: Boxr::ROOT
+                    developer_token: nil,
                     json_file_path_in: nil,
-                    parent_dir: @@ulib_dbd_box_id,
+                    parent_dir: Umrdr::Application.config.box_ulib_dbd_box_id, # parent_dir: Boxr::ROOT
                     refresh_token: nil )
 
+      @box_access_and_refresh_token_file = Umrdr::Application.config.box_access_and_refresh_token_file.freeze
+      @box_always_report_not_logged_in_errors = Umrdr::Application.config.box_always_report_not_logged_in_errors
+      @box_create_dirs_for_empty_works = Umrdr::Application.config.box_create_dirs_for_empty_works
+      @box_verbose = Umrdr::Application.config.box_verbose
+      @dlib_dbd_box_user_id = Umrdr::Application.config.box_dlib_dbd_box_user_id
+      @ulib_dbd_box_id = Umrdr::Application.config.box_ulib_dbd_box_id
+
+      @most_recent_boxr_error = nil
+      @failed_box_login = false
       @parent_dir = parent_dir
       @json_file_path = json_file_path_in
-      config_hash_load( assign_attributes: true )
+      config_hash_load( assign_attributes: true ) if ( developer_token.nil? || developer_token.empty? )
       @developer_token = developer_token unless developer_token.nil?
       @access_token = access_token unless access_token.nil?
       @refresh_token = refresh_token unless refresh_token.nil?
@@ -36,7 +155,7 @@ module BoxHelper
     end
 
     def access_and_refresh_tokens_cache( new_access_token, new_refresh_token )
-      puts "cache_access_and_refresh_tokens(#{new_access_token},#{new_refresh_token})" if @@box_verbose
+      Rails.logger.debug "cache_access_and_refresh_tokens(#{new_access_token},#{new_refresh_token})" if @box_verbose
       return if new_access_token.nil?
       return if new_refresh_token.nil?
       if new_access_token != @access_token || new_refresh_token != @refresh_token
@@ -49,17 +168,20 @@ module BoxHelper
     def access_and_refresh_tokens_export( new_access_token, new_refresh_token )
       return if new_access_token.nil?
       return if new_refresh_token.nil?
-      puts "access_and_refresh_tokens_export(#{new_access_token},#{new_refresh_token})" if @@box_verbose
+      Rails.logger.debug "access_and_refresh_tokens_export(#{new_access_token},#{new_refresh_token})" if @box_verbose
       config_hash = config_hash_current
       config_hash['box_access_token'] = new_access_token
       config_hash['box_refresh_token'] = new_refresh_token
-      open( @@box_access_and_refresh_token_file, 'w' ) { |f| f << config_hash.to_yaml << "\n" }
+      BoxHelper.mutex_to_guard_token_file.synchronize do
+        config_hash['box_config_timestamp'] = DateTime.now.to_s
+        open( @box_access_and_refresh_token_file, 'w' ) { |f| f << config_hash.to_yaml << "\n" }
+      end
     end
 
     def access_and_refresh_tokens_load( access_token, refresh_token )
       if access_token.nil? || refresh_token.nil?
-        if File.exist? @@box_access_and_refresh_token_file
-          yml_hash = config_has_load
+        if File.exist? @box_access_and_refresh_token_file
+          yml_hash = config_hash_load
           @access_token = yml_hash[:box_access_token]
           @refresh_token = yml_hash[:box_refresh_token]
         end
@@ -67,83 +189,149 @@ module BoxHelper
     end
 
     def access_token_developer
-      # TODO
-      'Token goes here, this will not work work'
-      'NB4wSgTW4HuoQaXnbHfeFHHUeAqED70Y'.freeze
+      return @developer_token
+    end
+
+    def boxr_error_handle( method: nil, error: nil, backtrace: false )
+      @most_recent_boxr_error = error
+      #
+      # TODO: find the other errors to handle here
+      #
+      case error.status
+      when 400
+      when 401
+        if @box_always_report_not_logged_in_errors || !@failed_box_login
+          boxr_error_log( method: method, error: error, backtrace: backtrace )
+        end
+        @failed_box_login = true
+      when 405
+        # this can happen for bad parameters, like passing nil to client.folder_items
+        boxr_error_log( method: method, error: error, backtrace: backtrace )
+      else
+        boxr_error_log( method: method, error: error, backtrace: backtrace )
+      end
+    end
+
+    def boxr_error_log( method: nil, error: nil, backtrace: false )
+      msg = "BoxHelper::Box.#{method} #{error.class}: #{error.message}"
+      msg += " at #{error.backtrace[0]}" if backtrace
+      Rails.logger.error msg
+    end
+
+    def box_link_display_for_work?( work_id: nil, work_file_count: -1 )
+      return false if work_id.nil?
+      return false if work_file_count < 0
+      dir_exists = directory_exists?( work_id )
+      if !dir_exists && @box_create_dirs_for_empty_works && work_file_count < 1
+        dir_exists = directory_create( work_id )
+      end
+      return dir_exists
     end
 
     def client
-      #client_init_developer_token
-      client_init_single
+      return @box_client unless @box_client.nil?
+      client_init_developer_token unless ( @developer_token.nil? || @developer_token.empty? )
+      client_init_single if @box_client.nil?
       #client_init_json
-      @box_client
+      return @box_client
     end
 
     def client_init_developer_token
-      @access_token = access_token_developer
-      @box_client ||= Boxr::Client.new( access_token_developer )
+      Rails.logger.debug "client_init_developer_token" if @box_verbose
+      return unless @box_client.nil?
+      Rails.logger.debug "client_init_developer_token access_token_developer=#{access_token_developer}" if @box_verbose
+      begin
+        @box_client = Boxr::Client.new( access_token_developer )
+        Rails.logger.debug "client_init_developer_token initialized box" if @box_verbose
+      rescue Boxr::BoxrError => e
+        boxr_error_log( method: "client_init_developer_token", error: e )
+        @box_client = nil
+      end
     end
 
     def client_init_single
-      @access_token = access_token_developer
+      Rails.logger.debug "client_init_single" if @box_verbose
+      return unless @box_client.nil?
       token_refresh_callback = lambda { |access, refresh, identifier| access_and_refresh_tokens_cache( access, refresh ) }
-      @box_client ||= Boxr::Client.new( @access_token,
-                           refresh_token: @refresh_token,
-                           client_id: @box_client_id,
-                           client_secret: @box_client_secret,
-                           &token_refresh_callback )
+      begin
+        @box_client = Boxr::Client.new( @access_token,
+                             refresh_token: @refresh_token,
+                             client_id: @box_client_id,
+                             client_secret: @box_client_secret,
+                             &token_refresh_callback )
+        Rails.logger.debug "client_init_single initialized box" if @box_verbose
+      rescue Boxr::BoxrError => e
+        boxr_error_log( method: "client_init_single", error: e )
+        @box_client = nil
+      end
     end
 
-    def client_init_json
-      @access_token = access_token_developer
-      token_refresh_callback = lambda { |access, refresh, identifier| access_and_refresh_tokens_cache( access, refresh ) }
-      @box_client ||= Boxr::Client.new( @access_token,
-                                      refresh_token: @refresh_token,
-                                      client_id: json_config_client_id,
-                                      client_secret: json_config_client_secret,
-                                      enterprise_id: json_config_enterprise_id,
-                                      jwt_private_key: json_config_private_key,
-                                      jwt_private_key_password: json_config_passphrase,
-                                      jwt_public_key_id: json_config_public_key_id,
-                                      &token_refresh_callback )
-    end
+    # def client_init_json
+    #   @access_token = access_token_developer
+    #   token_refresh_callback = lambda { |access, refresh, identifier| access_and_refresh_tokens_cache( access, refresh ) }
+    #   @box_client ||= Boxr::Client.new( @access_token,
+    #                                   refresh_token: @refresh_token,
+    #                                   client_id: json_config_client_id,
+    #                                   client_secret: json_config_client_secret,
+    #                                   enterprise_id: json_config_enterprise_id,
+    #                                   jwt_private_key: json_config_private_key,
+    #                                   jwt_private_key_password: json_config_passphrase,
+    #                                   jwt_public_key_id: json_config_public_key_id,
+    #                                   &token_refresh_callback )
+    # end
 
     def config_hash_current
       config_hash = Hash.new
-      config_hash['box_access_token']    = @access_token.nil?      ? '' : @access_token
-      config_hash['box_client_id']       = @box_client_id.nil?     ? '' : @box_client_id
-      config_hash['box_client_secret']   = @box_client_secret.nil? ? '' : @box_client_secret
-      config_hash['box_developer_token'] = @developer_token.nil?   ? '' : @developer_token
-      config_hash['box_refresh_token']   = @refresh_token.nil?     ? '' : @refresh_token
+      config_hash['box_access_token']     = @access_token.nil?         ? '' : @access_token
+      config_hash['box_app_name']         = @box_app_name.nil?         ? '' : @box_app_name
+      config_hash['box_client_id']        = @box_client_id.nil?        ? '' : @box_client_id
+      config_hash['box_client_secret']    = @box_client_secret.nil?    ? '' : @box_client_secret
+      config_hash['box_config_timestamp'] = @box_config_timestamp.nil? ? '' : @box_config_timestamp
+      config_hash['box_developer_token']  = @developer_token.nil?      ? '' : @developer_token
+      config_hash['box_refresh_token']    = @refresh_token.nil?        ? '' : @refresh_token
       return config_hash
     end
 
     def config_hash_load( assign_attributes: false )
-      config_hash = YAML.load_file @@box_access_and_refresh_token_file
-      config_hash['box_access_token']    = nil if '' == config_hash['box_access_token']
-      config_hash['box_client_id']       = nil if '' == config_hash['box_client_id']
-      config_hash['box_client_secret']   = nil if '' == config_hash['box_client_secret']
-      config_hash['box_developer_token'] = nil if '' == config_hash['box_developer_token']
-      config_hash['box_refresh_token']   = nil if '' == config_hash['box_refresh_token']
-      if assign_attributes
-        @access_token      = config_hash['box_access_token']
-        @box_client_id     = config_hash['box_client_id']
-        @box_client_secret = config_hash['box_client_secret']
-        @developer_token   = config_hash['box_developer_token']
-        @refresh_token     = config_hash['box_refresh_token']
+      config_hash = nil
+      BoxHelper.mutex_to_guard_token_file.synchronize do
+        config_hash = YAML.load_file @box_access_and_refresh_token_file
       end
-      puts "config_hash_load config_hash=#{config_hash}" if @@box_verbose
+      config_hash['box_access_token']     = nil if '' == config_hash['box_access_token']
+      config_hash['box_app_name']         = nil if '' == config_hash['box_app_name']
+      config_hash['box_client_id']        = nil if '' == config_hash['box_client_id']
+      config_hash['box_client_secret']    = nil if '' == config_hash['box_client_secret']
+      config_hash['box_config_timestamp'] = nil if '' == config_hash['box_config_timestamp']
+      config_hash['box_developer_token']  = nil if '' == config_hash['box_developer_token']
+      config_hash['box_refresh_token']    = nil if '' == config_hash['box_refresh_token']
+      if assign_attributes
+        @access_token         = config_hash['box_access_token']
+        @bbox_app_name        = config_hash['box_app_name']
+        @box_client_id        = config_hash['box_client_id']
+        @box_client_secret    = config_hash['box_client_secret']
+        @box_config_timestamp = config_hash['box_config_timestamp']
+        @developer_token      = config_hash['box_developer_token']
+        @refresh_token        = config_hash['box_refresh_token']
+      end
+      Rails.logger.debug "config_hash_load config_hash=#{config_hash}" if @box_verbose
       return config_hash
     end
 
     def config_hash_save
       config_hash = config_hash_current
-      puts "config_hash_save config_hash=#{config_hash}" if @@box_verbose
-      open( @@box_access_and_refresh_token_file, 'w' ) { |f| f << config_hash.to_yaml << "\n" }
+      Rails.logger.debug "config_hash_save config_hash=#{config_hash}" if @box_verbose
+      BoxHelper.mutex_to_guard_token_file.synchronize do
+        config_hash['box_config_timestamp'] = DateTime.now.to_s
+        open( @box_access_and_refresh_token_file, 'w' ) { |f| f << config_hash.to_yaml << "\n" }
+      end
     end
 
     def dir_list
+      return [] if failed_box_login
       @dir_list ||= client.folder_items( parent_dir )
+    rescue Boxr::BoxrError => e
+      boxr_error_handle( method: "dir_list", error: e )
+      return []
     end
 
     def dir_item_by_name( dir_name )
@@ -154,20 +342,20 @@ module BoxHelper
     end
 
     def directory_create( dir_name )
+      return false if failed_box_login
       unless directory_exists?( dir_name )
         client.create_folder( dir_name, parent_dir )
         @dir_list = nil
       end
-      has_dir_name? dir_name
+      return has_dir_name? dir_name
+    rescue Boxr::BoxrError => e
+      boxr_error_handle( method: "directory_create", error: e )
+      return false
     end
 
     def directory_exists?( dir_name )
       rv = has_dir_name?( dir_name )
       return rv
-    end
-
-    def directory_list()
-      return dir_list
     end
 
     def directory_list_names()
@@ -186,10 +374,12 @@ module BoxHelper
 
     def folder_from_path( folder_name )
       folder = nil
+      return folder if failed_box_login
       begin
         folder = client.folder_from_path folder_name
       rescue Boxr::BoxrError => e
         # check for Folder not found
+        boxr_error_handle(method: "folder_from_path", error: e )
       rescue Exception => ignore
       end
       return folder
@@ -201,8 +391,9 @@ module BoxHelper
     end
 
     def parent_dir=( parent_dir )
+      need_refresh = @parent_dir != parent_dir
       @parent_dir = parent_dir
-      @dir_list = nil
+      refresh if need_refresh
     end
 
     def json_file_path
@@ -247,23 +438,34 @@ module BoxHelper
 
     def refresh
       @dir_list = nil
+     end
+
+    def reset
+      @box_client = nil
+      @dir_list = nil
+      @most_recent_boxr_error = nil
+      @failed_box_login = false
     end
 
-    def make_dir_owner_dlib_dbd_box( folder_name )
-      box_id = folder_name_to_box_id( folder_name )
-      unless box_id.nil?
-        client.update_folder( box_id, created_by: @@dlib_dbd_box_user_id, modified_by: @@dlib_dbd_box_user_id, owned_by: @@dlib_dbd_box_user_id )
-      end
-    end
+    # def make_dir_owner_dlib_dbd_box( folder_name )
+    #   box_id = folder_name_to_box_id( folder_name )
+    #   unless box_id.nil?
+    #     client.update_folder( box_id, created_by: @dlib_dbd_box_user_id, modified_by: @dlib_dbd_box_user_id, owned_by: @dlib_dbd_box_user_id )
+    #   end
+    # end
 
     def upload_link( folder_name )
       box_id = folder_name_to_box_id( folder_name )
-      rv = nil
+      rv = "https://umich.app.box.com/folder/#{@ulib_dbd_box_id}"
+      return rv if failed_box_login
       unless box_id.nil?
         box_link = client.create_shared_link_for_folder( box_id )
         rv = box_link.shared_link.url
       end
       return rv
+    rescue Boxr::BoxrError => e
+      boxr_error_handle( method: "upload_link", error: e )
+      return "https://umich.app.box.com/folder/#{@ulib_dbd_box_id}"
     end
 
     # def update_folder(folder, name: nil, description: nil, parent: nil, shared_link: nil,

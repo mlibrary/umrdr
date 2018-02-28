@@ -10,6 +10,20 @@ module Umrdr
       @solr_document.authoremail
     end
 
+    def box_link( only_if_exists_in_box: false )
+      concern_id = @solr_document.id
+      return ::BoxHelper.box.upload_link( concern_id ) unless only_if_exists_in_box
+      return ::BoxHelper.box.upload_link( concern_id ) if ::BoxHelper.box.directory_exists?( concern_id )
+      return nil
+    end
+
+    def box_link_display_for_work?
+      concern_id = @solr_document.id
+      work_file_count = total_file_count
+      rv = ::BoxHelper.box_link_display_for_work?( work_id: concern_id, work_file_count: work_file_count )
+      return rv
+    end
+
     # display date range as from_date To to_date
     def date_coverage
       return @solr_document.date_coverage.sub("/open", "") if @solr_document.date_coverage&.match("/open")
@@ -104,11 +118,6 @@ module Umrdr
     end
 
     def total_file_size_human_readable
-    #   if @solr_document[Solrizer.solr_name('total_file_size_human_readable', :symbol)].nil?
-    #     nil
-    #   else
-    #     @solr_document[Solrizer.solr_name('total_file_size_human_readable', :symbol)].first
-    #   end
       human_readable( total_file_size )
     end
 

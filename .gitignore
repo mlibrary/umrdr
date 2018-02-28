@@ -9,6 +9,7 @@
 # per environment. See bin/setup
 config/analytics.yml
 config/database.yml
+config/box_config.yml
 config/secrets.yml
 config/blacklight.yml
 config/fedora.yml
