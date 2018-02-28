@@ -62,17 +62,26 @@ var HydraEditor = (function($) {
             event.preventDefault();
             var $activeField = $(event.target).parents(this.fieldWrapperClass)
 
-            if (this.inputIsEmpty($activeField)) {
+            if (this.inputIsEmpty($activeField) || this.textIsEmpty($activeField) ) {
                 this.displayEmptyWarning();
             } else {
                 var $listing = $(this.listClass, this.element);
                 this.clearEmptyWarning();
-                $listing.append(this._newField($activeField));
+
+                if ( this.options.label == " Description" ) {
+                  $listing.append(this._newTextAreaField($activeField));
+                } else {
+                  $listing.append(this._newField($activeField));
+                }
             }
           },
 
           inputIsEmpty: function($activeField) {
-              return (($activeField.children('textarea.multi-text-field').val() === '') || ($activeField.children('input.multi-text-field').val() === ''));
+             return $activeField.children('input.multi-text-field').val() === '';
+          },
+
+          textIsEmpty: function($activeField) {
+              return $activeField.children('textarea.multi-text-field').val() === '';
           },
 
           _newField: function ($activeField) {
@@ -83,9 +92,26 @@ var HydraEditor = (function($) {
               return $newField;
           },
 
+          _newTextAreaField: function ($activeField) {
+              var $newField = this.createTextAreaNewField($activeField);
+              // _changeControlsToRemove must come after createNewField
+              // or the new field will not have an add button
+              this._changeControlsToRemove($activeField);
+              return $newField;
+          },
+
           createNewField: function($activeField) {
               $newField = $activeField.clone();
               $newChildren = $newField.children('input');
+              $newChildren.val('').removeProp('required');
+              $newChildren.first().focus();
+              this.element.trigger("managed_field:add", $newChildren.first());
+              return $newField
+          },
+
+          createTextAreaNewField: function($activeField) {
+              $newField = $activeField.clone();
+              $newChildren = $newField.children('textarea');
               $newChildren.val('').removeProp('required');
               $newChildren.first().focus();
               this.element.trigger("managed_field:add", $newChildren.first());

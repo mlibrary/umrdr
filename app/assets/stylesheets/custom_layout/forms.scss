@@ -282,3 +282,14 @@
   flex-shrink: 1;
 }
 
+/*
+  Centering images in Help, especially "Using Globus"
+*/
+.center-image {
+  display: block;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  width: 50%;
+}

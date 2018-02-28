@@ -70,78 +70,21 @@ class Hyrax::GenericWorksController < ApplicationController
   ## Send email
 
   def notify_rds
-    email_rds( action: "deposited by #{curation_concern.depositor}", log_provenance: false )
-    # location   = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor  = curation_concern.depositor
-    # title      = curation_concern.title.join("','")
-    # creator    = curation_concern.creator.join("','")
-    # visibility = curation_concern.visibility
-    # msg        = title + " (" + location + ") by " + creator + ", with " + visibility + " access was deposited by " + depositor
-    # email      = WorkMailer.deposit_work( EmailHelper.notification_email, msg)
-    # email.deliver_now
+    email_rds( action: 'deposit', description: "deposited by #{curation_concern.depositor}", log_provenance: false )
   end
 
   def notify_rds_on_update_to_public
     return unless @visibility_changed_to_public
-    action = "previously deposited by #{curation_concern.depositor}, was updated to #{curation_concern.visibility} access"
-    email_rds( action: action, log_provenance: true )
-    # location   = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor  = curation_concern.depositor
-    # title      = curation_concern.title.join("','")
-    # creator    = curation_concern.creator.join("','")
-    # visibility = curation_concern.visibility
-    # msg        = title + " (" + location + ") by " + creator + ", previously deposited by " + depositor + ", was updated to " + visibility + " access"
-    # PROV_LOGGER.info (msg)
-    # email      = WorkMailer.publish_work( EmailHelper.notification_email, msg)
-    # email.deliver_now
+    description = "previously deposited by #{curation_concern.depositor}, was updated to #{curation_concern.visibility} access"
+    email_rds( action: 'update', description: description, log_provenance: true )
   end
 
   def prov_work_created
     provenance_log( action: 'created' )
-    # location      = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor     = curation_concern.depositor
-    # title         = curation_concern.title.join("','")
-    # creator       = curation_concern.creator.join("','")
-    # description   = curation_concern.description.join("','")
-    # publisher     = curation_concern.publisher.join("','")
-    # subject       = curation_concern.subject.join("','")
-    # msg = "WORK CREATED: (#{location}) by + #{creator} with #{curation_concern.visibility}" +
-    #     " access was created with title: #{title} " +
-    #     ", rights: #{curation_concern.rights[0]}" +
-    #     ", methodology: #{curation_concern.methodology}" +
-    #     ", publisher: #{publisher}" +
-    #     ", subject: #{subject}" +
-    #     ", description: #{description}" +
-    #     ", admin set id: #{curation_concern.admin_set_id}"
-    # PROV_LOGGER.info (msg)
   end
 
   def prov_work_updated
     provenance_log( action: 'updated', modified: "on: #{curation_concern.date_modified}" )
-    # location      = main_app.hyrax_generic_work_url(curation_concern.id)
-    # depositor     = curation_concern.depositor
-    # methodology   = curation_concern.methodology
-    # visibility = curation_concern.visibility
-    # date_modified = curation_concern.date_modified
-    # rights = curation_concern.rights
-    # title         = curation_concern.title.join("','")
-    # creator       = curation_concern.creator.join("','")
-    # description   = curation_concern.description.join("','")
-    # publisher     = curation_concern.publisher.join("','")
-    # subject       = curation_concern.subject.join("','")
-    # admin_set_id  = curation_concern.admin_set_id
-    #
-    # msg        = "WORK UPDATED:" + " (" + location + ") by " + creator +
-    #     ", with " + visibility +
-    #     " access was updated with title: " + title +
-    #     ", on: " + date_modified.to_s +
-    #     ", rights: " + rights[0] +
-    #     ", methodology: " + methodology +
-    #     ", publisher: " + publisher +
-    #     ", subject: " + subject +
-    #     ", description: " + description +
-    #     ", admin set id: " + admin_set_id
-    # PROV_LOGGER.info (msg)
   end
 
   # Begin processes to mint hdl and doi for the work
@@ -186,15 +129,15 @@ class Hyrax::GenericWorksController < ApplicationController
     #Rails.logger.debug "Download Zip begin tmp_dir #{tmp_dir}"
     target_dir = target_dir_name_id( tmp_dir, curation_concern.id )
     #Rails.logger.debug "Download Zip begin copy to folder #{target_dir}"
-    Dir.mkdir(target_dir) unless Dir.exists?( target_dir )
+    Dir.mkdir(target_dir) unless Dir.exist?( target_dir )
     target_zipfile = target_dir_name_id( target_dir, curation_concern.id, ".zip" )
     #Rails.logger.debug "Download Zip begin copy to target_zipfile #{target_zipfile}"
-    File.delete target_zipfile if File.exists? target_zipfile
+    File.delete target_zipfile if File.exist? target_zipfile
     # clean the zip directory if necessary, since the zip structure is currently flat, only
     # have to clean files in the target folder
     files = Dir.glob( "#{target_dir.join '*'}")
     files.each do |file|
-      File.delete file if File.exists? file
+      File.delete file if File.exist? file
     end
     Rails.logger.debug "Download Zip begin copy to folder #{target_dir}"
     Zip::File.open(target_zipfile.to_s, Zip::File::CREATE ) do |zipfile|
@@ -211,13 +154,13 @@ class Hyrax::GenericWorksController < ApplicationController
   def globus_add_email
     if user_signed_in?
       user_email = EmailHelper.user_email_from( current_user )
-      ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email )
+      globus_copy_job( user_email: user_email, delay_per_file_seconds: 0 )
       flash_and_go_back globus_files_prepping_msg( user_email: user_email )
     elsif params[:user_email_one].present? || params[:user_email_two].present?
       user_email_one = params[:user_email_one].present? ? params[:user_email_one].strip : ''
       user_email_two = params[:user_email_two].present? ? params[:user_email_two].strip : ''
       if user_email_one === user_email_two
-        ::GlobusCopyJob.perform_later( curation_concern.id, user_email: user_email_one )
+        globus_copy_job( user_email: user_email_one, delay_per_file_seconds: 0 )
         flash_and_redirect_to_main_cc globus_files_prepping_msg( user_email: user_email_one )
       else
         flash.now[:error] = emails_did_not_match_msg( user_email_one, user_email_two )
@@ -225,6 +168,17 @@ class Hyrax::GenericWorksController < ApplicationController
       end
     else
       flash_and_redirect_to_main_cc globus_status_msg
+    end
+  end
+
+  def globus_copy_job( user_email: nil,
+                       delay_per_file_seconds: Umrdr::Application.config.globus_debug_delay_per_file_copy_job_seconds )
+    ::GlobusCopyJob.perform_later( curation_concern.id,
+                                   user_email: user_email,
+                                   ui_delay_seconds: Umrdr::Application.config.globus_after_copy_job_ui_delay_seconds,
+                                   delay_per_file_seconds: delay_per_file_seconds )
+    if 0 < ui_delay_seconds
+      sleep ui_delay_seconds
     end
   end
 
@@ -240,9 +194,7 @@ class Hyrax::GenericWorksController < ApplicationController
         msg = globus_file_prep_started_msg( user_email: user_email )
       end
       if user_signed_in?
-        ::GlobusCopyJob.perform_later( curation_concern.id,
-                                       user_email: user_email,
-                                       delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
+        globus_copy_job( user_email: user_email )
         flash_and_redirect_to_main_cc msg
       else
         render 'globus_download_notify_me_form'
@@ -261,17 +213,13 @@ class Hyrax::GenericWorksController < ApplicationController
   def globus_download_notify_me
     if user_signed_in?
       user_email = EmailHelper.user_email_from( current_user )
-      ::GlobusCopyJob.perform_later( curation_concern.id,
-                                     user_email: user_email,
-                                     delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
+      globus_copy_job( user_email: user_email )
       flash_and_go_back globus_file_prep_started_msg( user_email: user_email )
     elsif params[:user_email_one].present? || params[:user_email_two].present?
       user_email_one = params[:user_email_one].present? ? params[:user_email_one].strip : ''
       user_email_two = params[:user_email_two].present? ? params[:user_email_two].strip : ''
       if user_email_one === user_email_two
-        ::GlobusCopyJob.perform_later( curation_concern.id,
-                                       user_email: user_email_one,
-                                       delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
+        globus_copy_job( user_email: user_email_one )
         flash_and_redirect_to_main_cc globus_file_prep_started_msg( user_email: user_email_one )
       else
         #flash_and_go_back emails_did_not_match_msg( user_email_one, user_email_two )
@@ -279,9 +227,7 @@ class Hyrax::GenericWorksController < ApplicationController
         render 'globus_download_notify_me_form'
       end
     else
-      ::GlobusCopyJob.perform_later( curation_concern.id,
-                                     user_email: nil,
-                                     delay_seconds: Umrdr::Application.config.globus_debug_delay_copy_job_seconds )
+      globus_copy_job( user_email: nil )
       flash_and_redirect_to_main_cc globus_file_prep_started_msg
     end
   end
@@ -365,6 +311,9 @@ class Hyrax::GenericWorksController < ApplicationController
     total_bytes = 0
     file_sets.each do |file_set|
       file = file_set.files[0]
+      file_set.files.each do | f |
+        file = f unless f.original_name == ''
+      end
       if file.nil?
         Rails.logger.warning "#{log_prefix} file_set.id #{file_set.id} files[0] is nil"
       else
@@ -379,14 +328,14 @@ class Hyrax::GenericWorksController < ApplicationController
           target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
           while files_extracted.has_key? target_file_name
             dup_count += 1
-            target_file_name = base_target_file_nakme + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
+            target_file_name = base_target_file_name + "_" + dup_count.to_s.rjust( 3, '0' ) + base_ext
           end
         end
         files_extracted.store( target_file_name, true )
         target_file = target_dir.join target_file_name
         if do_copy_predicate.call( target_file_name, target_file )
           source_uri = file.uri.value
-          #Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exists?( source_uri )}" unless quiet
+          #Rails.logger.debug "#{log_prefix} #{source_uri} exists? #{File.exist?( source_uri )}" unless quiet
           Rails.logger.debug "#{log_prefix} copy #{target_file} << #{source_uri}" unless quiet
           bytes_copied = open(source_uri) { |io| IO.copy_stream(io, target_file) }
           total_bytes += bytes_copied
@@ -421,29 +370,64 @@ class Hyrax::GenericWorksController < ApplicationController
     "Emails did not match" # + ": '#{user_email_one}' != '#{user_email_two}'"
   end
 
-  def email_user( action: '', log_provenance: false )
-    location = MsgHelper.work_location( curation_concern )
-    title    = MsgHelper.title( curation_concern )
-    creator  = MsgHelper.creator( curation_concern )
-    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{action}."
-    if log_provenance
-      PROV_LOGGER.info (msg)
-    end
-
-    email = WorkMailer.create_work( to: EmailHelper.user_email_from( current_user ), from: EmailHelper.notification_email, body: msg )
-    email.deliver_now
+  def email_rds_and_user( action: 'create', description: '', log_provenance: false )
+    email_to = EmailHelper.user_email_from( current_user )
+    email_from = EmailHelper.notification_email # will be nil on developer's machine
+    email_it( action: action,
+              description: description,
+              log_provenance: log_provenance,
+              email_to: email_to,
+              email_from: email_from )
   end
 
-  def email_rds( action: '', log_provenance: false )
+  def email_rds( action: 'deposit', description: '', log_provenance: false )
+    email_to = EmailHelper.notification_email # will be nil on developer's machine
+    email_it( action: action, description: description, log_provenance: log_provenance, email_to: email_to )
+  end
+
+  def email_it( action: 'deposit', description: '', log_provenance: false, email_to: '', email_from: nil )
     location = MsgHelper.work_location( curation_concern )
     title    = MsgHelper.title( curation_concern )
     creator  = MsgHelper.creator( curation_concern )
-    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{action}"
+    msg      = "#{title} (#{location}) by + #{creator} with #{curation_concern.visibility} access was #{description}"
+    Rails.logger.debug "email_it: action=#{action} email_to=#{email_to} email_from=#{email_from} msg='#{msg}'"
     if log_provenance
-      PROV_LOGGER.info (msg)
+      PROV_LOGGER.info( msg )
     end
-    email = WorkMailer.deposit_work( EmailHelper.notification_email, msg )
-    email.deliver_now
+    email = nil
+    case action
+      when 'deposit'
+        email = WorkMailer.deposit_work( to: email_to, body: msg )
+      when 'delete'
+        email = WorkMailer.delete_work( to: email_to, body: msg )
+      when 'create'
+        email = WorkMailer.create_work( to: email_to, body: msg )
+      when 'publish'
+        email = WorkMailer.publish_work( to: email_to, body: msg )
+      when 'update'
+        email = WorkMailer.update_work( to: email_to, body: msg )
+      else
+        Rails.logger.error "email_it unknown action #{action}"
+    end
+    email.deliver_now unless email.nil? || email_to.nil?
+    unless email_from.nil?
+      email = nil
+      case action
+        when 'deposit'
+          email = WorkMailer.deposit_work( to: email_to, from: email_from, body: msg )
+        when 'delete'
+          email = WorkMailer.delete_work( to: email_to, from: email_from, body: msg )
+        when 'create'
+          email = WorkMailer.create_work( to: email_to, from: email_from, body: msg )
+        when 'publish'
+          email = WorkMailer.publish_work( to: email_to, from: email_from, body: msg )
+        when 'update'
+          email = WorkMailer.update_work( to: email_to, from: email_from, body: msg )
+        else
+          Rails.logger.error "email_it unknown action #{action}"
+      end
+      email.deliver_now unless email.nil? || email_to.nil?
+    end
   end
 
   def flash_and_go_back( msg )

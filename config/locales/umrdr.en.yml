@@ -162,6 +162,7 @@ en:
         globus_download_add_email: "Email Me When Globus Download is Complete"
         globus_download_notify_me: "Email Me When Globus Download is Complete"
         globus_download_and_notify_me: "Download All for Globus and Email Me When Complete"
+        globus_download_dont_notify_me: "Don't Add My Email"
     # TODO: Consolidate/clean up remove/add difference.
     #  such that it can be under the add_remove_labels.
         remove:

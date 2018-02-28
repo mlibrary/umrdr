@@ -42,10 +42,7 @@ module Hyrax
 
     def create
       if actor.create(attributes_for_actor)
-        #Send email to depositor
-        action = "created"
-        email_user( action: action, log_provenance: false )
-
+        email_rds_and_user( action: 'create', description: "created", log_provenance: true )
         after_create_response
       else
         respond_to do |wants|
@@ -107,9 +104,7 @@ module Hyrax
       Hyrax.config.callback.run(:after_destroy, curation_concern.id, current_user)
 
       #Send email letting RDS know that the work was deleted, and add entry to provenace log
-      action = "deleted from the system"
-      email_rds( action: action, log_provenance: true )
-
+      email_rds( action: 'delete', description: "deleted from the system", log_provenance: true )
       after_destroy_response(title)
     end
 

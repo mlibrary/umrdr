@@ -21,7 +21,7 @@ class GlobusJob < ActiveJob::Base
   def self.copy_complete?( id )
     dir = @@globus_download_dir
     dir = dir.join files_target_file_name( id )
-    Dir.exists? dir
+    Dir.exist? dir
   end
 
   def self.error_file( id )
@@ -31,7 +31,7 @@ class GlobusJob < ActiveJob::Base
   def self.error_file_exists?( id, write_error_to_log: false, log_prefix: '', quiet: true )
     error_file = error_file( id )
     error_file_exists = false
-    if File.exists? error_file
+    if File.exist? error_file
       if write_error_to_log
         msg = nil
         open( error_file, 'r' ) { |f| msg = f.read; msg.chomp! }
@@ -60,7 +60,7 @@ class GlobusJob < ActiveJob::Base
     lock_file = lock_file concern_id
     Rails.logger.debug "#{log_prefix} writing lock token #{lock_token} to #{lock_file}" unless @globus_job_quiet
     open( lock_file, 'w' ) { |f| f << lock_token << "\n" }
-    File.exists? lock_file
+    File.exist? lock_file
   end
 
   def self.lock_file( id = '' )
@@ -70,7 +70,7 @@ class GlobusJob < ActiveJob::Base
   def self.locked?( concern_id, write_error_to_log: false, log_prefix: '', quiet: true )
     return false if error_file_exists?( concern_id, write_error_to_log: true, log_prefix: log_prefix, quiet: quiet )
     lock_file = lock_file concern_id
-    return false unless File.exists? lock_file
+    return false unless File.exist? lock_file
     current_token = era_token
     lock_token = read_token lock_file
     rv = ( current_token == lock_token )
@@ -138,7 +138,7 @@ class GlobusJob < ActiveJob::Base
   end
 
   def globus_copy_job_complete?( concern_id )
-    Dir.exists? target_download_dir concern_id
+    Dir.exist? target_download_dir concern_id
   end
 
   def globus_error( msg )
@@ -157,28 +157,17 @@ class GlobusJob < ActiveJob::Base
                               write_error_to_log: write_error_to_log,
                               log_prefix: @globus_log_prefix,
                               quiet: @globus_job_quiet )
-    # error_file = globus_error_file
-    # error_file_exists = false
-    # if File.exists? error_file
-    #   if write_error_to_log
-    #     msg = nil
-    #     open( error_file, 'r' ) { |f| msg = f.read; msg.chomp! }
-    #     Rails.logger.debug "#{@globus_log_prefix} error file contains: #{msg}" unless @globus_job_quiet
-    #   end
-    #   error_file_exists = true
-    # end
-    # error_file_exists
   end
 
   def globus_error_reset
     file = globus_error_file
-    File.delete file if File.exists? file
+    File.delete file if File.exist? file
     true
   end
 
   def globus_file_lock( file, mode: File::LOCK_EX )
     success = true
-    if File.exists? file
+    if File.exist? file
       success = file.flock( mode )
       if success
         begin
@@ -258,17 +247,12 @@ class GlobusJob < ActiveJob::Base
 
   def globus_job_perform_complete_reset
     file = globus_job_complete_file
-    File.delete file if File.exists? file
+    File.delete file if File.exist? file
     true
   end
 
   def globus_lock
     GlobusJob.lock( @globus_concern_id, @globus_log_prefix )
-    # lock_token = GlobusJob.token
-    # lock_file = GlobusJob.lock_file @globus_concern_id
-    # Rails.logger.debug "#{@globus_log_prefix} writing lock token #{lock_token} to #{lock_file}" unless @globus_job_quiet
-    # open( lock_file, 'w' ) { |f| f << lock_token << "\n" }
-    # File.exists? lock_file
   end
 
   def globus_lock_file( id = '' )
@@ -280,20 +264,11 @@ class GlobusJob < ActiveJob::Base
                        write_error_to_log: true,
                        log_prefix: @globus_log_prefix,
                        quiet: @globus_job_quiet )
-    # return false if globus_error_file_exists?( write_error_to_log: true )
-    # lock_file = GlobusJob.lock_file @globus_concern_id
-    # return false unless File.exists? lock_file
-    # current_token = GlobusJob.token
-    # lock_token = nil
-    # open( lock_file, 'r' ) { |f| lock_token = f.read.chomp! }
-    # rv = ( current_token == lock_token )
-    # Rails.logger.debug "#{@globus_log_prefix} testing token from #{lock_file}: current_token: #{current_token} == lock_token: #{lock_token}: #{rv}" unless @globus_job_quiet
-    # rv
   end
 
   def globus_unlock
     return nil if @globus_lock_file.nil?
-    return nil unless File.exists? @globus_lock_file
+    return nil unless File.exist? @globus_lock_file
     Rails.logger.debug "#{@globus_log_prefix} unlock by deleting file #{@globus_lock_file}" unless @globus_job_quiet
     File.delete @globus_lock_file
     nil
@@ -306,7 +281,7 @@ class GlobusJob < ActiveJob::Base
   def target_dir_name( dir, subdir, mkdir: false )
     target_dir = dir.join subdir
     if mkdir
-      Dir.mkdir(target_dir ) unless Dir.exists? target_dir
+      Dir.mkdir(target_dir ) unless Dir.exist? target_dir
     end
     target_dir
   end
@@ -319,7 +294,7 @@ class GlobusJob < ActiveJob::Base
   def target_prep_tmp_dir( concern_id, prefix: '', postfix: '', mkdir: false )
     dir = target_prep_dir( concern_id, prefix: prefix, postfix: "#{postfix}_tmp" )
     if mkdir
-      Dir.mkdir(dir ) unless Dir.exists? dir
+      Dir.mkdir(dir ) unless Dir.exist? dir
     end
     dir
   end
