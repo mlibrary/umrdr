@@ -14,6 +14,7 @@ class Hyrax::GenericWorksController < ApplicationController
   before_action :assign_date_coverage, only: [:create, :update]
   before_action :assign_visibility, only: [:create, :update]
   after_action  :notify_rds, only: [:create]
+  after_action  :box_work_created, only: [:create]
   after_action  :prov_work_created, only: [:create]
   after_action  :prov_work_updated, only: [:update]
   after_action  :notify_rds_on_update_to_public, only: [:update]
@@ -26,6 +27,20 @@ class Hyrax::GenericWorksController < ApplicationController
   self.curation_concern_type = GenericWork
 
   attr_accessor :user_email_one, :user_email_two
+
+  ## box integration
+
+  def box_create_dir
+    BoxHelper.create_box_dir curation_concern.id
+  end
+
+  def box_link
+    BoxHelper.box_link curation_concern.id
+  end
+
+  def box_work_created
+    box_create_dir
+  end
 
   ## Changes in visibility
 

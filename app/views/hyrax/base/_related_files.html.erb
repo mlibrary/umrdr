@@ -1,4 +1,8 @@
 
+<% if @presenter.box_link_display_for_work? %>
+  <p><%= link_to "Link to M-Box deposit directory", @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
+<% end %>
+
 <% if @presenter.file_set_presenters.present? %>
 <div class="panel panel-default related_files">
   <div class="panel-heading">
