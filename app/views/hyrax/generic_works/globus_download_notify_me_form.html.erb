@@ -5,5 +5,5 @@
 <%= form_tag(main_app.globus_download_notify_me_hyrax_generic_work_path(@curation_concern.id), method: 'post') do %>
   <%= render partial: 'generic_works/globus_email_form_text_fields' %>
   <%= submit_tag(t('simple_form.actions.generic_work.globus_download_and_notify_me'), class: 'btn btn-primary') %>
-  <%= link_to t(:'helpers.action.cancel'), polymorphic_path([main_app, curation_concern]), class: 'btn btn-link cancel-btn' %>
+  <%= link_to t('simple_form.actions.generic_work.globus_download_dont_notify_me'), polymorphic_path([main_app, curation_concern]), class: 'btn btn-link' %>
 <% end %>
