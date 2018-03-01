@@ -4,7 +4,7 @@ require 'rspec/expectations'
 describe 'hyrax/base/_related_files.html.erb', type: :view do
   include RSpecHtmlMatchers
 
-  let(:ability) { double(can?: true) }
+  let(:ability) { double( "ability", can?: true ) }
   let(:request) { nil }
 
   let(:blacklight_configuration_context) do
@@ -90,6 +90,7 @@ describe 'hyrax/base/_related_files.html.erb', type: :view do
       allow(presenter).to receive(:file_set_presenters).and_return( file_set_presenters )
       allow(presenter).to receive(:member_presenter_factory).and_return( member_presenter_factory )
       allow( presenter ).to receive( :box_link_display_for_work? ).and_return( false )
+      allow( ability ).to receive( :admin? ).and_return( false )
       allow(member_presenter_factory).to receive(:ordered_ids).and_return( file_set_ids )
       allow(member_presenter_factory).to receive(:file_set_ids).and_return( file_set_ids )
       allow(member_presenter_factory).to receive(:member_presenters).and_return( member_presenters )
@@ -116,7 +117,7 @@ describe 'hyrax/base/_related_files.html.erb', type: :view do
       expect(rendered).to have_tag( 'th', text: 'Access' )
       expect(rendered).to have_tag( 'th', text: 'Actions' )
 
-      expect(rendered).to have_tag( 'form', count: 3 )
+      expect(rendered).to have_tag( 'form', count: 4 )
       # TODO: forms
     end
   end

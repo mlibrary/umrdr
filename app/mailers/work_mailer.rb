@@ -17,6 +17,10 @@ class WorkMailer < ApplicationMailer
     mail( to: to, from: from, subject: 'DBD: Work Deleted', body: body )
   end
 
+  def globus_clean_job_complete( to, body )
+    mail( to: to, from: to, subject: 'DBD: Globus Clean Job Complete', body: body )
+  end
+
   def globus_job_complete( to, body )
     mail( to: to, from: to, subject: 'DBD: Globus Work Files Available', body: body )
   end

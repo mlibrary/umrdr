@@ -8,8 +8,8 @@ describe GlobusJob do
   let( :globus_download_dir ) { globus_dir.join 'download' }
   let( :globus_prep_dir ) { globus_dir.join 'prep' }
   let( :globus_target_download_dir ) { globus_download_dir.join 'DeepBlueData_id321' }
-  let( :globus_target_prep_dir ) { globus_prep_dir.join "#{Rails.env}_DeepBlueData_id321" }
-  let( :globus_target_prep_tmp_dir ) { globus_prep_dir.join "#{Rails.env}_DeepBlueData_id321" }
+  let( :globus_target_prep_dir ) { globus_prep_dir.join "#{GlobusJob.server_prefix(str:'_')}DeepBlueData_id321" }
+  let( :globus_target_prep_tmp_dir ) { globus_prep_dir.join "#{GlobusJob.server_prefix(str:'_')}DeepBlueData_id321" }
   let( :error_file ) { globus_prep_dir.join  '.test.error.DeepBlueData_id321' }
   let( :lock_file ) { globus_prep_dir.join '.test.lock.DeepBlueData_id321' }
 
@@ -438,7 +438,7 @@ describe GlobusJob do
     let( :dir ) { Pathname.new( 'aDir' ).join( 'aSubdir' ) }
     context "don't create dir." do
       it "returns a target base name." do
-        expect( job.send( :target_dir_name, Pathname.new( 'aDir' ), "aSubdir" ) ).to eq( dir )
+        expect( job.send(:target_dir_name2, Pathname.new('aDir' ), "aSubdir" ) ).to eq(dir )
       end
     end
     context "create dir if it doesn't exist." do
@@ -447,7 +447,7 @@ describe GlobusJob do
         expect( Dir ).to receive( :mkdir ).with( dir )
       end
       it "returns a target base name and creates the dir." do
-        expect( job.send( :target_dir_name, Pathname.new( 'aDir' ), "aSubdir", mkdir: true ) ).to eq( dir )
+        expect( job.send(:target_dir_name2, Pathname.new('aDir' ), "aSubdir", mkdir: true ) ).to eq(dir )
       end
     end
     context "don't create dir if it exists." do
@@ -455,7 +455,7 @@ describe GlobusJob do
         allow( Dir ).to receive( :exist? ).with( dir ).and_return( true )
       end
       it "returns a target base name and doesn't create the dir." do
-        expect( job.send( :target_dir_name, Pathname.new( 'aDir' ), "aSubdir", mkdir: false ) ).to eq( dir )
+        expect( job.send(:target_dir_name2, Pathname.new('aDir' ), "aSubdir", mkdir: false ) ).to eq(dir )
       end
     end
   end
@@ -463,17 +463,17 @@ describe GlobusJob do
   describe "#target_download_dir" do
     let( :job ) { described_class.new }
     it "returns target dowload dir name." do
-      expect( job.send( :target_download_dir, "id321" ) ).to eq( globus_target_download_dir )
+      expect( job.send(:target_download_dir2, "id321" ) ).to eq(globus_target_download_dir )
     end
   end
 
   context "#target_prep_dir" do
     let( :job ) { described_class.new }
-    let( :prefix ) { "#{Rails.env}_" }
+    let( :prefix ) { GlobusJob.server_prefix(str:'_') }
     let( :dir ) { globus_prep_dir.join "#{prefix}DeepBlueData_id321" }
     context "don't create prep dir." do
       it "returns a prep dir name." do
-        expect( job.send( :target_prep_dir, "id321", prefix: prefix ) ).to eq( dir )
+        expect( job.send(:target_prep_dir2, "id321", prefix: prefix ) ).to eq(dir )
       end
     end
     context "create prep dir if it doesn't exist." do
@@ -482,23 +482,23 @@ describe GlobusJob do
         expect( Dir ).to receive( :mkdir ).with( dir )
       end
       it "returns prep dir name and creates the dir." do
-        expect( job.send( :target_prep_dir, "id321", prefix: prefix, mkdir: true ) ).to eq( dir )
+        expect( job.send(:target_prep_dir2, "id321", prefix: prefix, mkdir: true ) ).to eq(dir )
       end
     end
     context "don't create prep dir if it exists." do
       it "returns prep dir name name and doesn't create the dir." do
-        expect( job.send( :target_prep_dir, "id321", prefix: prefix, mkdir: false ) ).to eq( dir )
+        expect( job.send(:target_prep_dir2, "id321", prefix: prefix, mkdir: false ) ).to eq(dir )
       end
     end
   end
 
   context "#target_prep_dir_tmp" do
     let( :job ) { described_class.new }
-    let( :prefix ) { "#{Rails.env}_" }
+    let( :prefix ) { GlobusJob.server_prefix(str:'_') }
     let( :dir ) { globus_prep_dir.join "#{prefix}DeepBlueData_id321_tmp" }
     context "don't create tmp prep dir." do
       it "returns tmp prep dir name." do
-        expect( job.send( :target_prep_tmp_dir, "id321", prefix: prefix ) ).to eq( dir )
+        expect( job.send(:target_prep_tmp_dir2, "id321", prefix: prefix ) ).to eq(dir )
       end
     end
     context "create tmp prep dir if it doesn't exist." do
@@ -507,12 +507,12 @@ describe GlobusJob do
         expect( Dir ).to receive( :mkdir ).with( dir )
       end
       it "returns tmp prep dir name and creates the dir." do
-        expect( job.send( :target_prep_tmp_dir, "id321", prefix: prefix, mkdir: true ) ).to eq( dir )
+        expect( job.send(:target_prep_tmp_dir2, "id321", prefix: prefix, mkdir: true ) ).to eq(dir )
       end
     end
     context "don't create tmp prep dir if it exists." do
       it "returns tmp prep dir name name and doesn't create the dir." do
-        expect( job.send( :target_prep_tmp_dir, "id321", prefix: prefix, mkdir: false ) ).to eq( dir )
+        expect( job.send(:target_prep_tmp_dir2, "id321", prefix: prefix, mkdir: false ) ).to eq(dir )
       end
     end
   end

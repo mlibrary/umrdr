@@ -8,7 +8,7 @@ describe "GlobusJob :globus_enabled => :true", :globus_enabled => :true do
 describe GlobusRestartAllJob do
   let( :globus_dir ) { Pathname "/tmp/deepbluedata-globus" }
   let( :target_name ) { "DeepBlueData_Restart_All" }
-  #let( :target_name_prep_dir ) { "#{Rails.env}_#{target_name}" }
+  #let( :target_name_prep_dir ) { "#{GlobusJob.server_prefix(str:'_')}#{target_name}" }
   let( :globus_prep_dir ) { globus_dir.join 'prep' }
   let( :job_complete_file ) { globus_prep_dir.join ".test.restarted.#{target_name}" }
   let( :error_file ) { globus_prep_dir.join ".test.error.#{target_name}" }

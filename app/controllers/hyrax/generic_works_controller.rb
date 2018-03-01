@@ -10,14 +10,15 @@ class Hyrax::GenericWorksController < ApplicationController
   #Override Sufia behavior to change the after_create message
   include Umrdr::WorksControllerBehavior
 
-  before_action :check_recent_uploads, only: [:show]
-  before_action :assign_date_coverage, only: [:create, :update]
-  before_action :assign_visibility, only: [:create, :update]
-  after_action  :notify_rds, only: [:create]
-  after_action  :box_work_created, only: [:create]
-  after_action  :prov_work_created, only: [:create]
-  after_action  :prov_work_updated, only: [:update]
+  before_action :check_recent_uploads,           only: [:show]
+  before_action :assign_date_coverage,           only: [:create, :update]
+  before_action :assign_visibility,              only: [:create, :update]
+  after_action  :notify_rds,                     only: [:create]
+  after_action  :box_work_created,               only: [:create]
+  after_action  :prov_work_created,              only: [:create]
+  after_action  :prov_work_updated,              only: [:update]
   after_action  :notify_rds_on_update_to_public, only: [:update]
+
   protect_from_forgery with: :null_session, only: [:download]
   protect_from_forgery with: :null_session, only: [:globus_download]
   protect_from_forgery with: :null_session, only: [:globus_add_email]
@@ -118,7 +119,7 @@ class Hyrax::GenericWorksController < ApplicationController
     render 'confirm_work' 
   end
 
-  ## download_zip
+  ## begin download operations
 
   def download
     require 'zip'
@@ -151,7 +152,9 @@ class Hyrax::GenericWorksController < ApplicationController
     send_file target_zipfile.to_s
   end
 
-  ## globus operations
+  ## end download operations
+
+  ## begin globus operations
 
   def globus_add_email
     if user_signed_in?
@@ -173,14 +176,28 @@ class Hyrax::GenericWorksController < ApplicationController
     end
   end
 
+  def globus_clean_download
+    ::GlobusCleanJob.perform_later( curation_concern.id, clean_download: true )
+    globus_ui_delay
+    dirs = []
+    dirs << ::GlobusJob.target_download_dir( curation_concern.id )
+    dirs << ::GlobusJob.target_prep_dir( curation_concern.id, prefix: nil )
+    dirs << ::GlobusJob.target_prep_tmp_dir( curation_concern.id, prefix: nil )
+    flash_and_redirect_to_main_cc globus_clean_msg( dirs )
+  end
+
+  def globus_clean_prep
+    ::GlobusCleanJob.perform_later( curation_concern.id, clean_download: false )
+    globus_ui_delay
+  end
+
   def globus_copy_job( user_email: nil,
                        delay_per_file_seconds: Umrdr::Application.config.globus_debug_delay_per_file_copy_job_seconds )
+
     ::GlobusCopyJob.perform_later( curation_concern.id,
                                    user_email: user_email,
                                    delay_per_file_seconds: delay_per_file_seconds )
-    if 0 < Umrdr::Application.config.globus_after_copy_job_ui_delay_seconds
-      sleep Umrdr::Application.config.globus_after_copy_job_ui_delay_seconds
-    end
+    globus_ui_delay
   end
 
   def globus_download
@@ -232,6 +249,14 @@ class Hyrax::GenericWorksController < ApplicationController
       flash_and_redirect_to_main_cc globus_file_prep_started_msg
     end
   end
+
+  def globus_ui_delay( delay_seconds: Umrdr::Application.config.globus_after_copy_job_ui_delay_seconds )
+    if 0 < delay_seconds
+      sleep delay_seconds
+    end
+  end
+
+  ## end globus operations
 
   # Create EDTF::Interval from form parameters
   # Replace the date coverage parameter prior with serialization of EDTF::Interval
@@ -444,6 +469,10 @@ class Hyrax::GenericWorksController < ApplicationController
   def flash_and_redirect_to_main_cc( msg )
     Rails.logger.debug msg
     redirect_to [main_app, curation_concern], notice: msg
+  end
+
+  def globus_clean_msg( dir )
+    "Files are being delete from #{dir.join("<br/>&nbsp;&nbsp;&nbsp;&nbsp;and ")}"
   end
 
   def globus_file_prep_started_msg( user_email: nil )

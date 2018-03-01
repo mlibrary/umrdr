@@ -1,14 +1,9 @@
-#require 'globus_era'
-
 class GlobusJob < ActiveJob::Base
 
-  #@@globus_era = Umrdr::GlobusEra.new
   @@globus_era_timestamp = Umrdr::Application.config.globus_era_timestamp
   @@globus_era_token = Umrdr::Application.config.globus_era_token.freeze
 
   @@globus_enabled = Umrdr::Application.config.globus_enabled.freeze
-  #@@globus_token = Umrdr::Application.config.globus_era_file
-  #@@globus_era_file = Umrdr::Application.config.globus_era_file
   @@globus_base_file_name = Umrdr::Application.config.base_file_name.freeze
   @@globus_base_url = Umrdr::Application.config.globus_base_url.freeze
   @@globus_download_dir = Umrdr::Application.config.globus_download_dir.freeze
@@ -22,6 +17,21 @@ class GlobusJob < ActiveJob::Base
     dir = @@globus_download_dir
     dir = dir.join files_target_file_name( id )
     Dir.exist? dir
+  end
+
+  def self.clean_dir( dir_path, delete_dir: false )
+    return unless Dir.exist? dir_path
+    Dir.foreach( dir_path ) do |f|
+      next if f == '.' || f == '..'
+      clean_file File.join( dir_path, f )
+    end
+    if delete_dir
+      Dir.delete dir_path
+    end
+  end
+
+  def self.clean_file( file_path )
+    File.delete file_path if File.exist? file_path
   end
 
   def self.error_file( id )
@@ -84,12 +94,17 @@ class GlobusJob < ActiveJob::Base
     return token
   end
 
+  def self.server_prefix( str: '' )
+    "#{Rails.env}#{str}"
+  end
+
   def self.target_base_name( id = '', prefix: '', postfix: '' )
+    prefix = server_prefix( str:'_' ) if prefix.nil?
     "#{prefix}#{@@globus_base_file_name}#{id}#{postfix}"
   end
 
   def self.target_file_name_env( dir, file_type, base_name )
-    target_file_name( dir, ".#{Rails.env}.#{file_type}.#{base_name}" )
+    target_file_name( dir, ".#{server_prefix}.#{file_type}.#{base_name}" )
   end
 
   def self.target_file_name( dir, filename, ext = '' )
@@ -97,12 +112,32 @@ class GlobusJob < ActiveJob::Base
     dir.join( filename + ext )
   end
 
-  # def self.token
-  #   # TODO: remove this, replace by self.era_token
-  #   #@@globus_token.path #if it's a Tempfile
-  #   #@@globus_token
-  #   @@globus_era.era_file
-  # end
+  def self.target_download_dir( concern_id )
+    target_dir_name( @@globus_download_dir, target_base_name(concern_id ) )
+  end
+
+  def self.target_dir_name( dir, subdir, mkdir: false )
+    target_dir = dir.join subdir
+    if mkdir
+      Dir.mkdir(target_dir ) unless Dir.exist? target_dir
+    end
+    target_dir
+  end
+
+  def self.target_prep_dir( concern_id, prefix: '', postfix: '', mkdir: false )
+    prefix = server_prefix( str:'_' ) if prefix.nil?
+    subdir = target_base_name( concern_id, prefix: prefix, postfix: postfix )
+    target_dir_name( @@globus_prep_dir, subdir, mkdir: mkdir )
+  end
+
+  def self.target_prep_tmp_dir( concern_id, prefix: '', postfix: '', mkdir: false )
+    prefix = server_prefix( str:'_' ) if prefix.nil?
+    dir = target_prep_dir( concern_id, prefix: prefix, postfix: "#{postfix}_tmp" )
+    if mkdir
+      Dir.mkdir(dir ) unless Dir.exist? dir
+    end
+    dir
+  end
 
   def self.era_token
     #read_token @@globus_era_file
@@ -114,13 +149,6 @@ class GlobusJob < ActiveJob::Base
     timestamp = era_token
     Time.parse( timestamp )
   end
-
-  # def self.token_time
-  #   ## TODO: remove as replaced by era_token_time
-  #   File.birthtime @@globus_token
-  #   #File.birthtime @@globus_token.path # if it's a Tempfile
-  #   #Umrdr::GlobusEra.era_begin_timestamp
-  # end
 
   # @param [String] concern_id
   # @param [String, "Globus: "] log_prefix
@@ -138,7 +166,21 @@ class GlobusJob < ActiveJob::Base
   end
 
   def globus_copy_job_complete?( concern_id )
-    Dir.exist? target_download_dir concern_id
+    Dir.exist? target_download_dir2 concern_id
+  end
+
+  def globus_copy_job_email_clean
+    email_file = globus_copy_job_email_file
+    Rails.logger.debug "#{@globus_log_prefix} globus_copy_job_email_reset exists? #{email_file}" unless @globus_job_quiet
+    if File.exist? email_file
+      Rails.logger.debug "#{@globus_log_prefix} globus_copy_job_email_reset delete #{email_file}" unless @globus_job_quiet
+      File.delete email_file
+    end
+  end
+
+  def globus_copy_job_email_file
+    rv = GlobusJob.target_file_name_env( @@globus_prep_dir, 'copy_job_emails', GlobusJob.target_base_name( @globus_concern_id ) )
+    return rv
   end
 
   def globus_error( msg )
@@ -266,6 +308,10 @@ class GlobusJob < ActiveJob::Base
                        quiet: @globus_job_quiet )
   end
 
+  def globus_ready_file
+    GlobusJob.target_file_name_env( @@globus_prep_dir, 'ready', GlobusJob.target_base_name( @globus_concern_id ) )
+  end
+
   def globus_unlock
     return nil if @globus_lock_file.nil?
     return nil unless File.exist? @globus_lock_file
@@ -274,29 +320,20 @@ class GlobusJob < ActiveJob::Base
     nil
   end
 
-  def target_download_dir( concern_id )
-    target_dir_name( @@globus_download_dir, GlobusJob.target_base_name( concern_id ) )
+  def target_download_dir2( concern_id )
+    GlobusJob.target_download_dir( concern_id )
   end
 
-  def target_dir_name( dir, subdir, mkdir: false )
-    target_dir = dir.join subdir
-    if mkdir
-      Dir.mkdir(target_dir ) unless Dir.exist? target_dir
-    end
-    target_dir
+  def target_dir_name2( dir, subdir, mkdir: false )
+    GlobusJob.target_dir_name( dir, subdir, mkdir: mkdir )
   end
 
-  def target_prep_dir( concern_id, prefix: '', postfix: '', mkdir: false )
-    subdir = GlobusJob.target_base_name( concern_id, prefix: prefix, postfix: postfix )
-    target_dir_name( @@globus_prep_dir, subdir, mkdir: mkdir )
+  def target_prep_dir2( concern_id, prefix: '', postfix: '', mkdir: false )
+    GlobusJob.target_prep_dir( concern_id, prefix: prefix, postfix: postfix, mkdir: mkdir )
   end
 
-  def target_prep_tmp_dir( concern_id, prefix: '', postfix: '', mkdir: false )
-    dir = target_prep_dir( concern_id, prefix: prefix, postfix: "#{postfix}_tmp" )
-    if mkdir
-      Dir.mkdir(dir ) unless Dir.exist? dir
-    end
-    dir
+  def target_prep_tmp_dir2( concern_id, prefix: '', postfix: '', mkdir: false )
+    GlobusJob.target_prep_tmp_dir( concern_id, prefix: prefix, postfix: postfix, mkdir: mkdir )
   end
 
 end
