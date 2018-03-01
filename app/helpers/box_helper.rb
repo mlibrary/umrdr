@@ -9,12 +9,22 @@ module BoxHelper
   @@mutex_to_guard_token_file
   @@box
 
+  def self.access_and_refresh_token_file_init( box_access_and_refresh_token_file, box_access_and_refresh_token_file_init, verbose: true )
+    if File.exist? box_access_and_refresh_token_file_init
+      # copy box_access_and_refresh_token_file_init to box_access_and_refresh_token_file
+      Rails.logger.error "BoxHelper.access_and_refresh_token_file_init copy #{box_access_and_refresh_token_file_init} to #{box_access_and_refresh_token_file}"
+      FileUtils.copy_file( box_access_and_refresh_token_file_init, box_access_and_refresh_token_file )
+      FileUtils.move( box_access_and_refresh_token_file_init, box_access_and_refresh_token_file_init + ".initialized" )
+    end
+  end
+
   def self.access_token_developer( developer_token: nil,
       app_name: nil,
       client_id: nil,
       client_secret: nil,
       config_file: Umrdr::Application.config.box_access_and_refresh_token_file )
 
+    config_file = find_real_file( config_file )
     config_hash = Hash.new
     config_hash['box_access_token']     = ''
     config_hash['box_app_name']         = app_name
@@ -30,7 +40,7 @@ module BoxHelper
       app_name: nil,
       client_id: nil,
       client_secret: nil,
-      config_file: Umrdr::Application.config.box_access_and_refresh_token_file )
+      config_file: Umrdr::Application.config.box_access_and_refresh_token_file_init )
 
     rv = `curl https://api.box.com/oauth2/token -d 'grant_type=authorization_code&code=#{auth_code}&client_id=#{client_id}&client_secret=#{client_secret}' -X POST`
     # rv is of the form: {"access_token":"zmAhTjZ0PZG1EkKrsWfOMvMG0lBAGIgS","expires_in":3842,"restricted_to":[],"refresh_token":"NtJfAO0S85uCIx4R6MKqf3YZgcAfbWWlOGcJXmmy9wV8FCSWEqk9bBbCfXbXk6NA","token_type":"bearer"}
@@ -93,6 +103,11 @@ module BoxHelper
     return rv
   end
 
+  def self.find_real_file( possible_file_link )
+    return File.readlink( possible_file_link ) if 'link' == File.ftype( possible_file_link )
+    return possible_file_link
+  end
+
   def self.mutex_to_guard_token_file
     @@mutex_to_guard_token_file ||= Thread::Mutex.new
   end
@@ -108,6 +123,7 @@ module BoxHelper
     # @ulib_dbd_box_id = '45101723215'.freeze
 
     attr_reader :box_access_and_refresh_token_file,
+                :box_access_and_refresh_token_file_init,
                 :box_always_report_not_logged_in_errors,
                 :box_create_dirs_for_empty_works,
                 :dlib_dbd_box_user_id,
@@ -133,7 +149,9 @@ module BoxHelper
                     parent_dir: Umrdr::Application.config.box_ulib_dbd_box_id, # parent_dir: Boxr::ROOT
                     refresh_token: nil )
 
-      @box_access_and_refresh_token_file = Umrdr::Application.config.box_access_and_refresh_token_file.freeze
+      @box_access_and_refresh_token_file = BoxHelper.find_real_file( Umrdr::Application.config.box_access_and_refresh_token_file ).freeze
+      @box_access_and_refresh_token_file_init = Umrdr::Application.config.box_access_and_refresh_token_file_init
+      BoxHelper.access_and_refresh_token_file_init( @box_access_and_refresh_token_file, @box_access_and_refresh_token_file_init )
       @box_always_report_not_logged_in_errors = Umrdr::Application.config.box_always_report_not_logged_in_errors
       @box_create_dirs_for_empty_works = Umrdr::Application.config.box_create_dirs_for_empty_works
       @box_verbose = Umrdr::Application.config.box_verbose

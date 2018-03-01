@@ -10,6 +10,8 @@
 config/analytics.yml
 config/database.yml
 config/box_config.yml
+config/box_config_init.yml
+config/box_config_init.yml.initialized
 config/secrets.yml
 config/blacklight.yml
 config/fedora.yml

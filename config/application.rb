@@ -24,6 +24,7 @@ module Umrdr
     config.box_always_report_not_logged_in_errors = true
     config.box_create_dirs_for_empty_works = true
     config.box_access_and_refresh_token_file = File.join( Rails.root, 'config', 'box_config.yml' ).freeze
+    config.box_access_and_refresh_token_file_init = File.join( Rails.root, 'config', 'box_config_init.yml' ).freeze
     config.box_enabled = true && ( !config.box_developer_token.nil? || File.exist?( config.box_access_and_refresh_token_file ) )
 
     ## configure for Globus
