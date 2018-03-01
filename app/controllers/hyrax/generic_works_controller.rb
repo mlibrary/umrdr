@@ -141,6 +141,8 @@ class Hyrax::GenericWorksController < ApplicationController
     end
     Rails.logger.debug "Download Zip begin copy to folder #{target_dir}"
     Zip::File.open(target_zipfile.to_s, Zip::File::CREATE ) do |zipfile|
+      metadata_filename = MetadataHelper.report_generic_work( curation_concern, dir: target_dir )
+      zipfile.add( metadata_filename.basename, metadata_filename )
       copy_file_sets_to( target_dir, log_prefix: "Zip: " ) do |target_file_name, target_file|
         zipfile.add( target_file_name, target_file )
       end
@@ -175,10 +177,9 @@ class Hyrax::GenericWorksController < ApplicationController
                        delay_per_file_seconds: Umrdr::Application.config.globus_debug_delay_per_file_copy_job_seconds )
     ::GlobusCopyJob.perform_later( curation_concern.id,
                                    user_email: user_email,
-                                   ui_delay_seconds: Umrdr::Application.config.globus_after_copy_job_ui_delay_seconds,
                                    delay_per_file_seconds: delay_per_file_seconds )
-    if 0 < ui_delay_seconds
-      sleep ui_delay_seconds
+    if 0 < Umrdr::Application.config.globus_after_copy_job_ui_delay_seconds
+      sleep Umrdr::Application.config.globus_after_copy_job_ui_delay_seconds
     end
   end
 

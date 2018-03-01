@@ -17,6 +17,10 @@ class GlobusCopyJob < GlobusJob
       @target_prep_dir_tmp = target_prep_tmp_dir(@globus_concern_id, prefix: prefix, mkdir: true )
       curation_concern = ActiveFedora::Base.find @globus_concern_id
       globus_copy_job_started_email_rds( curation_concern, description: 'Globus copy job started', log_provenance: false )
+      metadata_file = MetadataHelper.report_generic_work( curation_concern, dir: @target_prep_dir_tmp )
+      move_destination = GlobusJob.target_file_name( @target_prep_dir, metadata_file.basename )
+      Rails.logger.debug "#{@globus_log_prefix} mv #{metadata_file} to #{move_destination}" unless @globus_job_quiet
+      FileUtils.move( metadata_file, move_destination )
       file_sets = curation_concern.file_sets
       do_copy_predicate = lambda { |target_file_name, target_file| globus_do_copy?( target_file_name ) }
       Hyrax::GenericWorksController.copy_file_sets( @target_prep_dir_tmp \
