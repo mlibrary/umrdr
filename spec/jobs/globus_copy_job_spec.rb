@@ -22,6 +22,7 @@ describe GlobusCopyJob do
     let( :globus_download_ready_dir ) { globus_download_dir.join target_name }
     let( :globus_download_ready_file1 ) { globus_download_ready_dir.join 'File01' }
     let( :globus_download_ready_file2 ) { globus_download_ready_dir.join 'File02' }
+    let( :globus_download_ready_file_metadata ) { globus_download_ready_dir.join 'w_id321_metadata_report.txt' }
     let( :file_set1 ) { FactoryGirl.build(:file_set, label: 'File01', id: 'fs0001') }
     let( :file_set2 ) { FactoryGirl.build(:file_set, label: 'File02', id: 'fs0002') }
     let( :file1 ) { Tempfile.new( "File01-" ) }
@@ -85,6 +86,7 @@ describe GlobusCopyJob do
         expect( Dir.exist? globus_prep_copy_tmp_dir ).to eq( false )
         expect( File.exist? globus_download_ready_file1 ).to eq( true )
         expect( File.exist? globus_download_ready_file2 ).to eq( true )
+        expect( File.exist? globus_download_ready_file_metadata ).to eq( true )
       end
       after do
         File.delete email_file if File.exist? email_file
@@ -93,6 +95,7 @@ describe GlobusCopyJob do
         File.delete ready_file if File.exist? ready_file
         File.delete globus_download_ready_file1 if File.exist? globus_download_ready_file1
         File.delete globus_download_ready_file2 if File.exist? globus_download_ready_file2
+        File.delete globus_download_ready_file_metadata if File.exist? globus_download_ready_file_metadata
         Dir.delete globus_download_ready_dir if Dir.exist? globus_download_ready_dir
       end
     end
