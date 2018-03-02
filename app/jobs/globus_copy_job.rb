@@ -11,10 +11,9 @@ class GlobusCopyJob < GlobusJob
   def perform( concern_id, log_prefix: "Globus: ", generate_error: false, delay_per_file_seconds: 0, user_email: nil )
     globus_job_perform( concern_id: concern_id, email: user_email, log_prefix: "#{log_prefix}globus_copy_job" ) do
       Rails.logger.debug "#{@globus_log_prefix} begin copy" unless @globus_job_quiet
-      @target_download_dir = target_download_dir @globus_concern_id
-      prefix = "#{Rails.env}_"
-      @target_prep_dir = target_prep_dir( @globus_concern_id, prefix: prefix, mkdir: true )
-      @target_prep_dir_tmp = target_prep_tmp_dir(@globus_concern_id, prefix: prefix, mkdir: true )
+      @target_download_dir = target_download_dir2 @globus_concern_id
+      @target_prep_dir     = target_prep_dir2( @globus_concern_id, prefix: nil, mkdir: true )
+      @target_prep_dir_tmp = target_prep_tmp_dir2( @globus_concern_id, prefix: nil, mkdir: true )
       curation_concern = ActiveFedora::Base.find @globus_concern_id
       globus_copy_job_started_email_rds( curation_concern, description: 'Globus copy job started', log_provenance: false )
       metadata_file = MetadataHelper.report_generic_work( curation_concern, dir: @target_prep_dir_tmp )
@@ -48,7 +47,7 @@ class GlobusCopyJob < GlobusJob
         globus_copy_job_email_add( EmailHelper.notification_email )
         @email_lines = globus_copy_job_complete_lines( curation_concern )
         globus_copy_job_email_all
-        globus_copy_job_email_reset
+        globus_copy_job_email_clean
         if Umrdr::Application.config.globus_log_provenance_copy_job_complete
           globus_copy_job_log_provenance
         end
@@ -123,20 +122,6 @@ class GlobusCopyJob < GlobusJob
     Rails.logger.error msg
   end
 
-  def globus_copy_job_email_file
-    rv = GlobusJob.target_file_name_env( @@globus_prep_dir, 'copy_job_emails', GlobusJob.target_base_name( @globus_concern_id ) )
-    return rv
-  end
-
-  def globus_copy_job_email_reset
-    email_file = globus_copy_job_email_file
-    Rails.logger.debug "#{@globus_log_prefix} globus_copy_job_email_reset exists? #{email_file}" unless @globus_job_quiet
-    if File.exist? email_file
-      Rails.logger.debug "#{@globus_log_prefix} globus_copy_job_email_reset delete #{email_file}" unless @globus_job_quiet
-      File.delete email_file
-    end
-  end
-
   def globus_copy_job_emails
     email_addresses = Hash.new
     email_file = globus_copy_job_email_file
@@ -183,31 +168,6 @@ class GlobusCopyJob < GlobusJob
   def globus_job_perform_in_progress( email: nil )
     globus_copy_job_email_add( email )
     super.globus_job_perform_in_progress( email: email )
-  end
-
-  # def globus_notify_user( curation_concern, user_email: nil ) # TODO: turn user_email into list
-  #   Rails.logger.debug "globus_notify_user: work id: #{curation_concern.id} user_email: #{user_email}" unless @globus_job_quiet
-  #   concern_id = curation_concern.id
-  #   location  = Rails.application.routes.url_helpers.hyrax_generic_work_url( id: concern_id )
-  #   depositor = curation_concern.depositor
-  #   title     = curation_concern.title.join("','")
-  #   creator   = curation_concern.creator.join("','")
-  #   work_info = "work #{title} (#{location}) by #{creator}, deposited by #{depositor}."
-  #   globus_url = ::GlobusJob.external_url concern_id
-  #   msg = "Globus files are available at: #{globus_url} for #{work_info}"
-  #   PROV_LOGGER.info( msg )
-  #   return if user_email.nil?
-  #   msg = "\nGlobus files are available at:\n#{globus_url}\nfor #{work_info}\n"
-  #   email = WorkMailer.globus_push_work( user_email, user_email, msg )
-  #   email.deliver_now
-  # rescue Exception => e
-  #   msg = "#{@globus_log_prefix} #{e.class}: #{e.message} at #{e.backtrace[0]}"
-  #   Rails.logger.error msg
-  #   #globus_error msg
-  # end
-
-  def globus_ready_file
-    GlobusJob.target_file_name_env( @@globus_prep_dir, 'ready', GlobusJob.target_base_name( @globus_concern_id ) )
   end
 
 end

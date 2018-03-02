@@ -9,7 +9,7 @@ describe GlobusCopyJob do
   let( :globus_dir ) { Pathname "/tmp/deepbluedata-globus" }
   let( :globus_download_dir ) { globus_dir.join 'download' }
   let( :target_name ) { "DeepBlueData_id321" }
-  let( :target_name_prep_dir ) { "#{Rails.env}_#{target_name}" }
+  let( :target_name_prep_dir ) { "#{GlobusJob.server_prefix(str:'_')}#{target_name}" }
   let( :globus_prep_dir ) { globus_dir.join 'prep' }
   let( :error_file ) { globus_prep_dir.join ".test.error.#{target_name}" }
   let( :job_ready_file ) { globus_prep_dir.join ".test.ready.#{target_name}" }

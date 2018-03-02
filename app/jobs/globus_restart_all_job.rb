@@ -13,7 +13,7 @@ class GlobusRestartAllJob < GlobusJob
       #Rails.logger.debug "#{@globus_log_prefix} lock_file_re=#{lock_file_re}" unless @globus_job_quiet
       prefix = GlobusJob.target_file_name_env(nil,'error', base_name ).to_s
       error_file_re = Regexp.compile( '^' + prefix + '([0-9a-z-]+)' + '$' )
-      prefix = GlobusJob.target_file_name( nil, "#{Rails.env}_#{base_name}" ).to_s
+      prefix = GlobusJob.target_file_name( nil, "#{GlobusJob.server_prefix(str:'_')}#{base_name}" ).to_s
       prep_dir_re = Regexp.compile( '^' + prefix + '([0-9a-z-]+)' + '$' )
       #Rails.logger.debug "#{@globus_log_prefix} prep_dir_re=#{prep_dir_re}" unless @globus_job_quiet
       prep_tmp_dir_re = Regexp.compile( '^' + prefix + '([0-9a-z-]+)_tmp' + '$' )
