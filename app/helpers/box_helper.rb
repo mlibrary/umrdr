@@ -104,6 +104,7 @@ module BoxHelper
   end
 
   def self.find_real_file( possible_file_link )
+    return possible_file_link unless File.exist? possible_file_link
     return File.readlink( possible_file_link ) if 'link' == File.ftype( possible_file_link )
     return possible_file_link
   end
