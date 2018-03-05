@@ -1,4 +1,5 @@
 module MsgHelper
+  include ActionView::Helpers::TranslationHelper
 
   @@FIELD_SEP = '; '.freeze
 
@@ -20,6 +21,14 @@ module MsgHelper
 
   def self.subject( curration_concern, field_sep: @@FIELD_SEP )
     curration_concern.subject.join( field_sep )
+  end
+
+  def self.t( key, options = {} )
+    ActionView::Helpers::TranslationHelper.t( key, options )
+  end
+
+  def self.translate( key, options = {} )
+    ActionView::Helpers::TranslationHelper.translate( key, options )
   end
 
   def self.title( curration_concern, field_sep: @@FIELD_SEP )

@@ -3,6 +3,7 @@ class GlobusCleanJob < GlobusJob
 
   # @param [String] concern_id
   # @param [String, "Globus: "] log_prefix
+  # @param [boolean, false] clean_download
   def perform( concern_id, log_prefix: "Globus: ", clean_download: false )
     @globus_concern_id = concern_id
     @globus_log_prefix = log_prefix

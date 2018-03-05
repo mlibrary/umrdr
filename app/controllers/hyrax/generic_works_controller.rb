@@ -1,5 +1,6 @@
 require 'edtf'
 include EmailHelper
+include MsgHelper
 
 class Hyrax::GenericWorksController < ApplicationController
   # Adds Sufia behaviors to the controller.
@@ -111,8 +112,10 @@ class Hyrax::GenericWorksController < ApplicationController
 
     curation_concern.tombstone = [params[:tombstone]]
     curation_concern.save
-
-    redirect_to dashboard_works_path, notice: "Tombstoned: \"#{curation_concern.title.first}\" for this reason: #{curation_concern.tombstone.first}"
+    redirect_to dashboard_works_path,
+                notice: MsgHelper.t( 'generic_work.tombstone_notice',
+                                     title: "#{curation_concern.title.first}",
+                                     reason: "#{curation_concern.tombstone.first}" )
   end
 
   def confirm
@@ -290,10 +293,10 @@ class Hyrax::GenericWorksController < ApplicationController
     #   one already exists
     #   work file_set count is 0.
     if curation_concern.doi
-      flash[:notice] = "A DOI already exists or is being minted."
+      flash[:notice] = MsgHelper.t( 'generic_work.doi_already_exists' )
       return
     elsif curation_concern.file_sets.count < 1
-      flash[:notice] = "DOI cannot be minted for a work without files."
+      flash[:notice] = MsgHelper.t( 'generic_work.doi_requires_work_with_files' )
       return
     end
 
@@ -304,7 +307,7 @@ class Hyrax::GenericWorksController < ApplicationController
     curation_concern.save
 
     # Kick off job to get a doi
-    msg = "DOI process kicked off for work id: #{curation_concern.id}"
+    msg = MsgHelper.t( 'generic_work.doi_requires_work_with_files', id: curation_concern.id )
     PROV_LOGGER.info (msg)
     ::DoiMintingJob.perform_later(curation_concern.id)
   end
@@ -472,27 +475,31 @@ class Hyrax::GenericWorksController < ApplicationController
   end
 
   def globus_clean_msg( dir )
-    "Files are being delete from #{dir.join("<br/>&nbsp;&nbsp;&nbsp;&nbsp;and ")}"
+    dirs = dir.join( MsgHelper.t( 'generic_work.globus_clean_join' ) )
+    rv = MsgHelper.t( 'generic_work.globus_clean', dirs: dirs )
+    return rv
   end
 
   def globus_file_prep_started_msg( user_email: nil )
-    msg = "Files have started copying to Globus. #{globus_files_when_available( user_email: user_email )}"
+    MsgHelper.t( 'generic_work.globus_file_prep_started',
+                 when_available: globus_files_when_available( user_email: user_email ) )
   end
 
   def globus_files_prepping_msg( user_email: nil )
-    "Files are currently being copied to Globus. #{globus_files_when_available( user_email: user_email )}"
+    MsgHelper.t( 'generic_work.globus_files_prepping',
+                 when_available: globus_files_when_available( user_email: user_email ) )
   end
 
   def globus_files_when_available( user_email: nil )
     if user_email.nil?
-      "Please check back later."
+      MsgHelper.t( 'generic_work.globus_files_when_available' )
     else
-      "#{user_email} will be sent an email when the files are available for download via Globus."
+      MsgHelper.t( 'generic_work.globus_files_when_available_email', user_email: user_email )
     end
   end
 
   def globus_files_available_here
-    "Files are available for download using Globus here: #{globus_url}"
+    MsgHelper.t( 'generic_work.globus_files_available_here', globus_url: "#{globus_url}" )
   end
 
   def globus_status_msg( user_email: nil )
