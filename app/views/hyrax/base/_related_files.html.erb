@@ -1,6 +1,6 @@
 
 <% if @presenter.box_link_display_for_work? %>
-  <p><%= link_to "Link to M-Box deposit directory", @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
+  <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
 <% end %>
 
 <% if @presenter.file_set_presenters.present? %>
@@ -28,11 +28,11 @@
     <%= form_tag(main_app.download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.max_work_file_size_to_download < @presenter.total_file_size %>
-        <p>Total work file size of <%= @presenter.total_file_size_human_readable %> is too large to download directly, please contact <a href="mailto:deepblue@umich.edu">deepblue@umich.edu</a> .</p>
+        <p><%= t('simple_form.generic_work.total_work_size_too_large_to_download') %></p>
       <% else %>
         <%= submit_tag( @presenter.label_with_total_file_size( t('simple_form.actions.generic_work.download') ), class: 'btn btn-primary') %>
         <% if Umrdr::Application.config.min_work_file_size_to_download_warn < @presenter.total_file_size %>
-          &nbsp;&mdash;&nbsp;<span>Total file size of <%= @presenter.total_file_size_human_readable %> may be too large to download directly.</span>
+          <%= t('simple_form.generic_work.total_work_size_may_be_too_large_to_download') %>
         <% end %>
       <% end %>
     <% end %>
@@ -41,7 +41,11 @@
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.globus_enabled %>
         <% if @presenter.globus_files_available? %>
-          <p>Files available on Globus: <a title="link to external globus files" href="<%=@presenter.globus_external_url%>" target="_blank">click here</a></p>
+          <p><%= link_to t('simple_form.generic_work.globus_link'),
+                         @presenter.globus_external_url,
+                         class: 'btn btn-default',
+                         target: "_blank",
+                         title: "link to external globus files" %></p>
         <% elsif !@presenter.globus_files_prepping? %>
           <%= submit_tag(t('simple_form.actions.generic_work.globus_download'), class: 'btn btn-primary') %>
         <% end %>
@@ -52,7 +56,9 @@
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.globus_enabled && @presenter.current_ability.admin? %>
         <% if @presenter.globus_files_available? %>
-          <%= submit_tag(t('simple_form.actions.generic_work.globus_clean_download'), class: 'btn btn-primary') %>
+          <%= submit_tag(t('simple_form.actions.generic_work.globus_clean_download'),
+                         class: 'btn btn-primary',
+                         data: { confirm: t('simple_form.confirm.generic_work.delete_all_globus_download_files') } ) %>
         <% end %>
       <% end %>
     <% end %>
@@ -61,8 +67,8 @@
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.globus_enabled %>
         <% if @presenter.globus_files_prepping? %>
-          Globus is currently downloading files for this work...<br/>
-          <%= submit_tag(t('simple_form.actions.generic_work.globus_download_add_email'), class: 'btn btn-primary') %>
+          <%= t('simple_form.generic_work.globus_currently_downloading')
+              submit_tag(t('simple_form.actions.generic_work.globus_download_add_email'), class: 'btn btn-primary') %>
         <% end %>
       <% end %>
       <p></p>
