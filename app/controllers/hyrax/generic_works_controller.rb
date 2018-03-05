@@ -11,18 +11,19 @@ class Hyrax::GenericWorksController < ApplicationController
   #Override Sufia behavior to change the after_create message
   include Umrdr::WorksControllerBehavior
 
-  before_action :check_recent_uploads,           only: [:show]
   before_action :assign_date_coverage,           only: [:create, :update]
   before_action :assign_visibility,              only: [:create, :update]
-  after_action  :notify_rds,                     only: [:create]
+  before_action :check_recent_uploads,           only: [:show]
+
   after_action  :box_work_created,               only: [:create]
+  after_action  :notify_rds_on_update_to_public, only: [:update]
+  after_action  :notify_rds,                     only: [:create]
   after_action  :prov_work_created,              only: [:create]
   after_action  :prov_work_updated,              only: [:update]
-  after_action  :notify_rds_on_update_to_public, only: [:update]
 
   protect_from_forgery with: :null_session, only: [:download]
-  protect_from_forgery with: :null_session, only: [:globus_download]
   protect_from_forgery with: :null_session, only: [:globus_add_email]
+  protect_from_forgery with: :null_session, only: [:globus_download]
   protect_from_forgery with: :null_session, only: [:globus_download_add_email]
   protect_from_forgery with: :null_session, only: [:globus_download_notify_me]
 
