@@ -92,7 +92,8 @@ module BoxHelper
   end
 
   def self.box_link_display_for_work?( work_id: nil, work_file_count: -1 )
-    box.box_link_display_for_work?( work_id: work_id, work_file_count: work_file_count )
+    rv = box.box_link_display_for_work?( work_id: work_id, work_file_count: work_file_count )
+    return rv
   end
 
   def self.create_box_dir( dir_name )
@@ -133,6 +134,7 @@ module BoxHelper
                 :box_config_timestamp
 
     attr_accessor :box_verbose,
+                  :box_verbose_show_tokens,
                   :dir_list,
                   :failed_box_login,
                   :most_recent_boxr_error,
@@ -150,6 +152,7 @@ module BoxHelper
                     parent_dir: Umrdr::Application.config.box_ulib_dbd_box_id, # parent_dir: Boxr::ROOT
                     refresh_token: nil )
 
+      @box_verbose_show_tokens = false
       @box_access_and_refresh_token_file = BoxHelper.find_real_file( Umrdr::Application.config.box_access_and_refresh_token_file ).freeze
       @box_access_and_refresh_token_file_init = Umrdr::Application.config.box_access_and_refresh_token_file_init
       BoxHelper.access_and_refresh_token_file_init( @box_access_and_refresh_token_file, @box_access_and_refresh_token_file_init )
@@ -174,7 +177,9 @@ module BoxHelper
     end
 
     def access_and_refresh_tokens_cache( new_access_token, new_refresh_token )
-      Rails.logger.debug "cache_access_and_refresh_tokens(#{new_access_token},#{new_refresh_token})" if @box_verbose
+      msg = ""
+      msg = "(#{new_access_token},#{new_refresh_token})" if @box_verbose_show_tokens
+      verbose_log_status( "cache_access_and_refresh_tokens",msg ) if @box_verbose
       return if new_access_token.nil?
       return if new_refresh_token.nil?
       if new_access_token != @access_token || new_refresh_token != @refresh_token
@@ -187,7 +192,9 @@ module BoxHelper
     def access_and_refresh_tokens_export( new_access_token, new_refresh_token )
       return if new_access_token.nil?
       return if new_refresh_token.nil?
-      Rails.logger.debug "access_and_refresh_tokens_export(#{new_access_token},#{new_refresh_token})" if @box_verbose
+      msg = ""
+      msg = "(#{new_access_token},#{new_refresh_token})" if @box_verbose_show_tokens
+      verbose_log_status( "access_and_refresh_tokens_export", msg ) if @box_verbose
       config_hash = config_hash_current
       config_hash['box_access_token'] = new_access_token
       config_hash['box_refresh_token'] = new_refresh_token
@@ -238,6 +245,7 @@ module BoxHelper
     end
 
     def box_link_display_for_work?( work_id: nil, work_file_count: -1 )
+      verbose_log_status( "box_link_display_for_work?", "(#{work_id},#{work_file_count})" ) if @box_verbose
       return false if work_id.nil?
       return false if work_file_count < 0
       dir_exists = directory_exists?( work_id )
@@ -256,12 +264,14 @@ module BoxHelper
     end
 
     def client_init_developer_token
-      Rails.logger.debug "client_init_developer_token" if @box_verbose
+      verbose_log_status( "client_init_developer_token", "" ) if @box_verbose
       return unless @box_client.nil?
-      Rails.logger.debug "client_init_developer_token access_token_developer=#{access_token_developer}" if @box_verbose
+      msg = ""
+      msg = " access_token_developer=#{access_token_developer}" if @box_verbose_show_tokens
+      verbose_log_status( "client_init_developer_token", msg ) if @box_verbose
       begin
         @box_client = Boxr::Client.new( access_token_developer )
-        Rails.logger.debug "client_init_developer_token initialized box" if @box_verbose
+        verbose_log_status( "client_init_developer_token", " initialized box" ) if @box_verbose
       rescue Boxr::BoxrError => e
         boxr_error_log( method: "client_init_developer_token", error: e )
         @box_client = nil
@@ -269,7 +279,7 @@ module BoxHelper
     end
 
     def client_init_single
-      Rails.logger.debug "client_init_single" if @box_verbose
+      verbose_log_status( "client_init_single", "" ) if @box_verbose
       return unless @box_client.nil?
       token_refresh_callback = lambda { |access, refresh, identifier| access_and_refresh_tokens_cache( access, refresh ) }
       begin
@@ -278,7 +288,7 @@ module BoxHelper
                              client_id: @box_client_id,
                              client_secret: @box_client_secret,
                              &token_refresh_callback )
-        Rails.logger.debug "client_init_single initialized box" if @box_verbose
+        verbose_log_status( "client_init_single", " initialized box" ) if @box_verbose
       rescue Boxr::BoxrError => e
         boxr_error_log( method: "client_init_single", error: e )
         @box_client = nil
@@ -332,13 +342,17 @@ module BoxHelper
         @developer_token      = config_hash['box_developer_token']
         @refresh_token        = config_hash['box_refresh_token']
       end
-      Rails.logger.debug "config_hash_load config_hash=#{config_hash}" if @box_verbose
+      msg = " load config_hash"
+      msg = " load config_hash=#{config_hash}" if @box_verbose_show_tokens
+      verbose_log_status( "config_hash", msg ) if @box_verbose
       return config_hash
     end
 
     def config_hash_save
       config_hash = config_hash_current
-      Rails.logger.debug "config_hash_save config_hash=#{config_hash}" if @box_verbose
+      msg = ""
+      msg = " config_hash=#{config_hash}" if @box_verbose_show_tokens
+      verbose_log_status( "config_hash_save", msg ) if @box_verbose
       BoxHelper.mutex_to_guard_token_file.synchronize do
         config_hash['box_config_timestamp'] = DateTime.now.to_s
         open( @box_access_and_refresh_token_file, 'w' ) { |f| f << config_hash.to_yaml << "\n" }
@@ -361,8 +375,10 @@ module BoxHelper
     end
 
     def directory_create( dir_name )
+      verbose_log_status( "directory_create", "(#{dir_name})" ) if @box_verbose
       return false if failed_box_login
       unless directory_exists?( dir_name )
+        verbose_log_status( "directory_create", " client.create_folder(#{dir_name})" ) if @box_verbose
         client.create_folder( dir_name, parent_dir )
         @dir_list = nil
       end
@@ -405,6 +421,7 @@ module BoxHelper
     end
 
     def has_dir_name?( dir_name )
+      verbose_log_status( "has_dir_name?", "(#{dir_name})" ) if @box_verbose
       rv = !dir_item_by_name( dir_name ).nil?
       return rv
     end
@@ -474,13 +491,14 @@ module BoxHelper
     # end
 
     def upload_link( folder_name )
+      verbose_log_status( "upload_link", "(#{folder_name})" ) if @box_verbose
       box_id = folder_name_to_box_id( folder_name )
       rv = "https://umich.app.box.com/folder/#{@ulib_dbd_box_id}"
-      return rv if failed_box_login
-      unless box_id.nil?
+      if !failed_box_login && !box_id.nil?
         box_link = client.create_shared_link_for_folder( box_id )
         rv = box_link.shared_link.url
       end
+      verbose_log_status( "upload_link", " returning #{rv}" ) if @box_verbose
       return rv
     rescue Boxr::BoxrError => e
       boxr_error_handle( method: "upload_link", error: e )
@@ -516,6 +534,14 @@ module BoxHelper
     #   updated_folder, response = put(uri, attributes, if_match: if_match)
     #   updated_folder
     # end
+
+    def verbose_log( method_name, msg )
+      Rails.logger.debug "BoxHelper::Box #{method_name}#{msg}"
+    end
+
+    def verbose_log_status( method_name, msg )
+      Rails.logger.debug "BoxHelper::Box failed_box_login=#{failed_box_login}: #{method_name}#{msg}"
+    end
 
   end
 
