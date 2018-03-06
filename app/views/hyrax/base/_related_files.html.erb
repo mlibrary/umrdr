@@ -45,9 +45,12 @@
                          @presenter.globus_external_url,
                          class: 'btn btn-default',
                          target: "_blank",
-                         title: "link to external globus files" %></p>
+                         title: "link to external globus files" %>
+            <a href="<%= main_app.static_path(action: 'globus-help')%>"><%= t('simple_form.generic_work.globus_help') %></a>
+          </p>
         <% elsif !@presenter.globus_files_prepping? %>
           <%= submit_tag(t('simple_form.actions.generic_work.globus_download'), class: 'btn btn-primary') %>
+          <a href="<%= main_app.static_path(action: 'globus-help')%>"><%= t('simple_form.generic_work.globus_help') %></a>
         <% end %>
       <% end %>
     <% end %>

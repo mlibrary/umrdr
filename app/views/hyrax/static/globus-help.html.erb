@@ -22,11 +22,11 @@
 <p>Here is a short guide for setting up Globus on your computer. Globus also has detailed "How To" walkthroughs for basic and more complicated setup processes, which are linked to below.</p>
 
 <ol type="1">
-  <em><li>Set up an account on Globus</li></em
+  <em><li>Set up an account on Globus</li></em>
 
     <p>The first step is to set up an account with the Globus Web App, which can be connected to other personal and institutional accounts, including those at University of Michigan. To begin setting up an account, navigate to <a href="https://globus.org/login">https://globus.org/login</a>.</p>
 
-    <%= image_tag("globus-login.jpg", class: "center-image", height: 240, width: 310, alt:"globus loggin") %>
+    <%= image_tag("globus-login.jpg", class: "center-image", alt:"globus loggin") %>
 
     <p>In the drop-down menu, select the name of your institution (e.g. University of Michigan) or the account provider (e.g. Google) and click "Continue." On the next couple pages, you will need to login through the third-party's website and agree to give Globus access to necessary basic information. When you are asked if you want to link to an existing Globus account, click "No thanks, continue." You will then be prompted for some additional information, including how you plan to use Globus (i.e. for commercial or academic purposes), and you must agree to the Terms of Service and Privacy Policy. The final page before account setup is completed will ask you to agree to allow Globus to perform actions using your third-party identity.</p>
     <p>You can find Globus's walkthrough for setting up an account at the following link: <a href="https://docs.globus.org/how-to/get-started/">https://docs.globus.org/how-to/get-started/</a>.</p>
@@ -34,7 +34,7 @@
 
   <P>Once you have an account set up, you will want to establish a personal endpoint on your computer so that you can transfer data to it. To do this, you will need to download and install the program Globus Connect Personal, which will connect to the Globus Web App.</p>
 
-  <%= image_tag("globus-endpoints.jpg", class: "center-image", height: 191, width: 310, alt:"globus endpoints") %>
+  <%= image_tag("globus-endpoints.jpg", class: "center-image", alt:"globus endpoints") %>
 
   <P>To begin, navigate to <a href="https://www.globus.org/app/endpoints/create-gcp">https://www.globus.org/app/endpoints/create-gcp</a>. First, provide a descriptive name for the endpoint that will help you identify it in the future (e.g. Sam's Personal Laptop). Next, click "Generate Setup Key," copy the result, and keep it in your clipboard or paste it in another document. Then, select your operating system from those listed in "Step 2," and complete the installation setup. Most default settings are satisfactory, though later you may want to change the folder, or directory, to which Globus sends transferred files. During the installation process or when you first open the program (depending on your operating system), you will be asked to provide the Setup Key you copied earlier.</p>
 
@@ -50,15 +50,15 @@
 
   <li>Just beneath the list of files and the "Download All Files" button, there will be another button labeled "Download All for Globus." Click the button to begin the copying process. How long this will take depends on the size of the files.</li>
 
-  <%= image_tag("globus-files.jpg", class: "center-image", height: 151, width: 312, alt:"globus files") %>
+  <%= image_tag("globus-files.jpg", class: "center-image", alt:"globus files") %>
 
   <p>If you are not a University of Michigan affiliate and are not logged in to Deep Blue Data, a page will appear asking if you would like to provide your email address so that you can be notified when the files are available for transfer. That window will look like this:</p>
 
-  <%= image_tag("globus-email.jpg", class: "center-image", height: 62, width: 309, alt:"globus email") %>
+  <%= image_tag("globus-email.jpg", class: "center-image", alt:"globus email") %>
 
   <P>If you would rather not provide your email, you can simply return to the page on Deep Blue Data later to see if the files are available. If you are logged in to Deep Blue Data, you will automatically receive an email to inform you when the files are ready for transfer.</p>
 
-  <%= image_tag("globus-transfer.jpg", class: "center-image", height: 273, width: 311, alt:"globus transfer files") %>
+  <%= image_tag("globus-transfer.jpg", class: "center-image", alt:"globus transfer files") %>
 
   <p>On the left side of your screen, you should see the list of files from the Work on Deep Blue Data. Click on the "select all" button at the top-right of the box if you would like to transfer all files, or use your cursor while holding down the Control button on a PC or the Command button on a Mac to select only those that you want.</p>
 
@@ -77,7 +77,7 @@
 
 <p>Once you install Globus Personal Connect, you may find you are bombarded with messages, like the one picture below, telling you about Globus's errors when trying to connect to the Internet. How often you experience these messages may vary depending on how you connect to the Internet and whether you use a desktop or laptop. If you do not plan to use Globus frequently, we recommend changing one setting on Globus and getting in the habit of shutting down Globus when it is not in use.</p>
 
-<%= image_tag("globus-pc-error.jpg", class: "center-image", height: 86, width: 184, alt:"globus pc error") %>
+<%= image_tag("globus-pc-error.jpg", class: "center-image", alt:"globus pc error") %>
 
 <p>By default, Globus Personal Connect will automatically turn on in the background when you start your computer. If you have a PC, you can change this setting by 1) right-clicking on the Globus icon in the bottom right-hand corner of your screen if you use a PC (possibly among the hidden icons revealed by clicking on an up arrow) 2) clicking on "Options…"; 3) selecting the "General" tab and 4) unchecking the box next to "Run when Windows Starts."</p>
 
