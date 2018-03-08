@@ -1,5 +1,5 @@
 
-<% if @presenter.box_link_display_for_work? %>
+<% if user_signed_in? && @presenter.box_link_display_for_work? %>
   <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
 <% end %>
 
