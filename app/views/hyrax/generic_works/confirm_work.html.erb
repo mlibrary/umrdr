@@ -18,8 +18,8 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="position-page">
-      <h2 class="non lower">Thank You for Your Deposit in Deep Blue Data!</h2>
-        <p class="box-padding emphasis-text">Your work will remain private until Research Data Services has reviewed your submission. You will be notified once your data are published.</p>
+      <h2 class="non lower"><%= t('generic_work.thank_you_for_depositing_your_work') %></h2>
+        <p class="box-padding emphasis-text"><%= t('generic_work.your_work_will_remain_private_until') %></p>
 
         <form class="copy-url box-padding align-left">
           <label for="copy-input" >Share your work with the following link:</label>
@@ -36,11 +36,15 @@
 
         <div class="top-border">
         
-        <%= link_to t("hyrax.dashboard.return_dashboard"), hyrax.dashboard_index_path, type: :button, class: "btn btn-primary dashboard-btn " %>
+        <%= link_to t("hyrax.dashboard.return_dashboard"),
+                    hyrax.dashboard_index_path,
+                    type: :button,
+                    class: "btn btn-primary dashboard-btn " %>
         
           <div class="box-padding align-left">
-          <p class="bold"> Make your work citable!</p>
-          <p>Visit your <a href="<%= hyrax.dashboard_works_path %> "> works page</a> to make your new work citable with a DOI. If you have any questions please <a href="<%= hyrax.contact_path %>">Contact Us</a>.</p>
+          <p class="bold"><%= t('generic_work.make_your_work_citable') %></p>
+          <p>Need a DOI to cite your work? Please contact us at
+              <a href="mailto:<%=t('email.deepblue')%>"><%=t('email.deepblue')%></a></p>
           </div>
         </div>
     </div>

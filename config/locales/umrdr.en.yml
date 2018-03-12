@@ -7,8 +7,18 @@ en:
     umich_phone: '(734) 764-0400'
 
   homepage:
-    marketing_blurb:
-      'Deep Blue Data is a repository offered by the University of Michigan Library that provides access and preservation services for digital research data that were developed or used in the support of research activities at U-M.'
+    marketing_blurb: >
+      Deep Blue Data is a repository offered by the University of Michigan Library that provides access and preservation
+      services for digital research data that were developed or used in the support of research activities at U-M.
+
+  contact:
+    by_email:        "by email"
+    by_contact_form: "use the Deep Blue contact page"
+    contact_us:      "Contact Us"
+    email_us:        "Email Us"
+
+  email:
+    deepblue:        "deepblue@umich.edu"
 
   generic_work:
     doi_already_exists:
@@ -37,66 +47,102 @@ en:
       "Tombstoned: \"%{title}\" for this reason: %{reason}"
     upload_success:
       'Your upload was successful! It may take a few minutes for the file(s) to be available for download.'
+    make_your_work_citable:
+      "Make your work citable!"
+    thank_you_for_depositing_your_work:
+      "Thank You for Your Deposit in Deep Blue Data!"
+    your_work_will_remain_private_until: >
+      Your work will remain private until Research Data Services has reviewed your submission.
+      You will be notified once your data set is published.
 
   simple_form:
     required:
       html: '<span class="required required-tag">Required</span>'
     hints:
       generic_work:
-        title:
-          'Provide a descriptive name for the work. What is it formally known as?'
-        creator:
-          'The person or organization primarily responsible for making the work. (Format: Last name, First name MI.)'
+        describe_work: >
+          Please provide information about your data set (referred to as a "work") in the following fields, keeping in
+          mind that your responses will enable people to discover, identify, and understand your data. If you are
+          uncertain of how to complete any of these fields, we recommend that you read or refer to the Guide to Metadata
+          (embed link) in Deep Blue Data’s Help pages.
+        title: >
+          Provide a descriptive name for the Work. Consider including the words “data” or “dataset” and terms related to
+          the methods, discipline, and topic associated with your research.
+        creator: >
+          List the name(s) of the person(s) and/or organization(s) responsible for creating the Work; for names, use the
+          following format: Last name, First name MI.
         date_created:
           'The date the work’s data was created, as determined by the creator.'
-        date_coverage:
-          'The span of time the data set relates to or describes. (e.g. 2017, 1998/12/10, or -700 (meaning 700 BC))'
-        contributor:
-          'Person or organization outside the Creator role who have contributed to the work in some way (e.g., interns, other non-authors/creators).'
-        rights_html:
-          'Depositors must choose to apply one of the following <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
-        description:
-          'An account of the dataset (e.g. abstract, codebook, a free-text account of the work).'
+        date_coverage: >
+          Select the dates that correspond to the span of time that the data were collected and processed.
+        contributor: >
+          Person or organization outside the Creator role who have contributed to the work in some way
+          (e.g., interns, other non-authors/creators).
+        rights: >
+          Select a licensing and distribution option that will govern use of the Work.
+        rights_html: >
+          Depositors must choose to apply one of the following
+          <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.
+        description: >
+          Provide a general description of the research that produced this data, as well as an account of the individual
+          data files and how they are related.
         publisher:
           'The person, organization or service responsible for making the work available. (Format: Last name, First name)'
-        subject:
-          'Select the discipline(s) representing the primary topic(s) the work is focused on.'
-        language:
-          'Language(s) in which the datasets and supplementary content are written.'
+        subject: >
+          Select the disciplines(s) associated with the research for which the data were collected.
         resource_type:
           'The file format and/or physical medium of datasets contained in the work.'
-        on_behalf_of:
-           'If you are depositing data on behalf of someone else, please select the email of that person below. <a href="/data/dashboard">More information on proxies</a>'
-        keyword:
-          'The topics of the resource. Please add one keyword or phrase per line.'
-        methodology:
-          'The way the dataset was collected and processed (e.g. equipment used for sensing, survey methodology).'
-        isReferencedBy:
-          'Related publications that reference/use/describe the data. Paste the full citation or just include a URL. Ex. DOI:10.7302/Z2KH0K8V'
-        authoremail:
-          'The contact information (email) for individual who can best respond to questions about this dataset.'
-        fundedby:
-          'Select the primary funding agency from the list.'
-        grantnumber:
-          "Provide the grant number that was assigned by U-M's Office of Research and Sponsored Projects (ORSP)."  
+        on_behalf_of: >
+           If you are depositing data on behalf of someone else, please select the email of that person below.
+           <a href="/data/dashboard">More information on proxies</a>
+        keyword: >
+          Enter any terms or topics related to the research subject or methods that you would like associated with the
+          Work.
+        methodology: >
+          Explain the methods you used to collect and process the data included in this Work.
+        isReferencedBy: >
+          Include a citation, URL, or DOI for any publications that make use of or refer to this dataset.
+        authoremail: >
+          Enter the contact information (email address) for the individual who can best respond to questions about the
+          Work.
+        fundedby: >
+          Select the primary funding agency that supported the research and data collection from the drop-down list.
+        grantnumber: >
+          If you have one, provide the grant number that was assigned by the University of Michigan’s Office of Research
+          and Sponsored Projects (ORSP).
+        language: >
+          List the language(s) in which the data and supplementary content are written; these could be spoken languages
+          or formal languages, such as programming languages.
+        next_step_is: >
+          The next step is to upload your data and documentation files to M-Box for review. Once in M-Box, upload your
+          files by dragging and dropping or browsing files on your computer. If your dataset is larger than 2GB
+          please contact Research Data Services.
+          <br/><br/>
+          Research Data Services will contact you after a preliminary review of your dataset,
+          typically in 2-3 business days.
+        you_can_mint_a_doi: >
+          You can mint a DOI once you have uploaded all your files. Once a DOI is minted, you may not upload additional
+          files, edit, or delete your work. For questions or help, please
     
       collection:
         title:
           'Provide a descriptive name for the work. What is it formally known as?'
-        creator:
-          'The person or organization primarily responsible for making the collection. (Format: Last name, First name MI)'
+        creator: >
+          The person or organization primarily responsible for making the collection. (Format: Last name, First name MI)
         date_created:
           'The date the work’s data was created, as determined by the creator. (Format: Last name, First name)'
         date_coverage:
           'The span of time the content of the collection relates to or describes.'
-        contributor:
-          'The person, organization or service outside the Creator role who have contributed to the work in this collection. (Format: Last name, First name)'
-        rights_html:
-          'Depositors must choose to apply one of several <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.'
+        contributor: >
+          The person, organization or service outside the Creator role who have contributed to the work in this
+          collection. (Format: Last name, First name)
+        rights_html: >
+          Depositors must choose to apply one of several
+          <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons licenses</a> to the data.
         description:
           'An account of the datasets within the collection.'
-        publisher:
-          'The person, organization or service responsible for making the work available. (Format: Last name, First name)'
+        publisher: >
+          The person, organization or service responsible for making the work available. (Format: Last name, First name)
         subject:
           'Select the discipline(s) representing the primary topic(s) the work is focused on.'
         language:
@@ -107,8 +153,9 @@ en:
           'The topics of the resource. Please add one keyword or phrase per line.'
         methodology:
           'The way the dataset was collected (equipment used for sensing, survey methodology, etc.).'
-        isReferencedBy:
-          'Related publications that reference/use/describe the data. Paste the full citation or just include a URL. Ex. DOI:10.7302/Z2KH0K8V'
+        isReferencedBy: >
+          Related publications that reference/use/describe the data. Paste the full citation or just include a URL.
+          Ex. DOI:10.7302/Z2KH0K8V
         authoremail:
           'The contact information for individual who can best respond to questions about this dataset.'
         fundedby:
@@ -117,16 +164,28 @@ en:
           "Provide the grant number that was assigned by U-M's Office of Research and Sponsored Projects (ORSP)."
 
     generic_work:
-      box_link:    "Link to M-Box deposit directory"
-      globus_link: "Link to Globus download directory"
-      globus_help: "What is Globus?"
-      globus_currently_downloading: "Globus is currently downloading files for this work...<br/>"
-      total_work_size_too_large_to_download: "Total work file size of <%= @presenter.total_file_size_human_readable %> is too large to download directly, please contact <a href=\"mailto:deepblue@umich.edu\">deepblue@umich.edu</a>."
-      total_work_size_may_be_too_large_to_download: "&nbsp;&mdash;&nbsp;<span>Total file size of <%= @presenter.total_file_size_human_readable %> may be too large to download directly.</span>"
+      box_link:
+        "Link to M-Box deposit directory"
+      globus_link:
+        "Link to Globus download directory"
+      globus_files_are_ready:
+        "Files are ready to be downloaded using Globus."
+      globus_help:
+        "What is Globus?"
+      globus_is_for_large_datasets:
+        "Globus is for large data sets."
+      globus_currently_downloading:
+        "Globus is currently downloading files for this work...<br/>"
+      total_work_size_too_large_to_download:
+        "Total work file size of %{total_file_size} is too large to download directly, please contact us"
+      total_work_size_may_be_too_large_to_download: >
+        &nbsp;&mdash;&nbsp;Total file size of %{total_file_size} may be too large to download directly. If you have
+        difficulty doing so, please contact us
 
     confirm:
       generic_work:
-        delete_all_globus_download_files: "Are you sure you want to delete all Globus files in this works download directory?"
+        delete_all_globus_download_files:
+         "Are you sure you want to delete all Globus files in this works download directory?"
 
     labels:
       generic_work:
@@ -161,16 +220,18 @@ en:
       generic_work:
         confirm:                        "Confirm Your Deposit"
         download:                       "Download All Files"
-        globus:                         "Use Globus to Download"
+        globus:                         "Send to Globus to Download"
         globus_add_email:               "Add Email"
         globus_clean_download:          "Clean Globus Download Directory for this Work"
         globus_clean_prep:              "Clean Globus Prep Directory for this Work"
-        globus_download:                "Use Globus to Download"
+        globus_download:                "Send to Globus to Download"
         globus_download_add_email:      "Email Me When Globus Download is Complete"
         globus_download_notify_me:      "Email Me When Globus Download is Complete"
         globus_download_and_notify_me:  "Download All for Globus and Email Me When Complete"
         globus_download_dont_notify_me: "Don't Add My Email"
         mint_doi:                       "Mint DOI"
+        save_metadata:                  "Save Metadata"
+        save_metadata_public:           "Save Description (Public)"
 
     # TODO: Consolidate/clean up remove/add difference.
     #  such that it can be under the add_remove_labels.
@@ -203,26 +264,96 @@ en:
   # urls-as-keys need to have their dots replaced with something else
   rights:
     http://creativecommons_org/publicdomain/zero/1_0/:
-      description:
-        "You dedicate this work to the public domain, waiving all your rights to the work worldwide under copyright law."
+      description: >
+        You dedicate this work to the public domain, waiving all your rights to the work worldwide under copyright law.
     http://creativecommons_org/licenses/by/4_0/:
-      description:
-        "This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation."
+      description: >
+        This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they
+        credit you for the original creation.
     http://creativecommons_org/licenses/by-nc/4_0/:
-      description:
-        "This license lets others modify and build upon your work non-commercially. Their new works must also acknowledge you and be non-commercial, but they don’t have to license their derivative works on the same terms."
+      description: >
+        This license lets others modify and build upon your work non-commercially. Their new works must also acknowledge
+        you and be non-commercial, but they don’t have to license their derivative works on the same terms.
     http://creativecommons_org/licenses/by-nd/4_0/:
       description:
-        "This license allows for redistribution, commercial and non-commercial, as long as it is passed along unchanged and in whole, with credit to you."
+        This license allows for redistribution, commercial and non-commercial, as long as it is passed along unchanged
+        and in whole, with credit to you.
     http://creativecommons_org/licenses/by/3_0/us/:
-      description:
-        "This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation."
+      description: >
+        This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they
+        credit you for the original creation.
     http://creativecommons_org/licenses/by-nc/3_0/us/:
-      description:
-        "This license lets others modify and build upon your work non-commercially. Their new works must also acknowledge you and be non-commercial, but they don’t have to license their derivative works on the same terms."
+      description: >
+        This license lets others modify and build upon your work non-commercially. Their new works must also acknowledge
+        you and be non-commercial, but they don’t have to license their derivative works on the same terms.
     http://creativecommons_org/licenses/by-nd/3_0/us/:
-      description:
-        "This license allows for redistribution, commercial and non-commercial, as long as it is passed along unchanged and in whole, with credit to you."
+      description: >
+        This license allows for redistribution, commercial and non-commercial, as long as it is passed along unchanged
+        and in whole, with credit to you."
     http://creativecommons_org/licenses/by-sa/3_0/us/:
-      description:
-        "This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms."
+      description: >
+        This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they
+        credit you and license their new creations under the identical terms.
+
+  walkthrough:
+    describe:   "Describe"
+    review:     "Submit for Review"
+    upload:     "Upload"
+    your_files: "Your Files"
+    your_work:  "Your Work"
+
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute"
+      less_than_x_seconds:
+        one:   "less than 1 second"
+        other: "less than %{count} seconds"
+      x_seconds:
+        one:   "1 second"
+        other: "%{count} seconds"
+      less_than_x_minutes:
+        one:   "less than a minute"
+        other: "less than %{count} minutes"
+      x_minutes:
+        one:   "1 minute"
+        other: "%{count} minutes"
+      about_x_hours:
+        one:   "about 1 hour"
+        other: "about %{count} hours"
+      x_days:
+        one:   "1 day"
+        other: "%{count} days"
+      about_x_months:
+        one:   "about 1 month"
+        other: "about %{count} months"
+      x_months:
+        one:   "1 month"
+        other: "%{count} months"
+      about_x_years:
+        one:   "about 1 year"
+        other: "about %{count} years"
+      over_x_years:
+        one:   "over 1 year"
+        other: "over %{count} years"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost %{count} years"
+    prompts:
+      year:   "Year"
+      month:  "Month"
+      day:    "Day"
+      hour:   "Hour"
+      minute: "Minute"
+      second: "Seconds"
+
+  helpers:
+    select:
+      # Default value for :prompt => true in FormOptionsHelper
+      prompt: "Please select"
+
+    # Default translation keys for submit and button FormHelper
+    submit:
+      create: 'Create %{model}'
+      update: 'Update %{model}'
+      submit: 'Save %{model}'
