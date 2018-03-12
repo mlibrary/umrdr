@@ -48,7 +48,9 @@ en:
       my_computer:
         sr_tab_label: "Access Files from"
         tab_label: "My Computer"
-        sr_instructions: "Agree to the deposit agreement and then select files.  Press the Start Upload Button once all files have been selected."
+        sr_instructions: >
+          Agree to the deposit agreement and then select files.  Press the Start Upload Button once all files have been
+          selected.
       browse_everything:
         sr_tab_label: "Access Files from"
         tab_label: "Cloud Providers"
@@ -56,18 +58,34 @@ en:
         files_selected: "files selected"
       local_ingest:
         tab_label: "Network/Server Location"
-      change_access_message_html: "<p>You have changed the access level on this work to public, making it accessible to other users or groups to view or edit.</p><p>All of the permissions on the files within the work have also been changed to public.</p>"
+      change_access_message_html: >
+        <p>You have changed the access level on this work to public, making it accessible to other users or groups to
+        view or edit.</p><p>All of the permissions on the files within the work have also been changed to public.</p>
       change_access_yes_message: "OK"
       processing: "File is being processed; you may edit when processing has completed"
-      permissions_message: "Updating file permissions. This may take a few minutes. You may want to refresh your browser or return to this record later to see the updated file permissions."
-      change_permissions_message_html: "<p>You have changed the permissions on this <%= curation_concern.human_readable_type %>, <i><%= curation_concern %></i>, making it visible to <b><%= visibility_badge(curation_concern.visibility) %></b>.</p><p>Would you like change all of the files within the <%= curation_concern.human_readable_type %> to <b><%= visibility_badge(curation_concern.visibility) %></b> as well?</p>"
+      permissions_message: >
+        Updating file permissions. This may take a few minutes. You may want to refresh your browser or return to this
+        record later to see the updated file permissions.
+      change_permissions_message_html: >
+        <p>You have changed the permissions on this <%= curation_concern.human_readable_type %>,
+        <i><%= curation_concern %></i>, making it visible to
+        <b><%= visibility_badge(curation_concern.visibility) %></b>.</p><p>Would you like change all of the files within
+        the <%= curation_concern.human_readable_type %> to
+        <b><%= visibility_badge(curation_concern.visibility) %></b> as well?</p>
       alert:
-        fail_html: "There was a problem during upload, none of your files uploaded correctly. Please %{reload_href}.  Use the %{contact_href} to report the error if it persists."
+        fail_html: >
+          There was a problem during upload, none of your files uploaded correctly. Please %{reload_href}. Use the
+          %{contact_href} to report the error if it persists.
         fail_restart_href_text: "start over"
         contact_href_text: "contact form"
-        partial_fail_html: "One or more files did not upload successfully. To continue using the files that uploaded %{metadata_href}. <br /> Use the %{contact_href} to report the error if it persists."
+        partial_fail_html: >
+          One or more files did not upload successfully. To continue using the files that uploaded %{metadata_href}.
+          <br /> Use the %{contact_href} to report the error if it persists.
         partial_fail_metadata_href_text: "edit their metadata"
-      cloud_timeout_message: "Please note that if you upload a large number of files within a short period of time, the cloud provider may not be able to accommodate your request. If you experience any errors uploading from the cloud, let us know via the %{contact_href}."
+      cloud_timeout_message: >
+        Please note that if you upload a large number of files within a short period of time, the cloud provider may not
+        be able to accommodate your request. If you experience any errors uploading from the cloud, let us know via the
+        %{contact_href}.
     homepage:
       featured_works:
         tab_label:          'Featured Works'
@@ -83,7 +101,7 @@ en:
     dashboard:
       title:                    "My Dashboard"
       greeting:                 "Hello, "
-      upload_html:                   'Upload'
+      upload_html:              'Upload'
       create_collection_html:   'New Collection'
       view_collections:         "My Collections"
       view_files:               "My Files"
@@ -102,7 +120,9 @@ en:
       transfer_works_link:      "Select works to transfer"
       no_transfer_requests:     "You haven't received any work transfer requests"
       no_transfers:             "You haven't transferred any work"
-      authorize_proxy_hint:     "Authorize a person to deposit data on your behalf by searching for and selecting their U-M e-mail address. Be sure the proxy has previously logged into Deep Blue Data."
+      authorize_proxy_hint: >
+        Authorize a person to deposit data on your behalf by searching for and selecting their U-M e-mail address. Be
+        sure the proxy has previously logged into Deep Blue Data.
       stats:
         heading:            "Your Statistics"
         files:              "Files you've deposited"
@@ -172,11 +192,16 @@ en:
         unlinked: "Link with Zotero"
     batch:
       help:
-        title: "Filename will be the default title. Please provide a more meaningful title, and filenames will still be preserved by the system."
-        resource_type: "You may select multiple types to apply to all files"
+        title: >
+          Filename will be the default title. Please provide a more meaningful title, and filenames will still be
+          preserved by the system.
+        resource_type:
+          "You may select multiple types to apply to all files"
     collection:
-      no_visible_works: "The collection is either empty or does not contain items to which you have access."
-      is_part_of: "Is part of"
+      no_visible_works:
+        "The collection is either empty or does not contain items to which you have access."
+      is_part_of:
+        "Is part of"
       select_form:
         title: "Add to collection"
         no_collections: "You do not have access to any existing collections. You may create a new collection."
@@ -202,21 +227,23 @@ en:
       browse_view: "Browse View"
     footer:
       copyright_html: "© 2018 Regents of the University of Michigan"
-      source_html: "Powered by Samvera"
+      source_html:    "Powered by Samvera"
     admin:
       stats:
         registered: "Registered"
         deposited_form:
-          heading: "Display Files Deposited:"
+          heading:     "Display Files Deposited:"
           start_label: "Start"
-          end_label: "end [defaults to now]"
+          end_label:   "end [defaults to now]"
         user_deposits:
-          heading: "Display files deposited by users"
+          heading:     "Display files deposited by users"
           start_label: "Starting"
-          end_label: "Ending [defaults to now]"
+          end_label:   "Ending [defaults to now]"
     works:
       create:
-        after_create_html: "The metadata you specified is being applied."
+        after_create_html: >
+          The metadata you have created has been submitted successfully. Please review the metadata and upload your
+          files below.
 
   simple_form:
     labels:
@@ -237,27 +264,58 @@ en:
 
     metadata_help:
       file_set:
-        resource_type_html: "Pre-defined categories to describe the type of file content being uploaded, such as &quot;article&quot; or &quot;dataset.&quot;  More than one type may be selected."
-        title: "A name for the file to aid in identifying it. Defaults to the file name, though a more descriptive title is encouraged. &lt;em&gt;This is a required field&lt;/em&gt;."
-        keyword: "Words or phrases you select to describe what the file is about. These are used to search for content. &lt;em&gt;This is a required field&lt;/em&gt;."
-        subject: "Headings or index terms describing what the file is about; these &lt;em&gt;do&lt;/em&gt; need to conform to an existing vocabulary. Currently supports Library of Congress Subject Headings."
-        creator_html: "The person or group responsible for the file being uploaded. Usually this is the author of the content. Personal names should be entered with the last name first, e.g. &quot;Smith, John.&quot; &lt;em&gt;This is a required field&lt;/em&gt;."
-        related_url: "A link to a website or other specific content (audio, video, PDF document) related to the file. An example is the URL of a research project from which the file was derived."
-        based_near_html: "A place name related to the file, such as its site of publication, or the city, state, or country the file's contents are about. Calls upon the GeoNames web service (&lt;a href=&quot;http://www.geonames.org&quot;&gt;http://www.geonames.org&lt;/a&gt;)."
-        contributor_html: "A person or group you want to recognize for playing a role in the creation of the file, but not the primary role. If there is a specific role you would like noted, include it in parentheses, e.g. &quot;Jones, Mary (advisor).&quot;"
-        date_created: "The date on which the file was generated. Dates are accepted in the form YYYY-MM-DD, e.g. 1776-07-04."
-        description: "Free-text notes about the file itself. Examples include abstracts of a paper, citation information for a journal article, or a tag indicating a larger collection to which the file belongs."
-        identifier: "A unique handle describing the file. An example would be a DOI for a journal article, or an ISBN or OCLC number for a book."
-        language: "The language of the file content."
-        publisher: "The person or group making the file available. Generally this is the institution."
-        rights: "Licensing and distribution information governing access to the file. Select from the provided drop-down list. &lt;em&gt;This is a required field&lt;/em&gt;."
+        resource_type_html: >
+          Pre-defined categories to describe the type of file content being uploaded, such as &quot;article&quot; or
+          &quot;dataset.&quot;  More than one type may be selected.
+        title: >
+          A name for the file to aid in identifying it. Defaults to the file name, though a more descriptive title is
+          encouraged. &lt;em&gt;This is a required field&lt;/em&gt;.
+        keyword: >
+          Words or phrases you select to describe what the file is about. These are used to search for content.
+          &lt;em&gt;This is a required field&lt;/em&gt;.
+        subject: >
+          Headings or index terms describing what the file is about; these &lt;em&gt;do&lt;/em&gt; need to conform to an
+          existing vocabulary. Currently supports Library of Congress Subject Headings.
+        creator_html: >
+          The person or group responsible for the file being uploaded. Usually this is the author of the content.
+          Personal names should be entered with the last name first, e.g. &quot;Smith, John.&quot; &lt;em&gt;This is
+          a required field&lt;/em&gt;.
+        related_url: >
+          A link to a website or other specific content (audio, video, PDF document) related to the file. An example is
+          the URL of a research project from which the file was derived.
+        based_near_html: >
+          A place name related to the file, such as its site of publication, or the city, state, or country the file's
+          contents are about. Calls upon the GeoNames web service
+          (&lt;a href=&quot;http://www.geonames.org&quot;&gt;http://www.geonames.org&lt;/a&gt;).
+        contributor_html: >
+          A person or group you want to recognize for playing a role in the creation of the file, but not the primary
+          role. If there is a specific role you would like noted, include it in parentheses,
+          e.g. &quot;Jones, Mary (advisor).&quot;
+        date_created: >
+          The date on which the file was generated. Dates are accepted in the form YYYY-MM-DD, e.g. 1776-07-04.
+        description: >
+          Free-text notes about the file itself. Examples include abstracts of a paper, citation information for a
+          journal article, or a tag indicating a larger collection to which the file belongs.
+        identifier: >
+          A unique handle describing the file. An example would be a DOI for a journal article, or an ISBN or OCLC
+          number for a book.
+        language: >
+          The language of the file content.
+        publisher: >
+          The person or group making the file available. Generally this is the institution.
+        rights: >
+          Licensing and distribution information governing access to the file. Select from the provided drop-down list.
+          &lt;em&gt;This is a required field&lt;/em&gt;.
       collection:
-        creator_html: 'The person or group responsible for the collection. Usually this is the author of the collected content. Personal names should be entered with the last name first, e.g. "Smith, John." &lt;em&gt;This is a required field&lt;/em&gt;.'
+        creator_html: >
+          The person or group responsible for the collection. Usually this is the author of the collected content.
+          Personal names should be entered with the last name first, e.g. "Smith, John." &lt;em&gt;This is a required
+          field&lt;/em&gt;.
 
     aria_label:
       upload_set:
-        default: "Usage information for %{title}"
-        based_near: "Usage information for location"
+        default:     "Usage information for %{title}"
+        based_near:  "Usage information for location"
         description: "Usage information for abstract or summary"
-        keyword: "Usage information for keyword"
-        rights: "Usage information for rights"
+        keyword:     "Usage information for keyword"
+        rights:      "Usage information for rights"

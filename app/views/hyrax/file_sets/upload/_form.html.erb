@@ -4,18 +4,12 @@
       <!--Please upload your files to <a href="https://umich.app.box.com/folder/45101723215" target="_blank">this MBox folder</a>.
       If you require assistance, <a href="<%= hyrax.contact_path %>">contact Us for assistance</a>.-->
       <br/>
-      The next step is to upload your data and documentation files to M-Box
-      for review. Once in M-Box, upload your files by dragging and dropping or
-      browsing files on your computer. If your dataset is larger than 2GB
-      please contact Research Data Services.
+      <%= t('simple_form.hints.generic_work.next_step_is') %>
       <br/><br/>
-      Research Data Services will contact you after a preliminary review of your
-      dataset, typically in 1-2 business days.
-      <br/><br/>
-      <%= link_to "Link to M-Box deposit directory", @presenter.box_link, class: 'btn btn-default', target: "_blank" %>
+      <%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %>
       <br/><br/>
       If you have any questions please contact
-      <a href="mailto: researchdataservices@umich.edu">researchdataservices@umich.edu</a>.
+      <a href="mailto:<%=t('email.deepblue')%>"><%=t('email.deepblue')%></a>.
     </div>
   </div>
 <% else %>
@@ -32,9 +26,8 @@
       <div class="well-inner-wrapper">
       <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
         <%= hidden_field_tag('generic_work[nop]') %>
-        <p class="alert alert-info">You can mint a DOI once you have uploaded all your files. Once a DOI is minted,
-          you may not upload additional files, edit, or delete your work. For questions or help,
-          please <strong><%= link_to "contact Deep Blue Data", "https://deepblue.lib.umich.edu/data/contact" %></strong>.</p>
+        <p class="alert alert-info"><%= t('simple_form.hints.generic_work.you_can_mint_a_doi') %>
+          <strong><%= link_to "contact Deep Blue Data", "https://deepblue.lib.umich.edu/data/contact" %></strong>.</p>
          <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
        </div>
      </div>
@@ -54,9 +47,8 @@
         <div class="well-inner-wrapper">
         <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
           <%= hidden_field_tag('generic_work[nop]') %>
-          <p class="alert alert-info">You can mint a DOI once you have uploaded all your files. Once a DOI is minted,
-            you may not upload additional files, edit, or delete your work. For questions or help,
-            please <strong><%= link_to "contact Deep Blue Data", "https://deepblue.lib.umich.edu/data/contact" %></strong>.</p>
+          <p class="alert alert-info"><%= t('simple_form.hints.generic_work.you_can_mint_a_doi') %>
+            <strong><%= link_to "contact Deep Blue Data", "https://deepblue.lib.umich.edu/data/contact" %></strong>.</p>
            <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
          </div>
       </div>
