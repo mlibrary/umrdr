@@ -1,5 +1,8 @@
 
-<% if user_signed_in? && @presenter.box_link_display_for_work? %>
+<% if !@presenter.current_ability.admin? && @presenter.file_set_presenters.present? && @presenter.box_link_display_for_work? %>
+  <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
+<% end %>
+<% if @presenter.current_ability.admin? && @presenter.box_link_display_for_work? %>
   <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
 <% end %>
 
@@ -28,11 +31,19 @@
     <%= form_tag(main_app.download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.max_work_file_size_to_download < @presenter.total_file_size %>
-        <p><%= t('simple_form.generic_work.total_work_size_too_large_to_download') %></p>
+        <p><%= t('simple_form.generic_work.total_work_size_too_large_to_download',
+                 total_file_size: @presenter.total_file_size_human_readable ) %>
+          <a href=\"mailto:<%=t('contact.by_email')%>\"><%= t('contact.by_email') %></a>
+          or <a href="<%= hyrax.contact_path %>"><%= t('contact.by_contact_form') %></a>.
+        </p>
       <% else %>
         <%= submit_tag( @presenter.label_with_total_file_size( t('simple_form.actions.generic_work.download') ), class: 'btn btn-primary') %>
         <% if Umrdr::Application.config.min_work_file_size_to_download_warn < @presenter.total_file_size %>
-          <%= t('simple_form.generic_work.total_work_size_may_be_too_large_to_download') %>
+          <p><%= t('simple_form.generic_work.total_work_size_may_be_too_large_to_download',
+                total_file_size: @presenter.total_file_size_human_readable ) %>
+          <a href=\"mailto:<%=t('contact.by_email')%>\"><%= t('contact.by_email') %></a>
+          or <a href="<%= hyrax.contact_path %>"><%= t('contact.by_contact_form') %></a>
+          </p>
         <% end %>
       <% end %>
     <% end %>
@@ -41,15 +52,18 @@
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.globus_enabled %>
         <% if @presenter.globus_files_available? %>
-          <p><%= link_to t('simple_form.generic_work.globus_link'),
+          <p><%= t('simple_form.generic_work.globus_files_are_ready') %> &nbsp;
+            <%= link_to t('simple_form.generic_work.globus_link'),
                          @presenter.globus_external_url,
                          class: 'btn btn-default',
                          target: "_blank",
                          title: "link to external globus files" %>
+            <%= t('simple_form.generic_work.globus_is_for_large_datasets') %> &nbsp;
             <a href="<%= main_app.static_path(action: 'globus-help')%>"><%= t('simple_form.generic_work.globus_help') %></a>
           </p>
         <% elsif !@presenter.globus_files_prepping? %>
           <%= submit_tag(t('simple_form.actions.generic_work.globus_download'), class: 'btn btn-primary') %>
+          <%= t('simple_form.generic_work.globus_is_for_large_datasets') %> &nbsp;
           <a href="<%= main_app.static_path(action: 'globus-help')%>"><%= t('simple_form.generic_work.globus_help') %></a>
         <% end %>
       <% end %>
@@ -71,7 +85,9 @@
       <% if Umrdr::Application.config.globus_enabled %>
         <% if @presenter.globus_files_prepping? %>
           <%= t('simple_form.generic_work.globus_currently_downloading')
-              submit_tag(t('simple_form.actions.generic_work.globus_download_add_email'), class: 'btn btn-primary') %>
+              submit_tag(t('simple_form.actions.generic_work.globus_download_add_email'), class: 'btn btn-primary') %> &nbsp;
+          <%= t('simple_form.generic_work.globus_is_for_large_datasets') %> &nbsp;
+          <a href="<%= main_app.static_path(action: 'globus-help')%>"><%= t('simple_form.generic_work.globus_help') %></a>
         <% end %>
       <% end %>
       <p></p>

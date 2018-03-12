@@ -4,7 +4,7 @@ require 'rspec/expectations'
 describe 'hyrax/base/_related_files.html.erb', type: :view do
   include RSpecHtmlMatchers
 
-  let(:ability) { double( "ability", can?: true ) }
+  let(:ability) { double( "ability", can?: true, admin?: false ) }
   let(:request) { nil }
 
   let(:blacklight_configuration_context) do

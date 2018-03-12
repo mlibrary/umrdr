@@ -19,7 +19,7 @@
   
   <div id="works_edit">
     <h2 class="non lower">Describe Work</h2>
-     <p class="describe_sub">The more descriptive information you provide the better we can serve your needs. All works deposited in Deep Blue Data are considered Open Access. Please select a creative commons license designation below.</p>
+     <p class="describe_sub"><%= t('simple_form.hints.generic_work.describe_work') %></p>
 
       <% f.object.rendered_terms.each do |term| %>
       <%= render_edit_field_partial(term, f: f) %>
