@@ -1,11 +1,11 @@
-
-<% if !@presenter.current_ability.admin? && @presenter.file_set_presenters.present? && @presenter.box_link_display_for_work? %>
-  <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
+<% if user_signed_in? %>
+  <% if !@presenter.current_ability.admin? && @presenter.file_set_presenters.present? && @presenter.box_link_display_for_work? %>
+    <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
+  <% end %>
+  <% if @presenter.current_ability.admin? && @presenter.box_link_display_for_work? %>
+    <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
+  <% end %>
 <% end %>
-<% if @presenter.current_ability.admin? && @presenter.box_link_display_for_work? %>
-  <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
-<% end %>
-
 <% if @presenter.file_set_presenters.present? %>
 <div class="panel panel-default related_files">
   <div class="panel-heading">
@@ -58,11 +58,13 @@
                          class: 'btn btn-default',
                          target: "_blank",
                          title: "link to external globus files" %>
+            <br/>
             <%= t('simple_form.generic_work.globus_is_for_large_datasets') %> &nbsp;
             <a href="<%= main_app.static_path(action: 'globus-help')%>"><%= t('simple_form.generic_work.globus_help') %></a>
           </p>
         <% elsif !@presenter.globus_files_prepping? %>
           <%= submit_tag(t('simple_form.actions.generic_work.globus_download'), class: 'btn btn-primary') %>
+          <br/>
           <%= t('simple_form.generic_work.globus_is_for_large_datasets') %> &nbsp;
           <a href="<%= main_app.static_path(action: 'globus-help')%>"><%= t('simple_form.generic_work.globus_help') %></a>
         <% end %>
@@ -85,7 +87,8 @@
       <% if Umrdr::Application.config.globus_enabled %>
         <% if @presenter.globus_files_prepping? %>
           <%= t('simple_form.generic_work.globus_currently_downloading')
-              submit_tag(t('simple_form.actions.generic_work.globus_download_add_email'), class: 'btn btn-primary') %> &nbsp;
+              submit_tag(t('simple_form.actions.generic_work.globus_download_add_email'), class: 'btn btn-primary') %>
+          <br/>
           <%= t('simple_form.generic_work.globus_is_for_large_datasets') %> &nbsp;
           <a href="<%= main_app.static_path(action: 'globus-help')%>"><%= t('simple_form.generic_work.globus_help') %></a>
         <% end %>
@@ -102,8 +105,9 @@
       <h2>Files</h2>
     </div>
     <div class="alert alert-block alert-warning">
-      <p class="center">This <%= @presenter.human_readable_type %> has no files associated with it.</p>
-    </div>
+      <p class="center"><%= t('simple_form.generic_work.has_no_files',
+                              human_readable_type: @presenter.human_readable_type ) %></p>
+  </div>
   </div>
 <% end %>
 
