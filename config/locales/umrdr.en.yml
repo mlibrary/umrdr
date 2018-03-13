@@ -179,8 +179,6 @@ en:
         "Globus is for large data sets."
       globus_currently_downloading:
         "Globus is currently downloading files for this work...<br/>"
-      has_no_files:
-        "This %{human_readable_type} has no files associated with it."
       total_work_size_too_large_to_download:
         "Total work file size of %{total_file_size} is too large to download directly, please contact us"
       total_work_size_may_be_too_large_to_download: >
