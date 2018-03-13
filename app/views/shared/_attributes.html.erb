@@ -45,6 +45,6 @@
         </tr>
         <tr>
           <th><span class="attribute-label h4">Deep Blue Handle:</span></th>
-          <td><%= work.isReferencedBy %></td>
+          <td><%= link_to_facet_list(work.isReferencedBy, :isReferencedBy ) %></td>
         </tr>
       </table>

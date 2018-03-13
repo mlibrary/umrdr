@@ -17,7 +17,8 @@ module Umrdr
     end
 
     def isReferencedBy
-      Array(self[Solrizer.solr_name('isReferencedBy')]).first
+      #Array(self[Solrizer.solr_name('isReferencedBy')]).first
+      fetch(Solrizer.solr_name('isReferencedBy'), [])
     end
 
     def authoremail
