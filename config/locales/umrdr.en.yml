@@ -45,6 +45,9 @@ en:
       'Your dowload all files to Globus was successful!'
     tombstone_notice:
       "Tombstoned: \"%{title}\" for this reason: %{reason}"
+    tombstoned: >
+      This work is Tombstoned. Only the metadata is available for viewing.
+      The reason for tombstoning this work is: %{reason}
     upload_success:
       'Your upload was successful! It may take a few minutes for the file(s) to be available for download.'
     make_your_work_citable:
@@ -169,7 +172,7 @@ en:
       globus_link:
         "Link to Globus download directory"
       globus_files_are_ready:
-        "Files are ready to be downloaded using Globus."
+        "Files are ready"
       globus_help:
         "What is Globus?"
       globus_is_for_large_datasets:

@@ -9,7 +9,8 @@ module Hyrax
     self.required_fields = [ :title, :creator, :methodology, :description, :rights, :subject, :authoremail ]
 
     def rendered_terms
-      [ :title, :creator, :authoremail, :methodology, :description, :date_coverage, :rights, :subject, :fundedby, :grantnumber, :keyword, :language, :resource_type, :isReferencedBy, :on_behalf_of, :visibility ]
+      [ :title, :creator, :authoremail, :methodology, :description, :date_coverage, :rights, :subject, :fundedby,
+        :grantnumber, :keyword, :language, :resource_type, :isReferencedBy, :on_behalf_of, :visibility ]
     end
 
   end
