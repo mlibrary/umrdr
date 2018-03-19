@@ -1,4 +1,6 @@
-<div class="form-group">
-	<p><label>
-	  <%= check_box_tag 'terms_of_service', 1, nil, required: "required" %><strong> I have read and do agree to the <%= link_to t('hyrax.deposit_agreement'), hyrax.terms_path(:terms), target: "_blank" %>.</strong></label>
-	</p>
+<p>
+  <label>
+  <%= check_box_tag 'terms_of_service', 1, nil, required: "required" %><strong> I have read and do agree to the
+  <%= link_to t('hyrax.deposit_agreement'), hyrax.terms_path(:terms), target: "_blank" %>.</strong>
+  </label>
+</p>

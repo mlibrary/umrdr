@@ -12,9 +12,7 @@ module Umrdr
 
     def box_link( only_if_exists_in_box: false )
       concern_id = @solr_document.id
-      return ::BoxHelper.box.upload_link( concern_id ) unless only_if_exists_in_box
-      return ::BoxHelper.box.upload_link( concern_id ) if ::BoxHelper.box.directory_exists?( concern_id )
-      return nil
+      return ::BoxHelper.box_link( concern_id, only_if_exists_in_box: only_if_exists_in_box )
     end
 
     def box_link_display_for_work?
