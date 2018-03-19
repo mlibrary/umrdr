@@ -255,7 +255,7 @@ module BoxHelper
       # https://developer.box.com/v2.0/reference#add-a-collaboration
       folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
       accessible_by = { login: user_email }
-      client.add_collaboration( folder_id, accessible_by, role, notify: true )
+      client.add_collaboration( folder_id, accessible_by, role )
     end
 
     def boxr_error_handle( method: nil, error: nil, backtrace: false )
@@ -400,7 +400,7 @@ module BoxHelper
     end
 
     def create_dir_and_add_collaborator( folder_name: nil, folder_id: nil, user_email: nil )
-      folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
+      #folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
       rv = box.directory_create( folder_name )
       if rv && user_email.nil?
         folder_id = folder_name_to_box_id( folder_name )
