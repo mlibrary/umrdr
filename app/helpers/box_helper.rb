@@ -402,7 +402,7 @@ module BoxHelper
     def create_dir_and_add_collaborator( folder_name: nil, folder_id: nil, user_email: nil )
       folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
       rv = box.directory_create( folder_name )
-      if rv && user_mail.nil?
+      if rv && user_email.nil?
         folder_id = folder_name_to_box_id( folder_name )
         unless folder_has_collaborator?( folder_id: folder_id, user_email: user_email )
           add_collaboration( user_email, folder_id: folder_id )
