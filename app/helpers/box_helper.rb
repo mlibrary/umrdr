@@ -557,7 +557,7 @@ module BoxHelper
       rv = "https://umich.app.box.com/folder/#{@ulib_dbd_box_id}"
       if !failed_box_login && !box_id.nil?
         #box_link = client.create_shared_link_for_folder2( box_id, can_download: true, can_preview: true, can_upload: true, access: 'open' )
-        box_link = client.create_shared_link_for_folder2( box_id, can_download: true, can_preview: true, access: 'open' )
+        box_link = client.create_shared_link_for_folder( box_id, can_download: true, can_preview: true, access: 'open' )
         if !box_link.nil && "true" != box_link.shared_link.permissions.can_preview
           verbose_log_status( "upload_link", " old link, deleting and recreating" ) if @box_verbose
           client.disable_shared_link_for_folder( box_id )
