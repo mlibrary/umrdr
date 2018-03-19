@@ -41,7 +41,7 @@ en:
       "DOI cannot be minted for a work without files."
     globus_clean:
       "Files are being delete from %{dirs}"
-    globus_clean_join:
+    globus_clean_join_html:
       "<br/>&nbsp;&nbsp;&nbsp;&nbsp;and "
     globus_file_prep_started:
       "Files have started copying to Globus. %{when_available}"
@@ -101,13 +101,13 @@ en:
         description: >
           Provide a general description of the research that produced this data, as well as an account of the individual
           data files and how they are related.
-        publisher:
-          'The person, organization or service responsible for making the work available. (Format: Last name, First name)'
+        publisher: >
+          The person, organization or service responsible for making the work available. (Format: Last name, First name)
         subject: >
           Select the disciplines(s) associated with the research for which the data were collected.
         resource_type:
           'The file format and/or physical medium of datasets contained in the work.'
-        on_behalf_of: >
+        on_behalf_of_html: >
            If you are depositing data on behalf of someone else, please select the email of that person below.
            <a href="/data/dashboard">More information on proxies</a>
         keyword: >
@@ -128,17 +128,7 @@ en:
         language: >
           List the language(s) in which the data and supplementary content are written; these could be spoken languages
           or formal languages, such as programming languages.
-        next_step_is: >
-          The next step is to upload your data and documentation files to M-Box for review. Once in M-Box, upload your
-          files by dragging and dropping or browsing files on your computer. If your dataset is larger than 2GB
-          please contact Research Data Services.
-          <br/><br/>
-          Research Data Services will contact you after a preliminary review of your dataset,
-          typically in 2-3 business days.
-        you_can_mint_a_doi: >
-          You can mint a DOI once you have uploaded all your files. Once a DOI is minted, you may not upload additional
-          files, edit, or delete your work. For questions or help, please contact us
-    
+
       collection:
         title:
           'Provide a descriptive name for the work. What is it formally known as?'
@@ -189,10 +179,8 @@ en:
         "What is Globus?"
       globus_is_for_large_datasets:
         "Globus is for large data sets."
-      globus_currently_downloading:
+      globus_currently_downloading_html:
         "Globus is currently downloading files for this work...<br/>"
-      has_no_files:
-        "This %{human_readable_type} has no files associated with it."
       total_work_size_too_large_to_download:
         "Total work file size of %{total_file_size} is too large to download directly, please contact us"
       total_work_size_may_be_too_large_to_download: >

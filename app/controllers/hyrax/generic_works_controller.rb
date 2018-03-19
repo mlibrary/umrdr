@@ -33,8 +33,9 @@ class Hyrax::GenericWorksController < ApplicationController
 
   ## box integration
 
-  def box_create_dir
-    BoxHelper.create_box_dir curation_concern.id
+  def box_create_dir_and_add_collaborator
+    user_email = EmailHelper.user_email_from( current_user )
+    BoxHelper.create_dir_and_add_collaborator( curation_concern.id, user_email: user_email )
   end
 
   def box_link
@@ -42,7 +43,7 @@ class Hyrax::GenericWorksController < ApplicationController
   end
 
   def box_work_created
-    box_create_dir
+    box_create_dir_and_add_collaborator
   end
 
   ## Changes in visibility
@@ -476,7 +477,7 @@ class Hyrax::GenericWorksController < ApplicationController
   end
 
   def globus_clean_msg( dir )
-    dirs = dir.join( MsgHelper.t( 'generic_work.globus_clean_join' ) )
+    dirs = dir.join( MsgHelper.t( 'generic_work.globus_clean_join_html' ) )
     rv = MsgHelper.t( 'generic_work.globus_clean', dirs: dirs )
     return rv
   end

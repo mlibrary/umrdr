@@ -1,58 +1,55 @@
 <% if !@presenter.current_ability.admin? %>
   <div class="well">
     <div class="well-inner-wrapper">
-      <!--Please upload your files to <a href="https://umich.app.box.com/folder/45101723215" target="_blank">this MBox folder</a>.
-      If you require assistance, <a href="<%= hyrax.contact_path %>">contact Us for assistance</a>.-->
-      <br/>
-      <%= t('simple_form.hints.generic_work.next_step_is') %>
-      <br/><br/>
+      <%= t( '.next_step_is_html' ) %>
       <%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %>
-      <br/><br/>
-      If you have any questions please contact us <%= render partial: '/contact_us' %>.
+      <%= t( '.if_you_have_questions_html' ) %><%= render partial: '/contact_us' %>.
     </div>
   </div>
 <% else %>
-<% if @presenter.tombstone.blank? && @presenter.current_ability.admin? %>
-  <div class="well">
-    <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
-      <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
-  </div>
-    <% end %>
-    <%# editor    = can?(:edit,    @presenter.id) %>
-    <% if @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
+  <% if @presenter.tombstone.blank? && @presenter.current_ability.admin? %>
     <div class="well">
-      <h2 class="well-title">Mint DOI</h2>
-      <div class="well-inner-wrapper">
-      <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
-        <%= hidden_field_tag('generic_work[nop]') %>
-        <p class="alert alert-info"><%= t('simple_form.hints.generic_work.you_can_mint_a_doi') %>
-          <strong><%= render partial: '/contact_us' %></strong>.</p>
-         <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
-       </div>
-     </div>
-        <% end %>
+      <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
+        <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
+    </div>
       <% end %>
-<% elsif @presenter.tombstone.blank? %>
-<% unless @presenter.identifiers_minted?(:doi) && @presenter.solr_document.public? %>
-  <div class="well">
-    <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
-      <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
-  </div>
-    <% end %>
-    <%# editor    = can?(:edit,    @presenter.id) %>
-    <% if @presenter.editor? && @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
+      <%# editor    = can?(:edit,    @presenter.id) %>
+      <% if @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
       <div class="well">
         <h2 class="well-title">Mint DOI</h2>
         <div class="well-inner-wrapper">
         <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
           <%= hidden_field_tag('generic_work[nop]') %>
-          <p class="alert alert-info"><%= t('simple_form.hints.generic_work.you_can_mint_a_doi') %>
-            <strong><%= render partial: '/contact_us' %></strong>.</p>
-           <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
+          <p class="alert alert-info">
+            <%= t('.you_can_mint_a_doi') %><strong><%= render partial: '/contact_us' %></strong>.
+          </p>
+          <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
          </div>
-      </div>
+       </div>
+          <% end %>
         <% end %>
+  <% elsif @presenter.tombstone.blank? %>
+    <% unless @presenter.identifiers_minted?(:doi) && @presenter.solr_document.public? %>
+      <div class="well">
+        <%= form_for(FileSet.new, url: main_app.hyrax_file_sets_path(parent_id: @presenter.id), html: { multipart: true, id: 'fileupload' }) do |f| %>
+          <%= render 'hyrax/file_sets/upload/form_fields', presenter: @presenter, upload_set_id: ActiveFedora::Noid::Service.new.mint %>
+      </div>
       <% end %>
-<% end %>
-<% end %>
+      <%# editor    = can?(:edit,    @presenter.id) %>
+      <% if @presenter.editor? && @presenter.file_set_presenters.present? && !@presenter.identifiers_minted?(:doi) %>
+        <div class="well">
+          <h2 class="well-title">Mint DOI</h2>
+          <div class="well-inner-wrapper">
+            <%= form_tag(main_app.identifiers_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
+              <%= hidden_field_tag('generic_work[nop]') %>
+              <p class="alert alert-info">
+                <%= t('.you_can_mint_a_doi') %><strong><%= render partial: '/contact_us' %></strong>.
+              </p>
+              <%= submit_tag(t('simple_form.actions.generic_work.mint_doi'), class: 'btn btn-primary') %>
+            </div>
+          </div>
+          <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

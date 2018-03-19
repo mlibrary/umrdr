@@ -7,26 +7,26 @@
   <% end %>
 <% end %>
 <% if @presenter.file_set_presenters.present? %>
-<div class="panel panel-default related_files">
-  <div class="panel-heading">
-    <h2><%= @presenter.label_with_total_file_size( 'Files' ) %></h2>
+  <div class="panel panel-default related_files">
+    <div class="panel-heading">
+      <h2><%= @presenter.label_with_total_file_size( 'Files' ) %></h2>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Filename</th>
+          <th>Date Uploaded</th>
+          <th>File&nbsp;Size</th>
+          <th>Access</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%= render partial: 'member', collection: @presenter.member_presenters %>
+      </tbody>
+    </table>
   </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>File</th>
-        <th>Filename</th>
-        <th>Date Uploaded</th>
-        <th>File&nbsp;Size</th>
-        <th>Access</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-    <%= render partial: 'member', collection: @presenter.member_presenters %>
-    </tbody>
-  </table>
-</div>
   <% if Hyrax.config.download_files %><!-- && @presenter.file_set_presenters.length > 1 -->
     <%= form_tag(main_app.download_hyrax_generic_work_path(@presenter.id), method: 'post') do %>
       <%= hidden_field_tag('generic_work[nop]') %>
@@ -84,7 +84,7 @@
       <%= hidden_field_tag('generic_work[nop]') %>
       <% if Umrdr::Application.config.globus_enabled %>
         <% if @presenter.globus_files_prepping? %>
-          <%= t('simple_form.generic_work.globus_currently_downloading')
+          <%= t('simple_form.generic_work.globus_currently_downloading_html')
               submit_tag(t('simple_form.actions.generic_work.globus_download_add_email'), class: 'btn btn-primary') %>
           <br/>
           <%= t('simple_form.generic_work.globus_is_for_large_datasets') %> &nbsp;
@@ -97,17 +97,16 @@
   <% end %>
 <% elsif can? :edit, @presenter.id %>
 
-<% if @presenter.tombstone.blank? %>
-  <div class="panel panel-default related_files">
-    <div class="panel-heading">
-      <h2>Files</h2>
+  <% if @presenter.tombstone.blank? %>
+    <div class="panel panel-default related_files">
+      <div class="panel-heading">
+        <h2>Files</h2>
+      </div>
+      <div class="alert alert-block alert-warning">
+        <p class="center"><%= t('.work_has_no_files', human_readable_type: @presenter.human_readable_type ) %></p>
+      </div>
     </div>
-    <div class="alert alert-block alert-warning">
-      <p class="center"><%= t('simple_form.generic_work.has_no_files',
-                              human_readable_type: @presenter.human_readable_type ) %></p>
-  </div>
-  </div>
-<% end %>
+  <% end %>
 
 <% end %>
 

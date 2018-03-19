@@ -1,3 +1,32 @@
+require 'boxr'
+
+# module Boxr
+#   class Client
+#
+#     def create_shared_link2( uri, item_id, access, unshared_at, can_download, can_preview, can_upload, password)
+#       attributes = {shared_link: {access: access}}
+#       attributes[:shared_link][:unshared_at] = unshared_at.to_datetime.rfc3339 unless unshared_at.nil?
+#       attributes[:shared_link][:password] = password unless password.nil?
+#       attributes[:shared_link][:permissions] = {} unless can_download.nil? && can_preview.nil?
+#       attributes[:shared_link][:permissions][:can_download] = can_download unless can_download.nil?
+#       attributes[:shared_link][:permissions][:can_preview] = can_preview unless can_preview.nil?
+#       attributes[:shared_link][:permissions][:can_upload] = can_upload unless can_upload.nil?
+#
+#       puts "#{attributes}"
+#
+#       updated_item, response = put(uri, attributes)
+#       updated_item
+#     end
+#
+#     def create_shared_link_for_folder2(folder, access: nil, unshared_at: nil, can_download: nil, can_preview: nil, can_upload: nil, password: nil)
+#       folder_id = ensure_id(folder)
+#       uri = "#{FOLDERS_URI}/#{folder_id}"
+#       create_shared_link2(uri, folder_id, access, unshared_at, can_download, can_preview, can_upload, password)
+#     end
+#
+#   end
+# end
+
 module BoxHelper
   # https://github.com/cburnette/boxr
   # http://www.rubydoc.info/gems/boxr/Boxr
@@ -87,9 +116,10 @@ module BoxHelper
     return Box.new
   end
 
-  def self.box_link( dir_name )
-    rv = box.upload_link( dir_name )
-    return rv
+  def self.box_link( dir_name, only_if_exists_in_box: false )
+    return box.upload_link( folder_name: dir_name ) unless only_if_exists_in_box
+    return box.upload_link( folder_name: dir_name ) if box.directory_exists?( dir_name )
+    return nil
   end
 
   def self.box_link_display_for_work?( work_id: nil, work_file_count: -1 )
@@ -97,11 +127,8 @@ module BoxHelper
     return rv
   end
 
-  def self.create_box_dir( dir_name )
-    rv = box.directory_create( dir_name )
-    if !rv && box.failed_box_login
-      Rails.logger.error "BoxHelper failed to create directory '#{dir_name}' because box failed to log in."
-    end
+  def self.create_dir_and_add_collaborator( dir_name, user_email: nil )
+    rv = create_dir_and_add_collaborator( folder_name: dir_name, user_email: user_email )
     return rv
   end
 
@@ -222,6 +249,13 @@ module BoxHelper
 
     def access_token_developer
       return @developer_token
+    end
+
+    def add_collaboration( user_email, folder_id: nil, folder_name: nil, role: 'viewer uploader' )
+      # https://developer.box.com/v2.0/reference#add-a-collaboration
+      folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
+      accessible_by = { login: user_email }
+      client.add_collaboration( folder_id, accessible_by, role )
     end
 
     def boxr_error_handle( method: nil, error: nil, backtrace: false )
@@ -365,6 +399,20 @@ module BoxHelper
       end
     end
 
+    def create_dir_and_add_collaborator( folder_name: nil, folder_id: nil, user_email: nil )
+      #folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
+      rv = box.directory_create( folder_name )
+      if rv && user_email.nil?
+        folder_id = folder_name_to_box_id( folder_name )
+        unless folder_has_collaborator?( folder_id: folder_id, user_email: user_email )
+          add_collaboration( user_email, folder_id: folder_id )
+        end
+      elsif !rv && box.failed_box_login
+        Rails.logger.error "BoxHelper failed to create directory '#{folder_name}' because box failed to log in."
+      end
+      return rv
+    end
+
     def dir_list
       return [] if failed_box_login
       @dir_list ||= client.folder_items( parent_dir )
@@ -404,15 +452,6 @@ module BoxHelper
       return rv
     end
 
-    def folder_name_to_box_id( folder_name )
-      dir_item = dir_item_by_name( folder_name )
-      rv = nil
-      unless dir_item.nil?
-        rv = dir_item.id
-      end
-      return rv
-    end
-
     def folder_from_path( folder_name )
       folder = nil
       return folder if failed_box_login
@@ -424,6 +463,22 @@ module BoxHelper
       rescue Exception => ignore
       end
       return folder
+    end
+
+    def folder_has_collaborator?( folder_id: nil, folder_name: nil, user_email: nil )
+      return false if user_email.nil?
+      folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
+      collaborations = client.folder_collaborations( folder_id, fields: [ "accessible_by" ] )
+      return collaborations.any? { |o| o[:accessible_by][:login] == user_email }
+    end
+
+    def folder_name_to_box_id( folder_name )
+      dir_item = dir_item_by_name( folder_name )
+      rv = nil
+      unless dir_item.nil?
+        rv = dir_item.id
+      end
+      return rv
     end
 
     def has_dir_name?( dir_name )
@@ -496,16 +551,18 @@ module BoxHelper
     #   end
     # end
 
-    def upload_link( folder_name )
+    def upload_link( folder_id: nil, folder_name: nil )
       verbose_log_status( "upload_link", "(#{folder_name})" ) if @box_verbose
-      box_id = folder_name_to_box_id( folder_name )
+      box_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
       rv = "https://umich.app.box.com/folder/#{@ulib_dbd_box_id}"
       if !failed_box_login && !box_id.nil?
-        box_link = client.create_shared_link_for_folder( box_id, can_preview: true, access: 'open' )
-        if !box_link.nil && "open" != box_link.shared_link.permissions.can_preview
+        #box_link = client.create_shared_link_for_folder2( box_id, can_download: true, can_preview: true, can_upload: true, access: 'open' )
+        box_link = client.create_shared_link_for_folder2( box_id, can_download: true, can_preview: true, access: 'open' )
+        if !box_link.nil && "true" != box_link.shared_link.permissions.can_preview
           verbose_log_status( "upload_link", " old link, deleting and recreating" ) if @box_verbose
           client.disable_shared_link_for_folder( box_id )
-          box_link = client.create_shared_link_for_folder( box_id, can_preview: true, access: 'open' )
+          #box_link = client.create_shared_link_for_folder2( box_id, can_download: true, can_preview: true, can_upload: true, access: 'open' )
+          box_link = client.create_shared_link_for_folder( box_id, can_download: true, can_preview: true, access: 'open' )
         end
         rv = box_link.shared_link.url
       end
