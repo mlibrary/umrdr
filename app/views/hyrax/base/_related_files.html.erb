@@ -1,8 +1,8 @@
-<% if user_signed_in? %>
-  <% if !@presenter.current_ability.admin? && @presenter.file_set_presenters.present? && @presenter.box_link_display_for_work? %>
+<% if @presenter.box_enabled? && user_signed_in? %>
+  <% if !@presenter.current_ability.admin? && @presenter.file_set_presenters.present? && @presenter.box_link_display_for_work?( current_user ) %>
     <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
   <% end %>
-  <% if @presenter.current_ability.admin? && @presenter.box_link_display_for_work? %>
+  <% if @presenter.current_ability.admin? && @presenter.box_link_display_for_work?( current_user ) %>
     <p><%= link_to t('simple_form.generic_work.box_link'), @presenter.box_link, class: 'btn btn-default', target: "_blank" %></p>
   <% end %>
 <% end %>
