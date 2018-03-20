@@ -16,8 +16,9 @@ module Umrdr
 
     ## configure box
 
+    config.box_enabled = false
     config.box_developer_token = nil # replace this with a developer token to override Single Auth
-    #config.box_developer_token = '0abc8X4NoRJbalfxBPvmfhKCsrXyITHs'.freeze
+    #config.box_developer_token = 'IGmQMmqw8coKpuQDN3EG4gBrDzn78sGr'.freeze
     config.box_dlib_dbd_box_user_id = '3200925346'.freeze
     config.box_ulib_dbd_box_id = '45101723215'.freeze
     config.box_verbose = true
@@ -25,7 +26,8 @@ module Umrdr
     config.box_create_dirs_for_empty_works = true
     config.box_access_and_refresh_token_file = File.join( Rails.root, 'config', 'box_config.yml' ).freeze
     config.box_access_and_refresh_token_file_init = File.join( Rails.root, 'config', 'box_config_init.yml' ).freeze
-    config.box_enabled = true && ( !config.box_developer_token.nil? || File.exist?( config.box_access_and_refresh_token_file ) )
+    config.box_integration_enabled = config.box_enabled && ( !config.box_developer_token.nil? ||
+                                                            File.exist?( config.box_access_and_refresh_token_file ) )
 
     ## configure for Globus
     # -- To enable Globus for development, create /deepbluedata-globus/download and /deepbluedata-globus/prep

@@ -38,7 +38,9 @@ module BoxHelper
   @@mutex_to_guard_token_file
   @@box
 
-  def self.access_and_refresh_token_file_init( box_access_and_refresh_token_file, box_access_and_refresh_token_file_init, verbose: true )
+  def self.access_and_refresh_token_file_init( box_access_and_refresh_token_file,
+                                              box_access_and_refresh_token_file_init,
+                                              verbose: true )
     Rails.logger.error "BoxHelper.access_and_refresh_token_file_init(#{box_access_and_refresh_token_file},#{box_access_and_refresh_token_file_init},verbose: #{verbose})"
     if File.exist? box_access_and_refresh_token_file_init
       # copy box_access_and_refresh_token_file_init to box_access_and_refresh_token_file
@@ -109,6 +111,10 @@ module BoxHelper
     @@box ||= box_initialize
   end
 
+  def self.box_enabled?
+    Umrdr::Application.config.box_integration_enabled
+  end
+
   def self.box_initialize
     mutex_to_guard_token_file
     developer_token = Umrdr::Application.config.box_developer_token
@@ -117,18 +123,24 @@ module BoxHelper
   end
 
   def self.box_link( dir_name, only_if_exists_in_box: false )
+    return nil unless box_enabled?
     return box.upload_link( folder_name: dir_name ) unless only_if_exists_in_box
     return box.upload_link( folder_name: dir_name ) if box.directory_exists?( dir_name )
     return nil
   end
 
-  def self.box_link_display_for_work?( work_id: nil, work_file_count: -1 )
-    rv = box.box_link_display_for_work?( work_id: work_id, work_file_count: work_file_count )
+  def self.box_link_display_for_work?( work_id: nil, work_file_count: -1, is_admin: false, user_email: nil )
+    return false unless box_enabled?
+    rv = box.box_link_display_for_work?( work_id: work_id,
+                                         work_file_count: work_file_count,
+                                         is_admin: is_admin,
+                                         user_email: user_email )
     return rv
   end
 
   def self.create_dir_and_add_collaborator( dir_name, user_email: nil )
-    rv = create_dir_and_add_collaborator( folder_name: dir_name, user_email: user_email )
+    return nil unless box_enabled?
+    rv = box.folder_create_and_add_collaborator( folder_name: dir_name, user_email: user_email )
     return rv
   end
 
@@ -251,13 +263,6 @@ module BoxHelper
       return @developer_token
     end
 
-    def add_collaboration( user_email, folder_id: nil, folder_name: nil, role: 'viewer uploader' )
-      # https://developer.box.com/v2.0/reference#add-a-collaboration
-      folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
-      accessible_by = { login: user_email }
-      client.add_collaboration( folder_id, accessible_by, role )
-    end
-
     def boxr_error_handle( method: nil, error: nil, backtrace: false )
       @most_recent_boxr_error = error
       #
@@ -284,15 +289,24 @@ module BoxHelper
       Rails.logger.error msg
     end
 
-    def box_link_display_for_work?( work_id: nil, work_file_count: -1 )
-      verbose_log_status( "box_link_display_for_work?", "(#{work_id},#{work_file_count})" ) if @box_verbose
+    def box_link_display_for_work?( work_id: nil, work_file_count: -1, is_admin: false, user_email: nil )
+      verbose_log_status( "box_link_display_for_work?",
+                          "(#{work_id},#{work_file_count},is_admin:#{is_admin},user_email:#{user_email})" ) if @box_verbose
       return false if work_id.nil?
       return false if work_file_count < 0
+      rv = false
       dir_exists = directory_exists?( work_id )
-      if !dir_exists && @box_create_dirs_for_empty_works && work_file_count < 1
-        dir_exists = directory_create( work_id )
+      if is_admin
+        if !dir_exists && @box_create_dirs_for_empty_works && work_file_count < 1
+          dir_exists = directory_create( work_id )
+        end
+        rv = dir_exists
+      elsif dir_exists && folder_has_collaborator?( folder_name: work_id, user_email: user_email )
+        rv = true
       end
-      return dir_exists
+      verbose_log_status( "box_link_display_for_work?",
+                          "(#{work_id},#{work_file_count},is_admin:#{is_admin},user_email:#{user_email}) rv=#{rv}" ) if @box_verbose
+      return rv
     end
 
     def client
@@ -399,20 +413,6 @@ module BoxHelper
       end
     end
 
-    def create_dir_and_add_collaborator( folder_name: nil, folder_id: nil, user_email: nil )
-      #folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
-      rv = box.directory_create( folder_name )
-      if rv && user_email.nil?
-        folder_id = folder_name_to_box_id( folder_name )
-        unless folder_has_collaborator?( folder_id: folder_id, user_email: user_email )
-          add_collaboration( user_email, folder_id: folder_id )
-        end
-      elsif !rv && box.failed_box_login
-        Rails.logger.error "BoxHelper failed to create directory '#{folder_name}' because box failed to log in."
-      end
-      return rv
-    end
-
     def dir_list
       return [] if failed_box_login
       @dir_list ||= client.folder_items( parent_dir )
@@ -465,10 +465,57 @@ module BoxHelper
       return folder
     end
 
+    def folder_add_collaboration( user_email,
+                                 folder_id: nil,
+                                 folder_name: nil,
+                                 role: 'viewer uploader',
+                                 test_for_collaboration_after_add: true,
+                                 max_tests_for_collaboration: 3,
+                                 delay_before_test_for_collaboration_secs: 2 )
+      verbose_log_status( "folder_add_collaboration",
+                          " user_email=#{user_email} folder_name: #{folder_name} folder_id=#{folder_id}" ) if @box_verbose
+      # https://developer.box.com/v2.0/reference#add-a-collaboration
+      folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
+      accessible_by = { login: user_email }
+      rv = client.add_collaboration( folder_id, accessible_by, role )
+      if test_for_collaboration_after_add
+        (1..max_tests_for_collaboration).each do |n|
+          sleep( delay_before_test_for_collaboration_secs )
+          return rv if folder_has_collaborator?( folder_id: folder_id, user_email: user_email )
+        end
+      end
+      return rv
+    end
+
+    def folder_create_and_add_collaborator(folder_name: nil, folder_id: nil, user_email: nil )
+      verbose_log_status( "folder_create_and_add_collaborator",
+                          " folder_name: #{folder_name} user_email: #{user_email}" ) if @box_verbose
+      #folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
+      rv = directory_create( folder_name )
+      verbose_log_status( "folder_create_and_add_collaborator",
+                          " folder_name: #{folder_name} user_email: #{user_email} rv=#{rv}" ) if @box_verbose
+      if rv && !user_email.nil?
+        folder_id = folder_name_to_box_id( folder_name )
+        verbose_log_status( "folder_create_and_add_collaborator",
+                            " folder_name: #{folder_name} user_email: #{user_email} folder_id=#{folder_id}" ) if @box_verbose
+        unless folder_has_collaborator?( folder_id: folder_id, user_email: user_email )
+          rv1 = folder_add_collaboration(user_email, folder_id: folder_id, test_for_collaboration_after_add: true )
+          verbose_log_status( "folder_create_and_add_collaborator",
+                              " after add_collaboration rv1=#{rv1}" ) if @box_verbose
+        end
+      elsif !rv && failed_box_login
+        Rails.logger.error "BoxHelper failed to create directory '#{folder_name}' because box failed to log in."
+      end
+      return rv
+    end
+
     def folder_has_collaborator?( folder_id: nil, folder_name: nil, user_email: nil )
+      verbose_log_status( "folder_has_collaborator?",
+                          " folder_name: #{folder_name} folder_id=#{folder_id} user_email: #{user_email}" ) if @box_verbose
       return false if user_email.nil?
       folder_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
       collaborations = client.folder_collaborations( folder_id, fields: [ "accessible_by" ] )
+      verbose_log_status( "folder_has_collaborator?", " #{collaborations}" ) if @box_verbose
       return collaborations.any? { |o| o[:accessible_by][:login] == user_email }
     end
 
@@ -484,6 +531,7 @@ module BoxHelper
     def has_dir_name?( dir_name )
       verbose_log_status( "has_dir_name?", "(#{dir_name})" ) if @box_verbose
       rv = !dir_item_by_name( dir_name ).nil?
+      verbose_log_status( "has_dir_name?", "(#{dir_name}) rv=#{rv}" ) if @box_verbose
       return rv
     end
 
@@ -551,15 +599,15 @@ module BoxHelper
     #   end
     # end
 
-    def upload_link( folder_id: nil, folder_name: nil )
-      verbose_log_status( "upload_link", "(#{folder_name})" ) if @box_verbose
+    def upload_link( folder_id: nil, folder_name: nil, force_link_refresh: true )
+      verbose_log_status( "upload_link", "(#{folder_name},force_link_refresh=#{force_link_refresh})" ) if @box_verbose
       box_id = folder_name_to_box_id( folder_name ) if folder_id.nil?
       rv = "https://umich.app.box.com/folder/#{@ulib_dbd_box_id}"
       if !failed_box_login && !box_id.nil?
         #box_link = client.create_shared_link_for_folder2( box_id, can_download: true, can_preview: true, can_upload: true, access: 'open' )
         box_link = client.create_shared_link_for_folder( box_id, can_download: true, can_preview: true, access: 'open' )
-        if !box_link.nil && "true" != box_link.shared_link.permissions.can_preview
-          verbose_log_status( "upload_link", " old link, deleting and recreating" ) if @box_verbose
+        if !box_link.nil && ( force_link_refresh || "true" != box_link.shared_link.permissions.can_preview )
+          verbose_log_status( "upload_link", " deleting and recreating" ) if @box_verbose
           client.disable_shared_link_for_folder( box_id )
           #box_link = client.create_shared_link_for_folder2( box_id, can_download: true, can_preview: true, can_upload: true, access: 'open' )
           box_link = client.create_shared_link_for_folder( box_id, can_download: true, can_preview: true, access: 'open' )

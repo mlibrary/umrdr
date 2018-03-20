@@ -1,44 +1,54 @@
-<h2 class="well-title">Upload Data and Documentation Files</h2>
-  <div class="well-inner-wrapper">
-<p>Upload supporting files (e.g. codebooks, readme.txt) and data files (e.g. .xls, .sas)</p>
+<h2>Upload Data and Documentation Files</h2>
+<div class="well-inner-wrapper">
+  <p>Upload supporting files (e.g. codebooks, readme.txt) and data files (e.g. .xls, .sas)</p>
 
-<!-- The file upload form used as target for the file upload widget -->
-<%= hidden_field_tag(:total_upload_size, 0) %>
-<%= hidden_field_tag(:relative_path) %>
-<%= hidden_field_tag(:upload_set_id, @upload_set_id) %>
-<%= hidden_field_tag(:parent_id, @work_id) %>
-<%= hidden_field_tag "file_coming_from", "local" %>
+  <!-- The file upload form used as target for the file upload widget -->
+  <%= hidden_field_tag(:total_upload_size, 0) %>
+  <%= hidden_field_tag(:relative_path) %>
+  <%= hidden_field_tag(:upload_set_id, @upload_set_id) %>
+  <%= hidden_field_tag(:parent_id, @work_id) %>
+  <%= hidden_field_tag "file_coming_from", "local" %>
 
+  <%= render 'hyrax/file_sets/upload/terms_of_service' %>
 
-<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-<div class="fileupload-buttonbar">
-  <!-- The fileinput-button span is used to style the file input field as button -->
-  <span class="btn btn-primary fileinput-button">
-    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
-    <span aria-hidden="true">Select files...</span>
-    <input type="file" name="file_set[files][]" multiple />
-  </span>
-  <% ua = request.env['HTTP_USER_AGENT'] %>
-  <% if !!(ua =~ /Chrome/) %>
-  <span class="btn btn-primary fileinput-button">
-    <i class="glyphicon glyphicon-plus"  aria-hidden="true"></i>
-    <span aria-hidden="true">Select folder...</span>
-    <input type="file" name="file_set[files][]" directory webkitdirectory mozdirectory />
-  </span>
-  <% end %>
-  <div class="activate-container visible-all-inline-block" data-toggle="tooltip" data-title="<%= t('hyrax.upload_tooltip') %>">
-    <button type="submit"  class="activate-submit btn btn-info start"  >
-      <i class="glyphicon glyphicon-upload"></i>
-      <span>Start upload</span>
+  <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+  <div class="fileupload-buttonbar">
+    <!-- The fileinput-button span is used to style the file input field as button -->
+    <span class="btn btn-primary fileinput-button">
+      <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+      <span aria-hidden="true">Select files...</span>
+      <input type="file" name="file_set[files][]" multiple />
+    </span>
+    <% ua = request.env['HTTP_USER_AGENT'] %>
+    <% if !!(ua =~ /Chrome/) %>
+    <span class="btn btn-primary fileinput-button">
+      <i class="glyphicon glyphicon-plus"  aria-hidden="true"></i>
+      <span aria-hidden="true">Select folder...</span>
+      <input type="file" name="file_set[files][]" directory webkitdirectory mozdirectory />
+    </span>
+    <% end %>
+    <div id="main_upload_start_span"
+         class="activate-container visible-all-inline-block"
+         data-toggle="tooltip"
+         data-title="<%= t('hyrax.upload_tooltip') %>">
+      <button disabled
+              type="submit"
+              name="main_upload_start"
+              class="activate-submit btn btn-info start"
+              id="main_upload_start">
+        <i class="glyphicon glyphicon-upload"></i>
+        <span>Start upload</span>
+      </button>
+    </div>
+    <button type="reset" class="btn btn-warning cancel">
+      <i class="glyphicon glyphicon-ban-circle"></i>
+      <span>Cancel upload</span>
     </button>
   </div>
-  <button type="reset" class="btn btn-warning cancel">
-    <i class="glyphicon glyphicon-ban-circle"></i>
-    <span>Cancel upload</span>
-  </button>
-</div>
-<!-- The loading indicator is shown during image processing -->
-<div class="fileupload-loading"></div>
-<!-- The table listing the files available for upload/download -->
-<table id="file-table" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+  <!-- The loading indicator is shown during image processing -->
+  <div class="fileupload-loading"></div>
+  <!-- The table listing the files available for upload/download -->
+  <table id="file-table" class="table table-striped">
+    <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+  </table>
 </div>

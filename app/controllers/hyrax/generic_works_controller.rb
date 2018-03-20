@@ -34,12 +34,14 @@ class Hyrax::GenericWorksController < ApplicationController
   ## box integration
 
   def box_create_dir_and_add_collaborator
+    return nil unless Umrdr::Application.config.box_integration_enabled
     user_email = EmailHelper.user_email_from( current_user )
     BoxHelper.create_dir_and_add_collaborator( curation_concern.id, user_email: user_email )
   end
 
   def box_link
-    BoxHelper.box_link curation_concern.id
+    return nil unless Umrdr::Application.config.box_integration_enabled
+    BoxHelper.box_link( curation_concern.id )
   end
 
   def box_work_created

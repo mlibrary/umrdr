@@ -37,12 +37,7 @@
 </p>
 <% end %>-->
 
-<div class="upload-terms-of-service">
-  <div class="form-group">
-    <%= render 'hyrax/file_sets/upload/tos_checkbox' %>
-    <%= render 'hyrax/file_sets/upload/agreement' %>
-  </div>
-</div>
+<%= render 'hyrax/file_sets/upload/terms_of_service' %>
 
 <div class="data-buttons">
 <%= hidden_field_tag(:isDraft, Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC) %>
