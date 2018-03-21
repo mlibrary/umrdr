@@ -2,7 +2,7 @@
   <div id="descriptions_display">
     <h2 class="non lower"><%= t('hyrax.collection.form.description') %></h2>
     <div id="base-terms">
-      <% f.object.primary_terms.each do |term| %>
+      <% @form.primary_terms.each do |term| %>
         <%= render_edit_field_partial(term, f: f) %>
       <% end %>
     </div>
@@ -14,7 +14,7 @@
             'aria-expanded'=> "false",
             'aria-controls'=> "extended-terms" %>
     <div>
-      <% f.object.secondary_terms.each do |term| %>
+      <% @form.secondary_terms.each do |term| %>
         <%= render_edit_field_partial(term, f: f) %>
       <% end %>
     </div>
@@ -32,9 +32,17 @@
 
   <div class="primary-actions">
     <% if params[:action] == "new" %>
-      <%= f.submit 'Create Collection', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "create_submit", name: "create_collection" %>
+      <%= f.submit 'Create Collection',
+                   class: 'btn btn-primary',
+                   onclick: "confirmation_needed = false;",
+                   id: "create_submit",
+                   name: "create_collection" %>
     <% else %>
-      <%= f.submit 'Update Collection', class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "update_submit", name: "update_collection" %>
+      <%= f.submit 'Update Collection',
+                   class: 'btn btn-primary',
+                   onclick: "confirmation_needed = false;",
+                   id: "update_submit",
+                   name: "update_collection" %>
     <% end %>
     <br>
     <%= link_to t(:'helpers.action.cancel'), main_app.root_path, class: 'btn btn-link cancel-btn' %>

@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+describe 'hyrax/base/form.html.erb', type: :view do
+
 def required_attributes
   GenericWork.validators
     .select{|v| v.is_a? ActiveModel::Validations::PresenceValidator}
@@ -74,3 +76,4 @@ describe "Work Edit Form" do
   end
 end
 
+end

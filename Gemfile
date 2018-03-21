@@ -25,7 +25,7 @@ gem 'rdf-reasoner'
 # Date range support
 gem 'edtf'
 # Use mysql as the database for Active Record
-gem 'mysql2'
+gem 'mysql2', '~> 0.4.10'
 
 # Pinning Rack commit that resolves the large file upload issue
 # When 2.0.4 is out this might not be needed anymore
@@ -50,6 +50,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'resque'
 gem 'resque-pool'
 gem 'resque-web', '~> 0.0.7', require: 'resque_web'
+gem 'loofah', '~> 2.2.1'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
