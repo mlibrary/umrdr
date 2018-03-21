@@ -37,7 +37,9 @@
 </p>
 <% end %>-->
 
-<%= render 'hyrax/file_sets/upload/terms_of_service' %>
+<% if ::BoxHelper.box_enabled? %>
+  <%= render 'hyrax/file_sets/upload/terms_of_service' %>
+<% end %>
 
 <div class="data-buttons">
 <%= hidden_field_tag(:isDraft, Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC) %>
