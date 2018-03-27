@@ -38,7 +38,7 @@
       <% else %>
         <%= submit_tag( @presenter.label_with_total_file_size( t('simple_form.actions.generic_work.download') ), class: 'btn btn-primary') %>
         <% if Umrdr::Application.config.min_work_file_size_to_download_warn < @presenter.total_file_size %>
-          <p><%= t('simple_form.generic_work.total_work_size_may_be_too_large_to_download',
+          <p><%= t('simple_form.generic_work.total_work_size_may_be_too_large_to_download_html',
                 total_file_size: @presenter.total_file_size_human_readable ) %>
             <%= render partial: '/contact_us' %></a>
           </p>
