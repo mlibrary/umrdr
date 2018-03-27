@@ -3,9 +3,10 @@ include EmailHelper
 include MsgHelper
 
 class Hyrax::GenericWorksController < ApplicationController
+
   # Adds Sufia behaviors to the controller.
   #include Sufia::WorksControllerBehavior
-  include Hyrax::WorksControllerBehavior
+  #include Hyrax::WorksControllerBehavior
 
   # Adds Sufia behaviors to the controller.
   #Override Sufia behavior to change the after_create message

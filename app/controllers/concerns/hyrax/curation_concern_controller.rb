@@ -18,7 +18,9 @@ module Hyrax
 
     module ClassMethods
       def curation_concern_type=(curation_concern_type)
-        load_and_authorize_resource class: curation_concern_type, instance_name: :curation_concern, except: [:show, :file_manager, :inspect_work]
+        load_and_authorize_resource class: curation_concern_type,
+                                    instance_name: :curation_concern,
+                                    except: [:show, :file_manager, :inspect_work]
 
         # Load the fedora resource to get the etag.
         # No need to authorize for the file manager, because it does authorization via the presenter.
@@ -50,7 +52,8 @@ module Hyrax
             build_form
             render 'new', status: :unprocessable_entity
           end
-          wants.json { render_json_response(response_type: :unprocessable_entity, options: { errors: curation_concern.errors }) }
+          wants.json { render_json_response(response_type: :unprocessable_entity,
+                                            options: { errors: curation_concern.errors }) }
         end
       end
     end
@@ -93,7 +96,8 @@ module Hyrax
             build_form
             render 'edit', status: :unprocessable_entity
           end
-          wants.json { render_json_response(response_type: :unprocessable_entity, options: { errors: curation_concern.errors }) }
+          wants.json { render_json_response(response_type: :unprocessable_entity,
+                                            options: { errors: curation_concern.errors }) }
         end
       end
     end
@@ -137,7 +141,8 @@ module Hyrax
         @parent_presenter ||=
           begin
             if params[:parent_id]
-              @parent_presenter ||= show_presenter.new(search_result_document(id: params[:parent_id]), current_ability, request)
+              @parent_presenter ||= show_presenter.new(search_result_document(id: params[:parent_id]),
+                                                       current_ability, request)
             end
           end
       end
