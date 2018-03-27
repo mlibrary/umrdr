@@ -122,9 +122,8 @@ module Umrdr
 
     config.tinymce.install = CopyNoPreserve
 
-    # creator ordered list hack
-    config.creator_ordered_list_hack = true
-    config.creator_ordered_list_hack_save = true
+    config.do_ordered_list_hack = true
+    config.do_ordered_list_hack_save = true
 
   end
 end

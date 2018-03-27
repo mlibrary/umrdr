@@ -19,6 +19,11 @@ module Umrdr
        index.as :stored_searchable, :facetable
       end
 
+      property :description_ordered, predicate: ::RDF::URI.new('https://deepblue.lib.umich.edu/data/help.help#description_ordered'), multiple: false do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+
       property :doi, predicate: ::RDF::Vocab::Identifiers.doi, multiple: false
 
       property :fundedby, predicate: ::RDF::Vocab::DISCO.fundedBy, multiple: true do |index|
@@ -38,12 +43,32 @@ module Umrdr
         index.as :stored_searchable
       end
 
+      property :isReferencedBy_ordered, predicate: ::RDF::URI.new('https://deepblue.lib.umich.edu/data/help.help#isReferencedBy_ordered'), multiple: false do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+
+      property :keyword_ordered, predicate: ::RDF::URI.new('https://deepblue.lib.umich.edu/data/help.help#keyword_ordered'), multiple: false do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+
+      property :language_ordered, predicate: ::RDF::URI.new('https://deepblue.lib.umich.edu/data/help.help#language_ordered'), multiple: false do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
+
       property :methodology, predicate: ::RDF::URI.new('http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/DataCollectionMethodology.html'), multiple: false do |index|
         index.type :text
         index.as :stored_searchable
       end
 
       property :subject, predicate: ::RDF::Vocab::MODS.subject
+
+      property :title_ordered, predicate: ::RDF::URI.new('https://deepblue.lib.umich.edu/data/help.help#title_ordered'), multiple: false do |index|
+        index.type :text
+        index.as :stored_searchable
+      end
 
       property :tombstone, predicate: ::RDF::Vocab::DC.provenance, multiple: true do |index|
         index.type :text
