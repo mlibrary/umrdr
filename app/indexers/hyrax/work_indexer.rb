@@ -18,6 +18,7 @@ module Hyrax
         solr_doc[Solrizer.solr_name('file_set_ids', :symbol)] = solr_doc[Solrizer.solr_name('member_ids', :symbol)]
         solr_doc[Solrizer.solr_name('doi', :symbol)] = object.doi
         solr_doc[Solrizer.solr_name('tombstone', :symbol)] = object.tombstone
+        solr_doc[Solrizer.solr_name('title_ordered', :stored_searchable)] = object.title_ordered
         #total = solr_doc[Solrizer.solr_name('total_file_size', Hyrax::FileSetIndexer::STORED_LONG)]
         #total = object.total_file_size
         solr_doc[Solrizer.solr_name('total_file_size', Hyrax::FileSetIndexer::STORED_LONG)] = object.total_file_size
