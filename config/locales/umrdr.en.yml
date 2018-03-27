@@ -183,7 +183,7 @@ en:
         "Globus is currently downloading files for this work...<br/>"
       total_work_size_too_large_to_download:
         "Total work file size of %{total_file_size} is too large to download directly, please contact us"
-      total_work_size_may_be_too_large_to_download: >
+      total_work_size_may_be_too_large_to_download_html: >
         &nbsp;&mdash;&nbsp;Total file size of %{total_file_size} may be too large to download directly. If you have
         difficulty doing so, please contact us
 
