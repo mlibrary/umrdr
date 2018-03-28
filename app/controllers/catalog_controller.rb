@@ -43,7 +43,7 @@ class CatalogController < ApplicationController
       rows: 10,
       # TODO: Look up where the defaults are set as the master branch only defines qf: "title_tesim name_tesim" and works
       # add in all the fields we want to search
-      qf: "title_tesim name_tesim creator_tesim description_tesim grantnumber_tesim methodology_tesim subject_tesim all_text_timv"
+      qf: "title_tesim name_tesim creator_tesim description_tesim grantnumber_tesim methodology_tesim subject_tesim keyword_tesim all_text_timv"
     }
 
     # Specify which field to use in the tag cloud on the homepage.
