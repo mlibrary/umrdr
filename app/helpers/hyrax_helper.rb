@@ -18,6 +18,7 @@ module HyraxHelper
     # TODO: Fix the link to the user profiles when the sufia object isn't available.
     link_to text, href
   end
+
   # Sufia upstream method has changed
   #def link_to_field(fieldname, fieldvalue, displayvalue = nil)
   #  p = { search_field: fieldname, q: '"' + fieldvalue + '"' }
@@ -25,6 +26,12 @@ module HyraxHelper
   #  display = displayvalue.blank? ? fieldvalue : displayvalue
   #  link_to(display, link_url)
   #end
+
+  def self.nbsp_or_value( value )
+    return "&nbsp;" if value.nil?
+    return "&nbsp;" if value.to_s.empty?
+    return value
+  end
 
   def t_uri(key, scope: [])
     new_scope = scope.collect do |arg|
