@@ -5,6 +5,9 @@ module Umrdr
     include Hyrax::WorksControllerBehavior
     
     class_methods do
+      #
+      ## NOTE: apparently these methods do not actually override
+      #
       def curation_concern_type=(curation_concern_type)
         load_and_authorize_resource class: curation_concern_type, instance_name: :curation_concern, except: [:show, :file_manager, :inspect_work]
 
@@ -18,14 +21,14 @@ module Umrdr
         before_action :save_permissions, only: :update
       end
 
-      # override curation concerns, add form fields values
-      def build_form
-        super
-        # Set up the multiple parameters for the date coverage attribute in the form
-        cov_date = Date.edtf(@form.date_coverage.first)
-        cov_params = Umrdr::DateCoverageService.interval_to_params cov_date
-        @form.merge_date_coverage_attributes! cov_params
-      end
+      # # override curation concerns, add form fields values
+      # def build_form
+      #   super
+      #   # Set up the multiple parameters for the date coverage attribute in the form
+      #   cov_date = Date.edtf(@form.date_coverage.first)
+      #   cov_params = Umrdr::DateCoverageService.interval_to_params cov_date
+      #   @form.merge_date_coverage_attributes! cov_params
+      # end
 
       def after_create_response
         respond_to do |wants|
@@ -34,5 +37,17 @@ module Umrdr
         end
       end
     end
+
+
+    # override curation concerns, add form fields values
+    def build_form
+      super
+      # Set up the multiple parameters for the date coverage attribute in the form
+      cov_date = Date.edtf(@form.date_coverage.first)
+      cov_params = Umrdr::DateCoverageService.interval_to_params cov_date
+      @form.merge_date_coverage_attributes! cov_params
+    end
+
+
   end
 end

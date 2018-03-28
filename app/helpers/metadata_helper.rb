@@ -1,3 +1,6 @@
+
+include OrderedStringHelper
+
 module MetadataHelper
 
   @@FIELD_SEP = '; '.freeze
@@ -19,6 +22,27 @@ module MetadataHelper
     pathname_dir.join "w_#{work.id}_metadata_report.txt"
   end
 
+  def self.ordered( ordered_values: nil, values: nil )
+    return nil if values.nil?
+    if Umrdr::Application.config.do_ordered_list_hack
+      values = OrderedStringHelper.deserialize( ordered_values ) unless ordered_values.nil?
+    end
+    return values
+  end
+
+  def self.ordered_values( ordered_values: nil, values: nil )
+    return nil if values.nil?
+    rv = nil
+    if Umrdr::Application.config.do_ordered_list_hack
+      if Umrdr::Application.config.do_ordered_list_hack_save
+        rv = OrderedStringHelper.serialize( values )
+      elsif !ordered_values.nil?
+        rv = OrderedStringHelper.serialize( values )
+      end
+    end
+    return rv
+  end
+
   def self.report_collection( collection, dir: nil, out: nil, depth:  '==' )
     target_file = nil
     if out.nil?
@@ -37,6 +61,7 @@ module MetadataHelper
       report_item( out, "Keyword: ", collection.keyword, one_line: false, item_prefix: "\t" )
       report_item( out, "Discipline: ", collection.subject, one_line: false, item_prefix: "\t" )
       report_item( out, "Language: ", collection.language )
+      report_item( out, "Citation to related material: ", collection.isReferencedBy )
       report_item( out, "Visibility: ", collection.visibility )
       if 0 < collection.member_objects.count
         collection.member_objects.each do |generic_work|
@@ -164,5 +189,6 @@ module MetadataHelper
   def self.title( curration_concern, field_sep: @@FIELD_SEP )
     curration_concern.title.join( field_sep )
   end
+
 
 end
