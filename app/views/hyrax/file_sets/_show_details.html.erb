@@ -3,15 +3,15 @@
   <dt>Depositor</dt>
   <dd itemprop="accountablePerson" itemscope itemtype="http://schema.org/Person"><span itemprop="name"><%= link_to_profile @presenter.depositor %></span></dd>
   <dt>Date Uploaded</dt>
-  <dd itemprop="datePublished"><%= @presenter.date_uploaded %></dd>
+  <dd itemprop="datePublished"><%== HyraxHelper.nbsp_or_value @presenter.date_uploaded %></dd>
   <dt>Date Modified</dt>
-  <dd itemprop="dateModified"><%= @presenter.date_modified %></dd>
+  <dd itemprop="dateModified"><%== HyraxHelper.nbsp_or_value @presenter.date_modified %></dd>
   <dt>File Size</dt>
-  <dd><%= @presenter.file_size_readable %></dd>
+  <dd><%== HyraxHelper.nbsp_or_value @presenter.file_size_readable %></dd>
   <dt>Checksum</dt>
-  <dd><%= @presenter.original_checksum %></dd>
+  <dd><%== HyraxHelper.nbsp_or_value @presenter.original_checksum %></dd>
   <dt>Mime type</dt>
-  <dd><%= @presenter.mime_type %></dd>
+  <dd><%== HyraxHelper.nbsp_or_value @presenter.mime_type %></dd>
   <!-- dt><Checksum</dt>
   <dd>checksum</dd -->
 </dl>
