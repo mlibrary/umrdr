@@ -1,3 +1,4 @@
+<!-- See: https://github.com/samvera/hyrax/blob/1e504c200fd9c39120f514ac33cd42cd843de9fa/app/views/hyrax/my/_sort_and_per_page.html.erb -->
 <div class="batch-info">
   <div>
     <%= render 'hyrax/collections/form_for_select_collection', user_collections: @user_collections %>
@@ -5,14 +6,7 @@
 
   <div class="batch-toggle">
     <% session[:batch_edit_state] = "on" %>
-    <!-- div class="button_to-inline" -->
-      <!-- %= button_to "Edit Selected",
-                    hyrax.edit_batch_edits_path,
-                    method: :get,
-                    class: "btn btn-update btn-primary hidden submits-batches",
-                    data: { behavior: 'batch-edit' },
-                    id: 'batch-edit' % -->
-    <!-- /div -->
+    <!-- deleted edit batch button - see link above for prior version -->
     <% if !@current_ability.admin? && on_my_works? %>
       <%= button_tag "Add to Collection",
                      class: 'btn btn-primary submits-batches submits-batches-add',
