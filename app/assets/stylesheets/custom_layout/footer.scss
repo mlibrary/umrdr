@@ -4,7 +4,16 @@
   background-color: $fa_main_1;
   color: #FFF;
   margin-top: 5em;
-  padding: 1.5rem 0;
+  padding: .75em 0;
+
+  ul {
+    list-style: none;
+    padding: 1em 0;
+  }
+
+  li {
+    display: inline;
+  }
 
   * {
     verical-align: middle;
@@ -15,12 +24,28 @@
     font-size: 1em;
   }
 
-  * + a {
-    margin-left: 1rem
+}
+
+.footer-link {
+  padding-left: .5em;
+}
+
+.footer-right {
+    float: right;
   }
 
-  .btn {
-    font-size: 1em;
-    color: #000;
+@media (max-width: 768px) {
+  .footer-right {
+    padding-top: .25em;
+    float: left;
   }
-}
+
+  #footer {
+    padding: 0 0 2em;
+  }
+
+  #footer ul {
+    padding-top: .5em;
+  }
+
+  }

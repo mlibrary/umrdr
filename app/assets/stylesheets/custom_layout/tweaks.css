@@ -288,6 +288,10 @@ footer > .ribbon-content p {
   text-align: right;
 }
 
+.float-right {
+  float: right;
+}
+
 .emphasis-text {
   padding-top: 1em;
   font-size: 1.1em;
