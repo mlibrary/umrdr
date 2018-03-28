@@ -1,11 +1,12 @@
 <footer>
   <div id="footer">
-    <div class="ribbon-content text-left">
-      <a href="<%= hyrax.help_path('help') %>">Help</a>
-      <a href="<%= hyrax.root_path %>">Home</a>
-			<a href="<%= hyrax.agreement_path('agreement')  %>">Policy &amp; Terms of Use</a>
-      --
-      Questions? Contact us <%= render partial: '/contact_us' %>
+    <div class="ribbon-content">
+      <ul>
+        <li><a href="<%= hyrax.help_path('help') %>">Help</a></li>
+        <li><a href="<%= hyrax.root_path %>" class="footer-link">Home</a></li>
+  			<li><a href="<%= hyrax.agreement_path('agreement')  %> " class="footer-link">Policy &amp; Terms of Use</a></li>
+        <li class="footer-right">Questions? Contact us <%= render partial: '/contact_us' %></li>
+      </ul>
     </div>
   </div>
   <div class="ribbon-content">
