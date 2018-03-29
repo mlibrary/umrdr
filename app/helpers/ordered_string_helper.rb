@@ -1,19 +1,38 @@
 module OrderedStringHelper
 
+  class DeserializeError < Exception
+  end
+
   #
   # convert a serialized array to a normal array of values
   #
   def self.deserialize( str )
+    if str.start_with?('[')
+      begin
+        arr = ActiveSupport::JSON.decode str
+        if arr.kind_of?( Array )
+          return arr
+        end
+      rescue ActiveSupport::JSON.parse_error => ignoreAndTryCsvParse
+      end
+    end
+    # try CSV for backwards compatiblity
     arr = CSV.parse_line( str )
-    arr
+    if arr.kind_of?( Array )
+      return arr
+    end
+    raise OrderedStringHelper::DeserializeError
+  rescue CSV::MalformedCSVError => e
+    raise OrderedStringHelper::DeserializeError
   end
 
   #
   # serialize a normal array of values to an array of ordered values
   #
   def self.serialize( arr )
-    str = CSV.generate_line( arr, { encoding: "UTF-8" } )
-    str
+    #str = CSV.generate_line( arr, { encoding: "UTF-8" } )
+    str = ActiveSupport::JSON.encode( arr ).to_s
+    return str
   end
 
   private

@@ -25,7 +25,13 @@ module MetadataHelper
   def self.ordered( ordered_values: nil, values: nil )
     return nil if values.nil?
     if Umrdr::Application.config.do_ordered_list_hack
-      values = OrderedStringHelper.deserialize( ordered_values ) unless ordered_values.nil?
+      unless ordered_values.nil?
+        begin
+          values = OrderedStringHelper.deserialize( ordered_values )
+        rescue OrderedStringHelper::DeserializeError => e
+          return values
+        end
+      end
     end
     return values
   end
