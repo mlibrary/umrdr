@@ -28,7 +28,8 @@ module MetadataHelper
       unless ordered_values.nil?
         begin
           values = OrderedStringHelper.deserialize( ordered_values )
-        rescue OrderedStringHelper::DeserializeError => e
+        rescue OrderedStringHelper::DeserializeError
+          # fallback to original values, which are stored in an unspecified order
           return values
         end
       end
