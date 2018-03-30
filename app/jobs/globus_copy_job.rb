@@ -1,5 +1,3 @@
-include EmailHelper
-
 class GlobusCopyJob < GlobusJob
   queue_as :globus_copy
 

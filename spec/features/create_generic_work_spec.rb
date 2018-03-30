@@ -1,10 +1,8 @@
-# Generated via
-#  `rails generate curation_concerns:work GenericWork`
 require 'rails_helper'
-include Warden::Test::Helpers
 
 # Skipping because this was failing intermittently on travis (same as create_work_spec from upstream)
 RSpec.feature 'Create a GenericWork', :workflow, skip: true do
+  include Warden::Test::Helpers
   context 'a logged in user' do
     let(:user_attributes) do
       { email: 'test@example.com' }
@@ -23,7 +21,7 @@ RSpec.feature 'Create a GenericWork', :workflow, skip: true do
       fill_in 'Creator', with: 'Creator, Test'
       fill_in 'Method', with: 'Test'
       fill_in 'Description', with: 'Test'
-      fill_in 'Contact Information', with: 'abc@umich.edu' 
+      fill_in 'Contact Information', with: 'abc@umich.edu'
       choose 'generic_work_rights_httpcreativecommonsorgpublicdomainzero10'
       select 'Other', from: 'generic_work_subject'
       click_button 'Publish'

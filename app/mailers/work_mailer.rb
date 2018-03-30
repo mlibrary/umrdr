@@ -1,10 +1,8 @@
-include EmailHelper
-
 class WorkMailer < ApplicationMailer
   default from: EmailHelper.notification_email
 
   layout "mailer.html"
- 
+
   def create_work( to: EmailHelper.notification_email, from: EmailHelper.notification_email, body: '' )
     mail( to: to, from: from, subject: 'DBD: New Work Created', body: body )
   end

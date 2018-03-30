@@ -1,6 +1,3 @@
-
-include MetadataHelper
-
 class GenericWork < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
   include ::Hyrax::BasicMetadata
