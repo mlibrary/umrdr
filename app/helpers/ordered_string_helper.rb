@@ -1,19 +1,45 @@
 module OrderedStringHelper
 
+  class DeserializeError < Exception
+  end
+
   #
   # convert a serialized array to a normal array of values
+  # assumes values are stored as json converted to strings
+  # a failure to deserialize throws a DeserializeError, the exact reason for failure is ignored
   #
-  def self.deserialize( str )
-    arr = CSV.parse_line( str )
-    arr
+  # the deserialization process (currently) needs to take into account legacy use of CSV values
+  #
+  def self.deserialize( serializedStringContainingAnArray )
+    if serializedStringContainingAnArray.start_with?('[')
+      begin
+        arr = ActiveSupport::JSON.decode serializedStringContainingAnArray
+        if arr.kind_of?( Array )
+          return arr
+        end
+      rescue ActiveSupport::JSON.parse_error
+        # ignore and fall through to CSV parser in case it was legacy serialized as CSV
+      end
+    end
+    # try CSV for backwards compatibility
+    arr = CSV.parse_line( serializedStringContainingAnArray )
+    if arr.kind_of?( Array )
+      return arr
+    end
+    raise OrderedStringHelper::DeserializeError
+  rescue CSV::MalformedCSVError
+    raise OrderedStringHelper::DeserializeError
   end
 
   #
   # serialize a normal array of values to an array of ordered values
   #
   def self.serialize( arr )
-    str = CSV.generate_line( arr, { encoding: "UTF-8" } )
-    str
+    # legacy version used CSV, but this didn't handle newlines correctly
+    #serializedStringContainingAnArray = CSV.generate_line( arr, { encoding: "UTF-8" } )
+    # use JSON, which handles newlines correctly
+    serializedStringContainingAnArray = ActiveSupport::JSON.encode( arr ).to_s
+    return serializedStringContainingAnArray
   end
 
   private
