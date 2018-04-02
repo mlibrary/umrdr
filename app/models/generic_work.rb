@@ -64,7 +64,7 @@ class GenericWork < ActiveFedora::Base
   def entomb!(epitaph)
     self.visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     self.depositor = 'TOMBSTONE-' + depositor
-    self.tombstone = epitaph
+    self.tombstone = [epitaph]
 
     file_sets.each do |file_set|
       file_set.visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
