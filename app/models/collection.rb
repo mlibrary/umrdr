@@ -1,6 +1,3 @@
-
-include MetadataHelper
-
 class Collection < ActiveFedora::Base
   include ::Hyrax::CollectionBehavior
   # You can replace these metadata if they're not suitable
@@ -8,7 +5,7 @@ class Collection < ActiveFedora::Base
   include Umrdr::GenericWorkMetadata
 
   after_initialize :set_defaults
-  
+
   # property :isReferencedBy, predicate: ::RDF::Vocab::DC.isReferencedBy, multiple: true do |index|
   #  index.type :text
   #  index.as :stored_searchable
@@ -103,4 +100,4 @@ class Collection < ActiveFedora::Base
     super values
   end
 
-end 
+end

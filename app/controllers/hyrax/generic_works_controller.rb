@@ -1,6 +1,4 @@
 require 'edtf'
-include EmailHelper
-include MsgHelper
 
 class Hyrax::GenericWorksController < ApplicationController
 
@@ -124,7 +122,7 @@ class Hyrax::GenericWorksController < ApplicationController
   end
 
   def confirm
-    render 'confirm_work' 
+    render 'confirm_work'
   end
 
   ## begin download operations

@@ -1,6 +1,3 @@
-
-include OrderedStringHelper
-
 module MetadataHelper
 
   @@FIELD_SEP = '; '.freeze
