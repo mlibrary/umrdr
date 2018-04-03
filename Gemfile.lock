@@ -764,6 +764,8 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.1)
       tilt (~> 2.0)
+    skylight (1.6.0)
+      activesupport (>= 3.0.0)
     slop (4.6.2)
     solr_wrapper (1.2.0)
       faraday
@@ -895,6 +897,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_form (~> 3.2, <= 3.5.0)
+  skylight
   solr_wrapper (>= 0.3)
   sqlite3
   turbolinks

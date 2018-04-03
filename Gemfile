@@ -100,3 +100,5 @@ gem 'rsolr'
 gem 'devise'
 gem 'devise-guests'
 
+gem 'skylight'
+
