@@ -125,5 +125,6 @@ module Umrdr
     config.do_ordered_list_hack = true
     config.do_ordered_list_hack_save = true
 
+    config.skylight.probes -= ['middleware']
   end
 end
