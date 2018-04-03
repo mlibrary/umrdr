@@ -22,7 +22,7 @@
         <p class="box-padding emphasis-text"><%= t('generic_work.your_work_will_remain_private_until') %></p>
 
         <form class="copy-url box-padding align-left">
-          <label for="copy-input" >Share your work with the following link:</label>
+          <label for="copy-input" ><%= t('generic_work.use_this_link_to_share_your_work') %></label>
           <div class="input-group">
             <input type="text" class="form-control"
                 value="<%= polymorphic_url([main_app, curation_concern]) %>" placeholder="The work URL path" id="copy-input">
