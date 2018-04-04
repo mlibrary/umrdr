@@ -69,7 +69,8 @@ en:
     your_work_will_remain_private_until: >
       Your work will remain private until Research Data Services has reviewed your submission.
       You will be notified once your data set is published.
-
+    use_this_link_to_share_your_work:
+      "After publication, use this link to share your work:"
   simple_form:
     required:
       html: '<span class="required required-tag">Required</span>'
