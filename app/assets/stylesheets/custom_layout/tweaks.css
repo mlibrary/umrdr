@@ -153,8 +153,9 @@ div.radio p {
   text-align: center;
 }
 
-.cancel-btn::after {
-  content: ' X ';
+a.cancel-btn {
+  padding: .75em 0;
+  font-size: .95em;
 }
 
 .confirm-group {
