@@ -1,4 +1,24 @@
 GIT
+  remote: git://github.com/mlibrary/hydra-head.git
+  revision: 032f2cdad4283cd4c8ebba2f966c5c1ce3b21eb9
+  branch: stream-files-10_5
+  specs:
+    hydra-access-controls (10.5.0)
+      active-fedora (>= 10.0.0, < 12)
+      activesupport (>= 4, < 6)
+      blacklight (>= 5.16)
+      blacklight-access_controls (~> 0.6)
+      cancancan (~> 1.8)
+      deprecation (~> 1.0)
+    hydra-core (10.5.0)
+      hydra-access-controls (= 10.5.0)
+      railties (>= 4.0.0, < 6)
+    hydra-head (10.5.0)
+      hydra-access-controls (= 10.5.0)
+      hydra-core (= 10.5.0)
+      rails (>= 3.2.6)
+
+GIT
   remote: git://github.com/voormedia/flipflop.git
   revision: a6e639c6c631cdb5e74cb84a1a2a314ca3420579
   specs:
@@ -310,16 +330,6 @@ GEM
     httparty (0.16.1)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    hydra-access-controls (10.5.0)
-      active-fedora (>= 10.0.0, < 12)
-      activesupport (>= 4, < 6)
-      blacklight (>= 5.16)
-      blacklight-access_controls (~> 0.6)
-      cancancan (~> 1.8)
-      deprecation (~> 1.0)
-    hydra-core (10.5.0)
-      hydra-access-controls (= 10.5.0)
-      railties (>= 4.0.0, < 6)
     hydra-derivatives (3.4.1)
       active-fedora (>= 11.3.1, < 13)
       active_encode (~> 0.1)
@@ -337,10 +347,6 @@ GEM
       sprockets-es6
     hydra-file_characterization (0.3.3)
       activesupport (>= 3.0.0)
-    hydra-head (10.5.0)
-      hydra-access-controls (= 10.5.0)
-      hydra-core (= 10.5.0)
-      rails (>= 3.2.6)
     hydra-pcdm (0.11.0)
       active-fedora (>= 10, < 13)
       mime-types (>= 1)
@@ -868,6 +874,7 @@ DEPENDENCIES
   fcrepo_wrapper (~> 0.1)
   ffaker
   flipflop!
+  hydra-head!
   hyrax (= 1.0.5)
   jbuilder (~> 2.0)
   jquery-rails
