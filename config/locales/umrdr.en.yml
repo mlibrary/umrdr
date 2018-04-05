@@ -185,8 +185,8 @@ en:
       total_work_size_too_large_to_download:
         "Total work file size of %{total_file_size} is too large to download directly."
       total_work_size_may_be_too_large_to_download_html: >
-        &nbsp;&mdash;&nbsp;Total file size of %{total_file_size} may be too large to download directly. If you have
-        difficulty doing so, please contact us
+        &nbsp;&mdash;&nbsp;Total file size of %{total_file_size} may be too large to download directly.
+        Consider using Globus (see below).
 
     confirm:
       generic_work:
