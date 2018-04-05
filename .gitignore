@@ -29,6 +29,7 @@ config/clients_data/*
 config/mcommunity.yml
 config/puma.rb
 config/*.p12
+config/skylight.yml
 
 # Ignore bundler config.
 /.bundle

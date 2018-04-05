@@ -9,6 +9,8 @@ gem 'hyrax', '1.0.5'
 # * app/views/hyrax/admin/stats/_deposits.html.erb
 # * app/views/hyrax/admin/stats/_new_users.html.erb
 
+gem 'hydra-head', github: 'mlibrary/hydra-head', branch: 'stream-files-10_5'
+
 gem 'flipflop', github: 'voormedia/flipflop'
 gem 'blacklight_advanced_search', '~> 6.0'
 
