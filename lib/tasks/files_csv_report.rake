@@ -81,7 +81,7 @@ class FilesCsvReport
           pacify '!'
           original_size = "\"#{e.class}: #{e.message}>\""
         end
-        uri_bytes = get_bytes_expected fs
+        uri_bytes = get_uri_byte_count fs
         out.puts "#{w.id},#{fs.id},#{fs.visibility},#{fs.depositor},\"#{date_uploaded}\",\"#{time_uploaded}\",\"#{fs.label}\",#{dupe},#{file0_nil},#{original_checksum},#{original_size},#{uri_bytes}"
       rescue Exception => e
         pacify "<#{fs.id} -- #{e.class}: #{e.message}>"

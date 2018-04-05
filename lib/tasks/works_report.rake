@@ -34,6 +34,7 @@ module Umrdr
     def self.print_work_line( out, work: nil, work_size: 0, header: false )
       if header
         out << 'Id'
+        out << ',' << 'Create date'
         out << ',' << 'Depositor'
         out << ',' << 'Author email'
         out << ',' << 'Visibility'
@@ -47,6 +48,7 @@ module Umrdr
       else
         return out if work.nil?
         out << work.id.to_s
+        out << ',' << '"' << work.create_date.strftime( "%Y%m%d %H%M%S" ) << '"'
         out << ',' << '"' << work.depositor << '"'
         out << ',' << '"' << work.authoremail << '"'
         out << ',' << '"' << work.visibility << '"'
@@ -105,12 +107,14 @@ module Umrdr
       return 0 if file.nil?
       file.size
     end
-    
+
     def self.extension_for( af )
       return '' if af.nil?
       match = @@file_ext_re.match( af.label )
       return '' unless match
-      match[1]
+      ext = match[1]
+      ext = ext.downcase
+      return ext
     end
     
     def self.top_ten( hash )
@@ -198,7 +202,10 @@ module Umrdr
           print_work_line( out_works, work: work, work_size: work_size )
         end
       end
-      
+
+      print "#{works_file}\n"
+      print "#{file_sets_file}\n"
+
       works_report << "Report finished: " << Time.new.to_s << "\n"
       works_report << "Total works: #{total_works}" << "\n"
       works_report << "Total file_sets: #{total_file_sets}" << "\n"
