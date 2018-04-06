@@ -498,7 +498,7 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    loofah (2.2.1)
+    loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.0)
@@ -596,8 +596,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.3)
-      loofah (~> 2.0)
+    rails-html-sanitizer (1.0.4)
+      loofah (~> 2.2, >= 2.2.2)
     rails_autolink (1.1.6)
       rails (> 3.1)
     railties (5.0.6)
@@ -891,6 +891,7 @@ DEPENDENCIES
   rack!
   rails
   rails-controller-testing
+  rails-html-sanitizer (>= 1.0.4)
   rdf
   rdf-reasoner
   resque

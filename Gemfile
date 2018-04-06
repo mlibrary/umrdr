@@ -55,6 +55,7 @@ gem 'resque-web', '~> 0.0.7', require: 'resque_web'
 gem 'loofah', '~> 2.2.1'
 # 3.5.1 breaks simple_fields_for for custom form objects -- https://github.com/plataformatec/simple_form/issues/1549
 gem 'simple_form', '~> 3.2', '<= 3.5.0'
+gem 'rails-html-sanitizer', '>= 1.0.4'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
