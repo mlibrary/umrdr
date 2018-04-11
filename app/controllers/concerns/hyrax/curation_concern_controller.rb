@@ -1,4 +1,7 @@
 module Hyrax
+
+  class TombstonedException < HyraxError; end
+
   module CurationConcernController
     extend ActiveSupport::Concern
     include Blacklight::Base
@@ -14,6 +17,7 @@ module Hyrax
       attr_accessor :curation_concern
       helper_method :curation_concern, :contextual_path
       rescue_from WorkflowAuthorizationException, with: :render_unavailable
+      rescue_from TombstonedException, with: :render_tombstoned
     end
 
     module ClassMethods
@@ -214,10 +218,41 @@ module Hyrax
       end
 
       def document_not_found!
-        doc = ::SolrDocument.find(params[:id])
+        doc = find_unavailable
+        if doc.respond_to? :tombstone
+          tombstone = doc.tombstone
+          raise TombstonedException if ( !tombstone.nil? && 0 < tombstone.count )
+        end
+        if doc.respond_to? :suppressed?
+          raise WorkflowAuthorizationException if doc.suppressed?
+        end
+        raise CanCan::AccessDenied.new( nil ) #, :show ) if tombstone.nil?
+      end
 
-        raise WorkflowAuthorizationException if ( doc.suppressed? && doc[Solrizer.solr_name('tombstone', :symbol)] == nil )
-        raise CanCan::AccessDenied.new(nil, :show) if ( doc[Solrizer.solr_name('tombstone', :symbol)] == nil )
+      def render_tombstoned
+        doc = find_unavailable
+        tombstone = doc.tombstone.first
+        message = MsgHelper.t( 'generic_work.tombstoned', reason: tombstone )
+        respond_to do |wants|
+          wants.html do
+            tombstoned_presenter doc
+            flash[:notice] = message
+            render 'unavailable', status: :unauthorized
+          end
+          wants.json do
+            render plain: message, status: :unauthorized
+          end
+          additional_response_formats(wants)
+          wants.ttl do
+            render plain: message, status: :unauthorized
+          end
+          wants.jsonld do
+            render plain: message, status: :unauthorized
+          end
+          wants.nt do
+            render plain: message, status: :unauthorized
+          end
+        end
       end
 
       def render_unavailable
@@ -244,8 +279,20 @@ module Hyrax
         end
       end
 
-      def unavailable_presenter
-        @presenter ||= show_presenter.new(::SolrDocument.find(params[:id]), current_ability, request)
+      def tombstoned_presenter( doc )
+        @presenter ||= show_presenter.new( doc, current_ability, request )
       end
+
+      def unavailable_presenter
+        doc = find_unavailable
+        @presenter ||= show_presenter.new( doc, current_ability, request)
+      end
+
+      def find_unavailable
+        id = params[:id]
+        doc = ActiveFedora::Base.find id
+        return doc
+      end
+
   end
 end
