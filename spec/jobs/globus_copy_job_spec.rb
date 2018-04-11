@@ -50,8 +50,8 @@ describe GlobusCopyJob do
         file2.define_singleton_method( :original_name ) do 'File02' end
         uri1.define_singleton_method( :value ) do nil; end
         uri2.define_singleton_method( :value ) do nil; end
-        expect( file_set1 ).to receive( :files ).and_return( [file1] ).twice
-        expect( file_set2 ).to receive( :files ).and_return( [file2] ).twice
+        expect( file_set1 ).to receive( :files ).and_return( [file1] ).once
+        expect( file_set2 ).to receive( :files ).and_return( [file2] ).once
         expect( file1 ).to receive( :uri ).and_return( uri1 )
         expect( file2 ).to receive( :uri ).and_return( uri2 )
         expect( uri1 ).to receive( :value ).and_return( file1.path )
