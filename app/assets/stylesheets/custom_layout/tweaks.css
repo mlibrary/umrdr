@@ -338,3 +338,7 @@ div.panel-body {
   }
 
 }
+
+th.alert-warning {
+  font-weight: normal;
+}
