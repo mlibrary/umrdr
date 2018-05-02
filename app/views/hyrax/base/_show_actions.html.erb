@@ -18,13 +18,7 @@
     <% end %>
   <% elsif @presenter.editor? %>
      <% if @presenter.identifiers_minted?(:doi) %>
-        <!-- %= link_to "Edit Metadata", edit_polymorphic_path([main_app, @presenter]), class: 'btn btn-default disabled' % -->
-        <!-- %= link_to "Delete This #{@presenter.human_readable_type}",
-                    [main_app, @presenter],
-                    class: 'btn btn-danger disabled pull-right',
-                    data: { confirm: "Delete this #{@presenter.human_readable_type}?" },
-                    method: :delete % -->
-        <p class="alert alert-info">Once a DOI is assigned you cannot edit or delete your work.
+        <p class="alert alert-info"><%= t("hyrax.work.doi_minted_cant_edit_or_delete") %>
             <%= link_to "Contact us", "https://deepblue.lib.umich.edu/data/contact" %> with questions
         </p>
      <% elsif @presenter.solr_document.public? %>
