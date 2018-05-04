@@ -19,7 +19,7 @@
   
   <div id="works_edit">
     <h2 class="non lower">Describe Work</h2>
-     <p class="describe_sub"><%= t('simple_form.hints.generic_work.describe_work') %></p>
+     <p class="describe_sub"><%= raw t('simple_form.hints.generic_work.describe_work') %></p>
 
       <% @form.rendered_terms.each do |term| %>
       <%= render_edit_field_partial(term, f: f) %>
