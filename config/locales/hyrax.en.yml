@@ -250,6 +250,7 @@ en:
 
     work:
       browse_view: "Browse View"
+      doi_minted_cant_edit_or_delete: "Once a DOI is assigned you cannot edit or delete your work."
     footer:
       copyright_html: "© 2018 Regents of the University of Michigan"
       source_html:    "Powered by Samvera"

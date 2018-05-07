@@ -40,6 +40,21 @@ module Hyrax
       first_title
     end
 
+    def file_name( parent_presenter, link_to )
+      if parent_presenter.tombstone.present?
+        rv = link_name
+      elsif file_size_too_large_to_download?
+        rv = link_name
+      else
+        rv = link_to
+      end
+      return rv
+    end
+
+    def file_size_too_large_to_download?
+      solr_document.file_size >= Umrdr::Application.config.max_work_file_size_to_download
+    end
+
     # The first title assertion
     def first_title
       title.first
