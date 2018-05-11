@@ -57,9 +57,9 @@ module Umrdr
                   file = af.original_file
                 rescue Ldp::HttpError => e2
                   puts "#{e2.class}: #{e2.message} at #{e2.backtrace[0]}"
-                rescue Exception => e
+`                rescue Exception => e
                   puts "#{e.class}: #{e.message} at #{e.backtrace[0]}"
-                end
+`                end
                 if file.nil?
                   nil_files << af
                 else
