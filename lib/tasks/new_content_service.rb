@@ -130,6 +130,10 @@ class NewContentService
     keyword = Array(work_hash[:keyword])
     isReferencedBy = Array(work_hash[:isReferencedBy])
 
+    doi = work_hash[:doi]
+    fundedby = Array(work_hash[:fundedby])
+    grantnumber = work_hash[:grantnumber]
+
     work = GenericWork.new( title: title,
                             creator: creator,
                             authoremail: authoremail,
@@ -143,7 +147,10 @@ class NewContentService
                             date_coverage: date_coverage,
                             language: language,
                             keyword: keyword,
-                            isReferencedBy: isReferencedBy )
+                            isReferencedBy: isReferencedBy,
+                            doi: doi,
+                            fundedby: fundedby,
+                            grantnumber: grantnumber )
 
     add_file_sets_to_work( work_hash, work )
     work.apply_depositor_metadata( user_key )
