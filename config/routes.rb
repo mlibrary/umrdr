@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   mount BrowseEverything::Engine => '/browse'
   mount Blacklight::Engine => '/'
 
-  #get ':action' => 'hyrax/static#:action', constraints: { action: /about|help|use-downloaded-data|support-for-depositors|management-plan-text|file-format-preservation|how-to-upload|globus-help|prepare-your-data|retention|zotero|mendeley|agreement|terms|subject_libraries|versions|dbd-documentation-guide|metadata-guidance/ }, as: :static
   get ':action' => 'hyrax/static#:action', constraints: { action: %r{
                                                                       about|
                                                                       help|
@@ -29,6 +28,7 @@ Rails.application.routes.draw do
                                                                       subject_libraries|
                                                                       versions|
                                                                       dbd-documentation-guide|
+                                                                      dbd-glossary|
                                                                       metadata-guidance
                                                                     }x
                                                         }, as: :static
