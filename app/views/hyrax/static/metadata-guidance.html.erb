@@ -2,6 +2,22 @@
 <ul>
   <li><a href="#what-is-medatada">What is Metadata and why is it important?</a></li>
   <li><a href="#what-is-asked">What Metadata is asked for by Deep Blue Data?</a></li>
+  <ul>
+    <li><a href="#title">Title</a></li>
+    <li><a href="#creator">Creator</a></li>
+    <li><a href="#contact_information">Contact Information</a></li>
+    <li><a href="#method">Method</a></li>
+    <li><a href="#description">Description</a></li>
+    <li><a href="#date_coverage">Date Coverage</a></li>
+    <li><a href="#license">Creative Commons License</a></li>
+    <li><a href="#discipline">Discipline</a></li>
+    <li><a href="#funding_agency">Funding Agency</a></li>
+    <li><a href="#grant_number">ORSP Grant Number</a></li>
+    <li><a href="#keyword">Keyword</a></li>
+    <li><a href="#language">Language</a></li>
+    <li><a href="#citation">Citation to Related Material</a></li>
+    <li><a href="#note_on_multiple">Note on multiple entries</a></li>
+  </ul>
 </ul>
 <% end %>
 <%= render partial: 'help_sidebar' %>
@@ -10,7 +26,8 @@
 
 <p class="c14" id="h.7lf6ehxv2wno"><span class="c10">Research
 Data Services -</span> <span class="c8"><a class="c3" href=
-    "mailto:researchdataservices@umich.edu">researchdataservices@umich.edu</a></span><span class="c2">&nbsp;</span></p>
+    "mailto:researchdataservices@umich.edu">researchdataservices@umich.edu</a>
+</span><span class="c2">&nbsp;</span></p>
 
 <p class="c0 c1" id="h.hca7un62zhp">
 </p>
@@ -49,16 +66,16 @@ Data.</span>
 <p class="c0 c1">
 </p>
 
-<p class="c0"><span class="c10">The term “Work”</span>
-  <span class="c6">(embed link to glossary)</span><span class=
-                                                            "c2">&nbsp;refers the main organizational unit on Deep Blue
-Data; each dataset and its accompanying metadata are considered
-part of a Work.</span></p>
+<p class="c0"><span class="c10">The term “Work”
+  <a href="dbd-glossary#work">(see glossary)</a>
+  nbsp;refers the main organizational unit on Deep Blue
+  Data; each dataset and its accompanying metadata are considered
+  part of a Work.</span></p>
 
 <p class="c0 c1">
 </p>
 
-<h4>Title</h4>
+<h4 class="bold" id="title">Title</h4>
 
 <p class="c0"><span class="c2">Provide a descriptive name for
 the Work. Knowing that the Title will be discoverable on Deep
@@ -168,7 +185,7 @@ Wind Dynamic Pressure Enhancement</span>
 <p class="c0 c1">
 </p>
 
-<h4>Creator</h4>
+<h4 class="bold" id="creator">Creator</h4>
 
 <p class="c0" id="h.t4y1v6a68k7y"><span class="c2">List the
 name(s) of the person(s) and/or organization(s) responsible for
@@ -183,7 +200,7 @@ guide. An entry in this metadata field is required.</span>
 <p class="c0 c1">
 </p>
 
-<h4>Contact Information</h4>
+<h4 class="bold" id="contact_information">Contact Information</h4>
 
 <p class="c0"><span class="c2">Enter the contact information
 (email address) for the individual who can best respond to
@@ -198,7 +215,7 @@ field is required.</span>
 <p class="c0 c1">
 </p>
 
-<h4>Method</h4>
+<h4 class="bold" id="method">Method</h4>
 
 <p class="c0"><span class="c2">Explain the methods that were
 used to collect and process the data included in this Work.
@@ -274,7 +291,7 @@ JGR-Space-2012-Data</a></span><span class="c2">&nbsp;</span>
 <p class="c0 c1">
 </p>
 
-<h4>Description</h4>
+<h4 class="bold" id="description">Description</h4>
 
 <p class="c0"><span class="c2">Though related to the “Methods”
 field, the information in the “Description” field should focus
@@ -342,7 +359,7 @@ Subjective Effect Reports of Food</a></span>
 <p class="c0 c1">
 </p>
 
-<h4>Date Coverage</h4>
+<h4 class="bold" id="date_coverage">Date Coverage</h4>
 
 <p class="c0"><span class="c2">Select the date or the date
 range that correspond to the span of time that the data were
@@ -375,7 +392,7 @@ optional.</span>
 <p class="c0 c1">
 </p>
 
-<h4>Creative Commons License</h4>
+<h4 class="bold" id="license">Creative Commons License</h4>
 
 <p class="c0"><span class="c2">Select a licensing and
 distribution option that will govern use of the Work. Your
@@ -415,9 +432,7 @@ Commons licenses can be found on the</span> <span class=
     "https://creativecommons.org/licenses/">
 Creative Commons organization’s website</a></span><span class=
                                                             "c10">&nbsp;and they provide</span>
-  <span class="c8"><a class=
-                          "c3" href=
-                          "https://creativecommons.org/choose/">
+  <span class="c8"><a class="c3" href="https://creativecommons.org/choose/">
 an interactive tool</a></span><span class="c10">&nbsp;to help
 you decide which license may be right for you..</span>
   <span class="c2">&nbsp;An entry in this metadata field is
@@ -426,7 +441,7 @@ required.</span></p>
 <p class="c0 c1">
 </p>
 
-<h4>Discipline</h4>
+<h4 class="bold" id="discipline">Discipline</h4>
 
 <p class="c0"><span class="c2">Select the disciplines(s)
 associated with the research for which the data were collected.
@@ -447,7 +462,7 @@ entry in this metadata field is required.</span>
 <p class="c0 c1">
 </p>
 
-<h4>Funding Agency</h4>
+<h4 class="bold" id="funding_agency">Funding Agency</h4>
 
 <p class="c0"><span class="c2">Select the primary funding
 agency that supported the research project in which the data
@@ -461,7 +476,7 @@ this metadata field is optional.</span>
 <p class="c0 c1">
 </p>
 
-<h4>ORSP Grant Number</h4>
+<h4 class="bold" id="grant_number">ORSP Grant Number</h4>
 
 <p class="c0"><span class="c10">The PAF
 number</span><span class="c10">&nbsp;assigned by the University
@@ -474,7 +489,7 @@ ORSP webpage</a></span><span class="c10">.</span></p>
 <p class="c0 c1">
 </p>
 
-<h4>Keyword</h4>
+<h4 class="bold" id="keyword">Keyword</h4>
 
 
 <p class="c0"><span class="c2">Enter any terms or topics that
@@ -562,7 +577,7 @@ libraries</span>
 <p class="c0 c1">
 </p>
 
-<h4>Language</h4>
+<h4 class="bold" id="language">Language</h4>
 
 <p class="c0"><span class="c2">List the language(s) in which
 the data and supplementary content are written. These could be
@@ -577,7 +592,7 @@ note about multiple entries later in this guide.</span>
 <p class="c0 c1">
 </p>
 
-<h4>Citation to related material</h4>
+<h4 class="bold" id="citation">Citation to Related Material</h4>
 
 <p class="c0"><span class="c2">Enter a citation to any
 publication(s) that make use of or reference the data in this
@@ -678,9 +693,7 @@ https://deepblue.lib.umich.edu/handle/2027.42/90961</a></span></li>
 <p class="c0 c1">
 </p>
 
-<p class="c0"><span class="c9">Note on multiple
-entries</span><span class="c2">.</span>
-</p>
+<h4 class="bold" id="note_on_multiple">Note on multiple entries</h4>
 
 <p class="c0"><span class="c2">Some of the metadata elements
 allow you to create multiple fields to separate terms or
@@ -693,8 +706,13 @@ Creator fields.</span>
 </p>
 
 <p class="c0"><span class="c2">The elements with this option
-below are Description, Title, Creator, Date Coverage, Keyword,
-Language, and Citation to Related Material.</span>
+  below are <a href="#description">Description</a>,
+  <a href="#description">Title</a>,
+  <a href="#creator">Creator</a>,
+  <a href="#date_coverage">Date Coverage</a>,
+  <a href="#keyword">Keyword</a>,
+  <a href="#language">Language</a>,
+  and <a href="#citation">Citation to Related Material</a>.</span>
 </p>
 
 <p class="c0 c1">
