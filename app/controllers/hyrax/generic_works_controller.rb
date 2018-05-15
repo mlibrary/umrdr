@@ -331,8 +331,7 @@ class Hyrax::GenericWorksController < ApplicationController
     total_bytes = 0
     file_sets.each do |file_set|
       file = nil
-      files = file_sets.files
-      file = file_set.files[0] unless ( files.nil? || 0 == files.count )
+      file = file_set.files[0] unless ( file_set.files.nil? || 0 == file_set.files.size )
       file_set.files.each do | f |
         file = f unless f.original_name == ''
       end
