@@ -3,7 +3,7 @@
     <td class="attribute thumbnail"><center>-</center></td>
     <td class="attribute filename"><%= member.link_name %></td>
     <td class="attribute date_uploaded"><%= member.try(:date_uploaded) %></td>
-    <td class="attribute size"><%= member.solr_document.file_size_readable %></td>
+    <td class="attribute size"><%= member.file_size_readable %></td>
     <td class="attribute permission"><%= member.permission_badge %></td>
     <td class="attribute smalltext">No Details Available</td>  
   </tr>
@@ -13,7 +13,7 @@
       <%= render_thumbnail_tag member %>
     </td>
     <td class="attribute filename">
-      <% if !member.solr_document.file_size.nil? && member.solr_document.file_size >= Umrdr::Application.config.max_work_file_size_to_download %>
+      <% if member.file_size >= Umrdr::Application.config.max_work_file_size_to_download %>
         <%= member.link_name %>
       <% else %>
         <%= link_to( member.link_name, hyrax.download_path(member), target: "_blank") %>

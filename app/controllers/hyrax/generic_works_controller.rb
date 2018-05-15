@@ -330,12 +330,14 @@ class Hyrax::GenericWorksController < ApplicationController
     files_extracted = Hash.new
     total_bytes = 0
     file_sets.each do |file_set|
-      file = nil
-      files = file_sets.files
-      file = file_set.files[0] unless ( files.nil? || 0 == files.count )
-      file_set.files.each do | f |
-        file = f unless f.original_name == ''
-      end
+      files = file_set.files
+      file = file_set.primary_file
+      # file = nil
+      # files = file_sets.files
+      # file = file_set.files[0] unless ( files.nil? || 0 == files.count )
+      # file_set.files.each do | f |
+      #   file = f unless f.original_name == ''
+      # end
       if file.nil?
         Rails.logger.warn "#{log_prefix} file_set.id #{file_set.id} files[0] is nil"
       else

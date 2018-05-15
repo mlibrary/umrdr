@@ -52,7 +52,34 @@ module Hyrax
     end
 
     def file_size_too_large_to_download?
-      !solr_document.file_size.nil? && solr_document.file_size >= Umrdr::Application.config.max_work_file_size_to_download
+      file_size >= Umrdr::Application.config.max_work_file_size_to_download
+    end
+
+    def file_size
+      rv = solr_document.file_size
+      #rv = 0
+      if ( rv.nil? || 0 == rv )
+        size = solr_document['file_size_lts']
+        #size = nil
+        if size.nil?
+          Rails.logger.info ">>>>>>>>>>>>>>>>>"
+          Rails.logger.info "FileSetPresenter.file_size fetching FileSet #{id}"
+          fs = ::FileSet.find id
+          rv = fs.primary_file_size
+          if true
+            Rails.logger.info "FileSetPresenter.file_size updating solr_document fir FileSet #{id} with file size"
+            solr_document['file_size_lts'] = rv
+            #solr_document.save
+          end
+        else
+          rv = 0
+        end
+      end
+      return rv
+    end
+
+    def file_size_readable
+      ActiveSupport::NumberHelper::NumberToHumanSizeConverter.convert( file_size, precision: 3 )
     end
 
     # The first title assertion

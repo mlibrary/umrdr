@@ -9,4 +9,5 @@ class FileSet < ActiveFedora::Base
     return unless new_record?
     self.visibility = 'open'
   end
+
 end

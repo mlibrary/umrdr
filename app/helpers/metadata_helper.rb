@@ -3,15 +3,7 @@ module MetadataHelper
   @@FIELD_SEP = '; '.freeze
 
   def self.file_from_file_set( file_set )
-    file = nil
-    files = file_set.files
-    unless ( files.nil? || 0 == files.size )
-      file = files[0]
-      files.each do | f |
-        file = f unless f.original_name == ''
-      end
-    end
-    return file
+    file_set.primary_file
   end
 
   def self.human_readable_size( value )

@@ -58,10 +58,11 @@ module Umrdr
   private
 
     def file_size_from_file_set( file_set )
-      file = file_set.file
-      if file.nil?
-        file = file_set.original_file
-      end
+      file = file_set.primary_file
+      # file = file_set.file
+      # if file.nil?
+      #   file = file_set.original_file
+      # end
       file_size = 0
       if file.nil?
         Rails.logger.warn "GenericWorkBehavior file_set file is nil"
