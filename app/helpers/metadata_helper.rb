@@ -272,6 +272,7 @@ module MetadataHelper
                                        out: nil,
                                        export_files: true,
                                        overwrite_export_files: true,
+                                       source: "DBDv1",
                                        target_filename: nil,
                                        target_dirname: nil )
     target_file = nil
@@ -286,6 +287,7 @@ module MetadataHelper
                                     out: out,
                                     export_files: export_files,
                                     overwrite_export_files: overwrite_export_files,
+                                    source: source,
                                     target_filename: target_file,
                                     target_dirname: target_dir )
       end
@@ -302,11 +304,14 @@ module MetadataHelper
       indent = indent_base * 1
       yaml_line( out, indent, ':email:', generic_work.depositor )
       yaml_line( out, indent, ':visibility:', generic_work.visibility )
+      yaml_line( out, indent, ':source:', source )
       yaml_line( out, indent, ':works:' )
       indent = indent_base * 2
       yaml_item( out, indent, ":admin_set_id:", generic_work.admin_set_id, comment: true )
       yaml_item( out, indent, ":authoremail:", generic_work.authoremail )
       yaml_item( out, indent, ":creator:", generic_work.creator )
+      yaml_item( out, indent, ":date_uploaded:", generic_work.date_uploaded )
+      yaml_item( out, indent, ":date_modified:", generic_work.date_modified )
       yaml_item( out, indent, ":date_coverage:", generic_work.date_coverage[0] )
       yaml_item( out, indent, ":description:", generic_work.description )
       yaml_item( out, indent, ":depositor:", generic_work.depositor )
