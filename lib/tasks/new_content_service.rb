@@ -208,7 +208,9 @@ class NewContentService
     verbose_init = false
     puts "ENV['TMPDIR']=#{ENV['TMPDIR']}" if verbose_init
     puts "ENV['_JAVA_OPTIONS']=#{ENV['_JAVA_OPTIONS']}" if verbose_init
-    ENV['_JAVA_OPTIONS']='-Djava.io.tmpdir=' + ENV['TMPDIR']
+    tmpdir = ENV['TMPDIR']
+    tmpdir = File.absolute_path( './tmp/' ) if ( tmpdir.nil? || tmpdir.empty? )
+    ENV['_JAVA_OPTIONS']="-Djava.io.tmpdir=#{tmpdir}"
     puts "ENV['_JAVA_OPTIONS']=#{ENV['_JAVA_OPTIONS']}" if verbose_init
     puts "#{`echo $_JAVA_OPTIONS`}" if verbose_init
     @cfg = config

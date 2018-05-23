@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetadataHelper
 
   @@FIELD_SEP = '; '.freeze
@@ -212,6 +214,14 @@ module MetadataHelper
     curration_concern.title.join( field_sep )
   end
 
+  def self.yaml_escape_value( value, comment: false, escape: false )
+    return "" if value.nil?
+    return value unless escape
+    return value if comment
+    value = value.to_json
+    return "" if "\"\"" == value
+    return value
+  end
 
   def self.yaml_file_set( file_set, out: nil, depth:  '==' )
     out.puts "#{depth} File Set: #{file_set.label} #{depth}"
@@ -309,22 +319,22 @@ module MetadataHelper
       indent = indent_base * 2
       yaml_item( out, indent, ":admin_set_id:", generic_work.admin_set_id, comment: true )
       yaml_item( out, indent, ":authoremail:", generic_work.authoremail )
-      yaml_item( out, indent, ":creator:", generic_work.creator )
+      yaml_item( out, indent, ":creator:", generic_work.creator, escape: true )
       yaml_item( out, indent, ":date_uploaded:", generic_work.date_uploaded )
       yaml_item( out, indent, ":date_modified:", generic_work.date_modified )
       yaml_item( out, indent, ":date_coverage:", generic_work.date_coverage[0] )
-      yaml_item( out, indent, ":description:", generic_work.description )
+      yaml_item( out, indent, ":description:", generic_work.description, escape: true )
       yaml_item( out, indent, ":depositor:", generic_work.depositor )
       yaml_item( out, indent, ":subject:", generic_work.subject[0] )
-      yaml_item( out, indent, ":doi:", generic_work.doi )
+      yaml_item( out, indent, ":doi:", generic_work.doi, escape: true )
       yaml_item( out, indent, ":fundedby:", generic_work.fundedby[0] )
-      yaml_item( out, indent, ":grantnumber:", generic_work.grantnumber )
-      yaml_item( out, indent, ":isReferencedBy:", generic_work.isReferencedBy )
-      yaml_item( out, indent, ':keyword:', generic_work.keyword )
-      yaml_item( out, indent, ":language:", generic_work.language )
-      yaml_item( out, indent, ":methodology:", generic_work.methodology )
-      yaml_item( out, indent, ":rights: ", generic_work.rights[0] )
-      yaml_item( out, indent, ':title:', generic_work.title )
+      yaml_item( out, indent, ":grantnumber:", generic_work.grantnumber, escape: true )
+      yaml_item( out, indent, ":isReferencedBy:", generic_work.isReferencedBy, escape: true )
+      yaml_item( out, indent, ':keyword:', generic_work.keyword, escape: true )
+      yaml_item( out, indent, ":language:", generic_work.language, escape: true )
+      yaml_item( out, indent, ":methodology:", generic_work.methodology, escape: true )
+      yaml_item( out, indent, ":rights: ", generic_work.rights[0], escape: true )
+      yaml_item( out, indent, ':title:', generic_work.title, escape: true )
       yaml_item( out, indent, ":tombstone:", generic_work.tombstone[0] )
       yaml_item( out, indent, ":total_file_count:", generic_work.file_set_ids.count, comment: true )
       yaml_item( out, indent, ":total_file_size:", generic_work.total_file_size )
@@ -335,7 +345,7 @@ module MetadataHelper
       if 0 < generic_work.file_sets.count
         indent = indent_base * 3 + "- "
         generic_work.file_sets.each do |file_set|
-          yaml_item( out, indent, file_set.label )
+          yaml_item( out, indent, '', file_set.label, escape: true )
         end
       end
       yaml_line( out, indent_base * 2, ':files:' )
@@ -350,27 +360,27 @@ module MetadataHelper
           file = file_from_file_set( file_set )
           file_name = file.original_name
           file_path = target_dirname.join "#{file_set.id}_#{file_name}"
-          yaml_item( out, indent, "#{file_path}" )
+          yaml_item( out, indent, '', "#{file_path}", escape: true )
         end
       end
     end
     return target_file
   end
 
-  def self.yaml_item( out, indent, label, value = '', comment: false, indent_base: "  ", label_postfix: ' ' )
+  def self.yaml_item( out, indent, label, value = '', comment: false, indent_base: "  ", label_postfix: ' ', escape: false )
     indent = "# #{indent}" if comment
-    unless value.kind_of?( Array )
-      out.puts "#{indent}#{label}#{label_postfix}#{value}"
+    unless value.respond_to?(:each)
+      out.puts "#{indent}#{label}#{label_postfix}#{yaml_escape_value( value, comment: comment, escape: escape )}"
     else
       out.puts "#{indent}#{label}#{label_postfix}"
       indent += indent_base
-      value.each {|item| out.puts "#{indent}- #{item}" }
+      value.each {|item| out.puts "#{indent}- #{yaml_escape_value( item, comment: comment, escape: escape )}" }
     end
   end
 
-  def self.yaml_line( out, indent, label, value = '', comment: false, label_postfix: ' ' )
+  def self.yaml_line( out, indent, label, value = '', comment: false, label_postfix: ' ', escape: false )
     indent = "# #{indent}" if comment
-    out.puts "#{indent}#{label}#{label_postfix}#{value}"
+    out.puts "#{indent}#{label}#{label_postfix}#{yaml_escape_value( value, comment: comment, escape: escape )}"
   end
 
   def self.yaml_targetdir_work( pathname_dir, work, task: 'populate' )
