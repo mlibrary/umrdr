@@ -104,4 +104,5 @@ gem 'devise'
 gem 'devise-guests'
 
 gem 'skylight'
+gem 'okcomputer', '~> 1.17'
 
