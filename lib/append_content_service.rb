@@ -8,6 +8,8 @@ class AppendContentService < NewContentService
     base_path = File.dirname(path_to_config)
     bcs = AppendContentService.new( config, base_path)   
     bcs.run
+  rescue Exception => e
+    Rails.logger.error "AppendContentService.call(#{path_to_config}) #{e.class}: #{e.message} at\n#{e.backtrace.join("\n")}"
   end
 
   def initialize( config, base_path )
