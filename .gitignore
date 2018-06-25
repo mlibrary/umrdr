@@ -138,7 +138,7 @@ public/sitemap.xml
 ./.internal_test_app
 
 # Ignore actual settings files
-config/settings.local.yml
-config/settings/development.yml
-config/settings/test.yml
-config/settings/production.yml
+#config/settings.local.yml
+#config/settings/development.yml
+#config/settings/test.yml
+#config/settings/production.yml
