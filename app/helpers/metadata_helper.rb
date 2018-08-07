@@ -258,20 +258,21 @@ module MetadataHelper
         else
           write_file = !File.exist?( export_file_name )
         end
+        export_what = "#{export_file_name} (#{human_readable_size(file.size)} / #{file.size} bytes)"
         if write_file
           source_uri = file.uri.value
-          log_lines( log_file, "Starting file export of #{export_file_name} (#{file.size} bytes) at #{Time.now}" )
+          log_lines( log_file, "Starting file export of #{export_what} at #{Time.now}." )
           bytes_copied = open( source_uri ) { |io| IO.copy_stream( io, export_file_name ) }
           total_byte_count += bytes_copied
-          log_lines( log_file, "Finisehd file export of #{export_file_name} (#{file.size} bytes) at #{Time.now}" )
+          log_lines( log_file, "Finished file export of #{export_what} at #{Time.now}." )
         else
-          log_lines( log_file, "Skipping file export of #{export_file_name} (#{file.size} bytes)." )
+          log_lines( log_file, "Skipping file export of #{export_what} at #{Time.now}." )
         end
       end
     end
     end_time = Time.now
     log_lines( log_file,
-               "Total bytes exported: #{total_byte_count}",
+               "Total bytes exported: #{total_byte_count} (#{human_readable_size(total_byte_count)})",
                "... finished yaml generic work export of files at #{end_time}.")
   rescue Exception => e
     puts "#{e.class}: #{e.message} at #{e.backtrace.join("\n")}"

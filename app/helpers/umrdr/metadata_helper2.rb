@@ -160,6 +160,7 @@ module Umrdr
         report_item( out, "Contact: ", generic_work.authoremail )
         report_item( out, "Discipline: ", generic_work.subject_discipline, one_line: false, item_prefix: "\t" )
         report_item( out, "Funded by: ", generic_work.fundedby )
+        report_item( out, "Funded by Other: ", generic_work.fundedby_other ) if report_source == SOURCE_DBDv2
         report_item( out, "ORSP Grant Number: ", generic_work.grantnumber )
         report_item( out, "Keyword: ", generic_work.keyword, one_line: false, item_prefix: "\t" )
         report_item( out, "Date coverage: ", generic_work.date_coverage )
@@ -170,6 +171,7 @@ module Umrdr
         report_item( out, "DOI: ", generic_work.doi, optional: true )
         report_item( out, "Visibility: ", generic_work.visibility )
         report_item( out, "Rights: ", generic_work.rights_license )
+        report_item( out, "Rights (other): ", generic_work.rights_license_other ) if report_source == SOURCE_DBDv2
         report_item( out, "Admin set id: ", generic_work.admin_set_id )
         report_item( out, "Tombstone: ", generic_work.tombstone, optional: true )
         if generic_work.file_sets.count.positive?
@@ -227,6 +229,10 @@ module Umrdr
       end
     end
 
+    def self.report_source
+      SOURCE_DBDv1
+    end
+
     def self.report_title( curation_concern, field_sep: FIELD_SEP )
       curation_concern.title.join( field_sep )
     end
@@ -243,10 +249,11 @@ module Umrdr
       yaml_item( out, indent, ":description:", curation_concern.description, escape: true )
       yaml_item( out, indent, ":depositor:", curation_concern.depositor )
       yaml_item( out, indent, ":doi:", curation_concern.doi, escape: true )
-      yaml_item_referenced_by( out, indent, curation_concern: curation_concern, source: source )
+      yaml_item( out, indent, ":edit_users:", curation_concern.edit_users, escape: true )
       yaml_item( out, indent, ':keyword:', curation_concern.keyword, escape: true )
       yaml_item( out, indent, ":language:", curation_concern.language, escape: true )
       yaml_item_prior_identifier( out, indent, curation_concern: curation_concern, source: source )
+      yaml_item_referenced_by( out, indent, curation_concern: curation_concern, source: source )
       yaml_item_subject( out, indent, curation_concern: curation_concern, source: source )
       yaml_item( out, indent, ':title:', curation_concern.title, escape: true )
       yaml_item( out, indent, ":tombstone:", curation_concern.tombstone, single_value: true )
@@ -275,16 +282,17 @@ module Umrdr
         yaml_item( out, indent, ':id:', file_set.id, escape: true )
         single_value = 1 == file_set.title.size
         yaml_item( out, indent, ':title:', file_set.title, escape: true, single_value: single_value )
-        # file_ids = file_set.prior_identifier
-        # file_ids = [] if file_ids.nil?
-        # file_ids << file_set.id
-        # yaml_item( out, indent, ':prior_identifier:', ActiveSupport::JSON.encode( file_ids ) )
-        yaml_item_prior_identifier( out, indent, curation_concern: curation_concern, source: source )
+        yaml_item_prior_identifier( out, indent, curation_concern: file_set, source: source )
         file_path = yaml_export_file_path( target_dirname: target_dirname, file_set: file_set )
         yaml_item( out, indent, ':file_path:', file_path.to_s, escape: true )
+        checksum = yaml_file_set_checksum( file_set: file_set )
+        yaml_item( out, indent, ":checksum_algorithm:", checksum.present? ? checksum.algorithm : '', escape: true )
+        yaml_item( out, indent, ":checksum_value:", checksum.present? ? checksum.value : '', escape: true )
         yaml_item( out, indent, ":date_created:", file_set.date_created )
-        yaml_item( out, indent, ":date_uploaded:", file_set.date_uploaded )
+        yaml_item( out, indent, ":date_created:", file_set.date_created )
         yaml_item( out, indent, ":date_modified:", file_set.date_modified )
+        yaml_item( out, indent, ":date_uploaded:", file_set.date_uploaded )
+        yaml_item( out, indent, ":edit_users:", file_set.edit_users, escape: true )
         file_size = if file_set.file_size.blank?
                       file_set.original_file.nil? ? 0 : file_set.original_file.size
                     else
@@ -307,14 +315,18 @@ module Umrdr
       yaml_item( out, indent, ":admin_set_id:", curation_concern.admin_set_id, escape: true )
       yaml_item( out, indent, ":authoremail:", curation_concern.authoremail )
       yaml_item( out, indent, ":creator:", curation_concern.creator, escape: true )
-      yaml_item( out, indent, ":date_created:", curation_concern.date_created )
-      yaml_item( out, indent, ":date_uploaded:", curation_concern.date_uploaded )
-      yaml_item( out, indent, ":date_modified:", curation_concern.date_modified )
+      yaml_item( out, indent, ":curation_notes_admin:", curation_concern.curation_notes_admin, escape: true ) if source == SOURCE_DBDv2
+      yaml_item( out, indent, ":curation_notes_user:", curation_concern.curation_notes_user, escape: true ) if source == SOURCE_DBDv2
       yaml_item( out, indent, ":date_coverage:", curation_concern.date_coverage, single_value: true )
-      yaml_item( out, indent, ":description:", curation_concern.description, escape: true )
+      yaml_item( out, indent, ":date_created:", curation_concern.date_created )
+      yaml_item( out, indent, ":date_modified:", curation_concern.date_modified )
+      yaml_item( out, indent, ":date_uploaded:", curation_concern.date_uploaded )
       yaml_item( out, indent, ":depositor:", curation_concern.depositor )
+      yaml_item( out, indent, ":description:", curation_concern.description, escape: true )
       yaml_item( out, indent, ":doi:", curation_concern.doi, escape: true )
+      yaml_item( out, indent, ":edit_users:", curation_concern.edit_users, escape: true )
       yaml_item( out, indent, ":fundedby:", curation_concern.fundedby, single_value: true, escape: true )
+      yaml_item( out, indent, ":fundedby_other:", curation_concern.fundedby_other, single_value: true, escape: true ) if source == SOURCE_DBDv2
       yaml_item( out, indent, ":grantnumber:", curation_concern.grantnumber, escape: true )
       yaml_item_referenced_by( out, indent, curation_concern: curation_concern, source: source )
       yaml_item( out, indent, ':keyword:', curation_concern.keyword, escape: true )
@@ -322,6 +334,7 @@ module Umrdr
       yaml_item( out, indent, ":methodology:", curation_concern.methodology, escape: true )
       yaml_item_prior_identifier( out, indent, curation_concern: curation_concern, source: source )
       yaml_item_rights( out, indent, curation_concern: curation_concern, source: source )
+      yaml_item( out, indent, ":rights_license_other: ", curation_concern.rights_license_other, escape: true ) if source == SOURCE_DBDv2
       yaml_item_subject( out, indent, curation_concern: curation_concern, source: source )
       yaml_item( out, indent, ':title:', curation_concern.title, escape: true )
       yaml_item( out, indent, ":tombstone:", curation_concern.tombstone, single_value: true )
@@ -361,6 +374,12 @@ module Umrdr
 
     def self.yaml_filename_work( pathname_dir:, work:, task: DEFAULT_TASK )
       yaml_filename( pathname_dir: pathname_dir, id: work.id, prefix: PREFIX_WORK, task: task )
+    end
+
+    def self.yaml_file_set_checksum( file_set: )
+      file = file_from_file_set( file_set )
+      return file.checksum if file.present?
+      return nil
     end
 
     def self.yaml_header( out, indent:, curation_concern:, header_type:, source:, mode: )
@@ -408,6 +427,10 @@ module Umrdr
       if source == SOURCE_DBDv1
         yaml_item( out, indent, ":prior_identifier:", '' )
       else
+        # ids = curation_concern.prior_identifier
+        # ids = [] if ids.nil?
+        # ids << curation_concern.id
+        # yaml_item( out, indent, ':prior_identifier:', ActiveSupport::JSON.encode( ids ) )
         yaml_item( out, indent, ":prior_identifier:", curation_concern.prior_identifier )
       end
     end
@@ -586,7 +609,7 @@ module Umrdr
       open( log_file, 'w' ) { |f| f.write('') } # erase log file
       start_time = Time.now
       log_lines( log_file,
-                 "Starting yaml generic work export of files at #{start_time} ...",
+                 "Starting yaml work export of files at #{start_time} ...",
                  "Generic work id: #{work.id}",
                  "Total file count: #{work.file_sets.count}")
       total_byte_count = 0
@@ -598,21 +621,22 @@ module Umrdr
                        else
                          !File.exist?( export_file_name )
                        end
+          file = file_from_file_set( file_set )
+          export_what = "#{export_file_name} (#{human_readable_size(file.size)} / #{file.size} bytes)"
           if write_file
-            file = file_from_file_set( file_set )
             source_uri = file.uri.value
-            log_lines( log_file, "Starting file export of #{export_file_name} (#{file.size} bytes) at #{Time.now}" )
+            log_lines( log_file, "Starting file export of #{export_what} at #{Time.now}." )
             bytes_copied = open( source_uri ) { |io| IO.copy_stream( io, export_file_name ) }
             total_byte_count += bytes_copied
-            log_lines( log_file, "Finisehd file export of #{export_file_name} (#{file.size} bytes) at #{Time.now}" )
+            log_lines( log_file, "Finished file export of #{export_what} at #{Time.now}." )
           else
-            log_lines( log_file, "Skipping file export of #{export_file_name} (#{file.size} bytes)." )
+            log_lines( log_file, "Skipping file export of #{export_what} at #{Time.now}." )
           end
         end
       end
       end_time = Time.now
       log_lines( log_file,
-                 "Total bytes exported: #{total_byte_count}",
+                 "Total bytes exported: #{total_byte_count} (#{human_readable_size(total_byte_count)})",
                  "... finished yaml generic work export of files at #{end_time}.")
     rescue Exception => e # rubocop:disable Lint/RescueException
       # rubocop:disable Rails/Output
