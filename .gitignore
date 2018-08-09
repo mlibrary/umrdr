@@ -142,3 +142,8 @@ public/sitemap.xml
 #config/settings/development.yml
 #config/settings/test.yml
 #config/settings/production.yml
+
+Gemfile_new
+Gemfile_new.lock
+Gemfile_prod
+Gemfile_prod.lock
