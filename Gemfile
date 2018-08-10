@@ -65,11 +65,14 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-# will load new rubyzip version
-gem 'rubyzip', '>=1.2.1'
+
+# Begin security vulnerability mitigation
+gem 'rubyzip', '>= 1.2.1'
+gem 'sinatra', '~> 2.0.2'
+gem 'sprockets', '~> 3.7.2'
+# End security vulnerability mitigation
 
 gem 'clamav-client'
-
 gem 'boxr'
 
 group :development, :test do
