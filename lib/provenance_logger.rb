@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 class ProvenanceLogger < Logger
   def format_message(severity, timestamp, progname, msg)
     "#{timestamp.to_formatted_s(:db)} #{severity} User: #{EmailHelper.user_email} #{msg}\n"

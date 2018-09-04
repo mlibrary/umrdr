@@ -1,5 +1,6 @@
-#require 'rspec/core'
-#require 'rspec/core/rake_task'
+
+# Ported to DBDv2
+
 require 'open-uri'
 
 desc 'Extract files from fedora 01'

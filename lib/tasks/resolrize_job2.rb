@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 require 'tasks/active_fedora_indexing_reindex_everything2'
 require 'tasks/task_logger'
 

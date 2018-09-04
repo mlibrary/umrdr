@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 module Hydra::Works
   module VirusCheck
     extend ActiveSupport::Concern

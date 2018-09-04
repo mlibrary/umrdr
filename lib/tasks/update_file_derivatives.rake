@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 require 'hydra/file_characterization'
 require 'logger'
 

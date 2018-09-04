@@ -1,4 +1,6 @@
 
+# Does not need to be ported to DBDv2
+
 module TaskCharacterizationHelper
 
   # @param [FileSet] file_set

@@ -1,4 +1,6 @@
 
+# Ported to DBDv2
+
 require 'stringio'
 
 desc 'Write report of all works'

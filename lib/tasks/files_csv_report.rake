@@ -1,4 +1,6 @@
 
+# Ported to DBDv2
+
 desc 'Generate files report to csv file'
 task :files_csv_report => :environment do
   FilesCsvReport.new().run

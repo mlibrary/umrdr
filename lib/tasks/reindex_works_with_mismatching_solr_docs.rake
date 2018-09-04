@@ -1,4 +1,6 @@
 
+# Ported to DBDv2
+
 desc 'Reindex works and their files with mismatching solr documents'
 task :reindex_works_with_mismatching_solr_docs => :environment do
   ReindexWorksWithMismatchingSolrDocs.new().run

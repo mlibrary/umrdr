@@ -1,3 +1,6 @@
+
+# Does not need to be ported to DBDv2
+
 # Class to encapsulate the logic required to migrate the repository objects from sufia6F to sufia7 code base.
 class MigrateServiceSix
 

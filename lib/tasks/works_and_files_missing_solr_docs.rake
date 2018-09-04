@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 require 'tasks/missing_solr_docs'
 require 'tasks/task_logger'
 require 'tasks/task_pacifier'
