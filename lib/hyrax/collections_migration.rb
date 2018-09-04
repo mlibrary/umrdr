@@ -1,3 +1,6 @@
+
+# TODO: does this need to be ported to DBDv2?
+
 module Hyrax
   class CollectionsMigration
     def self.run

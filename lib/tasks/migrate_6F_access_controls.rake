@@ -1,3 +1,6 @@
+
+# Does not need to be ported to DBDv2
+
 require_relative '../migrate_service_six'
 namespace :umrdr do
 

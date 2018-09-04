@@ -1,5 +1,7 @@
 require 'tasks/new_content_service'
 
+# Ported to DBDv2
+
 # Given a configuration hash read from a yaml file, build the contents in the repository.
 class AppendContentService < NewContentService
 

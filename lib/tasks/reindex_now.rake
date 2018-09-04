@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 namespace :solr do
 
   desc "Reindex solr cores with perform_now."

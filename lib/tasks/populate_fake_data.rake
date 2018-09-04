@@ -1,3 +1,6 @@
+
+# TODO: does this need to be ported to DBDv2?
+
 unless Rails.env.production?
 require 'yaml'
 

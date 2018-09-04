@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 require 'resque/pool/tasks'
 
 # This provides access to the Rails env within all Resque workers

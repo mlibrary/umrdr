@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Ported from DBDv2
+
 require 'yaml'
 require_relative '../build_content_service2'
 require_relative '../append_content_service2'

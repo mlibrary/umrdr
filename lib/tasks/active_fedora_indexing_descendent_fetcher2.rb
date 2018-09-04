@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 # see: https://gist.github.com/cjcolvar/8f0485e3cf88307228447726b6b55dd3
 
 ActiveFedora::Fedora.class_eval do

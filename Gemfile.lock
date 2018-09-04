@@ -774,7 +774,7 @@ GEM
     skylight (1.6.0)
       activesupport (>= 3.0.0)
     slop (4.6.2)
-    solr_wrapper (1.2.0)
+    solr_wrapper (2.0.0)
       faraday
       retriable
       ruby-progressbar
@@ -909,7 +909,7 @@ DEPENDENCIES
   simple_form (~> 3.2, <= 3.5.0)
   sinatra (~> 2.0.2)
   skylight
-  solr_wrapper (>= 0.3)
+  solr_wrapper (~> 2.0.0)
   sprockets (~> 3.7.2)
   sqlite3
   turbolinks

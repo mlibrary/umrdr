@@ -1,4 +1,6 @@
 
+# Ported to DBDv2
+
 module TaskReporter
 
   attr_accesor :log, :pacifier

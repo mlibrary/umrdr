@@ -14,6 +14,9 @@ module Umrdr
       g.test_framework :rspec, :spec => true
     end
 
+    config.dbd_version = 'DBDv1'
+    # config.dbd_version = 'DBDv2'
+
     ## configure box
 
     config.box_enabled = false

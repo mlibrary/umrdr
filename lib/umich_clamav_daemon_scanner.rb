@@ -1,3 +1,6 @@
+
+# Ported to DBDv2
+
 #require 'clamav/client'
 
 # An AV class that streams the file to an already-running
