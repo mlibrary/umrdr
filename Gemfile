@@ -67,6 +67,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Begin security vulnerability mitigation
+gem 'ffi', '~> 1.9.24'
 gem 'rubyzip', '>= 1.2.1'
 gem 'sinatra', '~> 2.0.2'
 gem 'sprockets', '~> 3.7.2'
