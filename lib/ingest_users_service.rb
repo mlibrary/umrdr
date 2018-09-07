@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'tasks/new_content_service'
+require 'tasks/new_content_service2'
 
 class IngestUsersService < Umrdr::NewContentService2
 
