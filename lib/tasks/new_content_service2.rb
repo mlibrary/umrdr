@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Ported from DBDv2
-
 require 'hydra/file_characterization'
 require_relative './task_helper'
 require_relative './task_logger'
@@ -480,10 +478,10 @@ module Umrdr
         attr_names = User.attribute_names
         skip = Umrdr::MetadataHelper2::ATTRIBUTE_NAMES_USER_IGNORE
         attrs = {}
-        attr_names.each do |key|
+        attr_names.each do |name|
           next if skip.include?( name )
-          value = user_hash[key.to_sym]
-          attrs[key] = value if value.present?
+          value = user_hash[name.to_sym]
+          attrs[name] = value if value.present?
         end
         puts "User.create!( #{attrs} )" # rubocop:disable Rails/Output
         # TODO
@@ -697,7 +695,7 @@ module Umrdr
         work_id = work_hash[:id]
         id = Array(work_id)
         # owner = Array(work_hash[:owner])
-        work = TaskHelper.work_find id[0]
+        work = TaskHelper.work_find( id: id[0] )
         raise UserNotFoundError, "Work not found: #{work_id}" if work.nil?
         return work
       end
@@ -720,7 +718,7 @@ module Umrdr
 
       def find_work_using_id( id: )
         return nil if id.blank?
-        TaskHelper.work_find id
+        TaskHelper.work_find( id: id )
       rescue ActiveFedora::ObjectNotFoundError
         return nil
       end
@@ -729,7 +727,7 @@ module Umrdr
         return nil if prior_id.blank?
         if parent.present?
           parent.member_objects.each do |obj|
-            next unless TaskHelper.is_a_work? obj
+            next unless TaskHelper.work? obj
             prior_ids = Array( obj.prior_identifier )
             prior_ids.each do |id|
               return obj if id == prior_id

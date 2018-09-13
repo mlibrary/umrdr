@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-# Ported from DBDv2
+# ported from deepblue
 
-require 'open-uri'
+namespace :deepblue do
 
-namespace :umrdr do
-
-  # bundle exec rake umrdr:yaml_populate_from_collection[nk322d32h,/deepbluedata-prep,true]
+  # bundle exec rake deepblue:yaml_populate_from_collection[nk322d32h,/deepbluedata-prep,true]
   desc 'Yaml populate from collection'
   # See: https://stackoverflow.com/questions/825748/how-to-pass-command-line-arguments-to-a-rake-task
   task :yaml_populate_from_collection, %i[ id options ] => :environment do |_task, args|
@@ -27,6 +25,7 @@ end
 
 module Umrdr
 
+  require 'open-uri'
   require_relative 'task_helper'
   require_relative 'yaml_populate'
 
@@ -43,6 +42,7 @@ module Umrdr
 
     def run
       measurement = run_one( id: @id )
+      report_stats
       report_collection( first_id: @id, measurements: [measurement] )
     end
 
@@ -58,6 +58,7 @@ module Umrdr
     def run
       return if @ids.blank?
       measurements, total = run_multiple( ids: @ids )
+      report_stats
       report_collection( first_id: @ids[0], measurements: measurements, total: total )
     end
 

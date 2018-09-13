@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-# Ported from DBDv2
+# ported from deepblue
 
-require 'open-uri'
+namespace :deepblue do
 
-namespace :umrdr do
-
-  # bundle exec rake umrdr:yaml_populate_from_work[f4752g72m,'{"target_dir":"/deepbluedata-prep"\,"export_files":true,"mode":"build"}']
+  # bundle exec rake deepblue:yaml_populate_from_work[f4752g72m,'{"target_dir":"/deepbluedata-prep"\,"export_files":true\,"mode":"build"}']
   desc 'Yaml populate from work'
   # See: https://stackoverflow.com/questions/825748/how-to-pass-command-line-arguments-to-a-rake-task
   task :yaml_populate_from_work, %i[ id options ] => :environment do |_task, args|
@@ -15,7 +13,7 @@ namespace :umrdr do
     task.run
   end
 
-  # bundle exec rake umrdr:yaml_populate_from_multiple_works['f4752g72m f4752g72m','{"target_dir":"/deepbluedata-prep"\,"export_files":true\,"mode":"build"}']
+  # bundle exec rake deepblue:yaml_populate_from_multiple_works['f4752g72m f4752g72m','{"target_dir":"/deepbluedata-prep"\,"export_files":true\,"mode":"build"}']
   desc 'Yaml populate from multiple works (ids separated by spaces)'
   task :yaml_populate_from_multiple_works, %i[ ids options ] => :environment do |_task, args|
     args.with_defaults( options: '{}' )
@@ -27,9 +25,9 @@ end
 
 module Umrdr
 
+  require 'open-uri'
   require_relative 'task_helper'
   require_relative 'yaml_populate'
-  require_relative '../../app/helpers/umrdr/metadata_helper2'
 
   # see: http://ruby-doc.org/stdlib-2.0.0/libdoc/benchmark/rdoc/Benchmark.html
   require 'benchmark'
@@ -44,6 +42,7 @@ module Umrdr
 
     def run
       measurement = run_one( id: @id )
+      report_stats
       report_work( first_id: @id, measurements: [measurement] )
     end
 
@@ -59,6 +58,7 @@ module Umrdr
     def run
       return if @ids.blank?
       measurements, total = run_multiple( ids: @ids )
+      report_stats
       report_work( first_id: @ids[0], measurements: measurements, total: total )
     end
 

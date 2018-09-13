@@ -6,7 +6,7 @@ require 'yaml'
 require_relative '../build_content_service2'
 require_relative '../append_content_service2'
 
-namespace :umrdr do
+namespace :deepblue do
 
   # bundle exec rake umrdr::populate2[/deepbluedata_prep/w_9019s2443_populate]
   desc "Populate(v2) app with users,collections,works,files."
