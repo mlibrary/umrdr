@@ -68,7 +68,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Begin security vulnerability mitigation
 gem 'ffi', '~> 1.9.24'
-gem 'rubyzip', '>= 1.2.1'
+gem 'rubyzip', '~> 1.2.2'
 gem 'sinatra', '~> 2.0.2'
 gem 'sprockets', '~> 3.7.2'
 # End security vulnerability mitigation
