@@ -10,18 +10,16 @@ namespace :umrdr do
   desc "Populate app with users,collections,works,files."
   task :populate, [:path_to_config] => :environment do |t, args|
     ENV["RAILS_ENV"] ||= "development"
-
+    puts "path_to_config=#{args[:path_to_config]}"
     args.one? ? config_setup(args[:path_to_config]) : demo_setup
-
     puts "Done."
   end
 
   desc "Append files to existing collections."
   task :append, [:path_to_config] => :environment do |t, args|
     ENV["RAILS_ENV"] ||= "development"
-
+    puts "path_to_config=#{args[:path_to_config]}"
     args.one? ? config_setup_for_append(args[:path_to_config]) : demo_setup
-
     puts "Done."
   end
 

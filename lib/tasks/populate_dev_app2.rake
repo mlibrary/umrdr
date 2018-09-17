@@ -5,7 +5,7 @@ require_relative '../append_content_service'
 require_relative '../build_content_service'
 require_relative '../ingest_users_service'
 
-namespace :umrdr do
+namespace :deepblue do
 
   # See: Rake::TaskArguments for args class
   # See: https://stackoverflow.com/questions/825748/how-to-pass-command-line-arguments-to-a-rake-task
