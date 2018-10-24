@@ -1,4 +1,5 @@
 <% unless request.path.index('/admin') %>
+<%= render '/masthead_announcement' %>
 <div id="masthead" class="container-fluid">
   <div class="row ribbon-content">
     <div class="col-sm-12 col-md-5 site-brand-wrap">
@@ -9,5 +10,4 @@
     </div>
   </div>
 </div>
-<%= render '/masthead_announcement' %>
 <% end %>
