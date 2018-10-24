@@ -17,6 +17,7 @@ module Umrdr
 
     DEFAULT_EXPORT_FILES = true
     DEFAULT_MODE = 'build'
+    DEFAULT_OVERWRITE_EXPORT_FILES = true
     DEFAULT_TARGET_DIR = '/deepbluedata-prep'
 
     attr_accessor :populate_ids
@@ -29,6 +30,7 @@ module Umrdr
       @target_dir = task_options_value( key: 'target_dir', default_value: DEFAULT_TARGET_DIR )
       @export_files = task_options_value( key: 'export_files', default_value: DEFAULT_EXPORT_FILES )
       @mode = task_options_value( key: 'mode', default_value: DEFAULT_MODE )
+      @overwrite_export_files = task_options_value( key: 'overwrite_export_files', default_value: DEFAULT_OVERWRITE_EXPORT_FILES )
       @populate_ids = []
       @populate_stats = []
     end
@@ -44,7 +46,7 @@ module Umrdr
     def report_stats
       puts
       if @populate_ids.empty?
-        puts "users: #{stats[:total_users_exported]}"
+        puts "users: #{populate_stats[0][:total_users_exported]}"
         return
       end
       index = 0
@@ -150,9 +152,15 @@ module Umrdr
       puts "Exporting work #{id} to '#{@target_dir}' with export files flag set to #{@export_files} and mode #{@mode}"
       service = YamlPopulateService.new( mode: @mode )
       if work.nil?
-        service.yaml_populate_work( curation_concern: id, dir: @target_dir, export_files: @export_files )
+        service.yaml_populate_work( curation_concern: id,
+                                    dir: @target_dir,
+                                    export_files: @export_files,
+                                    overwrite_export_files: @overwrite_export_files )
       else
-        service.yaml_populate_work( curation_concern: work, dir: @target_dir, export_files: @export_files )
+        service.yaml_populate_work( curation_concern: work,
+                                    dir: @target_dir,
+                                    export_files: @export_files,
+                                    overwrite_export_files: @overwrite_export_files )
       end
       @populate_ids << id
       @populate_stats << service.yaml_populate_stats
