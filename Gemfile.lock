@@ -210,7 +210,7 @@ GEM
       deep_merge (~> 1.2.1)
       dry-validation (>= 0.10.4)
     connection_pool (2.2.1)
-    crass (1.0.3)
+    crass (1.0.4)
     daemons (1.2.6)
     database_cleaner (1.6.2)
     debug_inspector (0.0.3)
@@ -228,6 +228,8 @@ GEM
     devise-guests (0.6.0)
       devise
     diff-lcs (1.3)
+    down (4.6.1)
+      addressable (~> 2.5)
     dropbox_api (0.1.10)
       faraday (~> 0.9, ~> 0.8)
       oauth2 (~> 1.1)
@@ -498,7 +500,7 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    loofah (2.2.2)
+    loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.0)
@@ -868,6 +870,7 @@ DEPENDENCIES
   database_cleaner
   devise
   devise-guests
+  down (~> 4.4)
   edtf
   engine_cart
   ezid-client
@@ -881,7 +884,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   json (~> 1.8.0)
-  loofah (~> 2.2.1)
+  loofah (~> 2.2.3)
   mail_form
   mysql2 (~> 0.4.10)
   net-ldap

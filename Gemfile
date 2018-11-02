@@ -35,6 +35,7 @@ gem 'mysql2', '~> 0.4.10'
 gem 'rack', git: 'https://github.com/rack/rack.git', ref: 'ee01748'
 
 gem 'config'
+gem 'down', '~> 4.4'
 
 # Gems added by generator
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -52,7 +53,6 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'resque'
 gem 'resque-pool'
 gem 'resque-web', '~> 0.0.7', require: 'resque_web'
-gem 'loofah', '~> 2.2.1'
 # 3.5.1 breaks simple_fields_for for custom form objects -- https://github.com/plataformatec/simple_form/issues/1549
 gem 'simple_form', '~> 3.2', '<= 3.5.0'
 gem 'rails-html-sanitizer', '>= 1.0.4'
@@ -68,6 +68,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Begin security vulnerability mitigation
 gem 'ffi', '~> 1.9.24'
+gem 'loofah', '~> 2.2.3'
 gem 'rubyzip', '~> 1.2.2'
 gem 'sinatra', '~> 2.0.2'
 gem 'sprockets', '~> 3.7.2'
