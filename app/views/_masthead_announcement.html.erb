@@ -1,7 +1,12 @@
 <section class="update-alert container-fluid">
   <div class="row ribbon-content">
     <div class="col-xs-12 container update-alert-container">
-				<p>Coming soon! We are upgrading Deep Blue Data and excited to share a new, updated look to the site. We welcome your <a href="mailto:deepblue@umich.edu">comments and questions</a>.</p>
-		</div>
+      <p>Coming soon! We are upgrading Deep Blue Data and excited to share a new, updated look to the site.
+         We welcome your <a href="<%= hyrax.contact_path %>">comments and questions</a>.
+         <%# As the migration gets closer/we have more concrete information, add date of banner and:  %>
+         <%# DOIs for existing works will not be affected; time to publication for new deposits may be affected, %>
+         <%# especially for larger works. %>
+      </p>
+    </div>
   </div>
 </section>
