@@ -1,5 +1,7 @@
-source 'https://rubygems.org'
+# minimum gem update:
+# bundle update --source name_of_gem
 
+source 'https://rubygems.org'
 
 # Force a newer json for 2.4 compatibility
 gem 'json', '~>1.8.0'
@@ -32,7 +34,8 @@ gem 'mysql2', '~> 0.4.10'
 # Pinning Rack commit that resolves the large file upload issue
 # When 2.0.4 is out this might not be needed anymore
 # See: https://tools.lib.umich.edu/jira/browse/DBD-920
-gem 'rack', git: 'https://github.com/rack/rack.git', ref: 'ee01748'
+#      https://tools.lib.umich.edu/jira/browse/HELIO-1450
+# gem 'rack', git: 'https://github.com/rack/rack.git', ref: 'ee01748'
 
 gem 'config'
 gem 'down', '~> 4.4'
@@ -69,6 +72,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Begin security vulnerability mitigation
 gem 'ffi', '~> 1.9.24'
 gem 'loofah', '~> 2.2.3'
+gem 'rack', '~> 2.0.6'
 gem 'rubyzip', '~> 1.2.2'
 gem 'sinatra', '~> 2.0.2'
 gem 'sprockets', '~> 3.7.2'

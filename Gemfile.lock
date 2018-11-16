@@ -25,13 +25,6 @@ GIT
     flipflop (2.3.1)
       activesupport (>= 4.0)
 
-GIT
-  remote: https://github.com/rack/rack.git
-  revision: ee0174822f9c4e939bd810c3e906554a7137973d
-  ref: ee01748
-  specs:
-    rack (2.0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -576,6 +569,7 @@ GEM
       nokogiri (~> 1.6)
       rails (>= 4.2.0, < 6.0)
       rdf
+    rack (2.0.6)
     rack-protection (2.0.3)
       rack
     rack-test (0.6.3)
@@ -894,7 +888,7 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma
-  rack!
+  rack (~> 2.0.6)
   rails
   rails-controller-testing
   rails-html-sanitizer (>= 1.0.4)
