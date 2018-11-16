@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require_relative '../lib/rack_multipart_buf_size_setter.rb'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -13,6 +14,8 @@ module Umrdr
     config.generators do |g|
       g.test_framework :rspec, :spec => true
     end
+
+    config.middleware.insert_before Rack::Runtime, RackMultipartBufSizeSetter
 
     config.dbd_version = 'DBDv1'
     # config.dbd_version = 'DBDv2'
