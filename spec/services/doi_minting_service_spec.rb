@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Umrdr::DoiMintingService do
+
   context "when minting a new doi" do
     let(:work) {mock_model(GenericWork, id: '123', title: ['demotitle'], 
                                         creator: ['Smith, John','Smith, Jane','O\'Rielly, Kelly'])}
@@ -16,7 +19,7 @@ describe Umrdr::DoiMintingService do
       allow(work).to receive(:doi).and_return(identifier.id)
       allow(work).to receive(:doi=)
       allow(subject).to receive(:doi_server_reachable?).and_return(true)
-      allow(Ezid::Identifier).to receive(:create).and_return(identifier)
+      allow(Ezid::Identifier).to receive(:mint).and_return(identifier)
     end
 
     it "has expected metadata" do
@@ -29,7 +32,7 @@ describe Umrdr::DoiMintingService do
     end
 
     it "calls out to EZID to mint a doi" do
-      expect(Ezid::Identifier).to receive(:create)
+      expect(Ezid::Identifier).to receive(:mint)
       subject.run
     end
 
@@ -62,4 +65,5 @@ describe Umrdr::DoiMintingService do
       expect(described_class.mint_doi_for(work)).to start_with 'doi:10.5072/FK2' 
     end
   end
+
 end
