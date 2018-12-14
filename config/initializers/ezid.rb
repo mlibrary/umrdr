@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'erb'
 require 'yaml'
 
@@ -33,9 +35,9 @@ Ezid::Client.configure do |config|
   yml_cfg = load_yml
   config.host = yml_cfg[:host] || "localhost"
   config.port = yml_cfg[:port] || 8443
-  config.use_ssl  = yml_cfg[:use_ssl] || true
+  # config.use_ssl  = yml_cfg[:use_ssl] || true
   config.user     = yml_cfg[:user] || "eziduser"
   config.password = yml_cfg[:password] || "ezidpass"
-  config.default_shoulder = yml_cfg[:shoulder] || "ark:/99999/fk4"
+  config.default_shoulder = yml_cfg[:shoulder] || "ark:/99999/"
 end
 
