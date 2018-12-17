@@ -15,7 +15,6 @@ module Umrdr
 
     def initialize(work)
       Rails.logger.debug "DoiMintingService.initalize( work id = #{work.id} )"
-      # DoiMintingService.print_ezid_config
       @work = work
       @metadata = generate_metadata
     end
@@ -36,6 +35,15 @@ module Umrdr
       puts "Ezid::Client.config.user    = #{config.user}"
       puts "Ezid::Client.config.password = #{config.password}"
       puts "Ezid::Client.config.default_shoulder = #{config.default_shoulder}"
+    end
+
+    def ezid_config
+      config = Ezid::Client.config
+      return [ "Ezid::Client.config.host = #{config.host}",
+               "Ezid::Client.config.port = #{config.port}",
+               "Ezid::Client.config.user    = #{config.user}",
+               # "Ezid::Client.config.password = #{config.password}",
+               "Ezid::Client.config.default_shoulder = #{config.default_shoulder}" ]
     end
 
     private
@@ -59,6 +67,8 @@ module Umrdr
       def mint_doi
         # identifier = Ezid::Identifier.create(@metadata)
         Rails.logger.debug "DoiMintingService.mint_doi( #{metadata} )"
+        msg = ezid_config.join("\n")
+        Rails.logger.debug msg
         shoulder = Ezid::Client.config.default_shoulder
         identifier = Ezid::Identifier.mint( shoulder, @metadata )
         identifier.id

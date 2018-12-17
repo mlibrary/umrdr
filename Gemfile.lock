@@ -271,8 +271,9 @@ GEM
     erubi (1.7.1)
     erubis (2.7.0)
     execjs (2.7.0)
-    ezid-client (1.7.1)
+    ezid-client (1.8.0)
       hashie (~> 3.4, >= 3.4.3)
+      nokogiri
     factory_girl (4.9.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.9.0)
@@ -867,7 +868,7 @@ DEPENDENCIES
   down (~> 4.4)
   edtf
   engine_cart
-  ezid-client
+  ezid-client (~> 1.8.0)
   factory_girl_rails
   fcrepo_wrapper (~> 0.1)
   ffaker
