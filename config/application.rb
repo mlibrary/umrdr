@@ -15,7 +15,7 @@ module Umrdr
       g.test_framework :rspec, :spec => true
     end
 
-    config.middleware.insert_before Rack::Runtime, RackMultipartBufSizeSetter
+    # config.middleware.insert_before Rack::Runtime, RackMultipartBufSizeSetter
 
     config.dbd_version = 'DBDv1'
     # config.dbd_version = 'DBDv2'
