@@ -17,7 +17,7 @@ gem 'flipflop', github: 'voormedia/flipflop'
 gem 'blacklight_advanced_search', '~> 6.0'
 
 # EZID client from Duke
-gem 'ezid-client'
+gem 'ezid-client', '~> 1.8.0'
 #a LDAP client
 gem 'net-ldap'
 # Webserver
