@@ -91,7 +91,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
   # gem 'solr_wrapper', '>= 0.3'
-  gem 'solr_wrapper', '~> 2.0.0'
+  gem 'solr_wrapper', '~> 2.1.0'
   gem 'fcrepo_wrapper', '~> 0.1'
   gem 'capybara'
   gem 'poltergeist'
