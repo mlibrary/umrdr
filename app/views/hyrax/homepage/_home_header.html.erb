@@ -7,11 +7,6 @@
     <div class="share-message">
       <ul>
         <li><%= link_to "<i class=\"glyphicon glyphicon-search\"></i> #{t('hyrax.browse_button')}".html_safe, main_app.search_catalog_path, class: "btn btn-primary", id: "browse_link" %></li>
-         <% if @presenter.display_share_button? %>
-            <li><%= link_to "<i class=\"glyphicon glyphicon-upload\"></i> #{t('hyrax.share_button')}".html_safe, main_app.new_hyrax_generic_work_path, class: "btn btn-primary", id: "contribute_link" %></li>
-         <% else %>
-           <li> <%= link_to "<i class=\"glyphicon glyphicon-upload\"></i> #{t('hyrax.share_button')}".html_safe, main_app.new_user_session_path, class: "btn btn-primary", id: "contribute_link" %></li>
-      <% end %>
       </ul>
     </div>
   </div>

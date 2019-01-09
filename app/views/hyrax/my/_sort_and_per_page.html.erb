@@ -7,16 +7,6 @@
   <div class="batch-toggle">
     <% session[:batch_edit_state] = "on" %>
     <!-- deleted edit batch button - see link above for prior version -->
-    <% if !@current_ability.admin? && on_my_works? %>
-      <%= button_tag "Add to Collection",
-                     class: 'btn btn-primary submits-batches submits-batches-add',
-                     data: { toggle: "modal", target: "#collection-list-container" } %>
-    <% elsif @current_ability.admin? %>
-      <%= batch_delete %>
-      <%= button_tag "Add to Collection",
-                     class: 'btn btn-primary submits-batches submits-batches-add',
-                     data: { toggle: "modal", target: "#collection-list-container" } %>
-    <% end %>
   </div>
 
   <div class="sort-toggle">
