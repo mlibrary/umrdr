@@ -16,11 +16,11 @@
 <%= render 'related_files', presenter: @presenter %>
 
 <% if @presenter.editor? %>
-    <%= render partial: 'hyrax/file_sets/multiple_upload', presenter: @presenter %>
+    <%#= render partial: 'hyrax/file_sets/multiple_upload', presenter: @presenter %>
 <% end %>
 
 <% if Hyrax.config.browse_everything? %>
   <%= render partial: 'browse_everything', presenter: @presenter %>
 <% end %>
 
-<%= render "show_actions", collector: collector, editor: editor%>
+<%#= render "show_actions", collector: collector, editor: editor%>
